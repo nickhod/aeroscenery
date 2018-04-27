@@ -57,7 +57,11 @@ namespace AeroScenery
         public void Initialize()
         {
             this.mainForm = new MainForm();
-            this.mainForm.StartClicked += StartSceneryGenerationProcess;
+            this.mainForm.StartClicked += async (sender, eventArgs) =>
+            {
+                await StartSceneryGenerationProcessAsync(sender, eventArgs);
+            };
+
 
             bingOrthophotoSource = new BingOrthophotoSource();
             downloadManager = new DownloadManager();
@@ -72,16 +76,16 @@ namespace AeroScenery
 
 
 
-        public void StartSceneryGenerationProcess(object sender, EventArgs e)
+        public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
             // Get a list of all the image tiles we need to download
             var imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(this.mainForm.SelectedAFS2GridSquares);
 
             // Generate AID files for the image tiles
-            aidFileGenerator.GenerateAIDFiles(imageTiles);
+            await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
 
             // Send the image tiles to the download manager
-            downloadManager.DownloadImageTiles(imageTiles);
+            await downloadManager.DownloadImageTiles(imageTiles);
 
             // Have all image tiles been downloaded by the download manager
             if (AllImageTilesDownloaded(imageTiles))
@@ -90,7 +94,7 @@ namespace AeroScenery
                 tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
 
                 // Run Geoconvert
-                geoConvertManager.RunGeoConvert();
+                //geoConvertManager.RunGeoConvert();
             }
             else
             {

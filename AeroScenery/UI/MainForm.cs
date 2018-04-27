@@ -91,6 +91,7 @@ namespace AeroScenery
                 double lon = mainMap.FromLocalToLatLng(e.X, e.Y).Lng;
 
                 var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+                this.SelectedAFS2GridSquares.Add(gridSquare);
 
                 GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
                 polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Blue));

@@ -23,6 +23,8 @@ namespace AeroScenery.Common
         {
             // TODO - Temp
             this.AFS2SDKDirectory = @"E:\Games\aerofly_fs_2_sdk_tools_20171123\aerofly_fs_2_sdk_tools\aerofly_fs_2_geoconvert\";
+
+            this.WorkingDirectory = @"E:\Games\Temp\";
         }
     }
 }
