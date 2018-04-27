@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.21
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AeroSceneryInstaller", "AeroSceneryInstaller.wixproj", "{30BA927C-3085-423A-94E3-42D4ED2BA490}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Debug|x86.ActiveCfg = Debug|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Debug|x86.Build.0 = Debug|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Release|x86.ActiveCfg = Release|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

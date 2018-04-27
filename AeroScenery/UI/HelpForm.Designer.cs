@@ -1,6 +1,6 @@
-﻿namespace AeroScenery
+﻿namespace AeroScenery.UI
 {
-    partial class MainForm
+    partial class HelpForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.Text = "HelpForm";
         }
 
         #endregion
     }
 }
-

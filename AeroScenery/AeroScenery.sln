@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.21
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroScenery", "AeroScenery.csproj", "{D723741C-263E-47FA-BDF5-0889B334E4F1}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AeroSceneryInstaller", "..\AeroSceneryInstaller\AeroSceneryInstaller.wixproj", "{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AeroSceneryInstaller", "..\AeroSceneryInstaller\AeroSceneryInstaller.wixproj", "{30BA927C-3085-423A-94E3-42D4ED2BA490}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +23,12 @@ Global
 		{D723741C-263E-47FA-BDF5-0889B334E4F1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D723741C-263E-47FA-BDF5-0889B334E4F1}.Release|x86.ActiveCfg = Release|Any CPU
 		{D723741C-263E-47FA-BDF5-0889B334E4F1}.Release|x86.Build.0 = Release|Any CPU
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Debug|x86.ActiveCfg = Debug|x86
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Debug|x86.Build.0 = Debug|x86
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Release|Any CPU.ActiveCfg = Release|x86
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Release|x86.ActiveCfg = Release|x86
-		{1DE9A5ED-88B8-4CC6-9563-6364E449CC95}.Release|x86.Build.0 = Release|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Debug|x86.ActiveCfg = Debug|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Debug|x86.Build.0 = Debug|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Release|Any CPU.ActiveCfg = Release|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Release|x86.ActiveCfg = Release|x86
+		{30BA927C-3085-423A-94E3-42D4ED2BA490}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

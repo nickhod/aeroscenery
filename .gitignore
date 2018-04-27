@@ -1,3 +1,13 @@
 /AeroScenery/.vs/AeroScenery/v15/*.suo
 /AeroScenery/bin/Debug
 /AeroScenery/obj/Debug
+/AeroScenery/packages/EntityFramework.6.1.3
+/AeroScenery/packages/GMap.NET.Windows.1.8.5
+/AeroSceneryInstaller/.vs/AeroSceneryInstaller/v15/*.suo
+/AeroScenery/packages/Newtonsoft.Json.9.0.1
+/AeroScenery/packages/System.Data.SQLite.1.0.108.0
+/AeroScenery/packages/System.Data.SQLite.Core.1.0.108.0
+/AeroScenery/packages/System.Data.SQLite.Linq.1.0.108.0
+/AeroScenery/packages/System.Data.SQLite.EF6.1.0.108.0
+/AeroSceneryInstaller/bin/Debug
+/AeroSceneryInstaller/obj/Debug

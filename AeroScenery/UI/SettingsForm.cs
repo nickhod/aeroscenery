@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AeroScenery
+namespace AeroScenery.UI
 {
-    public partial class MainForm : Form
+    public partial class SettingsForm : Form
     {
-        public MainForm()
+        public SettingsForm()
         {
             InitializeComponent();
         }

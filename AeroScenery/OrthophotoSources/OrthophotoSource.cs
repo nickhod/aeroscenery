@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.OrthoPhotoSources
 {
-    interface OrthophotoSource
+    public enum OrthophotoSource
     {
+        Bing,
+        Google,
+        USGS,
     }
 }

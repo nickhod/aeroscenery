@@ -8,6 +8,7 @@ namespace AeroScenery
 {
     static class Program
     {
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -16,7 +17,7 @@ namespace AeroScenery
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            AeroSceneryManager.Instance.Initialize();
         }
     }
 }

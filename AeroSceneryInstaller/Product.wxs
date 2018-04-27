@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-	<Product Id="*" Name="AeroSceneryInstaller" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="cdf17e31-f085-45f8-b74a-8f19840ec355">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="AeroSceneryInstaller" Language="1033" Version="1.0.0.0" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
