@@ -88,7 +88,11 @@
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />
+    <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="OrthophotoSources\BingHelper.cs" />
+    <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
     <Compile Include="UI\DownloadFailedForm.cs">
       <SubType>Form</SubType>
     </Compile>

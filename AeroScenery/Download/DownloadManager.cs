@@ -43,7 +43,7 @@ namespace AeroScenery.Download
                         downloadThreadProgress.TotalFiles += downloadsPerThreadMod;
                     }
 
-                    Debug.WriteLine("Thread " + threadNumber.ToString());
+                    //Debug.WriteLine("Thread " + threadNumber.ToString());
 
                     using (HttpClient httpClient = new HttpClient())
                     {
@@ -54,19 +54,20 @@ namespace AeroScenery.Download
                             downloadThreadProgress.FilesDownloaded++;
                             threadProgress.Report(downloadThreadProgress);
 
-                            Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
+                            //Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
                         }
 
                         // If this is the 'last' thread, also work through the remainder 
                         if (threadNumber == this.downloadThreads - 1)
                         {
-                            for (int k = (downloadsPerThread * this.downloadThreads) - 1; k < imageTiles.Count; k++)
+                            for (int k = 0; k < downloadsPerThreadMod; k++)
                             {
+                                var index = k + (downloadsPerThread * this.downloadThreads);
                                 this.DownloadFile(httpClient, imageTiles[k]);
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
 
-                                Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
+                                //Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
 
                             }
                         }
@@ -81,7 +82,7 @@ namespace AeroScenery.Download
 
         private void DownloadFile(HttpClient httpClient, ImageTile imageTile)
         {
-            string fullFilePath = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + ".jpg";
+            string fullFilePath = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + "." + imageTile.ImageExtension;
 
             var responseResult = httpClient.GetAsync(imageTile.URL);
             using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)

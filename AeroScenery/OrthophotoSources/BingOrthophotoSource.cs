@@ -4,6 +4,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,53 +13,84 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class BingOrthophotoSource
+    public class BingOrthophotoSource : IOrthophotoSource
     {
-        public List<ImageTile> ImageTilesForGridSquares(List<AFS2GridSquare> afs2GridSquares)
+        private string urlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
+
+        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
 
-            foreach (AFS2GridSquare afs2GridSquare in afs2GridSquares)
+            // Temp
+            int zoomLevel = 14;
+
+            // Just to make the code more readable
+            var northWestCorner = afs2GridSquare.Coordinates[0];
+            var northEastCorner = afs2GridSquare.Coordinates[1];
+            var southEastCorner = afs2GridSquare.Coordinates[2];
+            var southWestCorner = afs2GridSquare.Coordinates[3];
+
+            // Get the pixel X & Y of the first tile
+            int pixelX = 0;
+            int pixelY = 0;
+            BingHelper.LatLongToPixelXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out pixelX, out pixelY);
+
+            // Get the tile X & Y of the frst tile
+            int tileX = 0;
+            int tileY = 0;
+            BingHelper.PixelXYToTileXY(pixelX, pixelY, out tileX, out tileY);
+
+            double currentTileLatitude = 0;
+            double currentTileLongitude = 0;
+
+            int currentTileX = tileX;
+            int currentTileY = tileY;
+
+            int currentRow = 1;
+            int currentColumn = 1;
+
+            // Work through the tiles East to West, then top North to South
+            do
             {
+                do
+                {
+                    int currentPixelX;
+                    int currentPixelY;
+                    BingHelper.TileXYToPixelXY(currentTileX, currentTileY, out currentPixelX, out currentPixelY);
 
+                    BingHelper.PixelXYToLatLong(currentPixelX, currentPixelY, zoomLevel, out currentTileLatitude, out currentTileLongitude);
+
+                    var quadKey1 = BingHelper.TileXYToQuadKey(currentTileX, currentTileY, zoomLevel);
+
+                    ImageTile tile = new ImageTile();
+                    tile.FileName = "R" + currentRow.ToString() + "-C" + currentColumn.ToString();
+                    tile.LatitudeStepsPerPixel = 0.00000000001;
+                    tile.LongitudeStepsPerPixel = 0.00000000001;
+                    tile.Size = 256;
+                    tile.LatitudeTop = currentTileLatitude;
+                    tile.LongitudeLeft = currentTileLongitude;
+                    tile.ImageExtension = "jpg";
+                    tile.URL = String.Format(this.urlTemplate, quadKey1);
+
+                    imageTiles.Add(tile);
+
+                    currentTileX++;
+                    currentColumn++;
+                }
+                while (currentTileLongitude < southEastCorner.Lng);
+
+                // Go back to the original tileX
+                currentTileX = tileX;
+                // Start at column 1 again
+                currentColumn = 1;
+
+                // Do the next row
+                currentTileY++;
+                currentRow++;
             }
-
-            // Genereate some fake image tiles for now until we get this done
-            for (int i = 0; i < 1000; i++)
-            {
-                ImageTile tile = new ImageTile();
-                tile.FileName = "img" + i;
-                tile.LatitudeStepsPerPixel = 0.00000000001;
-                tile.LongitudeStepsPerPixel = 0.00000000001;
-                tile.Size = 256;
-                tile.LatitudeTop = 42;
-                tile.LongitudeLeft = 42;
-                tile.URL = "http://ecn.t1.tiles.virtualearth.net/tiles/a12030003131321231.jpeg?g=875";
-
-                imageTiles.Add(tile);
-            }
+            while (currentTileLatitude > southEastCorner.Lat);
 
             return imageTiles;
-        }
-
-
-        public void DoStuff(GPoint gPoint)
-        {
-            BingSatelliteMapProvider bingSatelliteMapProvider = BingSatelliteMapProvider.Instance;
-            GoogleSatelliteMapProvider googleSatelliteMapProvider = GoogleSatelliteMapProvider.Instance;
-
-            var image = googleSatelliteMapProvider.GetTileImage(gPoint, 12);
-            //var image = bingSatelliteMapProvider.GetTileImage(gPoint, 8);
-
-
-            using (FileStream file = new FileStream("D:\\file.jpg", FileMode.Create, System.IO.FileAccess.Write))
-            {
-                byte[] bytes = new byte[image.Data.Length];
-                image.Data.Read(bytes, 0, (int)image.Data.Length);
-                file.Write(bytes, 0, bytes.Length);
-                image.Data.Close();
-            }
-
         }
     }
 }

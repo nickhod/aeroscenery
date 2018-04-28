@@ -79,36 +79,71 @@ namespace AeroScenery
 
         public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
-            // Get a list of all the image tiles we need to download
-            var imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(this.mainForm.SelectedAFS2GridSquares);
-
-            // Generate AID files for the image tiles
-            await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
-
-            // Capture the progress of each thread
-            var downloadThreadProgress = new Progress<DownloadThreadProgress>();
-            downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
-
-            // Send the image tiles to the download manager
-            await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress);
-
-            Debug.WriteLine("--------> here");
-
-
-            // Have all image tiles been downloaded by the download manager
-            if (AllImageTilesDownloaded(imageTiles))
+            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.Item1))
             {
-                // Generate the TMC File
-                tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
+                // Download Imamge Tiles
+                if (this.Settings.DownloadImageTiles)
+                {
+                    // Get a list of all the image tiles we need to download
+                    var imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare);
 
-                // Run Geoconvert
-                //geoConvertManager.RunGeoConvert();
-            }
-            else
-            {
-                // The jpg to AID count doesn't match, something is wrong, show the dialog
-                downloadFailedForm = new DownloadFailedForm();
-                downloadFailedForm.ShowDialog();
+                    // Capture the progress of each thread
+                    var downloadThreadProgress = new Progress<DownloadThreadProgress>();
+                    downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
+
+                    // Send the image tiles to the download manager
+                    await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress);
+                }
+
+                // Stitch Image Tiles
+                if (this.Settings.StitchImageTiles)
+                {
+
+                }
+
+                // Generate AID and TMC Files
+                if (this.Settings.GenerateAIDAndTMCFiles)
+                {
+                    // Generate AID files for the image tiles
+                    //await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
+                }
+
+                // Run GeoConvert
+                if (this.Settings.RunGeoConvert)
+                {
+
+                }
+
+                // Delete Stitched Immage Tiles
+                if(this.Settings.DeleteStitchedImageTiles)
+                {
+
+                }
+
+                // Install Scenery
+                if (this.Settings.InstallScenery)
+                {
+
+                }
+
+
+
+                //// Have all image tiles been downloaded by the download manager
+                //if (AllImageTilesDownloaded(imageTiles))
+                //{
+                //    // Generate the TMC File
+                //    tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
+
+                //    // Run Geoconvert
+                //    //geoConvertManager.RunGeoConvert();
+                //}
+                //else
+                //{
+                //    // The jpg to AID count doesn't match, something is wrong, show the dialog
+                //    downloadFailedForm = new DownloadFailedForm();
+                //    downloadFailedForm.ShowDialog();
+                //}
+
             }
 
         }

@@ -18,14 +18,13 @@ namespace AeroScenery
 {
     public partial class MainForm : Form
     {
+        public event EventHandler StartClicked;
+        public Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>> SelectedAFS2GridSquares;
+
         private bool mouseDownOnMap;
         private AFS2Grid afs2Grid;
         private List<DownloadThreadProgressControl> downloadThreadProgressControls;
 
-
-        public event EventHandler StartClicked;
-
-        public List<AFS2GridSquare> SelectedAFS2GridSquares { get; set; }
 
         public MainForm()
         {
@@ -46,8 +45,7 @@ namespace AeroScenery
             mainMap.MouseClick += new MouseEventHandler(MainMap_MouseClick);
             mainMap.MouseDoubleClick += new MouseEventHandler(MainMap_MouseDoubleClick);
 
-
-            SelectedAFS2GridSquares = new List<AFS2GridSquare>();
+            SelectedAFS2GridSquares = new Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>>();
 
             this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
 
@@ -98,35 +96,10 @@ namespace AeroScenery
 
         private void MainMap_MouseClick(object sender, MouseEventArgs e)
         {
-
+            // Should be left eventually, but we need to filter our dragging
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
-                double lat = mainMap.FromLocalToLatLng(e.X, e.Y).Lat;
-                double lon = mainMap.FromLocalToLatLng(e.X, e.Y).Lng;
-
-                var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
-                this.SelectedAFS2GridSquares.Add(gridSquare);
-
-                GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-                polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Blue));
-                polygon.Stroke = new Pen(Color.Blue, 1);
-
-                GMapOverlay polygons = new GMapOverlay("polygons");
-                polygons.Polygons.Add(polygon);
-                mainMap.Overlays.Add(polygons);
-
-                mainMap.Refresh();
-                polygons.IsVisibile = false;
-                polygons.IsVisibile = true;
-
-                PointLatLng pointLatLon = new PointLatLng();
-                pointLatLon.Lat = lat;
-                pointLatLon.Lng = lon;
-                var gPoint = mainMap.FromLatLngToLocal(pointLatLon);
-
-                //BingOrthophotoSource asdf = new BingOrthophotoSource();
-
-                //asdf.DoStuff(gPoint);
+                this.ToggleTileSelected(e.X, e.Y);
             }
 
         }
@@ -152,6 +125,61 @@ namespace AeroScenery
             }
 
             return null;
+        }
+
+        private void ToggleTileSelected(int x, int y)
+        {
+            double lat = mainMap.FromLocalToLatLng(x, y).Lat;
+            double lon = mainMap.FromLocalToLatLng(x, y).Lng;
+
+            // Get the grid square for this lat and lon
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+
+            // If this grid square is already selected, deselect it
+            if(this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            {
+                if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+                {
+                    var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+
+                    mainMap.Overlays.Remove(squareAndOverlay.Item2);
+                    this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+                }
+
+
+            }
+            // This grid square is not selected, highlight it
+            else
+            {
+
+                GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
+                polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Blue));
+                polygon.Stroke = new Pen(Color.Blue, 1);
+
+                GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
+                polygonOverlay.Polygons.Add(polygon);
+                mainMap.Overlays.Add(polygonOverlay);
+
+                mainMap.Refresh();
+                polygonOverlay.IsVisibile = false;
+                polygonOverlay.IsVisibile = true;
+
+                // Add the AFS2 Grid Squrea and the GMapOverlay to the selected grid squares dictionary
+                var squareAndOverlay = new Tuple<AFS2GridSquare, GMapOverlay>(gridSquare, polygonOverlay);
+
+                this.SelectedAFS2GridSquares.Add(gridSquare.Name, squareAndOverlay);
+            }
+
+
+            //PointLatLng pointLatLon = new PointLatLng();
+            //pointLatLon.Lat = lat;
+            //pointLatLon.Lng = lon;
+
+            //var gPoint = mainMap.FromLatLngToLocal(pointLatLon);
+
+            //BingOrthophotoSource asdf = new BingOrthophotoSource();
+
+            //asdf.DoStuff(gPoint);
         }
     }
 }

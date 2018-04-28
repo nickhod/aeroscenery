@@ -19,6 +19,11 @@ namespace AeroScenery.Common
         public string FileName { get; set; }
 
         /// <summary>
+        /// Filename extension of the image file related to this iage tile
+        /// </summary>
+        public string ImageExtension { get; set; }
+
+        /// <summary>
         /// The latitude of the top of the image tile 
         /// </summary>
         public double LatitudeTop { get; set; }

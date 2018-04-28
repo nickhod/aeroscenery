@@ -8,19 +8,28 @@ namespace AeroScenery.AFS2
 {
     public class AIDFile
     {
+        public string ImageFile { get; set; }
+        public bool FlipVertical { get; set; }
+
+        public double StepsPerPixelX { get; set; }
+        public double StepsPerPixelY { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("<[file][][]");
-            sb.AppendLine("<[tm_aerial_image_definition][][]");
-            sb.AppendLine("<[string8][image][your_aerial_image.bmp]>");
-            sb.AppendLine("<[string8][mask][]>     ");
-            sb.AppendLine("<[vector2_float64][steps_per_pixel][3.57627868652344e-06 -2.68220901489258e-06]>");
-            sb.AppendLine("<[vector2_float64][top_left][-81.8330883979797 24.5659098029137]>");
-            sb.AppendLine("<[string8][coordinate_system][lonlat]>");
-            sb.AppendLine("<[bool][flip_vertical][false]>  ");
-            sb.AppendLine(">");
+            sb.AppendLine("\t<[tm_aerial_image_definition][][]");
+            sb.AppendLine(String.Format("\t\t<[string8][image][{0}]>", ImageFile));
+            sb.AppendLine("\t\t<[string8][mask][]>");
+            sb.AppendLine(String.Format("\t\t<[vector2_float64][steps_per_pixel][{0} {1}]>", StepsPerPixelX, StepsPerPixelY));
+            sb.AppendLine(String.Format("\t\t<[vector2_float64][top_left][[{0} {1}]>", X, Y));
+            sb.AppendLine("\t\t<[string8][coordinate_system][lonlat]>");
+            sb.AppendLine(String.Format("\t\t<[bool][flip_vertical][{0}]>", FlipVertical.ToString().ToLower()));
+            sb.AppendLine("\t>");
             sb.AppendLine(">");
 
             return sb.ToString();

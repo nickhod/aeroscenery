@@ -19,6 +19,18 @@ namespace AeroScenery.Common
 
         public int ZoomLevel { get; set; }
 
+        public bool DownloadImageTiles { get; set; }
+
+        public bool StitchImageTiles { get; set; }
+
+        public bool GenerateAIDAndTMCFiles { get; set; }
+
+        public bool RunGeoConvert { get; set; }
+
+        public bool DeleteStitchedImageTiles { get; set; }
+
+        public bool InstallScenery { get; set; }
+
         public Settings()
         {
             // TODO - Temp
@@ -27,6 +39,13 @@ namespace AeroScenery.Common
 
             this.WorkingDirectory = @"E:\Games\Temp\";
             this.WorkingDirectory = @"C:\Temp\AeroScenery\";
+
+            this.DownloadImageTiles = true;
+            this.StitchImageTiles = false;
+            this.GenerateAIDAndTMCFiles = false;
+            this.RunGeoConvert = false;
+            this.DeleteStitchedImageTiles = false;
+            this.InstallScenery = false;
         }
     }
 }

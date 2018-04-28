@@ -18,11 +18,18 @@ namespace AeroScenery.AFS2
                 foreach(ImageTile imageTile in imageTiles)
                 {
                     AIDFile aidFile = new AIDFile();
+
+                    aidFile.ImageFile = imageTile.FileName + "." + imageTile.ImageExtension;
+                    aidFile.FlipVertical = false;
+                    aidFile.StepsPerPixelX = imageTile.LatitudeStepsPerPixel;
+                    aidFile.StepsPerPixelY = imageTile.LongitudeStepsPerPixel;
+                    aidFile.X = imageTile.LatitudeTop;
+                    aidFile.Y = imageTile.LongitudeLeft;
+
                     var aidFileStr = aidFile.ToString();
 
                     string path = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + ".aid";
 
-                    // This text is added only once to the file.
                     if (!File.Exists(path))
                     {
                         File.WriteAllText(path, aidFileStr);
