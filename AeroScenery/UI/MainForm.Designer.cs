@@ -35,11 +35,23 @@
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.mapTabPage = new System.Windows.Forms.TabPage();
+            this.progressTabPage = new System.Windows.Forms.TabPage();
+            this.CurrentTaskLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.label6 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.logTextBox = new System.Windows.Forms.TextBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.imagesTabPage = new System.Windows.Forms.TabPage();
             this.label4 = new System.Windows.Forms.Label();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -47,15 +59,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.terrainTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonStart = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
+            this.mapTabPage.SuspendLayout();
+            this.progressTabPage.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.tabControl2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.imagesTabPage.SuspendLayout();
+            this.terrainTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMap
@@ -84,15 +99,15 @@
             this.mainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.mainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.mainMap.ShowTileGridLines = false;
-            this.mainMap.Size = new System.Drawing.Size(1096, 852);
+            this.mainMap.Size = new System.Drawing.Size(1040, 661);
             this.mainMap.TabIndex = 0;
             this.mainMap.Zoom = 0D;
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 935);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 735);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1517, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(1461, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -104,7 +119,7 @@
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1517, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(1461, 25);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -135,75 +150,219 @@
             this.toolStripButton3.Size = new System.Drawing.Size(117, 22);
             this.toolStripButton3.Text = "Get AeroFly FS2 SDK";
             // 
-            // tabControl1
+            // mainTabControl
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.mainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(401, 41);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1104, 878);
-            this.tabControl1.TabIndex = 6;
+            this.mainTabControl.Controls.Add(this.mapTabPage);
+            this.mainTabControl.Controls.Add(this.progressTabPage);
+            this.mainTabControl.Controls.Add(this.tabPage5);
+            this.mainTabControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mainTabControl.Location = new System.Drawing.Point(401, 28);
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(1048, 691);
+            this.mainTabControl.TabIndex = 6;
             // 
-            // tabPage1
+            // mapTabPage
             // 
-            this.tabPage1.Controls.Add(this.mainMap);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1096, 852);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Map";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.mapTabPage.Controls.Add(this.mainMap);
+            this.mapTabPage.Location = new System.Drawing.Point(4, 26);
+            this.mapTabPage.Name = "mapTabPage";
+            this.mapTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.mapTabPage.Size = new System.Drawing.Size(1040, 661);
+            this.mapTabPage.TabIndex = 0;
+            this.mapTabPage.Text = "Map";
+            this.mapTabPage.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // progressTabPage
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1096, 852);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Downloads";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.progressTabPage.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.progressTabPage.Controls.Add(this.CurrentTaskLabel);
+            this.progressTabPage.Controls.Add(this.label7);
+            this.progressTabPage.Controls.Add(this.groupBox1);
+            this.progressTabPage.Controls.Add(this.label6);
+            this.progressTabPage.Controls.Add(this.progressBar1);
+            this.progressTabPage.Controls.Add(this.label5);
+            this.progressTabPage.Location = new System.Drawing.Point(4, 26);
+            this.progressTabPage.Name = "progressTabPage";
+            this.progressTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.progressTabPage.Size = new System.Drawing.Size(1040, 661);
+            this.progressTabPage.TabIndex = 1;
+            this.progressTabPage.Text = "Progress";
+            // 
+            // CurrentTaskLabel
+            // 
+            this.CurrentTaskLabel.AutoSize = true;
+            this.CurrentTaskLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurrentTaskLabel.Location = new System.Drawing.Point(88, 55);
+            this.CurrentTaskLabel.Name = "CurrentTaskLabel";
+            this.CurrentTaskLabel.Size = new System.Drawing.Size(155, 17);
+            this.CurrentTaskLabel.TabIndex = 6;
+            this.CurrentTaskLabel.Text = "Downloading Image Tiles";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(13, 55);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 17);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Currently:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.downloadThreadProgress4);
+            this.groupBox1.Controls.Add(this.downloadThreadProgress3);
+            this.groupBox1.Controls.Add(this.downloadThreadProgress2);
+            this.groupBox1.Controls.Add(this.downloadThreadProgress1);
+            this.groupBox1.Location = new System.Drawing.Point(9, 154);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1025, 501);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Downloaders";
+            // 
+            // downloadThreadProgress4
+            // 
+            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
+            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
+            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
+            this.downloadThreadProgress4.TabIndex = 3;
+            // 
+            // downloadThreadProgress3
+            // 
+            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
+            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
+            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
+            this.downloadThreadProgress3.TabIndex = 2;
+            // 
+            // downloadThreadProgress2
+            // 
+            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
+            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
+            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
+            this.downloadThreadProgress2.TabIndex = 1;
+            // 
+            // downloadThreadProgress1
+            // 
+            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
+            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
+            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
+            this.downloadThreadProgress1.TabIndex = 0;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(105, 17);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Overall Progress";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.Location = new System.Drawing.Point(16, 120);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(1004, 18);
+            this.progressBar1.TabIndex = 2;
+            this.progressBar1.Value = 24;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(12, 17);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(257, 21);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Working On AFS2 Grid Tile 1 of 4";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.logTextBox);
+            this.tabPage5.Location = new System.Drawing.Point(4, 26);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(1040, 661);
+            this.tabPage5.TabIndex = 2;
+            this.tabPage5.Text = "Log";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // logTextBox
+            // 
+            this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.logTextBox.Location = new System.Drawing.Point(3, 3);
+            this.logTextBox.Multiline = true;
+            this.logTextBox.Name = "logTextBox";
+            this.logTextBox.Size = new System.Drawing.Size(1034, 655);
+            this.logTextBox.TabIndex = 0;
             // 
             // tabControl2
             // 
             this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControl2.Controls.Add(this.tabPage3);
-            this.tabControl2.Controls.Add(this.tabPage4);
-            this.tabControl2.Location = new System.Drawing.Point(12, 41);
+            this.tabControl2.Controls.Add(this.imagesTabPage);
+            this.tabControl2.Controls.Add(this.terrainTabPage);
+            this.tabControl2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl2.Location = new System.Drawing.Point(12, 28);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(379, 783);
+            this.tabControl2.Size = new System.Drawing.Size(379, 610);
             this.tabControl2.TabIndex = 7;
             // 
-            // tabPage3
+            // imagesTabPage
             // 
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.checkedListBox1);
-            this.tabPage3.Controls.Add(this.comboBox2);
-            this.tabPage3.Controls.Add(this.label3);
-            this.tabPage3.Controls.Add(this.label2);
-            this.tabPage3.Controls.Add(this.comboBox1);
-            this.tabPage3.Controls.Add(this.checkBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(371, 757);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Images";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.imagesTabPage.Controls.Add(this.label4);
+            this.imagesTabPage.Controls.Add(this.checkedListBox1);
+            this.imagesTabPage.Controls.Add(this.comboBox2);
+            this.imagesTabPage.Controls.Add(this.label3);
+            this.imagesTabPage.Controls.Add(this.label2);
+            this.imagesTabPage.Controls.Add(this.comboBox1);
+            this.imagesTabPage.Controls.Add(this.checkBox1);
+            this.imagesTabPage.Location = new System.Drawing.Point(4, 26);
+            this.imagesTabPage.Name = "imagesTabPage";
+            this.imagesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.imagesTabPage.Size = new System.Drawing.Size(371, 580);
+            this.imagesTabPage.TabIndex = 0;
+            this.imagesTabPage.Text = "Images";
+            this.imagesTabPage.UseVisualStyleBackColor = true;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(15, 134);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 13);
+            this.label4.Size = new System.Drawing.Size(132, 17);
             this.label4.TabIndex = 6;
             this.label4.Text = "Generate AFS2 Levels";
             // 
@@ -229,7 +388,7 @@
             "Level 15"});
             this.checkedListBox1.Location = new System.Drawing.Point(18, 154);
             this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(339, 139);
+            this.checkedListBox1.Size = new System.Drawing.Size(339, 124);
             this.checkedListBox1.TabIndex = 5;
             // 
             // comboBox2
@@ -257,7 +416,7 @@
             "19"});
             this.comboBox2.Location = new System.Drawing.Point(112, 85);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(245, 21);
+            this.comboBox2.Size = new System.Drawing.Size(245, 25);
             this.comboBox2.TabIndex = 4;
             // 
             // label3
@@ -265,7 +424,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(15, 93);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 13);
+            this.label3.Size = new System.Drawing.Size(75, 17);
             this.label3.TabIndex = 3;
             this.label3.Text = "Zoom Level";
             // 
@@ -274,7 +433,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(15, 50);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 13);
+            this.label2.Size = new System.Drawing.Size(88, 17);
             this.label2.TabIndex = 2;
             this.label2.Text = "Image Source";
             // 
@@ -287,7 +446,7 @@
             "USGS (Coming Soon)"});
             this.comboBox1.Location = new System.Drawing.Point(112, 47);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(245, 21);
+            this.comboBox1.Size = new System.Drawing.Size(245, 25);
             this.comboBox1.TabIndex = 1;
             // 
             // checkBox1
@@ -295,28 +454,28 @@
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(18, 17);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(111, 17);
+            this.checkBox1.Size = new System.Drawing.Size(132, 21);
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Download Images";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // terrainTabPage
             // 
-            this.tabPage4.Controls.Add(this.label1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(371, 757);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Terrain";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.terrainTabPage.Controls.Add(this.label1);
+            this.terrainTabPage.Location = new System.Drawing.Point(4, 26);
+            this.terrainTabPage.Name = "terrainTabPage";
+            this.terrainTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.terrainTabPage.Size = new System.Drawing.Size(371, 580);
+            this.terrainTabPage.TabIndex = 1;
+            this.terrainTabPage.Text = "Terrain";
+            this.terrainTabPage.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(151, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(70, 13);
+            this.label1.Size = new System.Drawing.Size(87, 17);
             this.label1.TabIndex = 0;
             this.label1.Text = "Coming Soon";
             // 
@@ -324,9 +483,9 @@
             // 
             this.ButtonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonStart.Location = new System.Drawing.Point(12, 842);
+            this.ButtonStart.Location = new System.Drawing.Point(12, 656);
             this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(379, 77);
+            this.ButtonStart.Size = new System.Drawing.Size(379, 63);
             this.ButtonStart.TabIndex = 3;
             this.ButtonStart.Text = "Start";
             this.ButtonStart.UseVisualStyleBackColor = true;
@@ -336,10 +495,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1517, 957);
+            this.ClientSize = new System.Drawing.Size(1461, 757);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.ButtonStart);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Name = "MainForm";
@@ -347,13 +506,18 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.mainTabControl.ResumeLayout(false);
+            this.mapTabPage.ResumeLayout(false);
+            this.progressTabPage.ResumeLayout(false);
+            this.progressTabPage.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
             this.tabControl2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            this.imagesTabPage.ResumeLayout(false);
+            this.imagesTabPage.PerformLayout();
+            this.terrainTabPage.ResumeLayout(false);
+            this.terrainTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -365,12 +529,12 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabControl mainTabControl;
+        private System.Windows.Forms.TabPage mapTabPage;
+        private System.Windows.Forms.TabPage progressTabPage;
         private System.Windows.Forms.TabControl tabControl2;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage imagesTabPage;
+        private System.Windows.Forms.TabPage terrainTabPage;
         private System.Windows.Forms.Button ButtonStart;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckedListBox checkedListBox1;
@@ -382,6 +546,18 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripButton toolStripButton2;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label CurrentTaskLabel;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.TextBox logTextBox;
+        private UI.DownloadThreadProgressControl downloadThreadProgress2;
+        private UI.DownloadThreadProgressControl downloadThreadProgress1;
+        private UI.DownloadThreadProgressControl downloadThreadProgress4;
+        private UI.DownloadThreadProgressControl downloadThreadProgress3;
     }
 }
 

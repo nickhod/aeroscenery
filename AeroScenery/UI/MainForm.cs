@@ -1,5 +1,6 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.OrthophotoSources;
+using AeroScenery.UI;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -19,7 +20,7 @@ namespace AeroScenery
     {
         private bool mouseDownOnMap;
         private AFS2Grid afs2Grid;
-
+        private List<DownloadThreadProgressControl> downloadThreadProgressControls;
 
 
         public event EventHandler StartClicked;
@@ -47,6 +48,19 @@ namespace AeroScenery
 
 
             SelectedAFS2GridSquares = new List<AFS2GridSquare>();
+
+            this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
+
+            // TODO - Make this dynamic
+            this.downloadThreadProgressControls.Add(this.downloadThreadProgress1);
+            this.downloadThreadProgressControls.Add(this.downloadThreadProgress2);
+            this.downloadThreadProgressControls.Add(this.downloadThreadProgress3);
+            this.downloadThreadProgressControls.Add(this.downloadThreadProgress4);
+
+            this.downloadThreadProgress1.SetDownloadThreadNumber(1);
+            this.downloadThreadProgress2.SetDownloadThreadNumber(2);
+            this.downloadThreadProgress3.SetDownloadThreadNumber(3);
+            this.downloadThreadProgress4.SetDownloadThreadNumber(4);
         }
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
@@ -125,7 +139,19 @@ namespace AeroScenery
 
         private void ButtonStart_Click(object sender, EventArgs e)
         {
+            this.mainTabControl.SelectedIndex = 1;
+
             StartClicked(this, e);
+        }
+
+        public DownloadThreadProgressControl GetDownloadThreadProgressControl(int downloadThread)
+        {
+            if (downloadThread < this.downloadThreadProgressControls.Count)
+            {
+                return this.downloadThreadProgressControls[downloadThread];
+            }
+
+            return null;
         }
     }
 }

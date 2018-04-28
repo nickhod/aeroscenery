@@ -64,6 +64,7 @@
     <Reference Include="System.Data.SQLite.Linq, Version=1.0.108.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>packages\System.Data.SQLite.Linq.1.0.108.0\lib\net451\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,12 +87,19 @@
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Download\DownloadManager.cs" />
+    <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="OrthophotoSources\BingHelper.cs" />
     <Compile Include="UI\DownloadFailedForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\DownloadFailedForm.Designer.cs">
       <DependentUpon>DownloadFailedForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DownloadThreadProgressControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UI\DownloadThreadProgressControl.Designer.cs">
+      <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\GetAeroflySDKForm.cs">
       <SubType>Form</SubType>
@@ -121,6 +129,9 @@
     <Compile Include="UI\SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\DownloadThreadProgressControl.resx">
+      <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

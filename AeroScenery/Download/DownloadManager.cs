@@ -1,6 +1,7 @@
 ﻿using AeroScenery.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,43 +11,88 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.Download
 {
+
     public class DownloadManager
     {
+        private int downloadThreads = 4;
 
         public DownloadManager()
         {
         }
 
-        public async Task DownloadImageTiles(List<ImageTile> imageTiles)
+        public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress)
         {
-            await Task.Run(() => {
+            int downloadsPerThread = imageTiles.Count / this.downloadThreads;
+            int downloadsPerThreadMod = imageTiles.Count % this.downloadThreads;
 
-                using (HttpClient httpClient = new HttpClient())
+            var tasks = new List<Task>();
+
+            // Spawn the required number of threads
+            for (int i = 0; i < this.downloadThreads; i++)
+            {
+                var threadNumber = i;             
+
+                tasks.Add(Task.Run(() =>
                 {
-                    foreach (ImageTile imageTile in imageTiles)
+                    var downloadThreadProgress = new DownloadThreadProgress();
+                    downloadThreadProgress.TotalFiles = downloadsPerThread;
+                    downloadThreadProgress.DownloadThreadNumber = threadNumber;
+
+                    if (threadNumber == this.downloadThreads - 1)
                     {
-
-                        string fullFilePath = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + ".jpg";
-
-                        var responseResult = httpClient.GetAsync(imageTile.URL);
-                        using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
-                        {
-                            using (var fileStream = File.Create(fullFilePath))
-                            {
-                                memStream.CopyTo(fileStream);
-                            }
-
-                        }
+                        downloadThreadProgress.TotalFiles += downloadsPerThreadMod;
                     }
 
-                }
-            });
+                    Debug.WriteLine("Thread " + threadNumber.ToString());
 
+                    using (HttpClient httpClient = new HttpClient())
+                    {
+                        // Work through this threads share of downloads
+                        for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
+                        {
+                            this.DownloadFile(httpClient, imageTiles[j]);
+                            downloadThreadProgress.FilesDownloaded++;
+                            threadProgress.Report(downloadThreadProgress);
 
+                            Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
+                        }
 
+                        // If this is the 'last' thread, also work through the remainder 
+                        if (threadNumber == this.downloadThreads - 1)
+                        {
+                            for (int k = (downloadsPerThread * this.downloadThreads) - 1; k < imageTiles.Count; k++)
+                            {
+                                this.DownloadFile(httpClient, imageTiles[k]);
+                                downloadThreadProgress.FilesDownloaded++;
+                                threadProgress.Report(downloadThreadProgress);
 
+                                Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
 
+                            }
+                        }
+
+                   
+                    }
+                }));
+            }
+
+            await Task.WhenAll(tasks);
         }
-        
+
+        private void DownloadFile(HttpClient httpClient, ImageTile imageTile)
+        {
+            string fullFilePath = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + ".jpg";
+
+            var responseResult = httpClient.GetAsync(imageTile.URL);
+            using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
+            {
+                using (var fileStream = File.Create(fullFilePath))
+                {
+                    memStream.CopyTo(fileStream);
+                }
+
+            }
+        }
+
     }
 }

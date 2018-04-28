@@ -5,6 +5,7 @@ using AeroScenery.OrthophotoSources;
 using AeroScenery.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace AeroScenery
 {
     public class AeroSceneryManager
     {
-        private MainForm mainForm;
+        public MainForm mainForm;
 
         private BingOrthophotoSource bingOrthophotoSource;
 
@@ -84,8 +85,15 @@ namespace AeroScenery
             // Generate AID files for the image tiles
             await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
 
+            // Capture the progress of each thread
+            var downloadThreadProgress = new Progress<DownloadThreadProgress>();
+            downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
+
             // Send the image tiles to the download manager
-            await downloadManager.DownloadImageTiles(imageTiles);
+            await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress);
+
+            Debug.WriteLine("--------> here");
+
 
             // Have all image tiles been downloaded by the download manager
             if (AllImageTilesDownloaded(imageTiles))
@@ -103,6 +111,16 @@ namespace AeroScenery
                 downloadFailedForm.ShowDialog();
             }
 
+        }
+
+        private void DownloadThreadProgress_ProgressChanged(object sender, DownloadThreadProgress progress)
+        {
+            var progressControl = this.mainForm.GetDownloadThreadProgressControl(progress.DownloadThreadNumber);
+            var percentageProgress = (int)Math.Floor(((double)progress.FilesDownloaded / (double)progress.TotalFiles) * 100);
+
+            progressControl.SetProgressPercentage(percentageProgress);
+
+            progressControl.SetImageTileCount(progress.FilesDownloaded, progress.TotalFiles);
         }
 
         public bool AllImageTilesDownloaded(List<ImageTile> imageTiles)
