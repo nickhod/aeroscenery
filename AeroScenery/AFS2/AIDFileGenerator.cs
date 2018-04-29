@@ -19,12 +19,12 @@ namespace AeroScenery.AFS2
                 {
                     AIDFile aidFile = new AIDFile();
 
-                    aidFile.ImageFile = imageTile.FileName + "." + imageTile.ImageExtension;
-                    aidFile.FlipVertical = false;
-                    aidFile.StepsPerPixelX = imageTile.LatitudeStepsPerPixel;
-                    aidFile.StepsPerPixelY = imageTile.LongitudeStepsPerPixel;
-                    aidFile.X = imageTile.LatitudeTop;
-                    aidFile.Y = imageTile.LongitudeLeft;
+                    //aidFile.ImageFile = imageTile.FileName + "." + imageTile.ImageExtension;
+                    //aidFile.FlipVertical = false;
+                    //aidFile.StepsPerPixelX = imageTile.LatitudeStepsPerPixel;
+                    //aidFile.StepsPerPixelY = imageTile.LongitudeStepsPerPixel;
+                    //aidFile.X = imageTile.LatitudeTop;
+                    //aidFile.Y = imageTile.LongitudeLeft;
 
                     var aidFileStr = aidFile.ToString();
 

@@ -22,7 +22,7 @@ namespace AeroScenery.OrthophotoSources
             List<ImageTile> imageTiles = new List<ImageTile>();
 
             // Temp
-            int zoomLevel = 14;
+            int zoomLevel = 12;
 
             // Just to make the code more readable
             var northWestCorner = afs2GridSquare.Coordinates[0];
@@ -64,11 +64,10 @@ namespace AeroScenery.OrthophotoSources
 
                     ImageTile tile = new ImageTile();
                     tile.FileName = "R" + currentRow.ToString() + "-C" + currentColumn.ToString();
-                    tile.LatitudeStepsPerPixel = 0.00000000001;
-                    tile.LongitudeStepsPerPixel = 0.00000000001;
-                    tile.Size = 256;
-                    tile.LatitudeTop = currentTileLatitude;
-                    tile.LongitudeLeft = currentTileLongitude;
+                    tile.Width = 256;
+                    tile.Height = 256;
+                    tile.NorthWestCornerLatitude = currentTileLatitude;
+                    tile.NorthWestCornerLongitude = currentTileLongitude;
                     tile.ImageExtension = "jpg";
                     tile.URL = String.Format(this.urlTemplate, quadKey1);
 

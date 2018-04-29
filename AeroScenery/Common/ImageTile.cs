@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.Common
 {
+    [Serializable()]
     public class ImageTile
     {
         /// <summary>
@@ -24,28 +25,34 @@ namespace AeroScenery.Common
         public string ImageExtension { get; set; }
 
         /// <summary>
-        /// The latitude of the top of the image tile 
+        /// The latitude of North West corner of the tile
         /// </summary>
-        public double LatitudeTop { get; set; }
+        public double NorthWestCornerLatitude { get; set; }
 
         /// <summary>
         /// The longitude of the left of the time tile
         /// </summary>
-        public double LongitudeLeft { get; set; }
+        public double NorthWestCornerLongitude { get; set; }
+
 
         /// <summary>
-        /// The fraction increase in latitude per image pixel
+        /// The latitude of North West corner of the tile
         /// </summary>
-        public double LatitudeStepsPerPixel { get; set; }
+        public double SouthEastCornerLatitude { get; set; }
 
         /// <summary>
-        /// The fraction increaese in longitude per image pixel
+        /// The longitude of the left of the time tile
         /// </summary>
-        public double LongitudeStepsPerPixel { get; set; }
+        public double SouthEastCornerLongitude { get; set; }
 
         /// <summary>
-        /// The size of the image tile in pixels
+        /// The width of the image tile in pixels
         /// </summary>
-        public int Size { get; set; }
+        public int Width { get; set; }
+
+        /// <summary>
+        /// The width of the image tile in pixels
+        /// </summary>
+        public int Height { get; set; }
     }
 }

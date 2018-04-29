@@ -1,5 +1,6 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
+using AeroScenery.Data;
 using AeroScenery.Download;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.UI;
@@ -30,6 +31,8 @@ namespace AeroScenery
         private DownloadFailedForm downloadFailedForm;
 
         private static AeroSceneryManager aeroSceneryManager;
+
+        private ImageTileService imageTileService;
 
         private Settings settings;
 
@@ -69,6 +72,7 @@ namespace AeroScenery
             aidFileGenerator = new AIDFileGenerator();
             tmcFileGenerator = new TMCFileGenerator();
             geoConvertManager = new GeoConvertManager();
+            imageTileService = new ImageTileService();
 
             settings = new Settings();
 
@@ -93,6 +97,9 @@ namespace AeroScenery
 
                     // Send the image tiles to the download manager
                     await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress);
+
+                    // Save aero files for these tiles so we can do things with them in a later pass
+                    this.imageTileService.SaveImageTiles(imageTiles, this.Settings.WorkingDirectory);
                 }
 
                 // Stitch Image Tiles

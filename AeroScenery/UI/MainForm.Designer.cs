@@ -41,6 +41,10 @@
             this.CurrentTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.label6 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label5 = new System.Windows.Forms.Label();
@@ -48,26 +52,22 @@
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.imagesTabPage = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.terrainTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonStart = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.mapTabPage.SuspendLayout();
@@ -76,8 +76,8 @@
             this.tabPage5.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.imagesTabPage.SuspendLayout();
-            this.terrainTabPage.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.terrainTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMap
@@ -233,6 +233,54 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Downloaders";
             // 
+            // downloadThreadProgress4
+            // 
+            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
+            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
+            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
+            this.downloadThreadProgress4.TabIndex = 3;
+            // 
+            // downloadThreadProgress3
+            // 
+            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
+            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
+            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
+            this.downloadThreadProgress3.TabIndex = 2;
+            // 
+            // downloadThreadProgress2
+            // 
+            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
+            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
+            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
+            this.downloadThreadProgress2.TabIndex = 1;
+            // 
+            // downloadThreadProgress1
+            // 
+            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
+            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
+            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
+            this.downloadThreadProgress1.TabIndex = 0;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -314,6 +362,73 @@
             this.imagesTabPage.Text = "Images";
             this.imagesTabPage.UseVisualStyleBackColor = true;
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.checkBox6);
+            this.groupBox2.Controls.Add(this.checkBox5);
+            this.groupBox2.Controls.Add(this.checkBox4);
+            this.groupBox2.Controls.Add(this.checkBox3);
+            this.groupBox2.Controls.Add(this.checkBox2);
+            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Location = new System.Drawing.Point(16, 7);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(339, 196);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Actions";
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(19, 162);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(167, 21);
+            this.checkBox6.TabIndex = 5;
+            this.checkBox6.Text = "Install Scenery Into AFS2";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(19, 135);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(160, 21);
+            this.checkBox5.TabIndex = 4;
+            this.checkBox5.Text = "Delete Stitched Images";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(19, 108);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(122, 21);
+            this.checkBox4.TabIndex = 3;
+            this.checkBox4.Text = "Run GeoConvert";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(19, 81);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(173, 21);
+            this.checkBox3.TabIndex = 2;
+            this.checkBox3.Text = "Generate AID / TMC Files";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(19, 54);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(128, 21);
+            this.checkBox2.TabIndex = 1;
+            this.checkBox2.Text = "Stitch Image Tiles";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
@@ -323,6 +438,98 @@
             this.checkBox1.TabIndex = 0;
             this.checkBox1.Text = "Download Image Tiles";
             this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 307);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(132, 17);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Generate AFS2 Levels";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "Level 0",
+            "Level 1",
+            "Level 2",
+            "Level 3",
+            "Level 4",
+            "Level 5",
+            "Level 6",
+            "Level 7",
+            "Level 8",
+            "Level 9",
+            "Level 10",
+            "Level 11",
+            "Level 12",
+            "Level 13",
+            "Level 14",
+            "Level 15"});
+            this.checkedListBox1.Location = new System.Drawing.Point(16, 331);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(339, 164);
+            this.checkedListBox1.TabIndex = 5;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19"});
+            this.comboBox2.Location = new System.Drawing.Point(112, 258);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(243, 25);
+            this.comboBox2.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(15, 266);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(75, 17);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Zoom Level";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 220);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 17);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Image Source";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Bing",
+            "Google (Coming Soon)",
+            "USGS (Coming Soon)"});
+            this.comboBox1.Location = new System.Drawing.Point(112, 220);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(243, 25);
+            this.comboBox1.TabIndex = 1;
             // 
             // terrainTabPage
             // 
@@ -356,213 +563,6 @@
             this.ButtonStart.UseVisualStyleBackColor = true;
             this.ButtonStart.Click += new System.EventHandler(this.ButtonStart_Click);
             // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Bing",
-            "Google (Coming Soon)",
-            "USGS (Coming Soon)"});
-            this.comboBox1.Location = new System.Drawing.Point(112, 220);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(243, 25);
-            this.comboBox1.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 220);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 17);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Image Source";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 266);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 17);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Zoom Level";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19"});
-            this.comboBox2.Location = new System.Drawing.Point(112, 258);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(243, 25);
-            this.comboBox2.TabIndex = 4;
-            // 
-            // checkedListBox1
-            // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Items.AddRange(new object[] {
-            "Level 0",
-            "Level 1",
-            "Level 2",
-            "Level 3",
-            "Level 4",
-            "Level 5",
-            "Level 6",
-            "Level 7",
-            "Level 8",
-            "Level 9",
-            "Level 10",
-            "Level 11",
-            "Level 12",
-            "Level 13",
-            "Level 14",
-            "Level 15"});
-            this.checkedListBox1.Location = new System.Drawing.Point(16, 331);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(339, 164);
-            this.checkedListBox1.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 307);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(132, 17);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Generate AFS2 Levels";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Controls.Add(this.checkBox6);
-            this.groupBox2.Controls.Add(this.checkBox5);
-            this.groupBox2.Controls.Add(this.checkBox4);
-            this.groupBox2.Controls.Add(this.checkBox3);
-            this.groupBox2.Controls.Add(this.checkBox2);
-            this.groupBox2.Controls.Add(this.checkBox1);
-            this.groupBox2.Location = new System.Drawing.Point(16, 7);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(339, 196);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Actions";
-            // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(19, 54);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(128, 21);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Stitch Image Tiles";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(19, 81);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(173, 21);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Generate AID / TMC Files";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
-            // checkBox4
-            // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(19, 108);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(122, 21);
-            this.checkBox4.TabIndex = 3;
-            this.checkBox4.Text = "Run GeoConvert";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            // 
-            // checkBox5
-            // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(19, 135);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(160, 21);
-            this.checkBox5.TabIndex = 4;
-            this.checkBox5.Text = "Delete Stitched Images";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            // 
-            // checkBox6
-            // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(19, 162);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(167, 21);
-            this.checkBox6.TabIndex = 5;
-            this.checkBox6.Text = "Install Scenery Into AFS2";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            // 
-            // downloadThreadProgress4
-            // 
-            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
-            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
-            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
-            this.downloadThreadProgress4.TabIndex = 3;
-            // 
-            // downloadThreadProgress3
-            // 
-            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
-            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
-            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
-            this.downloadThreadProgress3.TabIndex = 2;
-            // 
-            // downloadThreadProgress2
-            // 
-            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
-            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
-            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
-            this.downloadThreadProgress2.TabIndex = 1;
-            // 
-            // downloadThreadProgress1
-            // 
-            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
-            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
-            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
-            this.downloadThreadProgress1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -573,6 +573,7 @@
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "AeroScenery";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -588,10 +589,10 @@
             this.tabControl2.ResumeLayout(false);
             this.imagesTabPage.ResumeLayout(false);
             this.imagesTabPage.PerformLayout();
-            this.terrainTabPage.ResumeLayout(false);
-            this.terrainTabPage.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.terrainTabPage.ResumeLayout(false);
+            this.terrainTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
