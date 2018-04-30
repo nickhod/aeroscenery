@@ -135,6 +135,8 @@ namespace AeroScenery
             // Get the grid square for this lat and lon
             var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
 
+            gridSquareLabel.Text = gridSquare.Name;
+
             // If this grid square is already selected, deselect it
             if(this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
             {
@@ -180,6 +182,12 @@ namespace AeroScenery
             //BingOrthophotoSource asdf = new BingOrthophotoSource();
 
             //asdf.DoStuff(gPoint);
+        }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+            var settingsForm = new SettingsForm();
+            settingsForm.Show();
         }
     }
 }

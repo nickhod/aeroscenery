@@ -93,7 +93,15 @@ namespace AeroScenery.AFS2
             afs2GridSquare.Coordinates.Add(pointLatLon3);
             afs2GridSquare.Coordinates.Add(pointLatLon4);
 
-            afs2GridSquare.Name = nwCornerWorldGridX + "-" + nwCornerWorldGridY;
+            // Aerofly names grid squares as follows:
+            // map_level_ hex((65536 / 2 ^ level) * grid square x) _ hex((65536 / 2 ^ level) * grid square y)
+
+            int xInt = (int)((65536 / Math.Pow(2,level)) * nwCornerWorldGridX);
+            int yInt = (int)((65536 / Math.Pow(2, level)) * nwCornerWorldGridY);
+            var xHex = xInt.ToString("x4");
+            var yHex = yInt.ToString("x4");
+
+            afs2GridSquare.Name = String.Format("map_{0}_{1}_{2}", level.ToString("d2"), xHex, yHex);
 
             return afs2GridSquare;
         }

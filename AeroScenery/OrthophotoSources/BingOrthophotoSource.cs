@@ -63,12 +63,17 @@ namespace AeroScenery.OrthophotoSources
                     var quadKey1 = BingHelper.TileXYToQuadKey(currentTileX, currentTileY, zoomLevel);
 
                     ImageTile tile = new ImageTile();
-                    tile.FileName = "R" + currentRow.ToString() + "-C" + currentColumn.ToString();
                     tile.Width = 256;
                     tile.Height = 256;
                     tile.NorthWestCornerLatitude = currentTileLatitude;
                     tile.NorthWestCornerLongitude = currentTileLongitude;
                     tile.ImageExtension = "jpg";
+                    tile.TileX = currentTileX;
+                    tile.TileY = currentTileY;
+                    tile.LocalTileX = currentColumn;
+                    tile.LocalTileY = currentRow;
+                    tile.Source = "b";
+                    tile.ZoomLevel = zoomLevel;
                     tile.URL = String.Format(this.urlTemplate, quadKey1);
 
                     imageTiles.Add(tile);

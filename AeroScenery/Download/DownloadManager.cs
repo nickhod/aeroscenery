@@ -63,7 +63,7 @@ namespace AeroScenery.Download
                             for (int k = 0; k < downloadsPerThreadMod; k++)
                             {
                                 var index = k + (downloadsPerThread * this.downloadThreads);
-                                this.DownloadFile(httpClient, imageTiles[k]);
+                                this.DownloadFile(httpClient, imageTiles[index]);
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
 

@@ -15,11 +15,6 @@ namespace AeroScenery.Common
         public string URL { get; set; }
 
         /// <summary>
-        /// The filename, or future filename of the downloaded image
-        /// </summary>
-        public string FileName { get; set; }
-
-        /// <summary>
         /// Filename extension of the image file related to this iage tile
         /// </summary>
         public string ImageExtension { get; set; }
@@ -54,5 +49,42 @@ namespace AeroScenery.Common
         /// The width of the image tile in pixels
         /// </summary>
         public int Height { get; set; }
+
+        /// <summary>
+        /// The column number (x) of the tile on this orthophoto source
+        /// </summary>
+        public int TileX { get; set; }
+
+        /// <summary>
+        /// The row number (y) of the tile on this orthophoto source
+        /// </summary>
+        public int TileY { get; set; }
+
+        /// <summary>
+        /// The column number (x) of the tile relative to this downloaded set of tiles
+        /// </summary>
+        public int LocalTileX { get; set; }
+
+        /// <summary>
+        /// The row number (y) of the tile relative to this downloaded set of tiles
+        /// </summary>
+        public int LocalTileY { get; set; }
+
+        /// <summary>
+        /// The source of this tile
+        /// </summary>
+        public string Source { get; set; }
+
+        public int ZoomLevel { get; set; }
+
+        /// <summary>
+        /// The filename, or future filename of the downloaded image
+        /// </summary>
+        public string FileName {
+            get
+            {
+                return String.Format("{0}_{1}_{2}_{3}", Source, ZoomLevel, TileX, TileY);
+            }
+        }
     }
 }
