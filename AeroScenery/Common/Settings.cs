@@ -46,6 +46,8 @@ namespace AeroScenery.Common
             this.RunGeoConvert = false;
             this.DeleteStitchedImageTiles = false;
             this.InstallScenery = false;
+
+            this.OrthophotoSource = OrthophotoSource.Bing;
         }
     }
 }

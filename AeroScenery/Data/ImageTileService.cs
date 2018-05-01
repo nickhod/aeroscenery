@@ -11,33 +11,40 @@ namespace AeroScenery.Data
 {
     public class ImageTileService
     {
-        public void SaveImageTiles(List<ImageTile> imageTiles, string directory)
+        public async Task SaveImageTilesAsync(List<ImageTile> imageTiles, string directory)
         {
-            foreach (ImageTile imageTile in imageTiles)
+            await Task.Run(() =>
             {
-                XmlSerializer xs = new XmlSerializer(typeof(ImageTile));
-                TextWriter tw = new StreamWriter(directory + imageTile.FileName + ".aero");
-                xs.Serialize(tw, imageTile);
-            }
-
+                foreach (ImageTile imageTile in imageTiles)
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(ImageTile));
+                    TextWriter tw = new StreamWriter(directory + imageTile.FileName + ".aero");
+                    xs.Serialize(tw, imageTile);
+                }
+            });      
         }
 
-        public List<ImageTile> LoadImageTiles(string directory)
+        public async Task<List<ImageTile>> LoadImageTilesAsync(string directory)
         {
-            List<ImageTile> imageTiles = new List<ImageTile>();
-
-            foreach (string filePath in Directory.EnumerateFiles(directory, "*.aero"))
+            return await Task.Run(() =>
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(ImageTile));
+                List<ImageTile> imageTiles = new List<ImageTile>();
 
-                StreamReader reader = new StreamReader(filePath);
-                var imageTile = (ImageTile)serializer.Deserialize(reader);
-                reader.Close();
+                foreach (string filePath in Directory.EnumerateFiles(directory, "*.aero"))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(ImageTile));
 
-                imageTiles.Add(imageTile);
-            }
+                    StreamReader reader = new StreamReader(filePath);
+                    var imageTile = (ImageTile)serializer.Deserialize(reader);
+                    reader.Close();
 
-            return imageTiles;
+                    imageTiles.Add(imageTile);
+                }
+
+                return imageTiles;
+            });
+
+
         }
     }
 }

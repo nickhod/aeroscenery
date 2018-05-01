@@ -1,4 +1,5 @@
-﻿using AeroScenery.Common;
+﻿using AeroScenery.AFS2;
+using AeroScenery.Common;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,69 +21,72 @@ namespace AeroScenery.Download
         {
         }
 
-        public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress)
+        public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
         {
-            int downloadsPerThread = imageTiles.Count / this.downloadThreads;
-            int downloadsPerThreadMod = imageTiles.Count % this.downloadThreads;
-
-            var tasks = new List<Task>();
-
-            // Spawn the required number of threads
-            for (int i = 0; i < this.downloadThreads; i++)
+            if (imageTiles.Count > 0)
             {
-                var threadNumber = i;             
+                int downloadsPerThread = imageTiles.Count / this.downloadThreads;
+                int downloadsPerThreadMod = imageTiles.Count % this.downloadThreads;
 
-                tasks.Add(Task.Run(() =>
+                var tasks = new List<Task>();
+
+                // Spawn the required number of threads
+                for (int i = 0; i < this.downloadThreads; i++)
                 {
-                    var downloadThreadProgress = new DownloadThreadProgress();
-                    downloadThreadProgress.TotalFiles = downloadsPerThread;
-                    downloadThreadProgress.DownloadThreadNumber = threadNumber;
+                    var threadNumber = i;
 
-                    if (threadNumber == this.downloadThreads - 1)
+                    tasks.Add(Task.Run(() =>
                     {
-                        downloadThreadProgress.TotalFiles += downloadsPerThreadMod;
-                    }
+                        var downloadThreadProgress = new DownloadThreadProgress();
+                        downloadThreadProgress.TotalFiles = downloadsPerThread;
+                        downloadThreadProgress.DownloadThreadNumber = threadNumber;
 
-                    //Debug.WriteLine("Thread " + threadNumber.ToString());
-
-                    using (HttpClient httpClient = new HttpClient())
-                    {
-                        // Work through this threads share of downloads
-                        for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
-                        {
-                            this.DownloadFile(httpClient, imageTiles[j]);
-                            downloadThreadProgress.FilesDownloaded++;
-                            threadProgress.Report(downloadThreadProgress);
-
-                            //Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
-                        }
-
-                        // If this is the 'last' thread, also work through the remainder 
                         if (threadNumber == this.downloadThreads - 1)
                         {
-                            for (int k = 0; k < downloadsPerThreadMod; k++)
+                            downloadThreadProgress.TotalFiles += downloadsPerThreadMod;
+                        }
+
+                        //Debug.WriteLine("Thread " + threadNumber.ToString());
+
+                        using (HttpClient httpClient = new HttpClient())
+                        {
+                            // Work through this threads share of downloads
+                            for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
                             {
-                                var index = k + (downloadsPerThread * this.downloadThreads);
-                                this.DownloadFile(httpClient, imageTiles[index]);
+                                this.DownloadFile(httpClient, imageTiles[j], downloadDirectory);
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
 
-                                //Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
-
+                                //Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
                             }
+
+                            // If this is the 'last' thread, also work through the remainder 
+                            if (threadNumber == this.downloadThreads - 1)
+                            {
+                                for (int k = 0; k < downloadsPerThreadMod; k++)
+                                {
+                                    var index = k + (downloadsPerThread * this.downloadThreads);
+                                    this.DownloadFile(httpClient, imageTiles[index], downloadDirectory);
+                                    downloadThreadProgress.FilesDownloaded++;
+                                    threadProgress.Report(downloadThreadProgress);
+
+                                    //Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
+
+                                }
+                            }
+
+
                         }
+                    }));
+                }
 
-                   
-                    }
-                }));
+                await Task.WhenAll(tasks);
             }
-
-            await Task.WhenAll(tasks);
         }
 
-        private void DownloadFile(HttpClient httpClient, ImageTile imageTile)
+        private void DownloadFile(HttpClient httpClient, ImageTile imageTile, string path)
         {
-            string fullFilePath = AeroSceneryManager.Instance.Settings.WorkingDirectory + imageTile.FileName + "." + imageTile.ImageExtension;
+            string fullFilePath = path + imageTile.FileName + "." + imageTile.ImageExtension;
 
             var responseResult = httpClient.GetAsync(imageTile.URL);
             using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)

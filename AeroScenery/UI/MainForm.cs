@@ -8,7 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,10 +23,14 @@ namespace AeroScenery
         public event EventHandler StartClicked;
         public Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>> SelectedAFS2GridSquares;
 
+        public AFS2GridSquare SelectedAFS2GridSquare;
+
         private bool mouseDownOnMap;
+
         private AFS2Grid afs2Grid;
         private List<DownloadThreadProgressControl> downloadThreadProgressControls;
 
+        private AeroScenery.Common.Point mapMouseDownLocation;
 
         public MainForm()
         {
@@ -42,8 +48,6 @@ namespace AeroScenery
             mainMap.MouseMove += new MouseEventHandler(MainMap_MouseMove);
             mainMap.MouseDown += new MouseEventHandler(MainMap_MouseDown);
             mainMap.MouseUp += new MouseEventHandler(MainMap_MouseUp);
-            mainMap.MouseClick += new MouseEventHandler(MainMap_MouseClick);
-            mainMap.MouseDoubleClick += new MouseEventHandler(MainMap_MouseDoubleClick);
 
             SelectedAFS2GridSquares = new Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>>();
 
@@ -59,6 +63,8 @@ namespace AeroScenery
             this.downloadThreadProgress2.SetDownloadThreadNumber(2);
             this.downloadThreadProgress3.SetDownloadThreadNumber(3);
             this.downloadThreadProgress4.SetDownloadThreadNumber(4);
+
+            this.gridSquareLabel.Text = "";
         }
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
@@ -88,22 +94,6 @@ namespace AeroScenery
             }
         }
 
-        // add demo circle
-        private void MainMap_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void MainMap_MouseClick(object sender, MouseEventArgs e)
-        {
-            // Should be left eventually, but we need to filter our dragging
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                this.ToggleTileSelected(e.X, e.Y);
-            }
-
-        }
-
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             mainMap.Manager.CancelTileCaching();
@@ -127,7 +117,7 @@ namespace AeroScenery
             return null;
         }
 
-        private void ToggleTileSelected(int x, int y)
+        private void SelectGridSquare(int x, int y)
         {
             double lat = mainMap.FromLocalToLatLng(x, y).Lat;
             double lon = mainMap.FromLocalToLatLng(x, y).Lng;
@@ -137,26 +127,25 @@ namespace AeroScenery
 
             gridSquareLabel.Text = gridSquare.Name;
 
-            // If this grid square is already selected, deselect it
-            if(this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
-            {
-                if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
-                {
-                    var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+            // Set the stroke with of any previously selected grid square to 1
 
-                    mainMap.Overlays.Remove(squareAndOverlay.Item2);
-                    this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                if (this.SelectedAFS2GridSquares.ContainsKey(this.SelectedAFS2GridSquare.Name))
+                {
+                    var previouslySelectedGridSquare = this.SelectedAFS2GridSquares[this.SelectedAFS2GridSquare.Name];
+                    previouslySelectedGridSquare.Item2.Polygons.FirstOrDefault().Stroke = new Pen(Color.Blue, 1);
                 }
 
-
             }
-            // This grid square is not selected, highlight it
-            else
-            {
 
+
+
+            if (!this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            {
                 GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-                polygon.Fill = new SolidBrush(Color.FromArgb(50, Color.Blue));
-                polygon.Stroke = new Pen(Color.Blue, 1);
+                polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
+                polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
 
                 GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
                 polygonOverlay.Polygons.Add(polygon);
@@ -171,23 +160,195 @@ namespace AeroScenery
 
                 this.SelectedAFS2GridSquares.Add(gridSquare.Name, squareAndOverlay);
             }
+            else
+            {
+                // We have to draw it again so that it's on top
+                var existingSquareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+                existingSquareAndOverlay.Item2.Clear();
+                existingSquareAndOverlay.Item2.Dispose();
 
+                GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
+                polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
+                polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
 
-            //PointLatLng pointLatLon = new PointLatLng();
-            //pointLatLon.Lat = lat;
-            //pointLatLon.Lng = lon;
+                GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
+                polygonOverlay.Polygons.Add(polygon);
+                mainMap.Overlays.Add(polygonOverlay);
 
-            //var gPoint = mainMap.FromLatLngToLocal(pointLatLon);
+                mainMap.Refresh();
+                polygonOverlay.IsVisibile = false;
+                polygonOverlay.IsVisibile = true;
 
-            //BingOrthophotoSource asdf = new BingOrthophotoSource();
+                this.SelectedAFS2GridSquares[gridSquare.Name] = new Tuple<AFS2GridSquare, GMapOverlay>(gridSquare, polygonOverlay);
+            }
 
-            //asdf.DoStuff(gPoint);
+            this.SelectedAFS2GridSquare = gridSquare;
+        }
+
+        private void DeselectGridSquare(int x, int y)
+        {
+            double lat = mainMap.FromLocalToLatLng(x, y).Lat;
+            double lon = mainMap.FromLocalToLatLng(x, y).Lng;
+
+            // Get the grid square for this lat and lon
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+
+            // If this grid square is already selected, deselect it
+            if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            {
+                var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+
+                mainMap.Overlays.Remove(squareAndOverlay.Item2);
+                this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+                this.SelectedAFS2GridSquare = null;
+            }
+
+            this.SelectedAFS2GridSquare = null;
+            gridSquareLabel.Text = "";
+
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
             var settingsForm = new SettingsForm();
             settingsForm.Show();
+        }
+
+        private void mainMap_MouseDown_1(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                this.mapMouseDownLocation = new AeroScenery.Common.Point(e.X, e.Y);
+            }
+        }
+
+        private void mainMap_MouseUp_1(object sender, MouseEventArgs e)
+        {
+            Debug.WriteLine("mouse up ");
+
+            if (this.mapMouseDownLocation != null)
+            {
+                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                {
+                    var mouseUpLocation = new Point(e.X, e.Y);
+
+                    var dx = Math.Abs(mouseUpLocation.X - this.mapMouseDownLocation.X);
+                    var dy = Math.Abs(mouseUpLocation.Y - this.mapMouseDownLocation.Y);
+
+                    // If there was little movement it was probably meant as a click
+                    // rather than a drag
+                    if (dx < 10 && dy < 10)
+                    {
+                        this.SelectGridSquare(e.X, e.Y);
+                    }
+                }
+            }
+
+
+
+        }
+
+
+        private void mainMap_DoubleClick(object sender, EventArgs e)
+        {
+            var evt = (MouseEventArgs)e;
+            this.mapMouseDownLocation = null;
+
+
+            Debug.WriteLine("double click");
+            double lat = mainMap.FromLocalToLatLng(evt.X, evt.Y).Lat;
+            double lon = mainMap.FromLocalToLatLng(evt.X, evt.Y).Lng;
+
+            // Get the grid square for this lat and lon
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+
+            if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            {
+                this.DeselectGridSquare(evt.X, evt.Y);
+            }
+
+
+        }
+
+        private void openInGoogleMapsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                var selectedGridSquare = this.SelectedAFS2GridSquare;
+                var googleMapsUrl = "https://www.google.com/maps/@{0},{1},60000m/data=!3m1!1e3";
+                System.Diagnostics.Process.Start(String.Format(googleMapsUrl, selectedGridSquare.GetCenter().Lat, selectedGridSquare.GetCenter().Lng));
+            }
+        }
+
+        private void openInBingMApsToolStripMenuItem_Click(object sender, EventArgs e)
+        {       
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                var selectedGridSquare = this.SelectedAFS2GridSquare;
+                var bingMapsUrl = "https://www.bing.com/maps/default.aspx?cp={0}~{1}&lvl=10&style=h";
+                System.Diagnostics.Process.Start(String.Format(bingMapsUrl, selectedGridSquare.GetCenter().Lat, selectedGridSquare.GetCenter().Lng));
+            }
+
+        }
+
+        private void openImageFolderToolstripButton_Click(object sender, EventArgs e)
+        {
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + this.SelectedAFS2GridSquare.Name;
+
+                if (Directory.Exists(gridSquareDirectory))
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                    {
+                        FileName = gridSquareDirectory,
+                        UseShellExecute = true,
+                        Verb = "open"
+                    });
+                }
+                else
+                {
+                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare));
+                }
+            }
+        }
+
+        private void deleteImagesToolStripButton_Click(object sender, EventArgs e)
+        {
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + this.SelectedAFS2GridSquare.Name;
+
+                if (Directory.Exists(gridSquareDirectory))
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you want to delete all images for this grid square? (No AFS2 Scenery will be affected).",
+                        "AeroScenery",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (result == DialogResult.Yes )
+                    {
+                        System.IO.DirectoryInfo di = new DirectoryInfo(gridSquareDirectory);
+
+                        Task.Run(() =>
+                        {
+                            foreach (FileInfo file in di.GetFiles())
+                            {
+                                file.Delete();
+                            }
+                            foreach (DirectoryInfo dir in di.GetDirectories())
+                            {
+                                dir.Delete(true);
+                            }
+                        });
+                    
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name));
+                }
+            }
         }
     }
 }

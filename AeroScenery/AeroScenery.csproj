@@ -85,6 +85,7 @@
     <Compile Include="AFS2\TMCFile.cs" />
     <Compile Include="AFS2\TMCFileGenerator.cs" />
     <Compile Include="Common\ImageTile.cs" />
+    <Compile Include="Common\Point.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Data\ImageTileService.cs" />
     <Compile Include="Download\DownloadManager.cs" />

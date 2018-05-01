@@ -44,10 +44,12 @@
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressTabPage = new System.Windows.Forms.TabPage();
             this.CurrentTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -117,9 +119,12 @@
             this.mainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.mainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.mainMap.ShowTileGridLines = false;
-            this.mainMap.Size = new System.Drawing.Size(1034, 655);
+            this.mainMap.Size = new System.Drawing.Size(1034, 638);
             this.mainMap.TabIndex = 0;
             this.mainMap.Zoom = 0D;
+            this.mainMap.DoubleClick += new System.EventHandler(this.mainMap_DoubleClick);
+            this.mainMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseDown_1);
+            this.mainMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseUp_1);
             // 
             // statusStrip1
             // 
@@ -131,6 +136,7 @@
             // 
             // toolStrip1
             // 
+            this.toolStrip1.AutoSize = false;
             this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsButton,
@@ -138,7 +144,8 @@
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1461, 25);
+            this.toolStrip1.Padding = new System.Windows.Forms.Padding(12, 5, 0, 5);
+            this.toolStrip1.Size = new System.Drawing.Size(1461, 42);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -147,7 +154,7 @@
             this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
             this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(69, 22);
+            this.settingsButton.Size = new System.Drawing.Size(69, 29);
             this.settingsButton.Text = "Settings";
             this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
             // 
@@ -176,10 +183,10 @@
             this.mainTabControl.Controls.Add(this.progressTabPage);
             this.mainTabControl.Controls.Add(this.tabPage5);
             this.mainTabControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mainTabControl.Location = new System.Drawing.Point(401, 28);
+            this.mainTabControl.Location = new System.Drawing.Point(401, 45);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1048, 691);
+            this.mainTabControl.Size = new System.Drawing.Size(1048, 674);
             this.mainTabControl.TabIndex = 6;
             // 
             // mapTabPage
@@ -189,7 +196,7 @@
             this.mapTabPage.Location = new System.Drawing.Point(4, 26);
             this.mapTabPage.Name = "mapTabPage";
             this.mapTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.mapTabPage.Size = new System.Drawing.Size(1040, 661);
+            this.mapTabPage.Size = new System.Drawing.Size(1040, 644);
             this.mapTabPage.TabIndex = 0;
             this.mapTabPage.Text = "Map";
             this.mapTabPage.UseVisualStyleBackColor = true;
@@ -205,6 +212,7 @@
             // 
             // toolStrip2
             // 
+            this.toolStrip2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
@@ -212,8 +220,8 @@
             this.toolStripLabel2,
             this.toolStripButton6,
             this.toolStripSeparator1,
-            this.toolStripButton5,
-            this.toolStripButton4,
+            this.openImageFolderToolstripButton,
+            this.deleteImagesToolStripButton,
             this.toolStripSeparator2,
             this.toolStripDropDownButton1});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
@@ -224,32 +232,33 @@
             // 
             // toolStripLabel1
             // 
-            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.toolStripLabel1.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripLabel1.Margin = new System.Windows.Forms.Padding(0, 1, 5, 2);
             this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(72, 22);
+            this.toolStripLabel1.Size = new System.Drawing.Size(82, 22);
             this.toolStripLabel1.Text = "Grid Square:";
             // 
             // gridSquareLabel
             // 
+            this.gridSquareLabel.AutoSize = false;
             this.gridSquareLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
             this.gridSquareLabel.Name = "gridSquareLabel";
-            this.gridSquareLabel.Size = new System.Drawing.Size(86, 22);
-            this.gridSquareLabel.Text = "toolStripLabel1";
+            this.gridSquareLabel.Size = new System.Drawing.Size(125, 22);
+            this.gridSquareLabel.Text = "map_09_xxxx_xxxx";
             // 
             // toolStripLabel2
             // 
             this.toolStripLabel2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripLabel2.Image")));
             this.toolStripLabel2.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(113, 22);
+            this.toolStripLabel2.Size = new System.Drawing.Size(124, 22);
             this.toolStripLabel2.Text = "Not Downloaded";
             // 
             // toolStripButton6
             // 
             this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(89, 22);
+            this.toolStripButton6.Size = new System.Drawing.Size(98, 22);
             this.toolStripButton6.Text = "Clear Selection";
             // 
             // toolStripSeparator1
@@ -257,21 +266,23 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton5
+            // openImageFolderToolstripButton
             // 
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(128, 22);
-            this.toolStripButton5.Text = "Open Image Folder";
+            this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
+            this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
+            this.openImageFolderToolstripButton.Size = new System.Drawing.Size(141, 22);
+            this.openImageFolderToolstripButton.Text = "Open Image Folder";
+            this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
             // 
-            // toolStripButton4
+            // deleteImagesToolStripButton
             // 
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(101, 22);
-            this.toolStripButton4.Text = "Delete Images";
+            this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
+            this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
+            this.deleteImagesToolStripButton.Size = new System.Drawing.Size(111, 22);
+            this.deleteImagesToolStripButton.Text = "Delete Images";
+            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -280,11 +291,28 @@
             // 
             // toolStripDropDownButton1
             // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInGoogleMapsToolStripMenuItem,
+            this.openInBingMApsToolStripMenuItem});
             this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(169, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(188, 22);
             this.toolStripDropDownButton1.Text = "Open Grid Square In Map";
+            // 
+            // openInGoogleMapsToolStripMenuItem
+            // 
+            this.openInGoogleMapsToolStripMenuItem.Name = "openInGoogleMapsToolStripMenuItem";
+            this.openInGoogleMapsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInGoogleMapsToolStripMenuItem.Text = "Open In Google Maps";
+            this.openInGoogleMapsToolStripMenuItem.Click += new System.EventHandler(this.openInGoogleMapsToolStripMenuItem_Click);
+            // 
+            // openInBingMApsToolStripMenuItem
+            // 
+            this.openInBingMApsToolStripMenuItem.Name = "openInBingMApsToolStripMenuItem";
+            this.openInBingMApsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInBingMApsToolStripMenuItem.Text = "Open In Bing Maps";
+            this.openInBingMApsToolStripMenuItem.Click += new System.EventHandler(this.openInBingMApsToolStripMenuItem_Click);
             // 
             // progressTabPage
             // 
@@ -444,10 +472,10 @@
             this.tabControl2.Controls.Add(this.imagesTabPage);
             this.tabControl2.Controls.Add(this.terrainTabPage);
             this.tabControl2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl2.Location = new System.Drawing.Point(12, 28);
+            this.tabControl2.Location = new System.Drawing.Point(12, 45);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(379, 610);
+            this.tabControl2.Size = new System.Drawing.Size(379, 593);
             this.tabControl2.TabIndex = 7;
             // 
             // imagesTabPage
@@ -462,7 +490,7 @@
             this.imagesTabPage.Location = new System.Drawing.Point(4, 26);
             this.imagesTabPage.Name = "imagesTabPage";
             this.imagesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.imagesTabPage.Size = new System.Drawing.Size(371, 580);
+            this.imagesTabPage.Size = new System.Drawing.Size(371, 563);
             this.imagesTabPage.TabIndex = 0;
             this.imagesTabPage.Text = "Images";
             this.imagesTabPage.UseVisualStyleBackColor = true;
@@ -750,8 +778,8 @@
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStrip toolStrip2;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton deleteImagesToolStripButton;
+        private System.Windows.Forms.ToolStripButton openImageFolderToolstripButton;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -759,6 +787,8 @@
         private System.Windows.Forms.ToolStripLabel gridSquareLabel;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripMenuItem openInGoogleMapsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInBingMApsToolStripMenuItem;
     }
 }
 
