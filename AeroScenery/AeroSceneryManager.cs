@@ -36,7 +36,7 @@ namespace AeroScenery
 
         private ImageTileService imageTileService;
 
-        private Settings settings;
+        private Common.Settings settings;
 
 
         public Settings Settings
@@ -76,8 +76,10 @@ namespace AeroScenery
             geoConvertManager = new GeoConvertManager();
             imageTileService = new ImageTileService();
 
-            settings = new Settings();
+            settings = new Common.Settings();
+            settings.OrthophotoSource = OrthophotoSource.Bing;
 
+            this.mainForm.Initialize();
             Application.Run(this.mainForm);
         }
 
@@ -171,7 +173,7 @@ namespace AeroScenery
                 }
 
                 // Delete Stitched Immage Tiles
-                if(this.Settings.DeleteStitchedImageTiles)
+                if (this.Settings.DeleteStitchedImageTiles)
                 {
                     // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
                     if (imageTiles == null)
@@ -223,5 +225,11 @@ namespace AeroScenery
         {
             return true;
         }
+
+        public void SaveSettings()
+        {
+
+        }
+
     }
 }

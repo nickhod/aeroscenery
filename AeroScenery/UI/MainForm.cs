@@ -32,6 +32,10 @@ namespace AeroScenery
 
         private AeroScenery.Common.Point mapMouseDownLocation;
 
+        // Whether we have finished initially updating the UI with settings
+        // We can therefore ignore control events until this is true
+        private bool uiSetFromSettings;
+
         public MainForm()
         {
             InitializeComponent();
@@ -52,6 +56,7 @@ namespace AeroScenery
             SelectedAFS2GridSquares = new Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>>();
 
             this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
+            this.uiSetFromSettings = false;
 
             // TODO - Make this dynamic
             this.downloadThreadProgressControls.Add(this.downloadThreadProgress1);
@@ -65,6 +70,91 @@ namespace AeroScenery
             this.downloadThreadProgress4.SetDownloadThreadNumber(4);
 
             this.gridSquareLabel.Text = "";
+        }
+
+        public void Initialize()
+        {
+            ToolTip toolTip1 = new ToolTip();
+            toolTip1.IsBalloon = true;
+            toolTip1.InitialDelay = 500;
+            toolTip1.SetToolTip(this.generateAFS2LevelsHelpImage, "Aerofly FS2 has image sets at different levels of detail.\nHere you can control which levels the images downloaded should be displayed on.");
+
+            this.UpdateUIFromSettings();
+        }
+
+        public void UpdateUIFromSettings()
+        {
+            var settings = AeroSceneryManager.Instance.Settings;
+
+            // Orthophoto Source
+            switch (settings.OrthophotoSource)
+            {
+                case OrthoPhotoSources.OrthophotoSource.Bing:
+                    this.imageSourceComboBox.SelectedIndex = 0;
+                    break;
+                case OrthoPhotoSources.OrthophotoSource.Google:
+                    this.imageSourceComboBox.SelectedIndex = 1;
+                    break;
+                case OrthoPhotoSources.OrthophotoSource.USGS:
+                    this.imageSourceComboBox.SelectedIndex = 2;
+                    break;
+            }
+
+            // Zoom Level
+            this.zoomLevelLabel.Text = settings.ZoomLevel.ToString();
+            this.zoomLevelTrackBar.Value = settings.ZoomLevel;
+
+            // AFS Levels To Generate
+            // Our minimum is 8
+            foreach (int afsLevel in settings.AFSLevelsToGenerate)
+            {
+                this.afsLevelsCheckBoxList.SetItemChecked(afsLevel - 8, true);
+            }
+
+            switch (settings.ActionSet)
+            {
+                case Common.ActionSet.Custom:
+                    this.actionSetComboBox.SelectedIndex = 1;
+                    this.SetCustomActions();
+                    break;
+                case Common.ActionSet.Default:
+                    this.actionSetComboBox.SelectedIndex = 0;
+                    this.SetDefaultActions();
+                    break;
+            }
+
+            this.uiSetFromSettings = true;
+
+        }
+
+        private void SetDefaultActions()
+        {
+            this.downloadImageTileCheckBox.Checked = true;
+            this.stitchImageTilesCheckBox.Checked = true;
+            this.generateAFSFilesCheckBox.Checked = true;
+            this.runGeoConvertCheckBox.Checked = true;
+            this.installSceneryIntoAFSCheckBox.Checked = true;
+
+            this.downloadImageTileCheckBox.Enabled = false;
+            this.stitchImageTilesCheckBox.Enabled = false;
+            this.generateAFSFilesCheckBox.Enabled = false;
+            this.runGeoConvertCheckBox.Enabled = false;
+            this.installSceneryIntoAFSCheckBox.Enabled = false;
+        }
+
+        private void SetCustomActions()
+        {
+            this.downloadImageTileCheckBox.Checked = true;
+            this.stitchImageTilesCheckBox.Checked = true;
+            this.generateAFSFilesCheckBox.Checked = true;
+            this.runGeoConvertCheckBox.Checked = true;
+            this.installSceneryIntoAFSCheckBox.Checked = true;
+
+            this.downloadImageTileCheckBox.Enabled = true;
+            this.stitchImageTilesCheckBox.Enabled = true;
+            this.generateAFSFilesCheckBox.Enabled = true;
+            this.runGeoConvertCheckBox.Enabled = true;
+            this.installSceneryIntoAFSCheckBox.Enabled = true;
         }
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
@@ -212,6 +302,12 @@ namespace AeroScenery
         {
             var settingsForm = new SettingsForm();
             settingsForm.Show();
+            if (settingsForm.StartPosition == FormStartPosition.CenterParent)
+            {
+                var x = Location.X + (Width - settingsForm.Width) / 2;
+                var y = Location.Y + (Height - settingsForm.Height) / 2;
+                settingsForm.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
+            }
         }
 
         private void mainMap_MouseDown_1(object sender, MouseEventArgs e)
@@ -349,6 +445,177 @@ namespace AeroScenery
                     MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name));
                 }
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imageSourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var settings = AeroSceneryManager.Instance.Settings;
+
+            switch(this.imageSourceComboBox.SelectedIndex)
+            {
+                // Bing
+                case 0:
+                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.Bing;
+                    break;
+                // Google
+                case 1:
+                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.Google;                
+                    break;
+                // USGS
+                case 2:
+                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.USGS;
+                    break;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void actionSetComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.actionSetComboBox.SelectedIndex)
+            {
+                // Default
+                case 0:
+                    AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Default;
+                    this.SetDefaultActions();
+                    break;
+                // Custom
+                case 1:
+                    AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Custom;
+                    this.SetCustomActions();
+                    break;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void zoomLevelTrackBar_Scroll(object sender, EventArgs e)
+        {
+            this.zoomLevelLabel.Text = this.zoomLevelTrackBar.Value.ToString();
+            AeroSceneryManager.Instance.Settings.ZoomLevel = this.zoomLevelTrackBar.Value;
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void gridSquareLevelsCheckBoxList_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (uiSetFromSettings)
+            {
+                var settings = AeroSceneryManager.Instance.Settings;
+
+                var checkedLevel = e.Index + 8;
+
+                if (settings.AFSLevelsToGenerate.Contains(checkedLevel))
+                {
+                    settings.AFSLevelsToGenerate.Remove(checkedLevel);
+                }
+                else
+                {
+                    settings.AFSLevelsToGenerate.Add(checkedLevel);
+                }
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void downloadImageTileCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (downloadImageTileCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.DownloadImageTiles = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.DownloadImageTiles = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void stitchImageTilesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (stitchImageTilesCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.StitchImageTiles = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.StitchImageTiles = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void generateAFSFilesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (generateAFSFilesCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.GenerateAIDAndTMCFiles = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.GenerateAIDAndTMCFiles = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void runGeoConvertCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (runGeoConvertCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.RunGeoConvert = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.RunGeoConvert = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void deleteStitchedImagesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (deleteStitchedImagesCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.DeleteStitchedImageTiles = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.DeleteStitchedImageTiles = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void installSceneryIntoAFSCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (downloadImageTileCheckBox.Checked)
+            {
+                AeroSceneryManager.Instance.Settings.DownloadImageTiles = true;
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.DownloadImageTiles = false;
+            }
+
+            AeroSceneryManager.Instance.SaveSettings();
+        }
+
+        private void helpToolStripButton_Click(object sender, EventArgs e)
+        {
+            var url = "https://github.com/nickhod/aeroscenery";
+            System.Diagnostics.Process.Start(url);
+        }
+
+        private void getSDKToolStripButton_Click(object sender, EventArgs e)
+        {
+            var url = "https://www.aerofly.com/community/filebase/index.php?file/2-sdk-tools/";
+            System.Diagnostics.Process.Start(url);
         }
     }
 }

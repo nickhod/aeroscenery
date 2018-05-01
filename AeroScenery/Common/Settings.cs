@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.Common
 {
+    public enum ActionSet
+    {
+        Default,
+        Custom
+    }
+
     public class Settings
     {
         public string AFS2SDKDirectory { get; set; }
@@ -14,6 +20,8 @@ namespace AeroScenery.Common
         public string AFS2Directory { get; set; }
 
         public string WorkingDirectory { get; set; }
+
+        public string AeroSceneryDBDirectory { get; set; }
 
         public OrthophotoSource OrthophotoSource { get; set; }
 
@@ -30,6 +38,15 @@ namespace AeroScenery.Common
         public bool DeleteStitchedImageTiles { get; set; }
 
         public bool InstallScenery { get; set; }
+
+        public ActionSet ActionSet { get; set; }
+
+        public List<int> AFSLevelsToGenerate { get; set; }
+
+        public string UserAgent { get; set; }
+        public int WaitFromMs { get; set; }
+        public int WaitToMs { get; set; }
+        public int SimultaneousDownloads { get; set; }
 
         public Settings()
         {
@@ -48,6 +65,19 @@ namespace AeroScenery.Common
             this.InstallScenery = false;
 
             this.OrthophotoSource = OrthophotoSource.Bing;
+            this.ZoomLevel = 14;
+
+            this.AFSLevelsToGenerate = new List<int>();
+            this.AFSLevelsToGenerate.Add(11);
+            this.AFSLevelsToGenerate.Add(12);
+
+            this.ActionSet = ActionSet.Default;
+            this.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36";
+            this.WaitFromMs = 0;
+            this.WaitToMs = 0;
+            this.SimultaneousDownloads = 4;
         }
+
+
     }
 }
