@@ -17,12 +17,9 @@ namespace AeroScenery.OrthophotoSources
     {
         private string urlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
 
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare)
+        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
-
-            // Temp
-            int zoomLevel = 12;
 
             // Just to make the code more readable
             var northWestCorner = afs2GridSquare.Coordinates[0];

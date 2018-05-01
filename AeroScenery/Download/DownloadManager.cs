@@ -47,13 +47,22 @@ namespace AeroScenery.Download
                         }
 
                         //Debug.WriteLine("Thread " + threadNumber.ToString());
+                        var cookieContainer = new CookieContainer();
 
-                        using (HttpClient httpClient = new HttpClient())
+                        using (var handler = new HttpClientHandler()
                         {
+                            CookieContainer = cookieContainer
+                        })
+
+
+                        using (HttpClient httpClient = new HttpClient(handler))
+                        {                       
+
+
                             // Work through this threads share of downloads
                             for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
                             {
-                                this.DownloadFile(httpClient, imageTiles[j], downloadDirectory);
+                                this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory);
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
 
@@ -66,7 +75,7 @@ namespace AeroScenery.Download
                                 for (int k = 0; k < downloadsPerThreadMod; k++)
                                 {
                                     var index = k + (downloadsPerThread * this.downloadThreads);
-                                    this.DownloadFile(httpClient, imageTiles[index], downloadDirectory);
+                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory);
                                     downloadThreadProgress.FilesDownloaded++;
                                     threadProgress.Report(downloadThreadProgress);
 
@@ -84,11 +93,23 @@ namespace AeroScenery.Download
             }
         }
 
-        private void DownloadFile(HttpClient httpClient, ImageTile imageTile, string path)
+        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path)
         {
             string fullFilePath = path + imageTile.FileName + "." + imageTile.ImageExtension;
 
+            cookieContainer = new CookieContainer();
+            cookieContainer.Add(new Uri(imageTile.URL), new Cookie("APISID", Guid.NewGuid().ToString()));
+            cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "119=" + Guid.NewGuid().ToString()));
+            cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "129=" + Guid.NewGuid().ToString()));
+
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(AeroSceneryManager.Instance.Settings.UserAgent);
+            httpClient.DefaultRequestHeaders.Referrer = new Uri("http://google.com/");
+            httpClient.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
+            httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+
             var responseResult = httpClient.GetAsync(imageTile.URL);
+
             using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
             {
                 using (var fileStream = File.Create(fullFilePath))
@@ -97,6 +118,8 @@ namespace AeroScenery.Download
                 }
 
             }
+
+
         }
 
     }

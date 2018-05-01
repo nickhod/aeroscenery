@@ -21,6 +21,8 @@ namespace AeroScenery
         public MainForm mainForm;
 
         private BingOrthophotoSource bingOrthophotoSource;
+        private GoogleOrthophotoSource googleOrthophotoSource;
+        private USGSOrthophotoSource usgsOrthophotoSource;
 
         private DownloadManager downloadManager;
 
@@ -70,6 +72,10 @@ namespace AeroScenery
 
 
             bingOrthophotoSource = new BingOrthophotoSource();
+            googleOrthophotoSource = new GoogleOrthophotoSource();
+            usgsOrthophotoSource = new USGSOrthophotoSource();
+
+
             downloadManager = new DownloadManager();
             aidFileGenerator = new AIDFileGenerator();
             tmcFileGenerator = new TMCFileGenerator();
@@ -121,7 +127,18 @@ namespace AeroScenery
                 if (this.Settings.DownloadImageTiles)
                 {
                     // Get a list of all the image tiles we need to download
-                    imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare);
+                    switch(settings.OrthophotoSource)
+                    {
+                        case OrthophotoSource.Bing:
+                            imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                            break;
+                        case OrthophotoSource.Google:
+                            imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                            break;
+                        case OrthophotoSource.USGS:
+                            imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                            break;
+                    }
 
                     // Capture the progress of each thread
                     var downloadThreadProgress = new Progress<DownloadThreadProgress>();

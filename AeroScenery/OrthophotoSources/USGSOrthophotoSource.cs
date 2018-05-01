@@ -10,7 +10,7 @@ namespace AeroScenery.OrthophotoSources
 {
     public class USGSOrthophotoSource : IOrthophotoSource
     {
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare)
+        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             throw new NotImplementedException();
         }

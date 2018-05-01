@@ -92,6 +92,7 @@
     <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="OrthophotoSources\BingHelper.cs" />
+    <Compile Include="OrthophotoSources\GoogleHelper.cs" />
     <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
@@ -170,9 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data\Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\DownloadDisabled.png" />

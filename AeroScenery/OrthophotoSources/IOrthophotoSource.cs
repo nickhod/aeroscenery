@@ -10,6 +10,6 @@ namespace AeroScenery.OrthophotoSources
 {
     public interface IOrthophotoSource
     {
-        List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare);
+        List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel);
     }
 }
