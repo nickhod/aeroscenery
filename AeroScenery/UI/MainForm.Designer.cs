@@ -85,6 +85,7 @@
             this.terrainTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.ButtonStart = new System.Windows.Forms.Button();
+            this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.mapTabPage.SuspendLayout();
@@ -124,7 +125,7 @@
             this.mainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.mainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.mainMap.ShowTileGridLines = false;
-            this.mainMap.Size = new System.Drawing.Size(1034, 673);
+            this.mainMap.Size = new System.Drawing.Size(1034, 724);
             this.mainMap.TabIndex = 0;
             this.mainMap.Zoom = 0D;
             this.mainMap.DoubleClick += new System.EventHandler(this.mainMap_DoubleClick);
@@ -133,7 +134,7 @@
             // 
             // statusStrip1
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 770);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 821);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1461, 22);
             this.statusStrip1.TabIndex = 2;
@@ -193,7 +194,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(401, 45);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1048, 709);
+            this.mainTabControl.Size = new System.Drawing.Size(1048, 760);
             this.mainTabControl.TabIndex = 6;
             // 
             // mapTabPage
@@ -203,7 +204,7 @@
             this.mapTabPage.Location = new System.Drawing.Point(4, 26);
             this.mapTabPage.Name = "mapTabPage";
             this.mapTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.mapTabPage.Size = new System.Drawing.Size(1040, 679);
+            this.mapTabPage.Size = new System.Drawing.Size(1040, 730);
             this.mapTabPage.TabIndex = 0;
             this.mapTabPage.Text = "Map";
             this.mapTabPage.UseVisualStyleBackColor = true;
@@ -488,7 +489,7 @@
             this.tabControl2.Location = new System.Drawing.Point(12, 45);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(379, 628);
+            this.tabControl2.Size = new System.Drawing.Size(379, 655);
             this.tabControl2.TabIndex = 7;
             // 
             // imagesTabPage
@@ -505,7 +506,7 @@
             this.imagesTabPage.Location = new System.Drawing.Point(4, 26);
             this.imagesTabPage.Name = "imagesTabPage";
             this.imagesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.imagesTabPage.Size = new System.Drawing.Size(371, 598);
+            this.imagesTabPage.Size = new System.Drawing.Size(371, 625);
             this.imagesTabPage.TabIndex = 0;
             this.imagesTabPage.Text = "Images";
             this.imagesTabPage.UseVisualStyleBackColor = true;
@@ -730,7 +731,7 @@
             // 
             this.ButtonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonStart.Location = new System.Drawing.Point(12, 691);
+            this.ButtonStart.Location = new System.Drawing.Point(12, 742);
             this.ButtonStart.Name = "ButtonStart";
             this.ButtonStart.Size = new System.Drawing.Size(379, 63);
             this.ButtonStart.TabIndex = 3;
@@ -738,11 +739,24 @@
             this.ButtonStart.UseVisualStyleBackColor = true;
             this.ButtonStart.Click += new System.EventHandler(this.ButtonStart_Click);
             // 
+            // shutdownCheckbox
+            // 
+            this.shutdownCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.shutdownCheckbox.AutoSize = true;
+            this.shutdownCheckbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shutdownCheckbox.Location = new System.Drawing.Point(12, 713);
+            this.shutdownCheckbox.Name = "shutdownCheckbox";
+            this.shutdownCheckbox.Size = new System.Drawing.Size(223, 21);
+            this.shutdownCheckbox.TabIndex = 8;
+            this.shutdownCheckbox.Text = "Shut Down Computer When Done";
+            this.shutdownCheckbox.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1461, 792);
+            this.ClientSize = new System.Drawing.Size(1461, 843);
+            this.Controls.Add(this.shutdownCheckbox);
             this.Controls.Add(this.tabControl2);
             this.Controls.Add(this.ButtonStart);
             this.Controls.Add(this.mainTabControl);
@@ -836,6 +850,7 @@
         private System.Windows.Forms.TrackBar zoomLevelTrackBar;
         private System.Windows.Forms.Label zoomLevelLabel;
         private System.Windows.Forms.Label generateAFS2LevelsHelpImage;
+        private System.Windows.Forms.CheckBox shutdownCheckbox;
     }
 }
 
