@@ -89,12 +89,30 @@ namespace AeroScenery
             Application.Run(this.mainForm);
         }
 
+        private string GetTileDownloadDirectory(string afsGridSquareDirectory)
+        {
+            var tileDownloadDirectory = afsGridSquareDirectory;
 
+            switch (this.settings.OrthophotoSource)
+            {
+                case OrthophotoSource.Bing:
+                    tileDownloadDirectory += @"/b/";
+                    break;
+                case OrthophotoSource.Google:
+                    tileDownloadDirectory += @"/g/";
+                    break;
+            }
+
+            return tileDownloadDirectory;
+        }
 
         public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
+            int i = 0;
             foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.Item1))
             {
+                this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i+1, this.mainForm.SelectedAFS2GridSquares.Count()));
+
                 // Do we have a directory for this afs grid square in our working directory?
                 var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
 
@@ -102,17 +120,7 @@ namespace AeroScenery
                     Directory.CreateDirectory(this.settings.WorkingDirectory + afs2GridSquare.Name);
                 }
 
-                var tileDownloadDirectory = afsGridSquareDirectory;
-
-                switch (this.settings.OrthophotoSource)
-                {
-                    case OrthophotoSource.Bing:
-                        tileDownloadDirectory += @"/b/";
-                        break;
-                    case OrthophotoSource.Google:
-                        tileDownloadDirectory += @"/g/";
-                        break;
-                }
+                var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory);
 
                 // Do we have a directory for the afs grid square and this orthophoto source
                 if (!Directory.Exists(tileDownloadDirectory))
@@ -120,14 +128,16 @@ namespace AeroScenery
                     Directory.CreateDirectory(tileDownloadDirectory);
                 }
 
-
                 List<ImageTile> imageTiles = null;
+
 
                 // Download Imamge Tiles
                 if (this.Settings.DownloadImageTiles)
                 {
+                    this.mainForm.UpdateChildTaskLabel("Downloading Image Tiles");
+
                     // Get a list of all the image tiles we need to download
-                    switch(settings.OrthophotoSource)
+                    switch (settings.OrthophotoSource)
                     {
                         case OrthophotoSource.Bing:
                             imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
@@ -155,6 +165,8 @@ namespace AeroScenery
                 // Stitch Image Tiles
                 if (this.Settings.StitchImageTiles)
                 {
+                    this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
+
                     // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
                     if (imageTiles == null)
                     {
@@ -167,6 +179,8 @@ namespace AeroScenery
                 // Generate AID and TMC Files
                 if (this.Settings.GenerateAIDAndTMCFiles)
                 {
+                    this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
+
                     // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
                     if (imageTiles == null)
                     {
@@ -176,37 +190,6 @@ namespace AeroScenery
                     // Generate AID files for the image tiles
                     //await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
                 }
-
-                // Run GeoConvert
-                if (this.Settings.RunGeoConvert)
-                {
-
-                    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                    if (imageTiles == null)
-                    {
-                        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
-                    }
-
-                }
-
-                // Delete Stitched Immage Tiles
-                if (this.Settings.DeleteStitchedImageTiles)
-                {
-                    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                    if (imageTiles == null)
-                    {
-                        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
-                    }
-
-                }
-
-                // Install Scenery
-                if (this.Settings.InstallScenery)
-                {
-
-                }
-
-
 
                 //// Have all image tiles been downloaded by the download manager
                 //if (AllImageTilesDownloaded(imageTiles))
@@ -223,10 +206,92 @@ namespace AeroScenery
                 //    downloadFailedForm = new DownloadFailedForm();
                 //    downloadFailedForm.ShowDialog();
                 //}
+                i++;
 
+                // We assume that the geoconvert process and the download process will take equal time. We don't know, but can't do much else.
+                // At this point we should therefore be at (100 / nubmer of grid quares) / 2
+                var progress = (int)Math.Floor((double)(100 / this.mainForm.SelectedAFS2GridSquares.Count()) / 2);
+
+                this.mainForm.UpdateProgress(progress);
             }
 
+            // Move on to running Geoconvert for each tile
+            await this.StartGeoConvertProcessAsync();
         }
+
+        public async Task StartGeoConvertProcessAsync()
+        {
+            int i = 0;
+            // Run the Geoconvert process for each selected gride square
+            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.Item1))
+            {
+                this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
+
+                List<ImageTile> imageTiles = null;
+
+                // Do we have a directory for this afs grid square in our working directory?
+                var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
+
+                if (Directory.Exists(afsGridSquareDirectory))
+                {
+                    var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory);
+
+                    if (Directory.Exists(tileDownloadDirectory))
+                    {
+                        // Run GeoConvert
+                        if (this.Settings.RunGeoConvert)
+                        {
+                            this.mainForm.UpdateChildTaskLabel("Running GeoConvert");
+
+                            // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
+                            if (imageTiles == null)
+                            {
+                                imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                            }
+
+                        }
+
+                        // Delete Stitched Immage Tiles
+                        if (this.Settings.DeleteStitchedImageTiles)
+                        {
+                            this.mainForm.UpdateChildTaskLabel("Deleting Stitched Image Tiles");
+
+                            // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
+                            if (imageTiles == null)
+                            {
+                                imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                            }
+
+                        }
+
+                        // Install Scenery
+                        if (this.Settings.InstallScenery)
+                        {
+                            this.mainForm.UpdateChildTaskLabel("Prompting To Install Scenery");
+
+                        }
+
+                    }
+                    else
+                    {
+                        // Tile download directory does not exist
+                    }
+                }
+                else
+                {
+                    // Working directory does not exist
+                }
+
+                // We assume that the geoconvert process and the download process will take equal time. We don't know, but can't do much else.
+                // At this point we should therefore be at (100 / nubmer of grid quares) / 2
+                var progress = (int)Math.Floor((double)(100 / this.mainForm.SelectedAFS2GridSquares.Count()) / 2);
+
+                this.mainForm.UpdateProgress(progress);
+
+                i++;
+            }
+        }
+
 
         private void DownloadThreadProgress_ProgressChanged(object sender, DownloadThreadProgress progress)
         {
