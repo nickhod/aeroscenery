@@ -28,8 +28,10 @@ namespace AeroScenery.OrthophotoSources
             int tileY = 0;
             GoogleHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
 
-            double currentTileLatitude = 0;
-            double currentTileLongitude = 0;
+            double currentTileNorthLatitude = 0;
+            double currentTileSouthLatitude = 0;
+            double currentTileWestLongitude = 0;
+            double currentTileEastLongitude = 0;
 
             int currentTileX = tileX;
             int currentTileY = tileY;
@@ -42,13 +44,18 @@ namespace AeroScenery.OrthophotoSources
             {
                 do
                 {
-                    GoogleHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileLatitude, out currentTileLongitude);
+                    GoogleHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
+
+                    // Get the lat long of the tile "to the left and down", which will give us the south and east edge of the previous tile
+                    GoogleHelper.TileXYToLatLong(currentTileX+1, currentTileY+1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
 
                     ImageTile tile = new ImageTile();
                     tile.Width = 256;
                     tile.Height = 256;
-                    tile.NorthWestCornerLatitude = currentTileLatitude;
-                    tile.NorthWestCornerLongitude = currentTileLongitude;
+                    tile.NorthLatitude = currentTileNorthLatitude;
+                    tile.SouthLatitude = currentTileSouthLatitude;
+                    tile.WestLongitude = currentTileWestLongitude;
+                    tile.EastLongitude = currentTileEastLongitude;
                     tile.ImageExtension = "jpg";
                     tile.TileX = currentTileX;
                     tile.TileY = currentTileY;
@@ -63,7 +70,7 @@ namespace AeroScenery.OrthophotoSources
                     currentTileX++;
                     currentColumn++;
                 }
-                while (currentTileLongitude < southEastCorner.Lng);
+                while (currentTileWestLongitude < southEastCorner.Lng);
 
                 // Go back to the original tileX
                 currentTileX = tileX;
@@ -74,7 +81,7 @@ namespace AeroScenery.OrthophotoSources
                 currentTileY++;
                 currentRow++;
             }
-            while (currentTileLatitude > southEastCorner.Lat);
+            while (currentTileNorthLatitude > southEastCorner.Lat);
 
             return imageTiles;
         }

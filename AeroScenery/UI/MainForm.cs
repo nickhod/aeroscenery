@@ -617,5 +617,26 @@ namespace AeroScenery
             var url = "https://www.aerofly.com/community/filebase/index.php?file/2-sdk-tools/";
             System.Diagnostics.Process.Start(url);
         }
+
+        public void UpdateParentTaskLabel(string parentTask)
+        {
+            this.parentTaskLabel.Text = parentTask;
+        }
+
+        public void UpdateChildTaskLabel(string childTask)
+        {
+            this.childTaskLabel.Text = childTask;
+        }
+
+        public void UpdateTaskLabels(string parentTask, string childTask)
+        {
+            this.parentTaskLabel.Text = parentTask;
+            this.childTaskLabel.Text = childTask;
+        }
+
+        public void UpdateProgress(int progress)
+        {
+            this.overallProgressProgressBar.Value = progress;
+        }
     }
 }

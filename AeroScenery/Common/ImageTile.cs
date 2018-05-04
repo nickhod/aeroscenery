@@ -22,23 +22,23 @@ namespace AeroScenery.Common
         /// <summary>
         /// The latitude of North West corner of the tile
         /// </summary>
-        public double NorthWestCornerLatitude { get; set; }
+        public double NorthLatitude { get; set; }
 
         /// <summary>
         /// The longitude of the left of the time tile
         /// </summary>
-        public double NorthWestCornerLongitude { get; set; }
+        public double WestLongitude { get; set; }
 
 
         /// <summary>
         /// The latitude of North West corner of the tile
         /// </summary>
-        public double SouthEastCornerLatitude { get; set; }
+        public double SouthLatitude { get; set; }
 
         /// <summary>
         /// The longitude of the left of the time tile
         /// </summary>
-        public double SouthEastCornerLongitude { get; set; }
+        public double EastLongitude { get; set; }
 
         /// <summary>
         /// The width of the image tile in pixels

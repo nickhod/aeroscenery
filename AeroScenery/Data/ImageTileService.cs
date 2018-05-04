@@ -15,12 +15,17 @@ namespace AeroScenery.Data
         {
             await Task.Run(() =>
             {
+                XmlSerializer xs = new XmlSerializer(typeof(ImageTile));
+
                 foreach (ImageTile imageTile in imageTiles)
                 {
-                    XmlSerializer xs = new XmlSerializer(typeof(ImageTile));
-                    TextWriter tw = new StreamWriter(directory + imageTile.FileName + ".aero");
-                    xs.Serialize(tw, imageTile);
+                    using (TextWriter tw = new StreamWriter(directory + imageTile.FileName + ".aero"))
+                    {
+                        xs.Serialize(tw, imageTile);
+                    }
                 }
+
+                xs = null;
             });      
         }
 
@@ -29,18 +34,20 @@ namespace AeroScenery.Data
             return await Task.Run(() =>
             {
                 List<ImageTile> imageTiles = new List<ImageTile>();
+                XmlSerializer serializer = new XmlSerializer(typeof(ImageTile));
 
                 foreach (string filePath in Directory.EnumerateFiles(directory, "*.aero"))
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(ImageTile));
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        var imageTile = (ImageTile)serializer.Deserialize(reader);
+                        reader.Close();
+                        imageTiles.Add(imageTile);
+                    }
 
-                    StreamReader reader = new StreamReader(filePath);
-                    var imageTile = (ImageTile)serializer.Deserialize(reader);
-                    reader.Close();
-
-                    imageTiles.Add(imageTile);
                 }
 
+                serializer = null;
                 return imageTiles;
             });
 

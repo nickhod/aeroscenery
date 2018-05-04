@@ -52,7 +52,7 @@
             this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressTabPage = new System.Windows.Forms.TabPage();
-            this.CurrentTaskLabel = new System.Windows.Forms.Label();
+            this.childTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
@@ -60,8 +60,8 @@
             this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.label6 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label5 = new System.Windows.Forms.Label();
+            this.overallProgressProgressBar = new System.Windows.Forms.ProgressBar();
+            this.parentTaskLabel = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.tabControl2 = new System.Windows.Forms.TabControl();
@@ -331,12 +331,12 @@
             // progressTabPage
             // 
             this.progressTabPage.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.progressTabPage.Controls.Add(this.CurrentTaskLabel);
+            this.progressTabPage.Controls.Add(this.childTaskLabel);
             this.progressTabPage.Controls.Add(this.label7);
             this.progressTabPage.Controls.Add(this.groupBox1);
             this.progressTabPage.Controls.Add(this.label6);
-            this.progressTabPage.Controls.Add(this.progressBar1);
-            this.progressTabPage.Controls.Add(this.label5);
+            this.progressTabPage.Controls.Add(this.overallProgressProgressBar);
+            this.progressTabPage.Controls.Add(this.parentTaskLabel);
             this.progressTabPage.Location = new System.Drawing.Point(4, 26);
             this.progressTabPage.Name = "progressTabPage";
             this.progressTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -344,15 +344,14 @@
             this.progressTabPage.TabIndex = 1;
             this.progressTabPage.Text = "Progress";
             // 
-            // CurrentTaskLabel
+            // childTaskLabel
             // 
-            this.CurrentTaskLabel.AutoSize = true;
-            this.CurrentTaskLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurrentTaskLabel.Location = new System.Drawing.Point(88, 55);
-            this.CurrentTaskLabel.Name = "CurrentTaskLabel";
-            this.CurrentTaskLabel.Size = new System.Drawing.Size(155, 17);
-            this.CurrentTaskLabel.TabIndex = 6;
-            this.CurrentTaskLabel.Text = "Downloading Image Tiles";
+            this.childTaskLabel.AutoSize = true;
+            this.childTaskLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.childTaskLabel.Location = new System.Drawing.Point(88, 55);
+            this.childTaskLabel.Name = "childTaskLabel";
+            this.childTaskLabel.Size = new System.Drawing.Size(0, 17);
+            this.childTaskLabel.TabIndex = 6;
             // 
             // label7
             // 
@@ -433,29 +432,28 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(13, 94);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 17);
+            this.label6.Size = new System.Drawing.Size(158, 17);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Overall Progress";
+            this.label6.Text = "Overall Progress Estimate";
             // 
-            // progressBar1
+            // overallProgressProgressBar
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.overallProgressProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(16, 120);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(1004, 18);
-            this.progressBar1.TabIndex = 2;
-            this.progressBar1.Value = 24;
+            this.overallProgressProgressBar.Location = new System.Drawing.Point(16, 120);
+            this.overallProgressProgressBar.Name = "overallProgressProgressBar";
+            this.overallProgressProgressBar.Size = new System.Drawing.Size(1004, 18);
+            this.overallProgressProgressBar.TabIndex = 2;
             // 
-            // label5
+            // parentTaskLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(12, 17);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(257, 21);
-            this.label5.TabIndex = 1;
-            this.label5.Text = "Working On AFS2 Grid Tile 1 of 4";
+            this.parentTaskLabel.AutoSize = true;
+            this.parentTaskLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.parentTaskLabel.Location = new System.Drawing.Point(12, 17);
+            this.parentTaskLabel.Name = "parentTaskLabel";
+            this.parentTaskLabel.Size = new System.Drawing.Size(276, 21);
+            this.parentTaskLabel.TabIndex = 1;
+            this.parentTaskLabel.Text = "Working On AFS2 Grid Square - of -";
             // 
             // tabPage5
             // 
@@ -809,11 +807,11 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolStripButton getSDKToolStripButton;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ProgressBar overallProgressProgressBar;
+        private System.Windows.Forms.Label parentTaskLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label CurrentTaskLabel;
+        private System.Windows.Forms.Label childTaskLabel;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TextBox logTextBox;

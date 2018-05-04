@@ -43,7 +43,6 @@
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(460, 14);
             this.progressBar.TabIndex = 0;
-            this.progressBar.Value = 20;
             // 
             // percentageLabel
             // 
@@ -51,20 +50,20 @@
             this.percentageLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.percentageLabel.Location = new System.Drawing.Point(39, 20);
             this.percentageLabel.Name = "percentageLabel";
-            this.percentageLabel.Size = new System.Drawing.Size(33, 17);
+            this.percentageLabel.Size = new System.Drawing.Size(26, 17);
             this.percentageLabel.TabIndex = 2;
-            this.percentageLabel.Text = "99%";
+            this.percentageLabel.Text = "0%";
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(441, 21);
+            this.label2.Location = new System.Drawing.Point(442, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 17);
             this.label2.TabIndex = 3;
-            this.label2.Text = "754 kb/s";
+            this.label2.Text = "- kb/s";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // imageTileCountLabel
             // 
@@ -73,9 +72,9 @@
             this.imageTileCountLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.imageTileCountLabel.Location = new System.Drawing.Point(247, 21);
             this.imageTileCountLabel.Name = "imageTileCountLabel";
-            this.imageTileCountLabel.Size = new System.Drawing.Size(133, 17);
+            this.imageTileCountLabel.Size = new System.Drawing.Size(108, 17);
             this.imageTileCountLabel.TabIndex = 4;
-            this.imageTileCountLabel.Text = "34 of 123 Image Tiles";
+            this.imageTileCountLabel.Text = "- of - Image Tiles";
             this.imageTileCountLabel.Click += new System.EventHandler(this.label3_Click);
             // 
             // downloadThreadNumberLabel
