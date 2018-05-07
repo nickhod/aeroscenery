@@ -2,6 +2,7 @@
 using AeroScenery.Common;
 using AeroScenery.Data;
 using AeroScenery.Download;
+using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
 using AeroScenery.UI;
@@ -33,6 +34,8 @@ namespace AeroScenery
         private GeoConvertManager geoConvertManager;
 
         private DownloadFailedForm downloadFailedForm;
+
+        private TileStitcher tileStitcher;
 
         private static AeroSceneryManager aeroSceneryManager;
 
@@ -81,6 +84,7 @@ namespace AeroScenery
             tmcFileGenerator = new TMCFileGenerator();
             geoConvertManager = new GeoConvertManager();
             imageTileService = new ImageTileService();
+            tileStitcher = new TileStitcher();
 
             settings = new Common.Settings();
             settings.OrthophotoSource = OrthophotoSource.Bing;
@@ -173,7 +177,7 @@ namespace AeroScenery
                         imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
                     }
 
-
+                    await this.tileStitcher.StitchImageTilesAsync(imageTiles, tileDownloadDirectory, true);
                 }
 
                 // Generate AID and TMC Files
