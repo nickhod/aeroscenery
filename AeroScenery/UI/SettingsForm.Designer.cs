@@ -45,8 +45,8 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.waitToTextBox = new System.Windows.Forms.TextBox();
-            this.waitFromTextBox = new System.Windows.Forms.TextBox();
+            this.downloadWaitRandomTextBox = new System.Windows.Forms.TextBox();
+            this.downloadWaitTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.simultaneousDownloadsComboBox = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -55,6 +55,7 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -195,10 +196,11 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.waitToTextBox);
-            this.groupBox2.Controls.Add(this.waitFromTextBox);
+            this.groupBox2.Controls.Add(this.downloadWaitRandomTextBox);
+            this.groupBox2.Controls.Add(this.downloadWaitTextBox);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.simultaneousDownloadsComboBox);
             this.groupBox2.Controls.Add(this.label4);
@@ -216,7 +218,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(441, 101);
+            this.label8.Location = new System.Drawing.Point(574, 101);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(25, 17);
             this.label8.TabIndex = 8;
@@ -232,19 +234,19 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "ms";
             // 
-            // waitToTextBox
+            // downloadWaitRandomTextBox
             // 
-            this.waitToTextBox.Location = new System.Drawing.Point(356, 98);
-            this.waitToTextBox.Name = "waitToTextBox";
-            this.waitToTextBox.Size = new System.Drawing.Size(79, 25);
-            this.waitToTextBox.TabIndex = 6;
+            this.downloadWaitRandomTextBox.Location = new System.Drawing.Point(489, 98);
+            this.downloadWaitRandomTextBox.Name = "downloadWaitRandomTextBox";
+            this.downloadWaitRandomTextBox.Size = new System.Drawing.Size(79, 25);
+            this.downloadWaitRandomTextBox.TabIndex = 6;
             // 
-            // waitFromTextBox
+            // downloadWaitTextBox
             // 
-            this.waitFromTextBox.Location = new System.Drawing.Point(216, 98);
-            this.waitFromTextBox.Name = "waitFromTextBox";
-            this.waitFromTextBox.Size = new System.Drawing.Size(79, 25);
-            this.waitFromTextBox.TabIndex = 5;
+            this.downloadWaitTextBox.Location = new System.Drawing.Point(216, 98);
+            this.downloadWaitTextBox.Name = "downloadWaitTextBox";
+            this.downloadWaitTextBox.Size = new System.Drawing.Size(79, 25);
+            this.downloadWaitTextBox.TabIndex = 5;
             // 
             // label5
             // 
@@ -323,6 +325,16 @@
             // 
             this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(350, 101);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(127, 17);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "randomize by + or -";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
@@ -367,8 +379,8 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox waitToTextBox;
-        private System.Windows.Forms.TextBox waitFromTextBox;
+        private System.Windows.Forms.TextBox downloadWaitRandomTextBox;
+        private System.Windows.Forms.TextBox downloadWaitTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox simultaneousDownloadsComboBox;
         private System.Windows.Forms.Label label4;
@@ -380,5 +392,6 @@
         private System.Windows.Forms.TextBox afsFolderTextBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+        private System.Windows.Forms.Label label10;
     }
 }

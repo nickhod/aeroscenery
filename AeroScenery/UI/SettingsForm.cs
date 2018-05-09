@@ -32,8 +32,8 @@ namespace AeroScenery.UI
             settings.AFS2Directory = this.afsFolderTextBox.Text;
 
             settings.UserAgent = this.userAgentTextBox.Text;
-            settings.WaitFromMs = int.Parse(this.waitFromTextBox.Text);
-            settings.WaitToMs = int.Parse(this.waitToTextBox.Text);
+            settings.DownloadWaitMs = int.Parse(this.downloadWaitTextBox.Text);
+            settings.DownloadWaitRandomMs = int.Parse(this.downloadWaitRandomTextBox.Text);
 
             switch (this.simultaneousDownloadsComboBox.SelectedIndex)
             {
@@ -62,8 +62,8 @@ namespace AeroScenery.UI
             this.afsFolderTextBox.Text = settings.AFS2Directory;
 
             this.userAgentTextBox.Text = settings.UserAgent;
-            this.waitFromTextBox.Text = settings.WaitFromMs.ToString();
-            this.waitToTextBox.Text = settings.WaitToMs.ToString();
+            this.downloadWaitTextBox.Text = settings.DownloadWaitMs.ToString();
+            this.downloadWaitRandomTextBox.Text = settings.DownloadWaitRandomMs.ToString();
 
             switch (settings.SimultaneousDownloads)
             {

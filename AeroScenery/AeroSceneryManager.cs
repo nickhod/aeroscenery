@@ -43,6 +43,26 @@ namespace AeroScenery
 
         private Common.Settings settings;
 
+        private RegistryService registryService;
+
+        private IDataRepository dataRepository;
+
+        public AeroSceneryManager()
+        {
+            bingOrthophotoSource = new BingOrthophotoSource();
+            googleOrthophotoSource = new GoogleOrthophotoSource();
+            usgsOrthophotoSource = new USGSOrthophotoSource();
+
+            downloadManager = new DownloadManager();
+            aidFileGenerator = new AIDFileGenerator();
+            tmcFileGenerator = new TMCFileGenerator();
+            geoConvertManager = new GeoConvertManager();
+            imageTileService = new ImageTileService();
+            tileStitcher = new TileStitcher();
+            registryService = new RegistryService();
+
+            dataRepository = new SqlLiteDataRepository();
+        }
 
         public Settings Settings
         {
@@ -67,27 +87,24 @@ namespace AeroScenery
 
         public void Initialize()
         {
+            // Create settings if required and read them
+            if (registryService.SettingsInRegistry())
+            {
+                this.settings = registryService.GetSettings();
+            }
+            else
+            {
+                this.settings = registryService.CreateDefaultSettings();
+            }
+
+            this.dataRepository.Settings = settings;
+            this.dataRepository.UpgradeDatabase();
+
             this.mainForm = new MainForm();
             this.mainForm.StartClicked += async (sender, eventArgs) =>
             {
                 await StartSceneryGenerationProcessAsync(sender, eventArgs);
             };
-
-
-            bingOrthophotoSource = new BingOrthophotoSource();
-            googleOrthophotoSource = new GoogleOrthophotoSource();
-            usgsOrthophotoSource = new USGSOrthophotoSource();
-
-
-            downloadManager = new DownloadManager();
-            aidFileGenerator = new AIDFileGenerator();
-            tmcFileGenerator = new TMCFileGenerator();
-            geoConvertManager = new GeoConvertManager();
-            imageTileService = new ImageTileService();
-            tileStitcher = new TileStitcher();
-
-            settings = new Common.Settings();
-            settings.OrthophotoSource = OrthophotoSource.Bing;
 
             this.mainForm.Initialize();
             Application.Run(this.mainForm);

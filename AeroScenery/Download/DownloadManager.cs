@@ -16,6 +16,7 @@ namespace AeroScenery.Download
     public class DownloadManager
     {
         private int downloadThreads = 4;
+        private int waitTimePerDownload = 100;
 
         public DownloadManager()
         {
@@ -30,12 +31,16 @@ namespace AeroScenery.Download
 
                 var tasks = new List<Task>();
 
+                // Google only allows 10 downloads per second
+                // i.e. 100ms per download, shared between the number of download threads
+                var minMillisecondsPerDownload = 100 / this.downloadThreads;
+
                 // Spawn the required number of threads
                 for (int i = 0; i < this.downloadThreads; i++)
                 {
                     var threadNumber = i;
 
-                    tasks.Add(Task.Run(() =>
+                    tasks.Add(Task.Run(async () =>
                     {
                         var downloadThreadProgress = new DownloadThreadProgress();
                         downloadThreadProgress.TotalFiles = downloadsPerThread;
@@ -56,12 +61,15 @@ namespace AeroScenery.Download
 
 
                         using (HttpClient httpClient = new HttpClient(handler))
-                        {                       
-
+                        {
+                            long lastDownloadTimestamp = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
 
                             // Work through this threads share of downloads
                             for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
                             {
+                                var msToWaitTimeSpan = new TimeSpan(this.waitTimePerDownload * TimeSpan.TicksPerMillisecond);
+                                await Task.Delay(msToWaitTimeSpan);
+
                                 this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory);
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
@@ -74,6 +82,9 @@ namespace AeroScenery.Download
                             {
                                 for (int k = 0; k < downloadsPerThreadMod; k++)
                                 {
+                                    var msToWaitTimeSpan = new TimeSpan(this.waitTimePerDownload * TimeSpan.TicksPerMillisecond);
+                                    await Task.Delay(msToWaitTimeSpan);
+
                                     var index = k + (downloadsPerThread * this.downloadThreads);
                                     this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory);
                                     downloadThreadProgress.FilesDownloaded++;
@@ -102,6 +113,7 @@ namespace AeroScenery.Download
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "119=" + Guid.NewGuid().ToString()));
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "129=" + Guid.NewGuid().ToString()));
 
+            httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(AeroSceneryManager.Instance.Settings.UserAgent);
             httpClient.DefaultRequestHeaders.Referrer = new Uri("http://google.com/");
             httpClient.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");

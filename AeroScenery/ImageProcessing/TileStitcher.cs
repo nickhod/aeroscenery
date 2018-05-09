@@ -20,6 +20,8 @@ namespace AeroScenery.ImageProcessing
                     int columns = 0;
                     int rows = 0;
 
+                    Dictionary<string, ImageTile> imageTileLookup = new Dictionary<string, ImageTile>();
+
                     // Loop through our list of image tiles and figure out how
                     // many rows and columns we are dealing with
                     foreach (var imageTile in imageTiles)
@@ -33,6 +35,8 @@ namespace AeroScenery.ImageProcessing
                         {
                             rows = imageTile.LocalTileY;
                         }
+
+                        imageTileLookup.Add(imageTile.LocalTileX + "-" + imageTile.LocalTileY, imageTile);
                     }
 
                     // Get some info from the first tile. We can assume all tiles have these
@@ -55,42 +59,81 @@ namespace AeroScenery.ImageProcessing
                     var requiredStitchedImagesY = (int)Math.Ceiling((float)rows / (float)maxTilesPerStitchedImageY);
                     var requiredStichedImages = requiredStitchedImagesX * requiredStitchedImagesY;
 
+                    int imageTileOffsetX = 1;
+                    int imagetileOffsetY = 1;
+
                     for (int stitchedImageIx = 0; stitchedImageIx < requiredStichedImages; stitchedImageIx++)
                     {
                         using (Bitmap bitmap = new System.Drawing.Bitmap(imageSizeX, imageSizeY))
                         {
                             bitmap.MakeTransparent();
 
-                            // Work left to right, top to bottom
-                            // Loop through rows
-                            for(int yIx = 0; yIx < maxTilesPerStitchedImageY; yIx++)
-                            {
-                                // Loop through columns
-                                for (int xIx = 0; xIx < maxTilesPerStitchedImageX; xIx++)
-                                {
-
-                                }
-                            }
-
                             using (Graphics g = Graphics.FromImage(bitmap))
                             {
-                                var tileFilename = directory + imageTiles[stitchedImageIx].FileName + "." + imageTiles[stitchedImageIx].ImageExtension;
-                                Image tile = Image.FromFile(tileFilename);
-
-                                if (tile != null)
+                                // Work left to right, top to bottom
+                                // Loop through rows
+                                for (int yIx = 0; yIx < maxTilesPerStitchedImageY; yIx++)
                                 {
-                                    g.DrawImage(tile, new PointF(0, 0));
+                                    // Loop through columns
+                                    for (int xIx = 0; xIx < maxTilesPerStitchedImageX; xIx++)
+                                    {
+                                        var localX = xIx + imageTileOffsetX;
+                                        var localY = yIx + imagetileOffsetY;
+
+                                        if (imageTileLookup.ContainsKey(localX + "-" + localY))
+                                        {
+                                            var imageTile = imageTileLookup[localX + "-" + localY];
+
+
+                                            var tileFilename = directory + imageTile.FileName + "." + imageTile.ImageExtension;
+
+                                            Image tile = null;
+
+                                            try
+                                            {
+                                                tile = Image.FromFile(tileFilename);
+
+                                                if (tile != null)
+                                                {
+                                                    var imagePointX = (xIx * imageTile.Width);
+                                                    var imagePointY = (yIx * imageTile.Width);
+
+                                                    g.DrawImage(tile, new PointF(imagePointX, imagePointY));
+                                                }
+
+                                                tile.Dispose();
+                                            }
+                                            catch (Exception)
+                                            {
+                                                // The image file was probably invalid, but there's not a lot we can do
+                                                // Leave it transparent
+                                            }
+                                            finally
+                                            {
+                                                if (tile != null)
+                                                {
+                                                    tile.Dispose();
+                                                }
+                                            }
+
+                                        }
+
+
+
+                                    }
                                 }
 
-                                tile.Dispose();
                             }
-
 
 
 
                             var stitchFilename = String.Format("{0}_{1}_stitch_{2}.png", imageSource, zoomLevel, stitchedImageIx);
                             bitmap.Save(directory + stitchFilename, ImageFormat.Png);
                         }
+
+                        imageTileOffsetX += maxTilesPerStitchedImageX;
+                        imagetileOffsetY += maxTilesPerStitchedImageY;
+
                     }
 
 
