@@ -1,4 +1,7 @@
 ﻿using AeroScenery.AFS2;
+using AeroScenery.Data;
+using AeroScenery.Data.Mappers;
+using AeroScenery.Data.Models;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.UI;
 using GMap.NET;
@@ -32,6 +35,9 @@ namespace AeroScenery
 
         private AeroScenery.Common.Point mapMouseDownLocation;
 
+        private IDataRepository dataRepository;
+        private GridSquareMapper gridSquareMapper;
+
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
         private bool uiSetFromSettings;
@@ -41,6 +47,7 @@ namespace AeroScenery
             InitializeComponent();
 
             this.afs2Grid = new AFS2Grid();
+            this.gridSquareMapper = new GridSquareMapper();
 
             mainMap.MapProvider = GMapProviders.GoogleHybridMap;
             //mainMap.Position = new PointLatLng(54.6961334816182, 25.2985095977783);
@@ -80,6 +87,11 @@ namespace AeroScenery
             toolTip1.SetToolTip(this.generateAFS2LevelsHelpImage, "Aerofly FS2 has image sets at different levels of detail.\nHere you can control which levels the images downloaded should be displayed on.");
 
             this.UpdateUIFromSettings();
+
+            this.dataRepository = new SqlLiteDataRepository();
+            this.dataRepository.Settings = AeroSceneryManager.Instance.Settings;
+
+            this.LoadDownloadedGridSquares();
         }
 
         public void UpdateUIFromSettings()
@@ -111,6 +123,7 @@ namespace AeroScenery
                 this.afsLevelsCheckBoxList.SetItemChecked(afsLevel - 8, true);
             }
 
+            // Action set
             switch (settings.ActionSet)
             {
                 case Common.ActionSet.Custom:
@@ -122,6 +135,7 @@ namespace AeroScenery
                     this.SetDefaultActions();
                     break;
             }
+
 
             this.uiSetFromSettings = true;
 
@@ -144,11 +158,14 @@ namespace AeroScenery
 
         private void SetCustomActions()
         {
-            this.downloadImageTileCheckBox.Checked = true;
-            this.stitchImageTilesCheckBox.Checked = true;
-            this.generateAFSFilesCheckBox.Checked = true;
-            this.runGeoConvertCheckBox.Checked = true;
-            this.installSceneryIntoAFSCheckBox.Checked = true;
+            var settings = AeroSceneryManager.Instance.Settings;
+            // Actions
+            this.downloadImageTileCheckBox.Checked = settings.DownloadImageTiles;
+            this.stitchImageTilesCheckBox.Checked = settings.StitchImageTiles;
+            this.generateAFSFilesCheckBox.Checked = settings.GenerateAIDAndTMCFiles;
+            this.runGeoConvertCheckBox.Checked = settings.RunGeoConvert;
+            this.deleteStitchedImagesCheckBox.Checked = settings.DeleteStitchedImageTiles;
+            this.installSceneryIntoAFSCheckBox.Checked = settings.InstallScenery;
 
             this.downloadImageTileCheckBox.Enabled = true;
             this.stitchImageTilesCheckBox.Enabled = true;
@@ -229,8 +246,6 @@ namespace AeroScenery
 
             }
 
-
-
             if (!this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
             {
                 GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
@@ -275,6 +290,23 @@ namespace AeroScenery
             this.SelectedAFS2GridSquare = gridSquare;
         }
 
+        private GMapOverlay DrawGridSquare(AFS2GridSquare gridSquare)
+        {
+            GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
+            polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
+            polygon.Stroke = new Pen(Color.Blue, 1);
+
+            GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
+            polygonOverlay.Polygons.Add(polygon);
+            mainMap.Overlays.Add(polygonOverlay);
+
+            mainMap.Refresh();
+            polygonOverlay.IsVisibile = false;
+            polygonOverlay.IsVisibile = true;
+
+            return polygonOverlay;
+        }
+
         private void DeselectGridSquare(int x, int y)
         {
             double lat = mainMap.FromLocalToLatLng(x, y).Lat;
@@ -296,6 +328,19 @@ namespace AeroScenery
             this.SelectedAFS2GridSquare = null;
             gridSquareLabel.Text = "";
 
+        }
+
+        public void LoadDownloadedGridSquares()
+        {
+            var gridSquares = this.dataRepository.GetAllGridSquares();
+
+            foreach (GridSquare gridSquare in gridSquares)
+            {
+                var afs2GridSqure = this.gridSquareMapper.ToAFS2GridSquare(gridSquare);
+                var polygonOverlay = this.DrawGridSquare(afs2GridSqure);
+                this.SelectedAFS2GridSquares[afs2GridSqure.Name] = new Tuple<AFS2GridSquare, GMapOverlay>(afs2GridSqure, polygonOverlay);
+
+            }
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
@@ -477,21 +522,25 @@ namespace AeroScenery
 
         private void actionSetComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (this.actionSetComboBox.SelectedIndex)
+            if (this.uiSetFromSettings)
             {
-                // Default
-                case 0:
-                    AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Default;
-                    this.SetDefaultActions();
-                    break;
-                // Custom
-                case 1:
-                    AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Custom;
-                    this.SetCustomActions();
-                    break;
+                switch (this.actionSetComboBox.SelectedIndex)
+                {
+                    // Default
+                    case 0:
+                        AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Default;
+                        this.SetDefaultActions();
+                        break;
+                    // Custom
+                    case 1:
+                        AeroSceneryManager.Instance.Settings.ActionSet = Common.ActionSet.Custom;
+                        this.SetCustomActions();
+                        break;
+                }
+
+                AeroSceneryManager.Instance.SaveSettings();
             }
 
-            AeroSceneryManager.Instance.SaveSettings();
         }
 
         private void zoomLevelTrackBar_Scroll(object sender, EventArgs e)

@@ -1,6 +1,7 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
 using AeroScenery.Data;
+using AeroScenery.Data.Mappers;
 using AeroScenery.Download;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
@@ -47,6 +48,8 @@ namespace AeroScenery
 
         private IDataRepository dataRepository;
 
+        private GridSquareMapper gridSquareMapper;
+
         public AeroSceneryManager()
         {
             bingOrthophotoSource = new BingOrthophotoSource();
@@ -60,6 +63,7 @@ namespace AeroScenery
             imageTileService = new ImageTileService();
             tileStitcher = new TileStitcher();
             registryService = new RegistryService();
+            gridSquareMapper = new GridSquareMapper();
 
             dataRepository = new SqlLiteDataRepository();
         }
@@ -141,7 +145,7 @@ namespace AeroScenery
                     Directory.CreateDirectory(this.settings.WorkingDirectory + afs2GridSquare.Name);
                 }
 
-                var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory);
+                var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + "//";
 
                 // Do we have a directory for the afs grid square and this orthophoto source
                 if (!Directory.Exists(tileDownloadDirectory))
@@ -181,6 +185,14 @@ namespace AeroScenery
 
                     // Save aero files for these tiles so we can do things with them in a later pass
                     await this.imageTileService.SaveImageTilesAsync(imageTiles, tileDownloadDirectory);
+
+                    var existingGridSquare = this.dataRepository.FindGridSquare(afs2GridSquare.Name);
+
+                    if (existingGridSquare == null)
+                    {
+                        this.dataRepository.CreateGridSquare(this.gridSquareMapper.ToModel(afs2GridSquare));
+                    }
+
                 }
 
                 // Stitch Image Tiles
@@ -331,7 +343,7 @@ namespace AeroScenery
 
         public void SaveSettings()
         {
-
+            this.registryService.SaveSettings(this.settings);
         }
 
     }
