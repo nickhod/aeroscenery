@@ -72,6 +72,17 @@ namespace AeroScenery.Data
             }
         }
 
+        public void DeleteGridSquare(string gridSquareName)
+        {
+            using (var con = DbConnection())
+            {
+                var query = @"DELETE FROM GridSquares WHERE Name=@gridSquareName;";
+
+                con.Open();
+                con.Query(query, new { gridSquareName });
+            }
+        }
+
         public GridSquare FindGridSquare(string name)
         {
             using (var con = DbConnection())

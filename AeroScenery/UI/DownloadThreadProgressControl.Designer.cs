@@ -64,6 +64,7 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "- kb/s";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.label2.Visible = false;
             // 
             // imageTileCountLabel
             // 

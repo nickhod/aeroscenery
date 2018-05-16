@@ -125,6 +125,8 @@
     <Compile Include="UI\GetAeroflySDKForm.Designer.cs">
       <DependentUpon>GetAeroflySDKForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\GridSquareDisplayType.cs" />
+    <Compile Include="UI\GridSquareViewModel.cs" />
     <Compile Include="UI\HelpForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,9 +182,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\DownloadDisabled.png" />
+    <Content Include="Resources\arrow_down_active.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_down.png" />

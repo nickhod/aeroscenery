@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AeroScenery.Download
@@ -17,8 +18,16 @@ namespace AeroScenery.Download
     {
         private int downloadThreads = 4;
 
+        private CancellationTokenSource cancellationTokenSource;
+
         public DownloadManager()
         {
+            cancellationTokenSource = new CancellationTokenSource();
+        }
+
+        public void StopDownloads()
+        {
+            cancellationTokenSource.Cancel();
         }
 
         public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
@@ -67,6 +76,11 @@ namespace AeroScenery.Download
                             // Work through this threads share of downloads
                             for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
                             {
+                                if (this.cancellationTokenSource.Token.IsCancellationRequested)
+                                {
+                                    break;
+                                }
+
                                 int waitTime = random.Next(minWait, maxWait);
                                 var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
                                 await Task.Delay(waitTimeSpan);
@@ -83,6 +97,12 @@ namespace AeroScenery.Download
                             {
                                 for (int k = 0; k < downloadsPerThreadMod; k++)
                                 {
+                                    if (this.cancellationTokenSource.Token.IsCancellationRequested)
+                                    {
+                                        break;
+                                    }
+
+
                                     int waitTime = random.Next(minWait, maxWait);
                                     var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
                                     await Task.Delay(waitTimeSpan);
@@ -99,7 +119,7 @@ namespace AeroScenery.Download
 
 
                         }
-                    }));
+                    }, this.cancellationTokenSource.Token));
                 }
 
                 await Task.WhenAll(tasks);

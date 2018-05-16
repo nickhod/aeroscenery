@@ -42,5 +42,11 @@ namespace AeroScenery.UI
         {
             this.imageTileCountLabel.Text = String.Format("{0} of {1} Image Tiles Downloaded", imageTilesDone, totalImageTiles);
         }
+
+        public void Reset()
+        {
+            this.SetProgressPercentage(0);
+            this.imageTileCountLabel.Text = "- of - Image Tiles Downloaded";
+        }
     }
 }

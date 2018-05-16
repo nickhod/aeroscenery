@@ -43,6 +43,12 @@ namespace AeroScenery.Data
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="gridSquare"></param>
+        void DeleteGridSquare(string gridSquareName);
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         GridSquare FindGridSquare(string key);

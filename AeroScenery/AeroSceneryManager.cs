@@ -105,11 +105,23 @@ namespace AeroScenery
             this.dataRepository.UpgradeDatabase();
 
             this.mainForm = new MainForm();
-            this.mainForm.StartClicked += async (sender, eventArgs) =>
+            this.mainForm.StartStopClicked += async (sender, eventArgs) =>
             {
-                await StartSceneryGenerationProcessAsync(sender, eventArgs);
+                if (this.mainForm.ActionsRunning)
+                {
+                    await StartSceneryGenerationProcessAsync(sender, eventArgs);
+                }
+                else
+                {
+                    StopSceneryGenerationProcess(sender, eventArgs);
+                }
             };
 
+            this.mainForm.ResetGridSquare += (sender, name) =>
+            {
+                this.ResetGridSquare(name);
+            };
+            
             this.mainForm.Initialize();
             Application.Run(this.mainForm);
         }
@@ -131,10 +143,16 @@ namespace AeroScenery
             return tileDownloadDirectory;
         }
 
+        public void StopSceneryGenerationProcess(object sender, EventArgs e)
+        {
+            downloadManager.StopDownloads();
+        }
+
+
         public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
             int i = 0;
-            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.Item1))
+            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
             {
                 this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i+1, this.mainForm.SelectedAFS2GridSquares.Count()));
 
@@ -157,7 +175,7 @@ namespace AeroScenery
 
 
                 // Download Imamge Tiles
-                if (this.Settings.DownloadImageTiles)
+                if (this.Settings.DownloadImageTiles && this.mainForm.ActionsRunning)
                 {
                     this.mainForm.UpdateChildTaskLabel("Downloading Image Tiles");
 
@@ -182,21 +200,26 @@ namespace AeroScenery
                     // Send the image tiles to the download manager
                     await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress, tileDownloadDirectory);
 
-
-                    // Save aero files for these tiles so we can do things with them in a later pass
-                    await this.imageTileService.SaveImageTilesAsync(imageTiles, tileDownloadDirectory);
-
-                    var existingGridSquare = this.dataRepository.FindGridSquare(afs2GridSquare.Name);
-
-                    if (existingGridSquare == null)
+                    // Only finalise if we weren't cancelled
+                    if (this.mainForm.ActionsRunning)
                     {
-                        this.dataRepository.CreateGridSquare(this.gridSquareMapper.ToModel(afs2GridSquare));
+                        // Save aero files for these tiles so we can do things with them in a later pass
+                        await this.imageTileService.SaveImageTilesAsync(imageTiles, tileDownloadDirectory);
+
+                        var existingGridSquare = this.dataRepository.FindGridSquare(afs2GridSquare.Name);
+
+                        if (existingGridSquare == null)
+                        {
+                            this.dataRepository.CreateGridSquare(this.gridSquareMapper.ToModel(afs2GridSquare));
+                            this.mainForm.AddDownloadedGridSquare(afs2GridSquare);
+                        }
                     }
+
 
                 }
 
                 // Stitch Image Tiles
-                if (this.Settings.StitchImageTiles)
+                if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
                 {
                     this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
 
@@ -210,7 +233,7 @@ namespace AeroScenery
                 }
 
                 // Generate AID and TMC Files
-                if (this.Settings.GenerateAIDAndTMCFiles)
+                if (this.Settings.GenerateAIDAndTMCFiles && this.mainForm.ActionsRunning)
                 {
                     this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
 
@@ -256,7 +279,7 @@ namespace AeroScenery
         {
             int i = 0;
             // Run the Geoconvert process for each selected gride square
-            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.Item1))
+            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
             {
                 this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
 
@@ -325,15 +348,29 @@ namespace AeroScenery
             }
         }
 
+        private void ResetGridSquare(string gridSquareName)
+        {
+            var existingGridSquare = this.dataRepository.FindGridSquare(gridSquareName);
+
+            if (existingGridSquare != null)
+            {
+                this.dataRepository.DeleteGridSquare(gridSquareName);
+            }
+        }
+
 
         private void DownloadThreadProgress_ProgressChanged(object sender, DownloadThreadProgress progress)
         {
-            var progressControl = this.mainForm.GetDownloadThreadProgressControl(progress.DownloadThreadNumber);
-            var percentageProgress = (int)Math.Floor(((double)progress.FilesDownloaded / (double)progress.TotalFiles) * 100);
+            if (this.mainForm.ActionsRunning)
+            {
+                var progressControl = this.mainForm.GetDownloadThreadProgressControl(progress.DownloadThreadNumber);
+                var percentageProgress = (int)Math.Floor(((double)progress.FilesDownloaded / (double)progress.TotalFiles) * 100);
 
-            progressControl.SetProgressPercentage(percentageProgress);
+                progressControl.SetProgressPercentage(percentageProgress);
 
-            progressControl.SetImageTileCount(progress.FilesDownloaded, progress.TotalFiles);
+                progressControl.SetImageTileCount(progress.FilesDownloaded, progress.TotalFiles);
+            }
+
         }
 
         public bool AllImageTilesDownloaded(List<ImageTile> imageTiles)

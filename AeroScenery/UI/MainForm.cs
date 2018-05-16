@@ -23,8 +23,11 @@ namespace AeroScenery
 {
     public partial class MainForm : Form
     {
-        public event EventHandler StartClicked;
-        public Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>> SelectedAFS2GridSquares;
+        public event EventHandler StartStopClicked;
+        public event EventHandler<string> ResetGridSquare;
+
+        public Dictionary<string, GridSquareViewModel> SelectedAFS2GridSquares;
+        public Dictionary<string, GridSquareViewModel> DownloadedAFS2GridSquares;
 
         public AFS2GridSquare SelectedAFS2GridSquare;
 
@@ -38,6 +41,10 @@ namespace AeroScenery
         private IDataRepository dataRepository;
         private GridSquareMapper gridSquareMapper;
 
+        private GMapOverlay activeGridSquareOverlay;
+
+        private bool actionsRunning;
+
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
         private bool uiSetFromSettings;
@@ -48,6 +55,8 @@ namespace AeroScenery
 
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
+
+            this.actionsRunning = false;
 
             mainMap.MapProvider = GMapProviders.GoogleHybridMap;
             //mainMap.Position = new PointLatLng(54.6961334816182, 25.2985095977783);
@@ -60,7 +69,8 @@ namespace AeroScenery
             mainMap.MouseDown += new MouseEventHandler(MainMap_MouseDown);
             mainMap.MouseUp += new MouseEventHandler(MainMap_MouseUp);
 
-            SelectedAFS2GridSquares = new Dictionary<string, Tuple<AFS2GridSquare, GMapOverlay>>();
+            SelectedAFS2GridSquares = new Dictionary<string, GridSquareViewModel>();
+            DownloadedAFS2GridSquares = new Dictionary<string, GridSquareViewModel>();
 
             this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
             this.uiSetFromSettings = false;
@@ -209,9 +219,29 @@ namespace AeroScenery
 
         private void ButtonStart_Click(object sender, EventArgs e)
         {
-            this.mainTabControl.SelectedIndex = 1;
+            // Are we currently running actions
+            if (this.ActionsRunning)
+            {
+                this.mainTabControl.SelectedIndex = 0;
+                this.ActionsRunning = false;
+                this.ResetProgress();
+            }
+            else
+            {
+                this.mainTabControl.SelectedIndex = 1;
+                this.ActionsRunning = true;
+            }
 
-            StartClicked(this, e);
+
+            StartStopClicked(this, e);
+        }
+
+        private void ResetProgress()
+        {
+            this.downloadThreadProgress1.Reset();
+            this.downloadThreadProgress2.Reset();
+            this.downloadThreadProgress3.Reset();
+            this.downloadThreadProgress4.Reset();
         }
 
         public DownloadThreadProgressControl GetDownloadThreadProgressControl(int downloadThread)
@@ -234,67 +264,119 @@ namespace AeroScenery
 
             gridSquareLabel.Text = gridSquare.Name;
 
-            // Set the stroke with of any previously selected grid square to 1
-
+            // Set the map overlay of any previously selected grid square to visisble
             if (this.SelectedAFS2GridSquare != null)
             {
                 if (this.SelectedAFS2GridSquares.ContainsKey(this.SelectedAFS2GridSquare.Name))
                 {
                     var previouslySelectedGridSquare = this.SelectedAFS2GridSquares[this.SelectedAFS2GridSquare.Name];
-                    previouslySelectedGridSquare.Item2.Polygons.FirstOrDefault().Stroke = new Pen(Color.Blue, 1);
+                    previouslySelectedGridSquare.GMapOverlay.IsVisibile = true;
                 }
 
             }
 
+            // Clear the previous active overlay
+            if (this.activeGridSquareOverlay != null)
+            {
+                this.activeGridSquareOverlay.Clear();
+                this.activeGridSquareOverlay.Dispose();
+                this.activeGridSquareOverlay = null;
+            }
+
+
+            // Is this a grid square that is already selected
             if (!this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
             {
-                GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-                polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
-                polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
-
-                GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
-                polygonOverlay.Polygons.Add(polygon);
-                mainMap.Overlays.Add(polygonOverlay);
-
-                mainMap.Refresh();
-                polygonOverlay.IsVisibile = false;
-                polygonOverlay.IsVisibile = true;
+                // Add the selected map overlay but make it invislbe for now
+                var selectedGridSquare = DrawGridSquare(gridSquare, GridSquareDisplayType.Selected);
+                selectedGridSquare.IsVisibile = false;
 
                 // Add the AFS2 Grid Squrea and the GMapOverlay to the selected grid squares dictionary
-                var squareAndOverlay = new Tuple<AFS2GridSquare, GMapOverlay>(gridSquare, polygonOverlay);
+                var gridSquareViewModel = new GridSquareViewModel();
+                gridSquareViewModel.GMapOverlay = selectedGridSquare;
+                gridSquareViewModel.AFS2GridSquare = gridSquare;
 
-                this.SelectedAFS2GridSquares.Add(gridSquare.Name, squareAndOverlay);
+                this.SelectedAFS2GridSquares.Add(gridSquare.Name, gridSquareViewModel);
+
+
+                // Create the active grid square map overlay, let it be visible
+                this.activeGridSquareOverlay = DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
             }
             else
             {
-                // We have to draw it again so that it's on top
-                var existingSquareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
-                existingSquareAndOverlay.Item2.Clear();
-                existingSquareAndOverlay.Item2.Dispose();
-
-                GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-                polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
-                polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
-
-                GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
-                polygonOverlay.Polygons.Add(polygon);
-                mainMap.Overlays.Add(polygonOverlay);
-
-                mainMap.Refresh();
-                polygonOverlay.IsVisibile = false;
-                polygonOverlay.IsVisibile = true;
-
-                this.SelectedAFS2GridSquares[gridSquare.Name] = new Tuple<AFS2GridSquare, GMapOverlay>(gridSquare, polygonOverlay);
+                // Create the active grid square map overlay, let it be visible
+                this.activeGridSquareOverlay = DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
             }
 
             this.SelectedAFS2GridSquare = gridSquare;
+            this.UpdateStatusSrip();
+            this.UpdateToolStrip();
         }
 
-        private GMapOverlay DrawGridSquare(AFS2GridSquare gridSquare)
+        private void UpdateStatusSrip()
+        {
+            if (this.SelectedAFS2GridSquares.Count == 1)
+            {
+                this.statusStripLabel1.Text = String.Format("1 Grid Square Selected");
+            }
+            else
+            {
+                this.statusStripLabel1.Text = String.Format("{0} Grid Squares Selected", this.SelectedAFS2GridSquares.Count);
+            }
+
+            if (this.SelectedAFS2GridSquares.Count > 0)
+            {
+                this.startStopButton.Enabled = true;
+            }
+            else
+            {
+                this.startStopButton.Enabled = false;
+            }
+
+        }
+
+        private void UpdateToolStrip()
+        {
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                if (!this.DownloadedAFS2GridSquares.ContainsKey(this.SelectedAFS2GridSquare.Name))
+                {
+                    this.toolStripDownloadedLabel.Text = "Not Downloaded";
+                    toolStripDownloadedLabel.Image = imageList1.Images[0];
+                    resetSquareToolStripButton.Enabled = false;
+                }
+                else
+                {
+                    this.toolStripDownloadedLabel.Text = "Downloaded";
+                    toolStripDownloadedLabel.Image = imageList1.Images[1];
+                    resetSquareToolStripButton.Enabled = true;
+                }
+            }
+
+        }
+
+        private GMapOverlay DrawGridSquare(AFS2GridSquare gridSquare, GridSquareDisplayType gridSquareDisplayType)
         {
             GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-            polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
-            polygon.Stroke = new Pen(Color.Blue, 1);
+
+            switch (gridSquareDisplayType)
+            {
+                case GridSquareDisplayType.Selected:
+                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
+                    polygon.Stroke = new Pen(Color.Blue, 1);
+                    break;
+                case GridSquareDisplayType.Active:
+                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
+                    polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
+                    break;
+                case GridSquareDisplayType.Downloaded:
+                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Orange));
+                    polygon.Stroke = new Pen(Color.Orange, 1);
+                    break;
+                default:
+                    break;
+            }
+
 
             GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
             polygonOverlay.Polygons.Add(polygon);
@@ -320,7 +402,7 @@ namespace AeroScenery
             {
                 var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
 
-                mainMap.Overlays.Remove(squareAndOverlay.Item2);
+                mainMap.Overlays.Remove(squareAndOverlay.GMapOverlay);
                 this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
                 this.SelectedAFS2GridSquare = null;
             }
@@ -328,6 +410,11 @@ namespace AeroScenery
             this.SelectedAFS2GridSquare = null;
             gridSquareLabel.Text = "";
 
+            this.activeGridSquareOverlay.Clear();
+            this.activeGridSquareOverlay.Dispose();
+            this.activeGridSquareOverlay = null;
+
+            this.UpdateStatusSrip();
         }
 
         public void LoadDownloadedGridSquares()
@@ -337,10 +424,27 @@ namespace AeroScenery
             foreach (GridSquare gridSquare in gridSquares)
             {
                 var afs2GridSqure = this.gridSquareMapper.ToAFS2GridSquare(gridSquare);
-                var polygonOverlay = this.DrawGridSquare(afs2GridSqure);
-                this.SelectedAFS2GridSquares[afs2GridSqure.Name] = new Tuple<AFS2GridSquare, GMapOverlay>(afs2GridSqure, polygonOverlay);
+                var polygonOverlay = this.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
+
+                var gridSquareViewModel = new GridSquareViewModel();
+                gridSquareViewModel.GMapOverlay = polygonOverlay;
+                gridSquareViewModel.AFS2GridSquare = afs2GridSqure;
+
+                this.DownloadedAFS2GridSquares[afs2GridSqure.Name] = gridSquareViewModel;
 
             }
+        }
+
+        public void AddDownloadedGridSquare(AFS2GridSquare afs2GridSqure)
+        {
+            var polygonOverlay = this.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
+
+            var gridSquareViewModel = new GridSquareViewModel();
+            gridSquareViewModel.GMapOverlay = polygonOverlay;
+            gridSquareViewModel.AFS2GridSquare = afs2GridSqure;
+
+            this.DownloadedAFS2GridSquares[afs2GridSqure.Name] = gridSquareViewModel;
+
         }
 
         private void settingsButton_Click(object sender, EventArgs e)
@@ -365,8 +469,6 @@ namespace AeroScenery
 
         private void mainMap_MouseUp_1(object sender, MouseEventArgs e)
         {
-            Debug.WriteLine("mouse up ");
-
             if (this.mapMouseDownLocation != null)
             {
                 if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -395,8 +497,6 @@ namespace AeroScenery
             var evt = (MouseEventArgs)e;
             this.mapMouseDownLocation = null;
 
-
-            Debug.WriteLine("double click");
             double lat = mainMap.FromLocalToLatLng(evt.X, evt.Y).Lat;
             double lon = mainMap.FromLocalToLatLng(evt.X, evt.Y).Lng;
 
@@ -449,7 +549,7 @@ namespace AeroScenery
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare));
+                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name));
                 }
             }
         }
@@ -686,6 +786,63 @@ namespace AeroScenery
         public void UpdateProgress(int progress)
         {
             this.overallProgressProgressBar.Value = progress;
+        }
+
+        public bool ActionsRunning
+        {
+            get
+            {
+                return this.actionsRunning;
+            }
+            set
+            {
+                this.actionsRunning = value;
+
+                if (this.actionsRunning)
+                {
+                    this.startStopButton.Text = "Stop";
+                }
+                else
+                {
+                    this.startStopButton.Text = "Start";
+                }
+            }
+        }
+
+        private void resetSquareToolStripButton_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to reset the downloaded status of this grid square? (No files will be deleted).",
+                "AeroScenery",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                if (this.SelectedAFS2GridSquare != null)
+                {
+                    if (this.DownloadedAFS2GridSquares.ContainsKey(this.SelectedAFS2GridSquare.Name))
+                    {
+                        ResetGridSquare(this, this.SelectedAFS2GridSquare.Name);
+
+                        var downloadedGridSquare = this.DownloadedAFS2GridSquares[this.SelectedAFS2GridSquare.Name];
+                        downloadedGridSquare.GMapOverlay.Clear();
+                        downloadedGridSquare.GMapOverlay.Dispose();
+
+                        this.DownloadedAFS2GridSquares.Remove(this.SelectedAFS2GridSquare.Name);
+
+                        this.SelectedAFS2GridSquares.Remove(this.SelectedAFS2GridSquare.Name);
+                        this.SelectedAFS2GridSquare = null;
+                        gridSquareLabel.Text = "";
+
+                        this.activeGridSquareOverlay.Clear();
+                        this.activeGridSquareOverlay.Dispose();
+                        this.activeGridSquareOverlay = null;
+
+                        this.UpdateStatusSrip();
+
+                    }
+                }
+            }
         }
     }
 }

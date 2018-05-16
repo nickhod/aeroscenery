@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.mainMap = new GMap.NET.WindowsForms.GMapControl();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.statusStripLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.settingsButton = new System.Windows.Forms.ToolStripButton();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -41,9 +43,9 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.gridSquareLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.resetSquareToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -84,8 +86,10 @@
             this.imageSourceComboBox = new System.Windows.Forms.ComboBox();
             this.terrainTabPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
-            this.ButtonStart = new System.Windows.Forms.Button();
+            this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
             this.mapTabPage.SuspendLayout();
@@ -132,13 +136,20 @@
             this.mainMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseDown_1);
             this.mainMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseUp_1);
             // 
-            // statusStrip1
+            // statusStrip
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 821);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1461, 22);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusStripLabel1});
+            this.statusStrip.Location = new System.Drawing.Point(0, 821);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(1461, 22);
+            this.statusStrip.TabIndex = 2;
+            this.statusStrip.Text = "statusStrip";
+            // 
+            // statusStripLabel1
+            // 
+            this.statusStripLabel1.Name = "statusStripLabel1";
+            this.statusStripLabel1.Size = new System.Drawing.Size(0, 17);
             // 
             // toolStrip1
             // 
@@ -225,9 +236,9 @@
             this.toolStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripLabel1,
             this.gridSquareLabel,
-            this.toolStripLabel2,
+            this.toolStripDownloadedLabel,
             this.toolStripSeparator3,
-            this.toolStripButton6,
+            this.resetSquareToolStripButton,
             this.toolStripSeparator1,
             this.openImageFolderToolstripButton,
             this.deleteImagesToolStripButton,
@@ -255,25 +266,28 @@
             this.gridSquareLabel.Size = new System.Drawing.Size(125, 22);
             this.gridSquareLabel.Text = "map_09_xxxx_xxxx";
             // 
-            // toolStripLabel2
+            // toolStripDownloadedLabel
             // 
-            this.toolStripLabel2.Image = global::AeroScenery.Properties.Resources.arrow_down;
-            this.toolStripLabel2.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(124, 22);
-            this.toolStripLabel2.Text = "Not Downloaded";
+            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
+            this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
+            this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
+            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
+            this.toolStripDownloadedLabel.Text = "Not Downloaded";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripButton6
+            // resetSquareToolStripButton
             // 
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(140, 22);
-            this.toolStripButton6.Text = "Clear Selected Square";
+            this.resetSquareToolStripButton.Enabled = false;
+            this.resetSquareToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.resetSquareToolStripButton.Name = "resetSquareToolStripButton";
+            this.resetSquareToolStripButton.Size = new System.Drawing.Size(89, 22);
+            this.resetSquareToolStripButton.Text = "Reset Square";
+            this.resetSquareToolStripButton.ToolTipText = "Reset Square";
+            this.resetSquareToolStripButton.Click += new System.EventHandler(this.resetSquareToolStripButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -340,7 +354,7 @@
             this.progressTabPage.Location = new System.Drawing.Point(4, 26);
             this.progressTabPage.Name = "progressTabPage";
             this.progressTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.progressTabPage.Size = new System.Drawing.Size(1040, 679);
+            this.progressTabPage.Size = new System.Drawing.Size(1040, 730);
             this.progressTabPage.TabIndex = 1;
             this.progressTabPage.Text = "Progress";
             // 
@@ -461,7 +475,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 26);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1040, 679);
+            this.tabPage5.Size = new System.Drawing.Size(1040, 730);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Log";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -474,7 +488,7 @@
             this.logTextBox.Location = new System.Drawing.Point(3, 3);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
-            this.logTextBox.Size = new System.Drawing.Size(1034, 673);
+            this.logTextBox.Size = new System.Drawing.Size(1034, 724);
             this.logTextBox.TabIndex = 0;
             // 
             // tabControl2
@@ -711,7 +725,7 @@
             this.terrainTabPage.Location = new System.Drawing.Point(4, 26);
             this.terrainTabPage.Name = "terrainTabPage";
             this.terrainTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.terrainTabPage.Size = new System.Drawing.Size(371, 598);
+            this.terrainTabPage.Size = new System.Drawing.Size(371, 625);
             this.terrainTabPage.TabIndex = 1;
             this.terrainTabPage.Text = "Terrain";
             this.terrainTabPage.UseVisualStyleBackColor = true;
@@ -725,17 +739,18 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Coming Soon";
             // 
-            // ButtonStart
+            // startStopButton
             // 
-            this.ButtonStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ButtonStart.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonStart.Location = new System.Drawing.Point(12, 742);
-            this.ButtonStart.Name = "ButtonStart";
-            this.ButtonStart.Size = new System.Drawing.Size(379, 63);
-            this.ButtonStart.TabIndex = 3;
-            this.ButtonStart.Text = "Start";
-            this.ButtonStart.UseVisualStyleBackColor = true;
-            this.ButtonStart.Click += new System.EventHandler(this.ButtonStart_Click);
+            this.startStopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.startStopButton.Enabled = false;
+            this.startStopButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.startStopButton.Location = new System.Drawing.Point(12, 742);
+            this.startStopButton.Name = "startStopButton";
+            this.startStopButton.Size = new System.Drawing.Size(379, 63);
+            this.startStopButton.TabIndex = 3;
+            this.startStopButton.Text = "Start";
+            this.startStopButton.UseVisualStyleBackColor = true;
+            this.startStopButton.Click += new System.EventHandler(this.ButtonStart_Click);
             // 
             // shutdownCheckbox
             // 
@@ -749,6 +764,13 @@
             this.shutdownCheckbox.Text = "Shut Down Computer When Done";
             this.shutdownCheckbox.UseVisualStyleBackColor = true;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "arrow_down.png");
+            this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -756,14 +778,16 @@
             this.ClientSize = new System.Drawing.Size(1461, 843);
             this.Controls.Add(this.shutdownCheckbox);
             this.Controls.Add(this.tabControl2);
-            this.Controls.Add(this.ButtonStart);
+            this.Controls.Add(this.startStopButton);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "AeroScenery";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.mainTabControl.ResumeLayout(false);
@@ -793,7 +817,7 @@
         #endregion
 
         private GMap.NET.WindowsForms.GMapControl mainMap;
-        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton settingsButton;
         private System.Windows.Forms.TabControl mainTabControl;
@@ -802,7 +826,7 @@
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage imagesTabPage;
         private System.Windows.Forms.TabPage terrainTabPage;
-        private System.Windows.Forms.Button ButtonStart;
+        private System.Windows.Forms.Button startStopButton;
         private System.Windows.Forms.CheckBox downloadImageTileCheckBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
@@ -835,12 +859,12 @@
         private System.Windows.Forms.ToolStripButton deleteImagesToolStripButton;
         private System.Windows.Forms.ToolStripButton openImageFolderToolstripButton;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton resetSquareToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel gridSquareLabel;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripLabel toolStripDownloadedLabel;
         private System.Windows.Forms.ToolStripMenuItem openInGoogleMapsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openInBingMApsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
@@ -849,6 +873,8 @@
         private System.Windows.Forms.Label zoomLevelLabel;
         private System.Windows.Forms.Label generateAFS2LevelsHelpImage;
         private System.Windows.Forms.CheckBox shutdownCheckbox;
+        private System.Windows.Forms.ToolStripStatusLabel statusStripLabel1;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
