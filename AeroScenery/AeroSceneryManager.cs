@@ -50,6 +50,9 @@ namespace AeroScenery
 
         private GridSquareMapper gridSquareMapper;
 
+
+        private List<ImageTile> imageTiles;
+
         public AeroSceneryManager()
         {
             bingOrthophotoSource = new BingOrthophotoSource();
@@ -66,6 +69,8 @@ namespace AeroScenery
             gridSquareMapper = new GridSquareMapper();
 
             dataRepository = new SqlLiteDataRepository();
+
+            imageTiles = null;
         }
 
         public Settings Settings
@@ -146,144 +151,193 @@ namespace AeroScenery
         public void StopSceneryGenerationProcess(object sender, EventArgs e)
         {
             downloadManager.StopDownloads();
+
+            if (this.imageTiles != null)
+            {
+                this.imageTiles.Clear();
+                this.imageTiles = null;
+                System.GC.Collect();
+            }
+
+        }
+
+        private void ActionsComplete()
+        {
+            this.mainForm.ActionsComplete();
+
+            if (this.imageTiles != null)
+            {
+                this.imageTiles.Clear();
+                this.imageTiles = null;
+                System.GC.Collect();
+            }
+
         }
 
 
         public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
-            int i = 0;
-            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+            try
             {
-                this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i+1, this.mainForm.SelectedAFS2GridSquares.Count()));
-
-                // Do we have a directory for this afs grid square in our working directory?
-                var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
-
-                if (!Directory.Exists(this.settings.WorkingDirectory + afs2GridSquare.Name)) {
-                    Directory.CreateDirectory(this.settings.WorkingDirectory + afs2GridSquare.Name);
-                }
-
-                var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + "//";
-
-                // Do we have a directory for the afs grid square and this orthophoto source
-                if (!Directory.Exists(tileDownloadDirectory))
+                int i = 0;
+                foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
                 {
-                    Directory.CreateDirectory(tileDownloadDirectory);
-                }
+                    this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
 
-                List<ImageTile> imageTiles = null;
+                    // Do we have a directory for this afs grid square in our working directory?
+                    var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
 
-
-                // Download Imamge Tiles
-                if (this.Settings.DownloadImageTiles && this.mainForm.ActionsRunning)
-                {
-                    this.mainForm.UpdateChildTaskLabel("Downloading Image Tiles");
-
-                    // Get a list of all the image tiles we need to download
-                    switch (settings.OrthophotoSource)
+                    if (!Directory.Exists(this.settings.WorkingDirectory + afs2GridSquare.Name))
                     {
-                        case OrthophotoSource.Bing:
-                            imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
-                            break;
-                        case OrthophotoSource.Google:
-                            imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
-                            break;
-                        case OrthophotoSource.USGS:
-                            imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
-                            break;
+                        Directory.CreateDirectory(this.settings.WorkingDirectory + afs2GridSquare.Name);
                     }
 
-                    // Capture the progress of each thread
-                    var downloadThreadProgress = new Progress<DownloadThreadProgress>();
-                    downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
+                    var tileDownloadDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + "//";
+                    var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + "-stitched//";
+                    var geoconvertDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + "-geoconvert//";
 
-                    // Send the image tiles to the download manager
-                    await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress, tileDownloadDirectory);
-
-                    // Only finalise if we weren't cancelled
-                    if (this.mainForm.ActionsRunning)
+                    // Do we have a directory for the afs grid square and this orthophoto source
+                    if (!Directory.Exists(tileDownloadDirectory))
                     {
-                        // Save aero files for these tiles so we can do things with them in a later pass
-                        await this.imageTileService.SaveImageTilesAsync(imageTiles, tileDownloadDirectory);
+                        Directory.CreateDirectory(tileDownloadDirectory);
+                    }
 
-                        var existingGridSquare = this.dataRepository.FindGridSquare(afs2GridSquare.Name);
+                    if (!Directory.Exists(stitchedTilesDirectory))
+                    {
+                        Directory.CreateDirectory(stitchedTilesDirectory);
+                    }
 
-                        if (existingGridSquare == null)
+                    if (!Directory.Exists(geoconvertDirectory))
+                    {
+                        Directory.CreateDirectory(geoconvertDirectory);
+                    }
+
+
+                    // Download Imamge Tiles
+                    if (this.Settings.DownloadImageTiles && this.mainForm.ActionsRunning)
+                    {
+                        this.mainForm.UpdateChildTaskLabel("Calculating Image Tiles To Download");
+
+
+                        var imageTilesTask = Task.Run(() => {
+
+                            // Get a list of all the image tiles we need to download
+                            switch (settings.OrthophotoSource)
+                            {
+                                case OrthophotoSource.Bing:
+                                    imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    break;
+                                case OrthophotoSource.Google:
+                                    imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    break;
+                                case OrthophotoSource.USGS:
+                                    imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    break;
+                            }
+                        });
+
+                        await imageTilesTask;
+
+                        this.mainForm.UpdateChildTaskLabel("Downloading Image Tiles");
+
+                        // Capture the progress of each thread
+                        var downloadThreadProgress = new Progress<DownloadThreadProgress>();
+                        downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
+
+                        // Send the image tiles to the download manager
+                        await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress, tileDownloadDirectory);
+
+                        // Only finalise if we weren't cancelled
+                        if (this.mainForm.ActionsRunning)
                         {
-                            this.dataRepository.CreateGridSquare(this.gridSquareMapper.ToModel(afs2GridSquare));
-                            this.mainForm.AddDownloadedGridSquare(afs2GridSquare);
+                            var existingGridSquare = this.dataRepository.FindGridSquare(afs2GridSquare.Name);
+
+                            if (existingGridSquare == null)
+                            {
+                                this.dataRepository.CreateGridSquare(this.gridSquareMapper.ToModel(afs2GridSquare));
+                                this.mainForm.AddDownloadedGridSquare(afs2GridSquare);
+                            }
                         }
+
+
                     }
 
-
-                }
-
-                // Stitch Image Tiles
-                if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
-                {
-                    this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
-
-                    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                    if (imageTiles == null)
+                    // Stitch Image Tiles
+                    if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
                     {
-                        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                        // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
+                        //if (imageTiles == null)
+                        //{
+                        //    this.mainForm.UpdateChildTaskLabel("Loading Image Tile Data");
+
+                        //    imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                        //}
+
+                        this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
+
+                        await this.tileStitcher.StitchImageTilesAsync(tileDownloadDirectory, stitchedTilesDirectory, true);
                     }
 
-                    await this.tileStitcher.StitchImageTilesAsync(imageTiles, tileDownloadDirectory, true);
-                }
-
-                // Generate AID and TMC Files
-                if (this.Settings.GenerateAIDAndTMCFiles && this.mainForm.ActionsRunning)
-                {
-                    this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
-
-                    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                    if (imageTiles == null)
+                    // Generate AID and TMC Files
+                    if (this.Settings.GenerateAIDAndTMCFiles && this.mainForm.ActionsRunning)
                     {
-                        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                        this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
+
+                        // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
+                        if (imageTiles == null)
+                        {
+                            imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                        }
+
+                        // Generate AID files for the image tiles
+                        //await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
                     }
 
-                    // Generate AID files for the image tiles
-                    //await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
+                    //// Have all image tiles been downloaded by the download manager
+                    //if (AllImageTilesDownloaded(imageTiles))
+                    //{
+                    //    // Generate the TMC File
+                    //    tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
+
+                    //    // Run Geoconvert
+                    //    //geoConvertManager.RunGeoConvert();
+                    //}
+                    //else
+                    //{
+                    //    // The jpg to AID count doesn't match, something is wrong, show the dialog
+                    //    downloadFailedForm = new DownloadFailedForm();
+                    //    downloadFailedForm.ShowDialog();
+                    //}
+                    i++;
+
                 }
 
-                //// Have all image tiles been downloaded by the download manager
-                //if (AllImageTilesDownloaded(imageTiles))
-                //{
-                //    // Generate the TMC File
-                //    tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
+                // Move on to running Geoconvert for each tile
+                await this.StartGeoConvertProcessAsync();
 
-                //    // Run Geoconvert
-                //    //geoConvertManager.RunGeoConvert();
-                //}
-                //else
-                //{
-                //    // The jpg to AID count doesn't match, something is wrong, show the dialog
-                //    downloadFailedForm = new DownloadFailedForm();
-                //    downloadFailedForm.ShowDialog();
-                //}
-                i++;
+                this.ActionsComplete();
 
-                // We assume that the geoconvert process and the download process will take equal time. We don't know, but can't do much else.
-                // At this point we should therefore be at (100 / nubmer of grid quares) / 2
-                var progress = (int)Math.Floor((double)(100 / this.mainForm.SelectedAFS2GridSquares.Count()) / 2);
-
-                this.mainForm.UpdateProgress(progress);
+            }
+            finally
+            {
+                if (this.imageTiles != null)
+                {
+                    this.imageTiles.Clear();
+                    this.imageTiles = null;
+                    System.GC.Collect();
+                }
             }
 
-            // Move on to running Geoconvert for each tile
-            await this.StartGeoConvertProcessAsync();
+
         }
 
         public async Task StartGeoConvertProcessAsync()
         {
             int i = 0;
-            // Run the Geoconvert process for each selected gride square
+            // Run the Geoconvert process for each selected grid square
             foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
             {
                 this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
-
-                List<ImageTile> imageTiles = null;
 
                 // Do we have a directory for this afs grid square in our working directory?
                 var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
@@ -338,12 +392,6 @@ namespace AeroScenery
                     // Working directory does not exist
                 }
 
-                // We assume that the geoconvert process and the download process will take equal time. We don't know, but can't do much else.
-                // At this point we should therefore be at (100 / nubmer of grid quares) / 2
-                var progress = (int)Math.Floor((double)(100 / this.mainForm.SelectedAFS2GridSquares.Count()) / 2);
-
-                this.mainForm.UpdateProgress(progress);
-
                 i++;
             }
         }
@@ -369,6 +417,13 @@ namespace AeroScenery
                 progressControl.SetProgressPercentage(percentageProgress);
 
                 progressControl.SetImageTileCount(progress.FilesDownloaded, progress.TotalFiles);
+
+                var downloadActionProgressPercentage = this.mainForm.CurrentActionProgressPercentage;
+
+                if (percentageProgress > downloadActionProgressPercentage)
+                {
+                    this.mainForm.CurrentActionProgressPercentage = percentageProgress;
+                }
             }
 
         }

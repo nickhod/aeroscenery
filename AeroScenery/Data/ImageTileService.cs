@@ -1,6 +1,7 @@
 ﻿using AeroScenery.Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -36,7 +37,9 @@ namespace AeroScenery.Data
                 List<ImageTile> imageTiles = new List<ImageTile>();
                 XmlSerializer serializer = new XmlSerializer(typeof(ImageTile));
 
-                foreach (string filePath in Directory.EnumerateFiles(directory, "*.aero"))
+                var aeroFiles = Directory.EnumerateFiles(directory, "*.aero");
+
+                foreach (string filePath in aeroFiles)
                 {
                     using (StreamReader reader = new StreamReader(filePath))
                     {

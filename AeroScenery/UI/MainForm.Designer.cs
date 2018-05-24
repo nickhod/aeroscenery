@@ -62,7 +62,7 @@
             this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.label6 = new System.Windows.Forms.Label();
-            this.overallProgressProgressBar = new System.Windows.Forms.ProgressBar();
+            this.currentActionProgressBar = new System.Windows.Forms.ProgressBar();
             this.parentTaskLabel = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.logTextBox = new System.Windows.Forms.TextBox();
@@ -89,6 +89,9 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -158,7 +161,10 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsButton,
             this.helpToolStripButton,
-            this.getSDKToolStripButton});
+            this.getSDKToolStripButton,
+            this.toolStripSeparator4,
+            this.toolStripLabel2,
+            this.toolStripComboBox1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(12, 5, 0, 5);
@@ -349,7 +355,7 @@
             this.progressTabPage.Controls.Add(this.label7);
             this.progressTabPage.Controls.Add(this.groupBox1);
             this.progressTabPage.Controls.Add(this.label6);
-            this.progressTabPage.Controls.Add(this.overallProgressProgressBar);
+            this.progressTabPage.Controls.Add(this.currentActionProgressBar);
             this.progressTabPage.Controls.Add(this.parentTaskLabel);
             this.progressTabPage.Location = new System.Drawing.Point(4, 26);
             this.progressTabPage.Name = "progressTabPage";
@@ -446,18 +452,18 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(13, 94);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(158, 17);
+            this.label6.Size = new System.Drawing.Size(147, 17);
             this.label6.TabIndex = 3;
-            this.label6.Text = "Overall Progress Estimate";
+            this.label6.Text = "Current Action Progress";
             // 
-            // overallProgressProgressBar
+            // currentActionProgressBar
             // 
-            this.overallProgressProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.currentActionProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.overallProgressProgressBar.Location = new System.Drawing.Point(16, 120);
-            this.overallProgressProgressBar.Name = "overallProgressProgressBar";
-            this.overallProgressProgressBar.Size = new System.Drawing.Size(1004, 18);
-            this.overallProgressProgressBar.TabIndex = 2;
+            this.currentActionProgressBar.Location = new System.Drawing.Point(16, 120);
+            this.currentActionProgressBar.Name = "currentActionProgressBar";
+            this.currentActionProgressBar.Size = new System.Drawing.Size(1004, 18);
+            this.currentActionProgressBar.TabIndex = 2;
             // 
             // parentTaskLabel
             // 
@@ -547,7 +553,7 @@
             this.zoomLevelTrackBar.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.zoomLevelTrackBar.LargeChange = 1;
             this.zoomLevelTrackBar.Location = new System.Drawing.Point(16, 88);
-            this.zoomLevelTrackBar.Maximum = 23;
+            this.zoomLevelTrackBar.Maximum = 20;
             this.zoomLevelTrackBar.Minimum = 8;
             this.zoomLevelTrackBar.Name = "zoomLevelTrackBar";
             this.zoomLevelTrackBar.Size = new System.Drawing.Size(337, 45);
@@ -771,6 +777,26 @@
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
             // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "Level 9 - Large",
+            "Level 13 - Small",
+            "Level 14 - Smallest"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 32);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(85, 29);
+            this.toolStripLabel2.Text = "Grid Squre Size";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -831,7 +857,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolStripButton getSDKToolStripButton;
-        private System.Windows.Forms.ProgressBar overallProgressProgressBar;
+        private System.Windows.Forms.ProgressBar currentActionProgressBar;
         private System.Windows.Forms.Label parentTaskLabel;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
@@ -875,6 +901,9 @@
         private System.Windows.Forms.CheckBox shutdownCheckbox;
         private System.Windows.Forms.ToolStripStatusLabel statusStripLabel1;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel2;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
     }
 }
 

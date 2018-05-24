@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace AeroScenery.Download
 {
@@ -32,6 +33,10 @@ namespace AeroScenery.Download
 
         public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
         {
+
+            // Reset cancellation token status
+            cancellationTokenSource = new CancellationTokenSource();
+
             if (imageTiles.Count > 0)
             {
                 int downloadsPerThread = imageTiles.Count / this.downloadThreads;
@@ -46,6 +51,9 @@ namespace AeroScenery.Download
 
                     tasks.Add(Task.Run(async () =>
                     {
+                        var xmlSerializer = new XmlSerializer(typeof(ImageTile));
+
+
                         var maxWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs + AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs;
                         var minWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs - AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs;
                         Random random = new Random();
@@ -85,7 +93,18 @@ namespace AeroScenery.Download
                                 var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
                                 await Task.Delay(waitTimeSpan);
 
-                                this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory);
+                                // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                if (imageTiles != null && imageTiles.Count > 0)
+                                {
+                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory);
+                                }
+
+                                // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                if (imageTiles != null && imageTiles.Count > 0)
+                                {
+                                    this.SaveImageTileAeroFile(xmlSerializer, imageTiles[j], downloadDirectory);
+                                }
+
                                 downloadThreadProgress.FilesDownloaded++;
                                 threadProgress.Report(downloadThreadProgress);
 
@@ -108,7 +127,20 @@ namespace AeroScenery.Download
                                     await Task.Delay(waitTimeSpan);
 
                                     var index = k + (downloadsPerThread * this.downloadThreads);
-                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory);
+
+                                    // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                    if (imageTiles != null && imageTiles.Count > 0)
+                                    {
+                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory);
+                                    }
+
+                                    // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                    if (imageTiles != null && imageTiles.Count > 0)
+                                    {
+                                        this.SaveImageTileAeroFile(xmlSerializer, imageTiles[index], downloadDirectory);
+                                    }
+
+
                                     downloadThreadProgress.FilesDownloaded++;
                                     threadProgress.Report(downloadThreadProgress);
 
@@ -119,6 +151,9 @@ namespace AeroScenery.Download
 
 
                         }
+
+                        xmlSerializer = null;
+
                     }, this.cancellationTokenSource.Token));
                 }
 
@@ -142,18 +177,31 @@ namespace AeroScenery.Download
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
 
-            var responseResult = httpClient.GetAsync(imageTile.URL);
-
-            using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
+            try
             {
-                using (var fileStream = File.Create(fullFilePath))
+                var responseResult = httpClient.GetAsync(imageTile.URL);
+
+                using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
                 {
-                    memStream.CopyTo(fileStream);
+                    using (var fileStream = File.Create(fullFilePath))
+                    {
+                        memStream.CopyTo(fileStream);
+                    }
+
                 }
+            }
+            finally
+            {
 
             }
+        }
 
-
+        private void SaveImageTileAeroFile(XmlSerializer xmlSerializer, ImageTile imageTile, string path)
+        {
+            using (TextWriter tw = new StreamWriter(path + imageTile.FileName + ".aero"))
+            {
+                xmlSerializer.Serialize(tw, imageTile);
+            }
         }
 
     }

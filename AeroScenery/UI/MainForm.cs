@@ -242,6 +242,7 @@ namespace AeroScenery
             this.downloadThreadProgress2.Reset();
             this.downloadThreadProgress3.Reset();
             this.downloadThreadProgress4.Reset();
+            this.currentActionProgressBar.Value = 0;
         }
 
         public DownloadThreadProgressControl GetDownloadThreadProgressControl(int downloadThread)
@@ -783,11 +784,6 @@ namespace AeroScenery
             this.childTaskLabel.Text = childTask;
         }
 
-        public void UpdateProgress(int progress)
-        {
-            this.overallProgressProgressBar.Value = progress;
-        }
-
         public bool ActionsRunning
         {
             get
@@ -844,5 +840,25 @@ namespace AeroScenery
                 }
             }
         }
+
+        public int CurrentActionProgressPercentage
+        {
+            get
+            {
+                return this.currentActionProgressBar.Value;
+            }
+            set
+            {
+                this.currentActionProgressBar.Value = value;
+            }
+        }
+
+        public void ActionsComplete()
+        {
+            this.mainTabControl.SelectedIndex = 0;
+            this.ActionsRunning = false;
+            this.ResetProgress();
+        }
+
     }
 }
