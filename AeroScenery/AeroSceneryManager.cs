@@ -275,7 +275,11 @@ namespace AeroScenery
 
                         this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
 
-                        await this.tileStitcher.StitchImageTilesAsync(tileDownloadDirectory, stitchedTilesDirectory, true);
+                        // Capture the progress of the tile stitcher
+                        var tileStitcherProgress = new Progress<TileStitcherProgress>();
+                        tileStitcherProgress.ProgressChanged += TileStitcherProgress_ProgressChanged;
+
+                        await this.tileStitcher.StitchImageTilesAsync(tileDownloadDirectory, stitchedTilesDirectory, true, tileStitcherProgress);
                     }
 
                     // Generate AID and TMC Files
@@ -424,6 +428,35 @@ namespace AeroScenery
                 {
                     this.mainForm.CurrentActionProgressPercentage = percentageProgress;
                 }
+            }
+
+        }
+
+
+        private void TileStitcherProgress_ProgressChanged(object sender, TileStitcherProgress progress)
+        {
+            if (this.mainForm.ActionsRunning)
+            {
+
+                var currentStitchedImagePercentage = ((double)progress.CurrentStitchedImage / (double)progress.TotalStitchedImages);
+                var nextStitchedImagePercentage = ((double)(progress.CurrentStitchedImage + 1) / (double)progress.TotalStitchedImages);
+
+                var tilesPercentage = ((double)(progress.CurrentTilesRenderedForCurrentStitchedImage) / (double)progress.TotalImageTilesForCurrentStitchedImage);
+
+                var percentageIncreaseBetweenThisStitchedImageAndNext = nextStitchedImagePercentage - currentStitchedImagePercentage;
+
+                var finalPercentageDbl = (currentStitchedImagePercentage + (percentageIncreaseBetweenThisStitchedImageAndNext * tilesPercentage)) * 100;
+                //Debug.WriteLine(finalPercentageDbl);
+
+                var finalPercentage = (int)Math.Floor(finalPercentageDbl);
+
+                if (finalPercentage > 100)
+                {
+                    finalPercentage = 100;
+                }
+
+                this.mainForm.CurrentActionProgressPercentage = finalPercentage;
+
             }
 
         }

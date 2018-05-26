@@ -102,6 +102,7 @@
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
+    <Compile Include="ImageProcessing\TileStitcherProgress.cs" />
     <Compile Include="OrthophotoSources\BingHelper.cs" />
     <Compile Include="OrthophotoSources\GoogleHelper.cs" />
     <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />

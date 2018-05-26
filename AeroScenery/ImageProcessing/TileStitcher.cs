@@ -20,10 +20,12 @@ namespace AeroScenery.ImageProcessing
 
         private XmlSerializer xmlSerializer;
 
-        public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals)
+        public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals, IProgress<TileStitcherProgress> progress)
         {
             await Task.Run(() =>
             {
+                var tileStitcherProgress = new TileStitcherProgress();
+
                 this.xmlSerializer = new XmlSerializer(typeof(ImageTile));
 
                 int startTileX;
@@ -68,10 +70,12 @@ namespace AeroScenery.ImageProcessing
                 // Calculate how many images we need
                 var requiredStitchedImagesX = (int)Math.Ceiling((float)numberOfTilesX / (float)maxTilesPerStitchedImageX);
                 var requiredStitchedImagesY = (int)Math.Ceiling((float)numberOfTilesY / (float)maxTilesPerStitchedImageY);
-                //var requiredStichedImages = requiredStitchedImagesX * requiredStitchedImagesY;
+                var requiredStichedImages = requiredStitchedImagesX * requiredStitchedImagesY;
 
                 int imageTileOffsetX = 0;
                 int imagetileOffsetY = 0;
+
+                tileStitcherProgress.TotalStitchedImages = requiredStichedImages;
 
                 // Loop through each stitched image that we will need
                 for (int stitchedImagesYIx = 0; stitchedImagesYIx < requiredStitchedImagesY; stitchedImagesYIx++)
@@ -82,6 +86,9 @@ namespace AeroScenery.ImageProcessing
                         imageTileOffsetX = stitchedImagesXIx * maxTilesPerStitchedImageX;
                         imagetileOffsetY = stitchedImagesYIx * maxTilesPerStitchedImageY;
 
+                        // This might not be right, but it's a reasonable estimate. We wont know until we read each file
+                        tileStitcherProgress.TotalImageTilesForCurrentStitchedImage = maxTilesPerStitchedImageX * maxTilesPerStitchedImageY;
+
                         int columnsUsed = 0;
                         int rowsUsed = 0;
 
@@ -91,6 +98,8 @@ namespace AeroScenery.ImageProcessing
 
                             using (Graphics g = Graphics.FromImage(bitmap))
                             {
+                                tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage = 0;
+
                                 // Work left to right, top to bottom
                                 // Loop through rows
                                 for (int yIx = 0; yIx < maxTilesPerStitchedImageY; yIx++)
@@ -121,6 +130,9 @@ namespace AeroScenery.ImageProcessing
                                                     var imagePointY = (yIx * imageTileData.Width);
 
                                                     g.DrawImage(tile, new PointF(imagePointX, imagePointY));
+                                                    tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage++;
+                                                    progress.Report(tileStitcherProgress);
+
                                                     rowHasImages = true;
 
                                                     if (xIx > columnsUsed)
@@ -163,13 +175,16 @@ namespace AeroScenery.ImageProcessing
                             {
                                 // Save the bitmpa as it is
                                 bitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                                tileStitcherProgress.CurrentStitchedImage++;
                             }
                             else
                             {
                                 // Resize the bitmap down to the used number of rows and columns
                                 var croppedBitmap = CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight));
                                 croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                                tileStitcherProgress.CurrentStitchedImage++;
                             }
+
 
                             //Debug.WriteLine("Columns Used: " + columnsUsed);
                             //Debug.WriteLine("Rows Used: " + rowsUsed);
