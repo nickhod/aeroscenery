@@ -14,7 +14,7 @@ namespace AeroScenery.Data
     public class SqlLiteDataRepository : IDataRepository
     {
         private Settings settings;
-
+        private string dbPath;
 
         public List<GridSquare> GetAllGridSquares()
         {
@@ -34,7 +34,7 @@ namespace AeroScenery.Data
             using (var con = DbConnection())
             {
                 var query = @"INSERT INTO GridSquares (Name, NorthLatitude, EastLongitude, WestLongitude, SouthLatitude) VALUES 
-                            (@Name, @NorthLatitude, @EastLongitude, @WestLongitude, @SouthLatitude);
+                            (@Name, @NorthLatitude, @EastLongitude, @WestLongitude, @SouthLatitude, @Level);
                             SELECT last_insert_rowid();";
 
                 con.Open();
@@ -52,6 +52,7 @@ namespace AeroScenery.Data
                             EastLongitude=@EastLongitude,
                             WestLongitude=@WestLongitude,
                             SouthLatitude=@SouthLatitude 
+                            Level=@Level
                             WHERE GridSquareId=@GridSquareId";
 
                 con.Open();
@@ -105,6 +106,8 @@ namespace AeroScenery.Data
                 CreateDatabase();
             }
 
+            this.UpgradeSchema();
+
         }
 
         public void CreateDatabase()
@@ -138,9 +141,43 @@ namespace AeroScenery.Data
             }
         }
 
+        private void UpgradeSchema()
+        {
+            int databaseVersion = 1;
+
+            using (var con = DbConnection())
+            {
+
+                con.Open();
+
+                // The first version didn't have a DatabaseVersion table
+                var databaseTableExistsQuery = @"SELECT name FROM sqlite_master WHERE type='table' AND name='DatabaseVersion';";
+
+                if (con.Query(databaseTableExistsQuery).Count() == 0)
+                {
+                    con.Execute(
+                      @"create table DatabaseVersion
+                      (
+                        DatabaseVersionId    INTEGER PRIMARY KEY,
+                        UpgradedOn           TEXT
+                      )");
+                }
+                else
+                {
+                    var databaseVersionQuery = @"SELECT MAX(DatabaseVersionId) FROM DatabaseVersion;";
+                    databaseVersion = con.Query<int>(databaseVersionQuery).FirstOrDefault();
+                }
+
+                con.Close();
+            }
+
+            var schemaUpgrader = new SchemaUpgrader(dbPath);
+            schemaUpgrader.UpgradeToLatestSchema(databaseVersion);
+
+        }
+
         private SQLiteConnection DbConnection()
         {
-            var dbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
             return new SQLiteConnection("Data Source=" + dbPath);
         }
 
@@ -154,6 +191,7 @@ namespace AeroScenery.Data
             set
             {
                 this.settings = value;
+                this.dbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
             }
         }
 

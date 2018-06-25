@@ -21,6 +21,8 @@ namespace AeroScenery.Data.Mappers
             gridSquare.SouthLatitude = aFS2GridSquare.Coordinates[2].Lat;
             gridSquare.WestLongitude = aFS2GridSquare.Coordinates[3].Lng;
 
+            gridSquare.Level = aFS2GridSquare.Level;
+
             return gridSquare;
         }
 
@@ -29,15 +31,15 @@ namespace AeroScenery.Data.Mappers
             AFS2GridSquare afsS2GridSquare = new AFS2GridSquare();
             afsS2GridSquare.Name = gridSquare.Name;
 
-            var nwCorder = new PointLatLng(gridSquare.NorthLatitude, gridSquare.WestLongitude);
-            var neCorder = new PointLatLng(gridSquare.NorthLatitude, gridSquare.EastLongitude);
-            var seCorder = new PointLatLng(gridSquare.SouthLatitude, gridSquare.EastLongitude);
-            var swCorder = new PointLatLng(gridSquare.SouthLatitude, gridSquare.WestLongitude);
+            var nwCorner = new PointLatLng(gridSquare.NorthLatitude, gridSquare.WestLongitude);
+            var neCorner = new PointLatLng(gridSquare.NorthLatitude, gridSquare.EastLongitude);
+            var seCorner = new PointLatLng(gridSquare.SouthLatitude, gridSquare.EastLongitude);
+            var swCorner = new PointLatLng(gridSquare.SouthLatitude, gridSquare.WestLongitude);
 
-            afsS2GridSquare.Coordinates.Add(nwCorder);
-            afsS2GridSquare.Coordinates.Add(neCorder);
-            afsS2GridSquare.Coordinates.Add(seCorder);
-            afsS2GridSquare.Coordinates.Add(swCorder);
+            afsS2GridSquare.Coordinates.Add(nwCorner);
+            afsS2GridSquare.Coordinates.Add(neCorner);
+            afsS2GridSquare.Coordinates.Add(seCorner);
+            afsS2GridSquare.Coordinates.Add(swCorner);
 
             return afsS2GridSquare;
         }

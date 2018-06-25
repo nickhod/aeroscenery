@@ -19,6 +19,7 @@ namespace AeroScenery.ImageProcessing
         private string filenamePrefix;
 
         private XmlSerializer xmlSerializer;
+        private XmlSerializer stitchedImageXmlSerializer;
 
         public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals, IProgress<TileStitcherProgress> progress)
         {
@@ -27,6 +28,7 @@ namespace AeroScenery.ImageProcessing
                 var tileStitcherProgress = new TileStitcherProgress();
 
                 this.xmlSerializer = new XmlSerializer(typeof(ImageTile));
+                this.stitchedImageXmlSerializer = new XmlSerializer(typeof(StitchedImage));
 
                 int startTileX;
                 int startTileY;
@@ -92,6 +94,13 @@ namespace AeroScenery.ImageProcessing
                         int columnsUsed = 0;
                         int rowsUsed = 0;
 
+                        // By giving these incorrect values, we can be sure they will we overwritten without having
+                        // to make them nullable and do null checks
+                        double northLatitude = -500;
+                        double westLongitude = 500;
+                        double southLatitude = 500;
+                        double eastLongitude = -500;
+
                         using (Bitmap bitmap = new System.Drawing.Bitmap(imageSizeX, imageSizeY))
                         {
                             bitmap.MakeTransparent();
@@ -116,6 +125,31 @@ namespace AeroScenery.ImageProcessing
 
                                         if (imageTileData != null)
                                         {
+                                            // Update our overall stitched image lat and long maxima and minima
+                                            // We want the highest NorthLatitude value of any image tile for this stitched image
+                                            if (imageTileData.NorthLatitude > northLatitude)
+                                            {
+                                                northLatitude = imageTileData.NorthLatitude;
+                                            }
+
+                                            // We want the lowest SouthLatitude value of any image tile for this stitched image
+                                            if (imageTileData.SouthLatitude < southLatitude)
+                                            {
+                                                southLatitude = imageTileData.SouthLatitude;
+                                            }
+
+                                            // We want the lowest WestLongitude value of any image tile for this stitched image
+                                            if (imageTileData.WestLongitude < westLongitude)
+                                            {
+                                                westLongitude = imageTileData.WestLongitude;
+                                            }
+
+                                            // We want the highest EastLongitude value of any image tile for this stitched image
+                                            if (imageTileData.EastLongitude > eastLongitude)
+                                            {
+                                                eastLongitude = imageTileData.EastLongitude;
+                                            }
+
                                             var imageTileFilename = tileDownloadDirectory + imageTileData.FileName + "." + imageTileData.ImageExtension;
 
                                             Image tile = null;
@@ -169,6 +203,20 @@ namespace AeroScenery.ImageProcessing
                             }
 
                             var stitchFilename = String.Format("{0}_{1}_stitch_{2}_{3}.png", imageSource, zoomLevel, stitchedImagesXIx + 1, stitchedImagesYIx + 1);
+                            var stitchedImage = new StitchedImage();
+
+                            stitchedImage.ImageExtension = "png";
+                            stitchedImage.NorthLatitude = northLatitude;
+                            stitchedImage.WestLongitude = westLongitude;
+                            stitchedImage.SouthLatitude = southLatitude;
+                            stitchedImage.EastLongitude = eastLongitude;
+                            stitchedImage.Width = columnsUsed * tileWidth;
+                            stitchedImage.Height = rowsUsed * tileHeight;
+                            stitchedImage.Source = imageSource;
+                            stitchedImage.ZoomLevel = zoomLevel;
+                            stitchedImage.StichedImageSetX = stitchedImagesXIx + 1;
+                            stitchedImage.StichedImageSetY = stitchedImagesYIx + 1;
+
 
                             // Have we drawn an image to the maximum number of rows and columns for this image?
                             if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
@@ -185,6 +233,7 @@ namespace AeroScenery.ImageProcessing
                                 tileStitcherProgress.CurrentStitchedImage++;
                             }
 
+                            this.SaveStitchedImageAeroFile(this.stitchedImageXmlSerializer, stitchedImage, stitchedTilesDirectory);
 
                             //Debug.WriteLine("Columns Used: " + columnsUsed);
                             //Debug.WriteLine("Rows Used: " + rowsUsed);
@@ -294,96 +343,12 @@ namespace AeroScenery.ImageProcessing
         }
 
 
-        private void SaveStitchedImageTileAeroFile(XmlSerializer xmlSerializer, ImageTile imageTile, string path)
+        private void SaveStitchedImageAeroFile(XmlSerializer xmlSerializer, StitchedImage stitchedImage, string path)
         {
-            using (TextWriter tw = new StreamWriter(path + imageTile.FileName + ".aero"))
+            using (TextWriter tw = new StreamWriter(path + stitchedImage.FileName + ".aero"))
             {
-                xmlSerializer.Serialize(tw, imageTile);
+                xmlSerializer.Serialize(tw, stitchedImage);
             }
-        }
-
-        public void Temp()
-        {
-            //if (imageTiles.Count > 0)
-            //{
-            //int columns = 0;
-            //int rows = 0;
-
-            //Dictionary<string, ImageTile> imageTileLookup = new Dictionary<string, ImageTile>();
-
-            //// Loop through our list of image tiles and figure out how
-            //// many rows and columns we are dealing with
-            //foreach (var imageTile in imageTiles)
-            //{
-            //    if (imageTile.LocalTileX > columns)
-            //    {
-            //        columns = imageTile.LocalTileX;
-            //    }
-
-            //    if (imageTile.LocalTileY > rows)
-            //    {
-            //        rows = imageTile.LocalTileY;
-            //    }
-
-            //    imageTileLookup.Add(imageTile.LocalTileX + "-" + imageTile.LocalTileY, imageTile);
-            //}
-
-
-
-
-
-
-            //}
-            //}
         }
     }
 }
-
-
-//var allTilesStitched = false;
-
-//var currentTileX = startingTileX;
-//var currentTileY = startingTileY;
-
-//var currentXIndex = 1;
-//var currentYIndex = 1;
-
-//var currentStitchedImageX = 1;
-//var currentStitchedImageY = 1;
-
-////var firstImageTile = LoadAeroFile(xmlSerializer, )
-
-
-//// TODO - Needs to come from config
-//int maxTilesPerStitchedImageX = 48;
-//int maxTilesPerStitchedImageY = 48;
-
-//var tileWidth = 256;
-//var tileHeight = 256;
-
-//// Calculate the size of our stitched images in each direction
-//var imageSizeX = maxTilesPerStitchedImageX * tileWidth;
-//var imageSizeY = maxTilesPerStitchedImageY * tileHeight;
-
-//// While loop for total number of stitched images
-//do
-//{
-//    // While loop for rows on the current stiched image
-//    do
-//    {
-//        // While loop for columns on the current stitched image
-//        do
-//        {
-//            currentXIndex++;
-
-//        }
-//        while (currentXIndex < maxTilesPerStitchedImageX);
-
-
-//        currentYIndex++;
-//    }
-//    while (currentYIndex < maxTilesPerStitchedImageY);
-
-//    allTilesStitched = true;
-//}
-//while (!allTilesStitched);

@@ -28,10 +28,6 @@ namespace AeroScenery
 
         private DownloadManager downloadManager;
 
-        private AIDFileGenerator aidFileGenerator;
-
-        private TMCFileGenerator tmcFileGenerator;
-
         private GeoConvertManager geoConvertManager;
 
         private DownloadFailedForm downloadFailedForm;
@@ -50,6 +46,7 @@ namespace AeroScenery
 
         private GridSquareMapper gridSquareMapper;
 
+        private AFSFileGenerator afsFileGenerator;
 
         private List<ImageTile> imageTiles;
 
@@ -60,14 +57,12 @@ namespace AeroScenery
             usgsOrthophotoSource = new USGSOrthophotoSource();
 
             downloadManager = new DownloadManager();
-            aidFileGenerator = new AIDFileGenerator();
-            tmcFileGenerator = new TMCFileGenerator();
             geoConvertManager = new GeoConvertManager();
             imageTileService = new ImageTileService();
             tileStitcher = new TileStitcher();
             registryService = new RegistryService();
             gridSquareMapper = new GridSquareMapper();
-
+            afsFileGenerator = new AFSFileGenerator();
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
@@ -265,14 +260,6 @@ namespace AeroScenery
                     // Stitch Image Tiles
                     if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
                     {
-                        // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                        //if (imageTiles == null)
-                        //{
-                        //    this.mainForm.UpdateChildTaskLabel("Loading Image Tile Data");
-
-                        //    imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
-                        //}
-
                         this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
 
                         // Capture the progress of the tile stitcher
@@ -287,14 +274,13 @@ namespace AeroScenery
                     {
                         this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
 
-                        // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                        if (imageTiles == null)
-                        {
-                            imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
-                        }
+                        // Capture the progress of the tile stitcher
+                        var afsFileGeneratorProgress = new Progress<AFSFileGeneratorProgress>();
+                        afsFileGeneratorProgress.ProgressChanged += AFSFileGeneratorProgress_ProgressChanged;
+
 
                         // Generate AID files for the image tiles
-                        //await aidFileGenerator.GenerateAIDFilesAsync(imageTiles);
+                        await afsFileGenerator.GenerateAFSFilesAsync(stitchedTilesDirectory, afsFileGeneratorProgress);
                     }
 
                     //// Have all image tiles been downloaded by the download manager
@@ -459,6 +445,17 @@ namespace AeroScenery
 
             }
 
+        }
+
+        private void AFSFileGeneratorProgress_ProgressChanged(object sender, AFSFileGeneratorProgress progress)
+        {
+            if (this.mainForm.ActionsRunning)
+            {
+                var precentDone = ((double)progress.FilesCreated / (double)progress.TotalFiles) * 100;
+
+                this.mainForm.CurrentActionProgressPercentage = (int)precentDone;
+
+            }
         }
 
         public bool AllImageTilesDownloaded(List<ImageTile> imageTiles)

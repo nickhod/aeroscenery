@@ -102,6 +102,7 @@ namespace AeroScenery.AFS2
             var yHex = yInt.ToString("x4");
 
             afs2GridSquare.Name = String.Format("map_{0}_{1}_{2}", level.ToString("d2"), xHex, yHex);
+            afs2GridSquare.Level = level;
 
             return afs2GridSquare;
         }

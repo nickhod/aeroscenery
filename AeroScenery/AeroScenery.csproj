@@ -85,6 +85,8 @@
     <Compile Include="AeroSceneryManager.cs" />
     <Compile Include="AFS2\AFS2Grid.cs" />
     <Compile Include="AFS2\AFS2GridSquare.cs" />
+    <Compile Include="AFS2\AFSFileGenerator.cs" />
+    <Compile Include="AFS2\AFSFileGeneratorProgress.cs" />
     <Compile Include="AFS2\AIDFile.cs" />
     <Compile Include="AFS2\AIDFileGenerator.cs" />
     <Compile Include="AFS2\GeoConvertManager.cs" />
@@ -93,11 +95,14 @@
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\Settings.cs" />
+    <Compile Include="Common\StitchedImage.cs" />
     <Compile Include="Data\IDataRepository.cs" />
     <Compile Include="Data\ImageTileService.cs" />
     <Compile Include="Data\Mappers\GridSquareMapper.cs" />
+    <Compile Include="Data\Models\DatabaseVersion.cs" />
     <Compile Include="Data\Models\GridSquare.cs" />
     <Compile Include="Data\RegistryService.cs" />
+    <Compile Include="Data\SchemaUpgrader.cs" />
     <Compile Include="Data\SqlLiteDataRepository.cs" />
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />

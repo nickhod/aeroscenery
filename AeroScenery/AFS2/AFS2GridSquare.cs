@@ -12,6 +12,7 @@ namespace AeroScenery.AFS2
 
         public string Name { get; set; }
         public List<PointLatLng> Coordinates { get; set; }
+        public int Level { get; set; }
 
         public AFS2GridSquare()
         {
