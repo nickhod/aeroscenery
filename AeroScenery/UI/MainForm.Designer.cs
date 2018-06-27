@@ -37,6 +37,9 @@
             this.settingsButton = new System.Windows.Forms.ToolStripButton();
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.mapTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -89,9 +92,6 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -198,6 +198,26 @@
             this.getSDKToolStripButton.Size = new System.Drawing.Size(133, 29);
             this.getSDKToolStripButton.Text = "Get AeroFly FS2 SDK";
             this.getSDKToolStripButton.Click += new System.EventHandler(this.getSDKToolStripButton_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(85, 29);
+            this.toolStripLabel2.Text = "Grid Squre Size";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "Level 9 - Large",
+            "Level 13 - Small",
+            "Level 14 - Smallest"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 32);
             // 
             // mainTabControl
             // 
@@ -679,14 +699,12 @@
             this.afsLevelsCheckBoxList.CheckOnClick = true;
             this.afsLevelsCheckBoxList.FormattingEnabled = true;
             this.afsLevelsCheckBoxList.Items.AddRange(new object[] {
-            "Level 8",
             "Level 9",
             "Level 10",
             "Level 11",
             "Level 12",
             "Level 13",
-            "Level 14",
-            "Level 15"});
+            "Level 14"});
             this.afsLevelsCheckBoxList.Location = new System.Drawing.Point(16, 156);
             this.afsLevelsCheckBoxList.Name = "afsLevelsCheckBoxList";
             this.afsLevelsCheckBoxList.Size = new System.Drawing.Size(339, 164);
@@ -776,26 +794,6 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
-            // 
-            // toolStripComboBox1
-            // 
-            this.toolStripComboBox1.Items.AddRange(new object[] {
-            "Level 9 - Large",
-            "Level 13 - Small",
-            "Level 14 - Smallest"});
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 32);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(85, 29);
-            this.toolStripLabel2.Text = "Grid Squre Size";
             // 
             // MainForm
             // 

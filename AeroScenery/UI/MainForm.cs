@@ -127,10 +127,10 @@ namespace AeroScenery
             this.zoomLevelTrackBar.Value = settings.ZoomLevel;
 
             // AFS Levels To Generate
-            // Our minimum is 8
+            // Our minimum is 9
             foreach (int afsLevel in settings.AFSLevelsToGenerate)
             {
-                this.afsLevelsCheckBoxList.SetItemChecked(afsLevel - 8, true);
+                this.afsLevelsCheckBoxList.SetItemChecked(afsLevel - 9, true);
             }
 
             // Action set
@@ -657,7 +657,7 @@ namespace AeroScenery
             {
                 var settings = AeroSceneryManager.Instance.Settings;
 
-                var checkedLevel = e.Index + 8;
+                var checkedLevel = e.Index + 9;
 
                 if (settings.AFSLevelsToGenerate.Contains(checkedLevel))
                 {

@@ -88,10 +88,8 @@
     <Compile Include="AFS2\AFSFileGenerator.cs" />
     <Compile Include="AFS2\AFSFileGeneratorProgress.cs" />
     <Compile Include="AFS2\AIDFile.cs" />
-    <Compile Include="AFS2\AIDFileGenerator.cs" />
     <Compile Include="AFS2\GeoConvertManager.cs" />
     <Compile Include="AFS2\TMCFile.cs" />
-    <Compile Include="AFS2\TMCFileGenerator.cs" />
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\Settings.cs" />

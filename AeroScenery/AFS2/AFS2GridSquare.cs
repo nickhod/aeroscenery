@@ -53,5 +53,48 @@ namespace AeroScenery.AFS2
             return angle * (180.0 / Math.PI);
         }
 
+        /// <summary>
+        /// The latitude of North side of the square
+        /// </summary>
+        public double NorthLatitude
+        {
+            get
+            {
+                return this.Coordinates[0].Lat;
+            }
+        }
+
+        /// <summary>
+        /// The longitude West side of the square
+        /// </summary>
+        public double WestLongitude
+        {
+            get
+            {
+                return this.Coordinates[0].Lng;
+            }
+        }
+
+        /// <summary>
+        /// The latitude of South side of the square
+        /// </summary>
+        public double SouthLatitude
+        {
+            get
+            {
+                return this.Coordinates[3].Lat;            
+            }
+        }
+
+        /// <summary>
+        /// The longitude of the East side of the square
+        /// </summary>
+        public double EastLongitude
+        {
+            get
+            {
+                return this.Coordinates[2].Lng;
+            }
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace AeroScenery.AFS2
             sb.AppendLine("\t<[tm_aerial_image_definition][][]");
             sb.AppendLine(String.Format("\t\t<[string8][image][{0}]>", ImageFile));
             sb.AppendLine("\t\t<[string8][mask][]>");
-            sb.AppendLine(String.Format("\t\t<[vector2_float64][steps_per_pixel][{0} {1}]>", StepsPerPixelX, StepsPerPixelY));
+            sb.AppendLine(String.Format("\t\t<[vector2_float64][steps_per_pixel][{0} {1}]>", StepsPerPixelX.ToString().ToLower(), StepsPerPixelY.ToString().ToLower()));
             sb.AppendLine(String.Format("\t\t<[vector2_float64][top_left][[{0} {1}]>", X, Y));
             sb.AppendLine("\t\t<[string8][coordinate_system][lonlat]>");
             sb.AppendLine(String.Format("\t\t<[bool][flip_vertical][{0}]>", FlipVertical.ToString().ToLower()));
