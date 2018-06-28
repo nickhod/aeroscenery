@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace AeroScenery.AFS2
             sb.AppendLine(String.Format("\t\t<[vector2_float64][steps_per_pixel][{0} {1}]>", 
                 StepsPerPixelX.ToString("0.###################################################################################################################################################################################################################################################################################################################################################").ToLower(), 
                 StepsPerPixelY.ToString("0.###################################################################################################################################################################################################################################################################################################################################################").ToLower()));
-            sb.AppendLine(String.Format("\t\t<[vector2_float64][top_left][[{0} {1}]>", X, Y));
+            sb.AppendLine(String.Format("\t\t<[vector2_float64][top_left][[{0} {1}]>", X.ToString(CultureInfo.InvariantCulture), Y.ToString(CultureInfo.InvariantCulture)));
             sb.AppendLine("\t\t<[string8][coordinate_system][lonlat]>");
             sb.AppendLine(String.Format("\t\t<[bool][flip_vertical][{0}]>", FlipVertical.ToString().ToLower()));
             sb.AppendLine("\t>");
