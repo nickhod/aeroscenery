@@ -93,8 +93,8 @@ namespace AeroScenery.AFS2
         {
             // Create directories for Geoconvert output if they do not exist.
             // Better to do this here in case anyone wants to run Geoconvert manually
-            var geoConvertRawDirectory = String.Format("{0}-geoconvert-raw", firstStitchedImageAeroFile.ZoomLevel);
-            var geoConvertTTCDirectory = String.Format("{0}-geoconvert-ttc", firstStitchedImageAeroFile.ZoomLevel);
+            var geoConvertRawDirectory = String.Format("{0}-geoconvert-raw\\", firstStitchedImageAeroFile.ZoomLevel);
+            var geoConvertTTCDirectory = String.Format("{0}-geoconvert-ttc\\", firstStitchedImageAeroFile.ZoomLevel);
             var geoConvertRawPath = afsGridSquareDirectory + geoConvertRawDirectory;
             var geoConvertTTCPath = afsGridSquareDirectory + geoConvertTTCDirectory;
 
@@ -122,10 +122,14 @@ namespace AeroScenery.AFS2
             // All TMC regions will have the same lat / lon max and min
             // Create a template Region here to base other regions off
             TMCRegion tmcRegionTemplate = new TMCRegion();
-            tmcRegionTemplate.LatMax = afs2GridSquare.NorthLatitude;
-            tmcRegionTemplate.LonMax = afs2GridSquare.EastLongitude;
-            tmcRegionTemplate.LatMin = afs2GridSquare.SouthLatitude;
+
+            // Really NW Corner
+            tmcRegionTemplate.LatMin = afs2GridSquare.NorthLatitude;
             tmcRegionTemplate.LonMin = afs2GridSquare.WestLongitude;
+
+            // Realy SE Corner
+            tmcRegionTemplate.LatMax = afs2GridSquare.SouthLatitude;
+            tmcRegionTemplate.LonMax = afs2GridSquare.EastLongitude;
 
             tmcFile.Regions = this.GenerateTMCFileRegions(tmcRegionTemplate);
 

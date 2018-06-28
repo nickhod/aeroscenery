@@ -228,8 +228,7 @@ namespace AeroScenery.ImageProcessing
                             else
                             {
                                 // Resize the bitmap down to the used number of rows and columns
-                                var croppedBitmap = CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight));
-                                croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                                CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight), stitchedTilesDirectory, stitchFilename);
                                 tileStitcherProgress.CurrentStitchedImage++;
                             }
 
@@ -250,12 +249,19 @@ namespace AeroScenery.ImageProcessing
             });
         }
 
-        public static Bitmap CropBitmap(Bitmap bitmap, Rectangle rectangle)
+        public void CropBitmap(Bitmap bitmap, Rectangle rectangle, string stitchedTilesDirectory, string stitchFilename)
         {
-            Bitmap croppedBitmap = new Bitmap(rectangle.Width, rectangle.Height);
-            Graphics g = Graphics.FromImage(croppedBitmap);
-            g.DrawImage(bitmap, -rectangle.X, -rectangle.Y);
-            return croppedBitmap;
+            using (Bitmap croppedBitmap = new Bitmap(rectangle.Width, rectangle.Height, bitmap.PixelFormat))
+            {
+                using (Graphics g = Graphics.FromImage(croppedBitmap))
+                {
+                    g.DrawImage(bitmap, 0, 0);
+                    croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                }
+            }
+
+            GC.Collect();
+
         }
 
 

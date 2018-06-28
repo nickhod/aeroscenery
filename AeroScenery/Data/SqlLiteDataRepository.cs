@@ -33,7 +33,7 @@ namespace AeroScenery.Data
         {
             using (var con = DbConnection())
             {
-                var query = @"INSERT INTO GridSquares (Name, NorthLatitude, EastLongitude, WestLongitude, SouthLatitude) VALUES 
+                var query = @"INSERT INTO GridSquares (Name, NorthLatitude, EastLongitude, WestLongitude, SouthLatitude, Level) VALUES 
                             (@Name, @NorthLatitude, @EastLongitude, @WestLongitude, @SouthLatitude, @Level);
                             SELECT last_insert_rowid();";
 

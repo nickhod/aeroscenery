@@ -46,10 +46,10 @@ namespace AeroScenery.AFS2
                 sb.AppendLine("\t\t" + "<[string8]" + "[folder_source_files]" + "[" + FolderSourceFiles + "]>");
             }
 
-            sb.AppendLine("\t\t" + "<[string8]" + "[folder_destination_ttc]" + "[" + FolderDestinationTTC + "]>");
-            sb.AppendLine("\t\t" + "<[string8]" + "[folder_destination_raw]" + "[" + FolderDestinationRaw + "]>");
             sb.AppendLine("\t\t" + "<[bool]" + "[write_ttc_files]" + "[" + WriteTTCFiles.ToString().ToLower() + "]>");
+            sb.AppendLine("\t\t" + "<[string8]" + "[folder_destination_ttc]" + "[" + FolderDestinationTTC + "]>");
             sb.AppendLine("\t\t" + "<[bool]" + "[write_raw_files]" + "[" + WriteRawFiles.ToString().ToLower() + "]>");
+            sb.AppendLine("\t\t" + "<[string8]" + "[folder_destination_raw]" + "[" + FolderDestinationRaw + "]>");
             sb.AppendLine("\t\t" + "<[bool]" + "[do_heightmaps]" + "[" + DoHeightmaps.ToString().ToLower() + "]>");
             sb.AppendLine("\t\t" + "<[bool]" + "[always_overwrite]" + "[" + AlwaysOverwrite.ToString().ToLower() + "]>");
             sb.AppendLine("\t\t" + "<[bool]" + "[write_images_with_mask]" + "[" + WriteImagesWithMask.ToString().ToLower() + "]>");
@@ -62,10 +62,10 @@ namespace AeroScenery.AFS2
                 foreach (var region in this.Regions)
                 {
                     sb.AppendLine("\t\t\t<[tmcolormap_region][element][0]");
-                    sb.AppendLine(String.Format("\t\t\t<[uint32] [level] [{0}]>", region.Level));
-                    sb.AppendLine(String.Format("\t\t\t<[vector2_float64] [lonlat_min] [{0} {1}]>", region.LonMin, region.LatMin));
-                    sb.AppendLine(String.Format("\t\t\t<[vector2_float64] [lonlat_max] [{0} {1}]>", region.LonMax, region.LatMax));
-                    sb.AppendLine(String.Format("\t\t\t<[bool] [write_images_with_mask] [{0}]>", region.WriteImagesWithMask.ToString().ToLower()));
+                    sb.AppendLine(String.Format("\t\t\t\t<[uint32] [level] [{0}]>", region.Level));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0} {1}]>", region.LonMin.ToString("0.00"), region.LatMin.ToString("0.00")));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0} {1}]>", region.LonMax.ToString("0.00"), region.LatMax.ToString("0.00")));
+                    sb.AppendLine(String.Format("\t\t\t\t<[bool] [write_images_with_mask] [{0}]>", region.WriteImagesWithMask.ToString().ToLower()));
                     sb.AppendLine("\t\t\t" + ">");
                     sb.AppendLine("");
                 }

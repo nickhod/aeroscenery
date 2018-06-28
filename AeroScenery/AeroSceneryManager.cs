@@ -312,8 +312,11 @@ namespace AeroScenery
 
                 }
 
-                // Move on to running Geoconvert for each tile
-                this.StartGeoConvertProcess();
+                // If required Move on to running Geoconvert for each tile
+                if (this.settings.RunGeoConvert)
+                {
+                    this.StartGeoConvertProcess();
+                }
 
                 this.ActionsComplete();
 
