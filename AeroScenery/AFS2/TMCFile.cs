@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,8 +64,8 @@ namespace AeroScenery.AFS2
                 {
                     sb.AppendLine("\t\t\t<[tmcolormap_region][element][0]");
                     sb.AppendLine(String.Format("\t\t\t\t<[uint32] [level] [{0}]>", region.Level));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0} {1}]>", region.LonMin.ToString("0.00"), region.LatMin.ToString("0.00")));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0} {1}]>", region.LonMax.ToString("0.00"), region.LatMax.ToString("0.00")));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0} {1}]>", region.LonMin.ToString("0.00", CultureInfo.InvariantCulture), region.LatMin.ToString("0.00", CultureInfo.InvariantCulture)));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0} {1}]>", region.LonMax.ToString("0.00", CultureInfo.InvariantCulture), region.LatMax.ToString("0.00", CultureInfo.InvariantCulture)));
                     sb.AppendLine(String.Format("\t\t\t\t<[bool] [write_images_with_mask] [{0}]>", region.WriteImagesWithMask.ToString().ToLower()));
                     sb.AppendLine("\t\t\t" + ">");
                     sb.AppendLine("");

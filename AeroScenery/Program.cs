@@ -17,6 +17,7 @@ namespace AeroScenery
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            log4net.Config.XmlConfigurator.Configure();
             AeroSceneryManager.Instance.Initialize();
         }
     }

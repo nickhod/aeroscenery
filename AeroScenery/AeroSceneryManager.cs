@@ -7,6 +7,7 @@ using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
 using AeroScenery.UI;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -49,6 +50,8 @@ namespace AeroScenery
         private AFSFileGenerator afsFileGenerator;
 
         private List<ImageTile> imageTiles;
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
+        private string version;
 
         public AeroSceneryManager()
         {
@@ -66,6 +69,7 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
+            version = "0.3";
         }
 
         public Settings Settings
@@ -73,6 +77,14 @@ namespace AeroScenery
             get
             {
                 return this.settings;
+            }
+        }
+
+        public string Version
+        {
+            get
+            {
+                return this.version;
             }
         }
 
@@ -194,7 +206,9 @@ namespace AeroScenery
                 int i = 0;
                 foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
                 {
-                    this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
+                    var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
+                    this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
+                    log.Info(currentGrideSquareMessage);
 
                     // Do we have a directory for this afs grid square in our working directory?
                     var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
@@ -222,6 +236,7 @@ namespace AeroScenery
                     if (this.Settings.DownloadImageTiles && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Calculating Image Tiles To Download");
+                        log.Info("Calculating Image Tiles To Download");
 
 
                         var imageTilesTask = Task.Run(() => {
@@ -244,13 +259,14 @@ namespace AeroScenery
                         await imageTilesTask;
 
                         this.mainForm.UpdateChildTaskLabel("Downloading Image Tiles");
+                        log.Info("Downloading Image Tiles");
 
                         // Capture the progress of each thread
                         var downloadThreadProgress = new Progress<DownloadThreadProgress>();
                         downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
 
                         // Send the image tiles to the download manager
-                        await downloadManager.DownloadImageTiles(imageTiles, downloadThreadProgress, tileDownloadDirectory);
+                        await downloadManager.DownloadImageTiles(settings.OrthophotoSource, imageTiles, downloadThreadProgress, tileDownloadDirectory);
 
                         // Only finalise if we weren't cancelled
                         if (this.mainForm.ActionsRunning)
@@ -271,6 +287,7 @@ namespace AeroScenery
                     if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
+                        log.Info("Stitching Image Tiles");
 
                         // Capture the progress of the tile stitcher
                         var tileStitcherProgress = new Progress<TileStitcherProgress>();
@@ -283,6 +300,7 @@ namespace AeroScenery
                     if (this.Settings.GenerateAIDAndTMCFiles && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
+                        log.Info("Generating AFS Metadata Files");
 
                         // Capture the progress of the tile stitcher
                         var afsFileGeneratorProgress = new Progress<AFSFileGeneratorProgress>();
@@ -292,22 +310,6 @@ namespace AeroScenery
                         // Generate AID files for the image tiles
                         await afsFileGenerator.GenerateAFSFilesAsync(afs2GridSquare, stitchedTilesDirectory, GetTileDownloadDirectory(afsGridSquareDirectory), afsFileGeneratorProgress);
                     }
-
-                    //// Have all image tiles been downloaded by the download manager
-                    //if (AllImageTilesDownloaded(imageTiles))
-                    //{
-                    //    // Generate the TMC File
-                    //    tmcFileGenerator.GenerateTMCFile(this.mainForm.SelectedAFS2GridSquares);
-
-                    //    // Run Geoconvert
-                    //    //geoConvertManager.RunGeoConvert();
-                    //}
-                    //else
-                    //{
-                    //    // The jpg to AID count doesn't match, something is wrong, show the dialog
-                    //    downloadFailedForm = new DownloadFailedForm();
-                    //    downloadFailedForm.ShowDialog();
-                    //}
                     i++;
 
                 }
@@ -317,6 +319,13 @@ namespace AeroScenery
                 {
                     this.StartGeoConvertProcess();
                 }
+
+                // Install Scenery
+                //if (this.Settings.InstallScenery)
+                //{
+                //    this.mainForm.UpdateChildTaskLabel("Prompting To Install Scenery");
+
+                //}
 
                 this.ActionsComplete();
 
@@ -345,11 +354,15 @@ namespace AeroScenery
             }
             else
             {
+                log.Info("Starting GeoConvert Process");
+
                 int i = 0;
                 // Run the Geoconvert process for each selected grid square
                 foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
                 {
-                    this.mainForm.UpdateParentTaskLabel(String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count()));
+                    var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
+                    this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
+                    log.Info(currentGrideSquareMessage);
 
                     // Do we have a directory for this afs grid square in our working directory?
                     var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
@@ -364,25 +377,40 @@ namespace AeroScenery
                             // Run GeoConvert
                             if (this.Settings.RunGeoConvert)
                             {
-                                this.mainForm.UpdateChildTaskLabel("Running GeoConvert");
-
                                 string geoconvertPath = String.Format("{0}\\aerofly_fs_2_geoconvert", settings.AFS2SDKDirectory);
                                 string geoconvertFilename = String.Format("{0}\\aerofly_fs_2_geoconvert.exe", geoconvertPath);
 
-                                var proc = new Process
+                                if (!File.Exists(geoconvertFilename))
                                 {
-                                    StartInfo = new ProcessStartInfo
-                                    {
-                                        FileName = geoconvertFilename,
-                                        Arguments = tmcFilename,
-                                        UseShellExecute = true,
-                                        RedirectStandardOutput = false,
-                                        CreateNoWindow = false,
-                                        WorkingDirectory = geoconvertPath
-                                    }
-                                };
+                                    log.Error("Could not find GeoConvert");
 
-                                proc.Start();
+                                    DialogResult result = MessageBox.Show("Could not find GeoConvert",
+                                        "AeroScenery",
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Error);
+                                }
+                                else
+                                {
+                                    this.mainForm.UpdateChildTaskLabel("Running GeoConvert");
+                                    log.Info("Running GeoConvert");
+
+                                    var proc = new Process
+                                    {
+                                        StartInfo = new ProcessStartInfo
+                                        {
+                                            FileName = geoconvertFilename,
+                                            Arguments = tmcFilename,
+                                            UseShellExecute = true,
+                                            RedirectStandardOutput = false,
+                                            CreateNoWindow = false,
+                                            WorkingDirectory = geoconvertPath
+                                        }
+                                    };
+
+                                    proc.Start();
+
+                                }
+
 
                             }
 
@@ -399,12 +427,7 @@ namespace AeroScenery
 
                             //}
 
-                            // Install Scenery
-                            //if (this.Settings.InstallScenery)
-                            //{
-                            //    this.mainForm.UpdateChildTaskLabel("Prompting To Install Scenery");
 
-                            //}
 
                         }
                         else

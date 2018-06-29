@@ -1,4 +1,5 @@
 ﻿using AeroScenery.AFS2;
+using AeroScenery.Common;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Data.Models;
@@ -7,6 +8,7 @@ using AeroScenery.UI;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -25,29 +27,25 @@ namespace AeroScenery
     {
         public event EventHandler StartStopClicked;
         public event EventHandler<string> ResetGridSquare;
-
         public Dictionary<string, GridSquareViewModel> SelectedAFS2GridSquares;
         public Dictionary<string, GridSquareViewModel> DownloadedAFS2GridSquares;
-
         public AFS2GridSquare SelectedAFS2GridSquare;
 
         private bool mouseDownOnMap;
-
         private AFS2Grid afs2Grid;
         private List<DownloadThreadProgressControl> downloadThreadProgressControls;
-
         private AeroScenery.Common.Point mapMouseDownLocation;
-
         private IDataRepository dataRepository;
         private GridSquareMapper gridSquareMapper;
-
         private GMapOverlay activeGridSquareOverlay;
-
         private bool actionsRunning;
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
         private bool uiSetFromSettings;
+
+        private int gridSquareSelectionSize;
 
         public MainForm()
         {
@@ -74,6 +72,9 @@ namespace AeroScenery
 
             this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
             this.uiSetFromSettings = false;
+
+            this.gridSquareSelectionSize = 9;
+            this.gridSquareSelectionSizeToolstripCombo.SelectedIndex = 0;
 
             // TODO - Make this dynamic
             this.downloadThreadProgressControls.Add(this.downloadThreadProgress1);
@@ -102,6 +103,10 @@ namespace AeroScenery
             this.dataRepository.Settings = AeroSceneryManager.Instance.Settings;
 
             this.LoadDownloadedGridSquares();
+
+            TextBoxAppender.ConfigureTextBoxAppender(this.logTextBox);
+
+            versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
         }
 
         public void UpdateUIFromSettings()
@@ -312,6 +317,8 @@ namespace AeroScenery
             this.SelectedAFS2GridSquare = gridSquare;
             this.UpdateStatusSrip();
             this.UpdateToolStrip();
+
+            log.InfoFormat("Grid square {0} selected", gridSquare.Name);
         }
 
         private void UpdateStatusSrip()
@@ -456,7 +463,7 @@ namespace AeroScenery
             {
                 var x = Location.X + (Width - settingsForm.Width) / 2;
                 var y = Location.Y + (Height - settingsForm.Height) / 2;
-                settingsForm.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
+                settingsForm.Location = new System.Drawing.Point(Math.Max(x, 0), Math.Max(y, 0));
             }
         }
 
@@ -474,7 +481,7 @@ namespace AeroScenery
             {
                 if (e.Button == System.Windows.Forms.MouseButtons.Left)
                 {
-                    var mouseUpLocation = new Point(e.X, e.Y);
+                    var mouseUpLocation = new System.Drawing.Point(e.X, e.Y);
 
                     var dx = Math.Abs(mouseUpLocation.X - this.mapMouseDownLocation.X);
                     var dy = Math.Abs(mouseUpLocation.Y - this.mapMouseDownLocation.Y);
@@ -860,5 +867,14 @@ namespace AeroScenery
             this.ResetProgress();
         }
 
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            log.Info("AeroScenery Started");
+        }
+
+        private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

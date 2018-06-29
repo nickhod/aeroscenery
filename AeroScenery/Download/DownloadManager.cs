@@ -1,5 +1,7 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
+using AeroScenery.OrthoPhotoSources;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +20,7 @@ namespace AeroScenery.Download
     public class DownloadManager
     {
         private int downloadThreads = 4;
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         private CancellationTokenSource cancellationTokenSource;
 
@@ -31,7 +34,7 @@ namespace AeroScenery.Download
             cancellationTokenSource.Cancel();
         }
 
-        public async Task DownloadImageTiles(List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
+        public async Task DownloadImageTiles(OrthophotoSource orthophotoSource, List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
         {
 
             // Reset cancellation token status
@@ -39,6 +42,8 @@ namespace AeroScenery.Download
 
             if (imageTiles.Count > 0)
             {
+                log.InfoFormat("Beginning download of {0} image tiles from {1}", imageTiles.Count, orthophotoSource.ToString());
+
                 int downloadsPerThread = imageTiles.Count / this.downloadThreads;
                 int downloadsPerThreadMod = imageTiles.Count % this.downloadThreads;
 
@@ -158,6 +163,8 @@ namespace AeroScenery.Download
                 }
 
                 await Task.WhenAll(tasks);
+                log.InfoFormat("Finished download of {0} image tiles from {1}", imageTiles.Count, orthophotoSource.ToString());
+
             }
         }
 
@@ -189,6 +196,10 @@ namespace AeroScenery.Download
                     }
 
                 }
+            }
+            catch (Exception ex)
+            {
+                log.Error("There was an error downloading " + imageTile.URL, ex);
             }
             finally
             {

@@ -1,5 +1,7 @@
 ﻿using AeroScenery.Common;
 using AeroScenery.OrthoPhotoSources;
+using log4net;
+using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace AeroScenery.ImageProcessing
@@ -20,6 +23,7 @@ namespace AeroScenery.ImageProcessing
 
         private XmlSerializer xmlSerializer;
         private XmlSerializer stitchedImageXmlSerializer;
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals, IProgress<TileStitcherProgress> progress)
         {
@@ -221,7 +225,8 @@ namespace AeroScenery.ImageProcessing
                             // Have we drawn an image to the maximum number of rows and columns for this image?
                             if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
                             {
-                                // Save the bitmpa as it is
+                                // Save the bitmap as it is
+                                log.InfoFormat("Saving stitched image {0}", stitchFilename);
                                 bitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
                                 tileStitcherProgress.CurrentStitchedImage++;
                             }
@@ -251,16 +256,31 @@ namespace AeroScenery.ImageProcessing
 
         public void CropBitmap(Bitmap bitmap, Rectangle rectangle, string stitchedTilesDirectory, string stitchFilename)
         {
-            using (Bitmap croppedBitmap = new Bitmap(rectangle.Width, rectangle.Height, bitmap.PixelFormat))
+            try
             {
-                using (Graphics g = Graphics.FromImage(croppedBitmap))
+                using (Bitmap croppedBitmap = new Bitmap(rectangle.Width, rectangle.Height, bitmap.PixelFormat))
                 {
-                    g.DrawImage(bitmap, 0, 0);
-                    croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                    using (Graphics g = Graphics.FromImage(croppedBitmap))
+                    {
+                        g.DrawImage(bitmap, 0, 0);
+                        log.InfoFormat("Cropping stitched image {0}", stitchFilename);
+                        croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                    }
                 }
+
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                log.Error("There was an error cropping the file " + stitchFilename, ex);
+                log.InfoFormat("Available physical memory {0}", new ComputerInfo().AvailablePhysicalMemory);
+
+                DialogResult result = MessageBox.Show(String.Format("There was an error cropping the file {0}.", stitchFilename),
+                    "AeroScenery",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
 
-            GC.Collect();
 
         }
 
@@ -269,19 +289,23 @@ namespace AeroScenery.ImageProcessing
         {
             string filePath = string.Format("{0}{1}{2}_{3}.aero", tileDownloadDirectory, this.filenamePrefix, tileX, tileY);
 
-            try
+            if (File.Exists(filePath))
             {
-                using (StreamReader reader = new StreamReader(filePath))
+                try
                 {
-                    var imageTile = (ImageTile)xmlSerializer.Deserialize(reader);
-                    reader.Close();
-                    return imageTile;
+                    using (StreamReader reader = new StreamReader(filePath))
+                    {
+                        var imageTile = (ImageTile)xmlSerializer.Deserialize(reader);
+                        reader.Close();
+                        return imageTile;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("There was an error loading the aero file " + filePath, ex);
                 }
             }
-            catch(Exception ex)
-            {
 
-            }
 
             return null;
 

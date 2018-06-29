@@ -1,4 +1,5 @@
 ﻿using AeroScenery.Common;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,7 @@ namespace AeroScenery.AFS2
 
         private XmlSerializer xmlSerializer;
 
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         public AFSFileGenerator()
         {
@@ -32,7 +34,8 @@ namespace AeroScenery.AFS2
 
                 // The number of stiched tiles should always be pretty manageable so we can get a list of filenames
 
-                if (Directory.Exists(stitchedTilesDirectory)) {
+                if (Directory.Exists(stitchedTilesDirectory))
+                {
                     string[] stitchedImagesAeroFiles = Directory.GetFiles(stitchedTilesDirectory, "*.aero");
 
                     int i = 0;
@@ -55,7 +58,7 @@ namespace AeroScenery.AFS2
                             }
 
                             var stepsPerPixelX = Math.Abs((stitchedImageAeroFile.WestLongitude - stitchedImageAeroFile.EastLongitude) / stitchedImageAeroFile.Width);
-                            var stepsPerPixelY = Math.Abs((stitchedImageAeroFile.NorthLatitude - stitchedImageAeroFile.SouthLatitude) / stitchedImageAeroFile.Height);
+                            var stepsPerPixelY = -Math.Abs((stitchedImageAeroFile.NorthLatitude - stitchedImageAeroFile.SouthLatitude) / stitchedImageAeroFile.Height);
 
                             var aidFile = new AIDFile();
 
@@ -70,6 +73,7 @@ namespace AeroScenery.AFS2
 
                             string path = stitchedTilesDirectory + stitchedImageAeroFile.FileName + ".aid";
 
+                            log.InfoFormat("Writing AID file {0}", path);
                             File.WriteAllText(path, aidFileStr);
                         }
                         catch (Exception ex)

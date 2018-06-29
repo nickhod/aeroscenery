@@ -39,7 +39,8 @@
             this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.gridSquareSelectionSizeToolstripCombo = new System.Windows.Forms.ToolStripComboBox();
+            this.versionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.mapTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -92,7 +93,6 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -165,8 +165,8 @@
             this.getSDKToolStripButton,
             this.toolStripSeparator4,
             this.toolStripLabel2,
-            this.toolStripComboBox1,
-            this.toolStripLabel3});
+            this.gridSquareSelectionSizeToolstripCombo,
+            this.versionToolStripLabel});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(12, 5, 0, 5);
@@ -209,17 +209,27 @@
             // toolStripLabel2
             // 
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(85, 29);
-            this.toolStripLabel2.Text = "Grid Squre Size";
+            this.toolStripLabel2.Size = new System.Drawing.Size(142, 29);
+            this.toolStripLabel2.Text = "Grid Square Selection Size";
             // 
-            // toolStripComboBox1
+            // gridSquareSelectionSizeToolstripCombo
             // 
-            this.toolStripComboBox1.Items.AddRange(new object[] {
+            this.gridSquareSelectionSizeToolstripCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gridSquareSelectionSizeToolstripCombo.Enabled = false;
+            this.gridSquareSelectionSizeToolstripCombo.Items.AddRange(new object[] {
             "Level 9 - Large",
             "Level 13 - Small",
             "Level 14 - Smallest"});
-            this.toolStripComboBox1.Name = "toolStripComboBox1";
-            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 32);
+            this.gridSquareSelectionSizeToolstripCombo.Name = "gridSquareSelectionSizeToolstripCombo";
+            this.gridSquareSelectionSizeToolstripCombo.Size = new System.Drawing.Size(121, 32);
+            this.gridSquareSelectionSizeToolstripCombo.SelectedIndexChanged += new System.EventHandler(this.gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged);
+            // 
+            // versionToolStripLabel
+            // 
+            this.versionToolStripLabel.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.versionToolStripLabel.Name = "versionToolStripLabel";
+            this.versionToolStripLabel.Size = new System.Drawing.Size(30, 29);
+            this.versionToolStripLabel.Text = "vX.X";
             // 
             // mainTabControl
             // 
@@ -510,12 +520,14 @@
             // 
             // logTextBox
             // 
+            this.logTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.logTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.logTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.logTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.logTextBox.Location = new System.Drawing.Point(3, 3);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
+            this.logTextBox.ReadOnly = true;
             this.logTextBox.Size = new System.Drawing.Size(1034, 724);
             this.logTextBox.TabIndex = 0;
             // 
@@ -706,7 +718,8 @@
             "Level 11",
             "Level 12",
             "Level 13",
-            "Level 14"});
+            "Level 14",
+            "Level 15"});
             this.afsLevelsCheckBoxList.Location = new System.Drawing.Point(16, 156);
             this.afsLevelsCheckBoxList.Name = "afsLevelsCheckBoxList";
             this.afsLevelsCheckBoxList.Size = new System.Drawing.Size(339, 164);
@@ -797,13 +810,6 @@
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
             // 
-            // toolStripLabel3
-            // 
-            this.toolStripLabel3.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripLabel3.Name = "toolStripLabel3";
-            this.toolStripLabel3.Size = new System.Drawing.Size(28, 29);
-            this.toolStripLabel3.Text = "v0.2";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -819,6 +825,7 @@
             this.Name = "MainForm";
             this.Text = "AeroScenery";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.statusStrip.ResumeLayout(false);
             this.statusStrip.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
@@ -910,8 +917,8 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
-        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.ToolStripLabel toolStripLabel3;
+        private System.Windows.Forms.ToolStripComboBox gridSquareSelectionSizeToolstripCombo;
+        private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
     }
 }
 
