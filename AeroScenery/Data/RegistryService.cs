@@ -20,7 +20,7 @@ namespace AeroScenery.Data
 
     public class RegistryService
     {
-        private int minSettingsVersion = 1;
+        private int minSettingsVersion = 3;
 
         public void SaveSettings(Settings settings)
         {
@@ -50,6 +50,16 @@ namespace AeroScenery.Data
 
             string afsLevelsCsv = String.Join(",", settings.AFSLevelsToGenerate.Select(x => x.ToString()).ToArray());
             key.SetValue("AFSLevelsToGenerate", afsLevelsCsv);
+
+            // Settings version 2
+            key.SetValue("MaximumStitchedImageSize", settings.MaximumStitchedImageSize);
+            key.SetValue("GeoConvertWriteImagesWithMask", settings.GeoConvertWriteImagesWithMask);
+            key.SetValue("GeoConvertWriteRawFiles", settings.GeoConvertWriteRawFiles);
+            // --
+
+            // Settings verison 3
+            key.SetValue("GeoConvertDoMultipleSmallerRuns", settings.GeoConvertDoMultipleSmallerRuns);
+            // --
 
             key.SetValue("SettingsVersion", minSettingsVersion);
         }
@@ -87,6 +97,16 @@ namespace AeroScenery.Data
                 string afsLevelsCsv = key.GetValueAsString("AFSLevelsToGenerate");
                 List<int> afsLevels = afsLevelsCsv.Split(',').Select(int.Parse).ToList();
                 settings.AFSLevelsToGenerate = afsLevels;
+
+                // Settings version 2           
+                settings.MaximumStitchedImageSize = int.Parse(key.GetValueAsString("MaximumStitchedImageSize"));
+                settings.GeoConvertWriteImagesWithMask = Boolean.Parse(key.GetValueAsString("GeoConvertWriteImagesWithMask"));
+                settings.GeoConvertWriteRawFiles = Boolean.Parse(key.GetValueAsString("GeoConvertWriteRawFiles"));
+                //--
+
+                // Settings verison 3
+                settings.GeoConvertDoMultipleSmallerRuns = Boolean.Parse(key.GetValueAsString("GeoConvertDoMultipleSmallerRuns"));
+                // --
             }
 
 
@@ -96,7 +116,7 @@ namespace AeroScenery.Data
         public bool SettingsInRegistry()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
-            key = key.OpenSubKey("AeroScenery", false);
+            key = key.OpenSubKey("AeroScenery", true);
 
             if (key != null)
             {
@@ -105,7 +125,23 @@ namespace AeroScenery.Data
                 // Do we need to upgrade the settings
                 if (currentSettingsVersion < this.minSettingsVersion)
                 {
+                    // Upgrade to settings version 2
+                    if (currentSettingsVersion == 1)
+                    {
+                        key.SetValue("MaximumStitchedImageSize", 32);
+                        key.SetValue("GeoConvertWriteImagesWithMask", false);
+                        key.SetValue("GeoConvertWriteRawFiles", true);
+                        key.SetValue("SettingsVersion", 2);
+                        currentSettingsVersion = 2;
+                    }
 
+                    // Upgrade to settings verison 3
+                    if (currentSettingsVersion == 2)
+                    {
+                        key.SetValue("GeoConvertDoMultipleSmallerRuns", true);
+                        key.SetValue("SettingsVersion", 3);
+                        currentSettingsVersion = 3;
+                    }
                 }
 
                 return true;
@@ -158,6 +194,17 @@ namespace AeroScenery.Data
 
             settings.AeroSceneryDBDirectory = aeroSceneryDBDirectoryPath;
             settings.WorkingDirectory = aeroSceneryWorkingDirectoryPath;
+
+            // Settings version 2           
+            settings.MaximumStitchedImageSize = 32;
+            settings.GeoConvertWriteImagesWithMask = false;
+            settings.GeoConvertWriteRawFiles = true;
+            //--
+
+            // Settings version 3           
+            settings.GeoConvertDoMultipleSmallerRuns = true;
+            //--
+
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key.CreateSubKey("AeroScenery");

@@ -52,6 +52,12 @@ namespace AeroScenery.Common
 
         public int SimultaneousDownloads { get; set; }
 
+        public int MaximumStitchedImageSize { get; set; }
 
+        public bool GeoConvertWriteImagesWithMask { get; set; }
+
+        public bool GeoConvertWriteRawFiles { get; set; }
+
+        public bool GeoConvertDoMultipleSmallerRuns { get; set; }
     }
 }

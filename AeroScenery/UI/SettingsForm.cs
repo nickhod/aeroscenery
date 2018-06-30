@@ -35,9 +35,26 @@ namespace AeroScenery.UI
             settings.AFS2SDKDirectory = pathWithTrailingDirectorySeparatorChar(this.afsSDKFolderTextBox.Text);
             settings.AFS2Directory = pathWithTrailingDirectorySeparatorChar(this.afsFolderTextBox.Text);
 
+            if (settings.AFS2SDKDirectory.Contains("aerofly_fs_2_geoconvert"))
+            {
+                settings.AFS2SDKDirectory = settings.AFS2SDKDirectory.Replace("aerofly_fs_2_geoconvert.exe", "");
+                settings.AFS2SDKDirectory = settings.AFS2SDKDirectory.Replace("aerofly_fs_2_geoconvert", "");
+                settings.AFS2SDKDirectory = settings.AFS2SDKDirectory.Replace("\\\\", "");
+                settings.AFS2SDKDirectory = pathWithTrailingDirectorySeparatorChar(settings.AFS2SDKDirectory);
+            }
+
+
             settings.UserAgent = this.userAgentTextBox.Text;
-            settings.DownloadWaitMs = int.Parse(this.downloadWaitTextBox.Text);
-            settings.DownloadWaitRandomMs = int.Parse(this.downloadWaitRandomTextBox.Text);
+
+            if (!String.IsNullOrEmpty(this.downloadWaitTextBox.Text))
+            {
+                settings.DownloadWaitMs = int.Parse(this.downloadWaitTextBox.Text);
+            }
+
+            if (!String.IsNullOrEmpty(this.downloadWaitRandomTextBox.Text))
+            {
+                settings.DownloadWaitRandomMs = int.Parse(this.downloadWaitRandomTextBox.Text);
+            }
 
             switch (this.simultaneousDownloadsComboBox.SelectedIndex)
             {
@@ -50,6 +67,40 @@ namespace AeroScenery.UI
                 case 2:
                     settings.SimultaneousDownloads = 8;
                     break;
+            }
+
+
+            if (!String.IsNullOrEmpty(this.maxTilesPerStitchedImageTextBox.Text))
+            {
+                settings.MaximumStitchedImageSize = int.Parse(this.maxTilesPerStitchedImageTextBox.Text);
+            }
+
+            // Index 0 = yes, index 1 = no
+            if (this.gcWriteImagesWithMaskCombo.SelectedIndex == 0)
+            {
+                settings.GeoConvertWriteImagesWithMask = true;
+            }
+            else
+            {
+                settings.GeoConvertWriteImagesWithMask = false;
+            }
+
+            if (this.gcWriteRawFilesComboBox.SelectedIndex == 0)
+            {
+                settings.GeoConvertWriteRawFiles= true;
+            }
+            else
+            {
+                settings.GeoConvertWriteRawFiles = false;
+            }
+
+            if (this.gcDoMultipleSmallerRunsComboBox.SelectedIndex == 0)
+            {
+                settings.GeoConvertDoMultipleSmallerRuns= true;
+            }
+            else
+            {
+                settings.GeoConvertDoMultipleSmallerRuns = false;
             }
 
             AeroSceneryManager.Instance.SaveSettings();
@@ -82,6 +133,35 @@ namespace AeroScenery.UI
                     this.simultaneousDownloadsComboBox.SelectedIndex = 2;
                     break;
             }
+
+            this.maxTilesPerStitchedImageTextBox.Text = settings.MaximumStitchedImageSize.ToString();
+
+            if (settings.GeoConvertDoMultipleSmallerRuns)
+            {
+                this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 1;
+            }
+
+            if (settings.GeoConvertWriteImagesWithMask)
+            {
+                this.gcWriteImagesWithMaskCombo.SelectedIndex = 0;
+            }
+            else
+            {
+                this.gcWriteImagesWithMaskCombo.SelectedIndex = 1;
+            }
+
+            if (settings.GeoConvertWriteRawFiles)
+            {
+                this.gcWriteRawFilesComboBox.SelectedIndex = 0;
+            }
+            else
+            {
+                this.gcWriteRawFilesComboBox.SelectedIndex = 1;
+            }
         }
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -103,17 +183,38 @@ namespace AeroScenery.UI
 
         private void aerosceneryDatabaseFolderButton_Click(object sender, EventArgs e)
         {
+            var settings = AeroSceneryManager.Instance.Settings;
+            DialogResult result = this.folderBrowserDialog1.ShowDialog();
 
+            if (result == DialogResult.OK)
+            {
+                this.aeroSceneryDatabaseFolderTextBox.Text = folderBrowserDialog1.SelectedPath;
+                settings.AeroSceneryDBDirectory = this.aeroSceneryDatabaseFolderTextBox.Text;
+            }
         }
 
         private void sdkButton_Click(object sender, EventArgs e)
         {
+            var settings = AeroSceneryManager.Instance.Settings;
+            DialogResult result = this.folderBrowserDialog1.ShowDialog();
 
+            if (result == DialogResult.OK)
+            {
+                this.afsSDKFolderTextBox.Text = folderBrowserDialog1.SelectedPath;
+                settings.AFS2SDKDirectory = this.afsSDKFolderTextBox.Text;
+            }
         }
 
         private void afsFolderButton_Click(object sender, EventArgs e)
         {
+            var settings = AeroSceneryManager.Instance.Settings;
+            DialogResult result = this.folderBrowserDialog1.ShowDialog();
 
+            if (result == DialogResult.OK)
+            {
+                this.afsFolderTextBox.Text = folderBrowserDialog1.SelectedPath;
+                settings.AFS2Directory = this.afsFolderTextBox.Text;
+            }
         }
 
         private string pathWithTrailingDirectorySeparatorChar(string path)
@@ -158,6 +259,47 @@ namespace AeroScenery.UI
 
         }
 
+        private void maxTilesPerStitchedImageTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var numbersOnly = this.GetNumbers(this.maxTilesPerStitchedImageTextBox.Text);
 
+            if (this.maxTilesPerStitchedImageTextBox.Text != numbersOnly)
+            {
+                this.maxTilesPerStitchedImageTextBox.Text = numbersOnly;
+            }
+
+            int maxTiles = 0;
+            if (int.TryParse(this.maxTilesPerStitchedImageTextBox.Text, out maxTiles))
+            {
+                int resolution = 256 * maxTiles;
+                this.maxTilesPerStitchedImageInfoLabel.Text = string.Format("tiles x {0} tiles. ({1}px x {2}px)", maxTiles, resolution, resolution);
+            }
+
+        }
+
+        private string GetNumbers(string input)
+        {
+            return new string(input.Where(c => char.IsDigit(c)).ToArray());
+        }
+
+        private void downloadWaitTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var numbersOnly = this.GetNumbers(this.downloadWaitTextBox.Text);
+
+            if (this.downloadWaitTextBox.Text != numbersOnly)
+            {
+                this.downloadWaitTextBox.Text = numbersOnly;
+            }
+        }
+
+        private void downloadWaitRandomTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var numbersOnly = this.GetNumbers(this.downloadWaitRandomTextBox.Text);
+
+            if (this.downloadWaitRandomTextBox.Text != numbersOnly)
+            {
+                this.downloadWaitRandomTextBox.Text = numbersOnly;
+            }
+        }
     }
 }

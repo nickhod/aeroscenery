@@ -69,7 +69,7 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "0.3";
+            version = "0.4";
         }
 
         public Settings Settings
@@ -320,6 +320,20 @@ namespace AeroScenery
                     this.StartGeoConvertProcess();
                 }
 
+                // Delete Stitched Immage Tiles
+                //if (this.Settings.DeleteStitchedImageTiles)
+                //{
+                //    this.mainForm.UpdateChildTaskLabel("Deleting Stitched Image Tiles");
+
+                //    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
+                //    if (imageTiles == null)
+                //    {
+                //        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
+                //    }
+
+                //}
+
+
                 // Install Scenery
                 //if (this.Settings.InstallScenery)
                 //{
@@ -354,96 +368,45 @@ namespace AeroScenery
             }
             else
             {
-                log.Info("Starting GeoConvert Process");
-
-                int i = 0;
-                // Run the Geoconvert process for each selected grid square
-                foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+                if (settings.AFSLevelsToGenerate.Count == 0)
                 {
-                    var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
-                    this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
-                    log.Info(currentGrideSquareMessage);
+                    DialogResult result = MessageBox.Show("Please choose one or more AFS levels to generate before running Geoconvert",
+                        "AeroScenery",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    log.Info("Starting GeoConvert Process");
 
-                    // Do we have a directory for this afs grid square in our working directory?
-                    var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
-
-                    if (Directory.Exists(afsGridSquareDirectory))
+                    int i = 0;
+                    // Run the Geoconvert process for each selected grid square
+                    foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
                     {
-                        var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
-                        var tmcFilename = String.Format("{0}{1}_{2}_stitch.tmc", stitchedTilesDirectory, this.GetOrthophotoSourcePrefix(), settings.ZoomLevel);
+                        var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
+                        this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
+                        log.Info(currentGrideSquareMessage);
 
-                        if (Directory.Exists(stitchedTilesDirectory))
+                        // Do we have a directory for this afs grid square in our working directory?
+                        var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
+
+                        if (Directory.Exists(afsGridSquareDirectory))
                         {
-                            // Run GeoConvert
-                            if (this.Settings.RunGeoConvert)
-                            {
-                                string geoconvertPath = String.Format("{0}\\aerofly_fs_2_geoconvert", settings.AFS2SDKDirectory);
-                                string geoconvertFilename = String.Format("{0}\\aerofly_fs_2_geoconvert.exe", geoconvertPath);
+                            var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
 
-                                if (!File.Exists(geoconvertFilename))
-                                {
-                                    log.Error("Could not find GeoConvert");
-
-                                    DialogResult result = MessageBox.Show("Could not find GeoConvert",
-                                        "AeroScenery",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Error);
-                                }
-                                else
-                                {
-                                    this.mainForm.UpdateChildTaskLabel("Running GeoConvert");
-                                    log.Info("Running GeoConvert");
-
-                                    var proc = new Process
-                                    {
-                                        StartInfo = new ProcessStartInfo
-                                        {
-                                            FileName = geoconvertFilename,
-                                            Arguments = tmcFilename,
-                                            UseShellExecute = true,
-                                            RedirectStandardOutput = false,
-                                            CreateNoWindow = false,
-                                            WorkingDirectory = geoconvertPath
-                                        }
-                                    };
-
-                                    proc.Start();
-
-                                }
-
-
-                            }
-
-                            // Delete Stitched Immage Tiles
-                            //if (this.Settings.DeleteStitchedImageTiles)
-                            //{
-                            //    this.mainForm.UpdateChildTaskLabel("Deleting Stitched Image Tiles");
-
-                            //    // If we haven't just downloaded image tiles we need to load aero files to get image tile objects
-                            //    if (imageTiles == null)
-                            //    {
-                            //        imageTiles = await this.imageTileService.LoadImageTilesAsync(tileDownloadDirectory);
-                            //    }
-
-                            //}
-
-
-
+                            this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
                         }
                         else
                         {
-                            // Tile download directory does not exist
+                            // Working directory does not exist
                         }
-                    }
-                    else
-                    {
-                        // Working directory does not exist
-                    }
 
-                    i++;
+                        i++;
+                    }
                 }
-            }
 
+
+            }
 
 
         }

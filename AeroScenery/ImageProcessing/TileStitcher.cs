@@ -66,8 +66,8 @@ namespace AeroScenery.ImageProcessing
 
 
                 // TODO - Needs to come from config
-                int maxTilesPerStitchedImageX = 48;
-                int maxTilesPerStitchedImageY = 48;
+                int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
+                int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
 
                 // Calculate the size of our stitched images in each direction
                 var imageSizeX = maxTilesPerStitchedImageX * tileWidth;
@@ -129,6 +129,10 @@ namespace AeroScenery.ImageProcessing
 
                                         if (imageTileData != null)
                                         {
+                                            // Even if all the images in this row are invalid, the aero files are present
+                                            // so an attempt was made to download something
+                                            rowHasImages = true;
+
                                             // Update our overall stitched image lat and long maxima and minima
                                             // We want the highest NorthLatitude value of any image tile for this stitched image
                                             if (imageTileData.NorthLatitude > northLatitude)
@@ -171,12 +175,6 @@ namespace AeroScenery.ImageProcessing
                                                     tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage++;
                                                     progress.Report(tileStitcherProgress);
 
-                                                    rowHasImages = true;
-
-                                                    if (xIx > columnsUsed)
-                                                    {
-                                                        columnsUsed = xIx + 1;
-                                                    }
                                                 }
 
                                                 tile.Dispose();
@@ -188,6 +186,13 @@ namespace AeroScenery.ImageProcessing
                                             }
                                             finally
                                             {
+                                                // Even if the image was invalid, we still had an aero file for it
+                                                // so it counts as a used column
+                                                if (xIx > columnsUsed)
+                                                {
+                                                    columnsUsed = xIx + 1;
+                                                }
+
                                                 if (tile != null)
                                                 {
                                                     tile.Dispose();
@@ -258,22 +263,24 @@ namespace AeroScenery.ImageProcessing
         {
             try
             {
-                using (Bitmap croppedBitmap = new Bitmap(rectangle.Width, rectangle.Height, bitmap.PixelFormat))
+                if (rectangle.Width > 0 && rectangle.Height > 0)
                 {
-                    using (Graphics g = Graphics.FromImage(croppedBitmap))
-                    {
-                        g.DrawImage(bitmap, 0, 0);
-                        log.InfoFormat("Cropping stitched image {0}", stitchFilename);
-                        croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
-                    }
+                    var croppedBitmap = bitmap.Clone(rectangle, bitmap.PixelFormat);
+                    croppedBitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                    croppedBitmap.Dispose();
+                    croppedBitmap = null;
+
+                    GC.Collect();
+                }
+                else
+                {
+                    log.ErrorFormat("Crop rectangle for image {0} was 0 width or height", stitchFilename);
                 }
 
-                GC.Collect();
             }
             catch (Exception ex)
             {
                 log.Error("There was an error cropping the file " + stitchFilename, ex);
-                log.InfoFormat("Available physical memory {0}", new ComputerInfo().AvailablePhysicalMemory);
 
                 DialogResult result = MessageBox.Show(String.Format("There was an error cropping the file {0}.", stitchFilename),
                     "AeroScenery",

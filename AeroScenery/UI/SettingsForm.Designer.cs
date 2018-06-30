@@ -43,6 +43,7 @@
             this.workingFolderTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.downloadWaitRandomTextBox = new System.Windows.Forms.TextBox();
@@ -55,9 +56,21 @@
             this.closeButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.maxTilesPerStitchedImageInfoLabel = new System.Windows.Forms.Label();
+            this.maxTilesPerStitchedImageTextBox = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.gcWriteRawFilesComboBox = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.gcWriteImagesWithMaskCombo = new System.Windows.Forms.ComboBox();
+            this.gcDoMultipleSmallerRunsComboBox = new System.Windows.Forms.ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -214,6 +227,16 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Downloads";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(350, 101);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(127, 17);
+            this.label10.TabIndex = 9;
+            this.label10.Text = "randomize by + or -";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -240,6 +263,7 @@
             this.downloadWaitRandomTextBox.Name = "downloadWaitRandomTextBox";
             this.downloadWaitRandomTextBox.Size = new System.Drawing.Size(79, 25);
             this.downloadWaitRandomTextBox.TabIndex = 6;
+            this.downloadWaitRandomTextBox.TextChanged += new System.EventHandler(this.downloadWaitRandomTextBox_TextChanged);
             // 
             // downloadWaitTextBox
             // 
@@ -247,6 +271,7 @@
             this.downloadWaitTextBox.Name = "downloadWaitTextBox";
             this.downloadWaitTextBox.Size = new System.Drawing.Size(79, 25);
             this.downloadWaitTextBox.TabIndex = 5;
+            this.downloadWaitTextBox.TextChanged += new System.EventHandler(this.downloadWaitTextBox_TextChanged);
             // 
             // label5
             // 
@@ -261,6 +286,7 @@
             // simultaneousDownloadsComboBox
             // 
             this.simultaneousDownloadsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.simultaneousDownloadsComboBox.Enabled = false;
             this.simultaneousDownloadsComboBox.FormattingEnabled = true;
             this.simultaneousDownloadsComboBox.Items.AddRange(new object[] {
             "4",
@@ -300,9 +326,10 @@
             // 
             // closeButton
             // 
+            this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.closeButton.Location = new System.Drawing.Point(606, 350);
+            this.closeButton.Location = new System.Drawing.Point(606, 592);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(96, 32);
             this.closeButton.TabIndex = 10;
@@ -312,8 +339,9 @@
             // 
             // okButton
             // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okButton.Location = new System.Drawing.Point(509, 350);
+            this.okButton.Location = new System.Drawing.Point(509, 592);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(91, 32);
             this.okButton.TabIndex = 11;
@@ -325,15 +353,128 @@
             // 
             this.folderBrowserDialog1.HelpRequest += new System.EventHandler(this.folderBrowserDialog1_HelpRequest);
             // 
-            // label10
+            // groupBox3
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(350, 101);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(127, 17);
-            this.label10.TabIndex = 9;
-            this.label10.Text = "randomize by + or -";
+            this.groupBox3.Controls.Add(this.maxTilesPerStitchedImageInfoLabel);
+            this.groupBox3.Controls.Add(this.maxTilesPerStitchedImageTextBox);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(12, 350);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(690, 70);
+            this.groupBox3.TabIndex = 12;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Tile Stitching";
+            // 
+            // maxTilesPerStitchedImageInfoLabel
+            // 
+            this.maxTilesPerStitchedImageInfoLabel.AutoSize = true;
+            this.maxTilesPerStitchedImageInfoLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.maxTilesPerStitchedImageInfoLabel.Location = new System.Drawing.Point(301, 29);
+            this.maxTilesPerStitchedImageInfoLabel.Name = "maxTilesPerStitchedImageInfoLabel";
+            this.maxTilesPerStitchedImageInfoLabel.Size = new System.Drawing.Size(199, 17);
+            this.maxTilesPerStitchedImageInfoLabel.TabIndex = 10;
+            this.maxTilesPerStitchedImageInfoLabel.Text = "tiles x 32 tiles. (8042px x 8042px)";
+            // 
+            // maxTilesPerStitchedImageTextBox
+            // 
+            this.maxTilesPerStitchedImageTextBox.Location = new System.Drawing.Point(216, 26);
+            this.maxTilesPerStitchedImageTextBox.Name = "maxTilesPerStitchedImageTextBox";
+            this.maxTilesPerStitchedImageTextBox.Size = new System.Drawing.Size(79, 25);
+            this.maxTilesPerStitchedImageTextBox.TabIndex = 9;
+            this.maxTilesPerStitchedImageTextBox.TextChanged += new System.EventHandler(this.maxTilesPerStitchedImageTextBox_TextChanged);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(20, 29);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(173, 17);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Max tiles per stitched image";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.gcDoMultipleSmallerRunsComboBox);
+            this.groupBox4.Controls.Add(this.gcWriteImagesWithMaskCombo);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.gcWriteRawFilesComboBox);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox4.Location = new System.Drawing.Point(12, 434);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(690, 146);
+            this.groupBox4.TabIndex = 13;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "GeoConvert";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(20, 32);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 17);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Write Raw Files";
+            // 
+            // gcWriteRawFilesComboBox
+            // 
+            this.gcWriteRawFilesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gcWriteRawFilesComboBox.FormattingEnabled = true;
+            this.gcWriteRawFilesComboBox.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.gcWriteRawFilesComboBox.Location = new System.Drawing.Point(216, 29);
+            this.gcWriteRawFilesComboBox.Name = "gcWriteRawFilesComboBox";
+            this.gcWriteRawFilesComboBox.Size = new System.Drawing.Size(417, 25);
+            this.gcWriteRawFilesComboBox.TabIndex = 5;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(20, 66);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(150, 17);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "Write Images With Mask";
+            // 
+            // gcWriteImagesWithMaskCombo
+            // 
+            this.gcWriteImagesWithMaskCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gcWriteImagesWithMaskCombo.FormattingEnabled = true;
+            this.gcWriteImagesWithMaskCombo.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.gcWriteImagesWithMaskCombo.Location = new System.Drawing.Point(216, 63);
+            this.gcWriteImagesWithMaskCombo.Name = "gcWriteImagesWithMaskCombo";
+            this.gcWriteImagesWithMaskCombo.Size = new System.Drawing.Size(417, 25);
+            this.gcWriteImagesWithMaskCombo.TabIndex = 7;
+            // 
+            // gcDoMultipleSmallerRunsComboBox
+            // 
+            this.gcDoMultipleSmallerRunsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gcDoMultipleSmallerRunsComboBox.FormattingEnabled = true;
+            this.gcDoMultipleSmallerRunsComboBox.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.gcDoMultipleSmallerRunsComboBox.Location = new System.Drawing.Point(216, 98);
+            this.gcDoMultipleSmallerRunsComboBox.Name = "gcDoMultipleSmallerRunsComboBox";
+            this.gcDoMultipleSmallerRunsComboBox.Size = new System.Drawing.Size(417, 25);
+            this.gcDoMultipleSmallerRunsComboBox.TabIndex = 8;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(20, 101);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(155, 17);
+            this.label15.TabIndex = 9;
+            this.label15.Text = "Do Multiple Smaller Runs";
             // 
             // SettingsForm
             // 
@@ -341,7 +482,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(714, 394);
+            this.ClientSize = new System.Drawing.Size(714, 636);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.groupBox2);
@@ -360,6 +503,10 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -393,5 +540,16 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label maxTilesPerStitchedImageInfoLabel;
+        private System.Windows.Forms.TextBox maxTilesPerStitchedImageTextBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox gcWriteRawFilesComboBox;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ComboBox gcDoMultipleSmallerRunsComboBox;
+        private System.Windows.Forms.ComboBox gcWriteImagesWithMaskCombo;
     }
 }
