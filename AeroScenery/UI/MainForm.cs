@@ -9,6 +9,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -113,30 +114,35 @@ namespace AeroScenery
 
         private void CheckForNewerVersions()
         {
-            try
+            Task.Run(() =>
             {
-                using (WebClient client = new WebClient())
-                {
-                    string newestIncrementalVersionStr = client.DownloadString("https://raw.githubusercontent.com/nickhod/aeroscenery/master/version.txt");
-                    int newestIncrementalVersion = 0;
 
-                    if (int.TryParse(newestIncrementalVersionStr, out newestIncrementalVersion))
+                try
+                {
+                    using (WebClient client = new WebClient())
                     {
-                        if (newestIncrementalVersion > AeroSceneryManager.Instance.IncrementalVersion)
+                        string versionInfo = client.DownloadString("https://raw.githubusercontent.com/nickhod/aeroscenery/master/version.json");
+
+                        dynamic dyn = JsonConvert.DeserializeObject(versionInfo);
+                        int incrementalVersion = dyn.incrementalVersion;
+                        string semanticVersion = dyn.semanicVersion;
+
+
+                        if (incrementalVersion > AeroSceneryManager.Instance.IncrementalVersion)
                         {
-                            DialogResult result = MessageBox.Show("A newer version of AeroScenery is available.",
-                                "AeroScenery",
-                                MessageBoxButtons.OK,
+                            DialogResult result = MessageBox.Show("A newer version of AeroScenery is available.", 
+                                "AeroScenery", 
+                                MessageBoxButtons.OK, 
                                 MessageBoxIcon.Information);
                         }
                     }
                 }
-            }
-            catch
-            {
+                catch
+                {
 
-            }
+                }
 
+            });
 
         }
 

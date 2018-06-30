@@ -138,7 +138,7 @@ namespace AeroScenery.Data
                     // Upgrade to settings verison 3
                     if (currentSettingsVersion == 2)
                     {
-                        key.SetValue("GeoConvertDoMultipleSmallerRuns", true);
+                        key.SetValue("GeoConvertDoMultipleSmallerRuns", false);
                         key.SetValue("SettingsVersion", 3);
                         currentSettingsVersion = 3;
                     }
@@ -202,7 +202,7 @@ namespace AeroScenery.Data
             //--
 
             // Settings version 3           
-            settings.GeoConvertDoMultipleSmallerRuns = true;
+            settings.GeoConvertDoMultipleSmallerRuns = false;
             //--
 
 
