@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -107,6 +108,36 @@ namespace AeroScenery
             TextBoxAppender.ConfigureTextBoxAppender(this.logTextBox);
 
             versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
+
+        }
+
+        private void CheckForNewerVersions()
+        {
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string newestIncrementalVersionStr = client.DownloadString("https://raw.githubusercontent.com/nickhod/aeroscenery/master/version.txt");
+                    int newestIncrementalVersion = 0;
+
+                    if (int.TryParse(newestIncrementalVersionStr, out newestIncrementalVersion))
+                    {
+                        if (newestIncrementalVersion > AeroSceneryManager.Instance.IncrementalVersion)
+                        {
+                            DialogResult result = MessageBox.Show("A newer version of AeroScenery is available.",
+                                "AeroScenery",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+
+            }
+
+
         }
 
         public void UpdateUIFromSettings()
@@ -870,6 +901,7 @@ namespace AeroScenery
         private void MainForm_Shown(object sender, EventArgs e)
         {
             log.Info("AeroScenery Started");
+            this.CheckForNewerVersions();
         }
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
