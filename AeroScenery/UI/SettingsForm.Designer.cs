@@ -61,16 +61,31 @@
             this.maxTilesPerStitchedImageTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.gcWriteRawFilesComboBox = new System.Windows.Forms.ComboBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.gcWriteImagesWithMaskCombo = new System.Windows.Forms.ComboBox();
-            this.gcDoMultipleSmallerRunsComboBox = new System.Windows.Forms.ComboBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.gcDoMultipleSmallerRunsComboBox = new System.Windows.Forms.ComboBox();
+            this.gcWriteImagesWithMaskCombo = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.gcWriteRawFilesComboBox = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.usgsUsernameTextBox = new System.Windows.Forms.TextBox();
+            this.usgsPasswordTextBox = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.createUSGSAccountLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -90,16 +105,16 @@
             this.groupBox1.Controls.Add(this.workingFolderTextBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(14, 9);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(690, 170);
+            this.groupBox1.Size = new System.Drawing.Size(654, 170);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Folders";
             // 
             // afsFolderButton
             // 
-            this.afsFolderButton.Location = new System.Drawing.Point(640, 123);
+            this.afsFolderButton.Location = new System.Drawing.Point(603, 123);
             this.afsFolderButton.Name = "afsFolderButton";
             this.afsFolderButton.Size = new System.Drawing.Size(33, 25);
             this.afsFolderButton.TabIndex = 11;
@@ -111,7 +126,7 @@
             // 
             this.afsFolderTextBox.Location = new System.Drawing.Point(216, 123);
             this.afsFolderTextBox.Name = "afsFolderTextBox";
-            this.afsFolderTextBox.Size = new System.Drawing.Size(417, 25);
+            this.afsFolderTextBox.Size = new System.Drawing.Size(381, 25);
             this.afsFolderTextBox.TabIndex = 10;
             // 
             // label9
@@ -126,7 +141,7 @@
             // 
             // sdkButton
             // 
-            this.sdkButton.Location = new System.Drawing.Point(640, 91);
+            this.sdkButton.Location = new System.Drawing.Point(603, 91);
             this.sdkButton.Name = "sdkButton";
             this.sdkButton.Size = new System.Drawing.Size(33, 25);
             this.sdkButton.TabIndex = 8;
@@ -136,7 +151,7 @@
             // 
             // aerosceneryDatabaseFolderButton
             // 
-            this.aerosceneryDatabaseFolderButton.Location = new System.Drawing.Point(640, 60);
+            this.aerosceneryDatabaseFolderButton.Location = new System.Drawing.Point(603, 60);
             this.aerosceneryDatabaseFolderButton.Name = "aerosceneryDatabaseFolderButton";
             this.aerosceneryDatabaseFolderButton.Size = new System.Drawing.Size(33, 25);
             this.aerosceneryDatabaseFolderButton.TabIndex = 7;
@@ -146,7 +161,7 @@
             // 
             // workingFolderButton
             // 
-            this.workingFolderButton.Location = new System.Drawing.Point(640, 29);
+            this.workingFolderButton.Location = new System.Drawing.Point(603, 29);
             this.workingFolderButton.Name = "workingFolderButton";
             this.workingFolderButton.Size = new System.Drawing.Size(33, 25);
             this.workingFolderButton.TabIndex = 6;
@@ -158,7 +173,7 @@
             // 
             this.afsSDKFolderTextBox.Location = new System.Drawing.Point(216, 91);
             this.afsSDKFolderTextBox.Name = "afsSDKFolderTextBox";
-            this.afsSDKFolderTextBox.Size = new System.Drawing.Size(417, 25);
+            this.afsSDKFolderTextBox.Size = new System.Drawing.Size(381, 25);
             this.afsSDKFolderTextBox.TabIndex = 5;
             // 
             // label3
@@ -175,7 +190,7 @@
             // 
             this.aeroSceneryDatabaseFolderTextBox.Location = new System.Drawing.Point(216, 60);
             this.aeroSceneryDatabaseFolderTextBox.Name = "aeroSceneryDatabaseFolderTextBox";
-            this.aeroSceneryDatabaseFolderTextBox.Size = new System.Drawing.Size(417, 25);
+            this.aeroSceneryDatabaseFolderTextBox.Size = new System.Drawing.Size(381, 25);
             this.aeroSceneryDatabaseFolderTextBox.TabIndex = 3;
             // 
             // label2
@@ -192,7 +207,7 @@
             // 
             this.workingFolderTextBox.Location = new System.Drawing.Point(216, 29);
             this.workingFolderTextBox.Name = "workingFolderTextBox";
-            this.workingFolderTextBox.Size = new System.Drawing.Size(417, 25);
+            this.workingFolderTextBox.Size = new System.Drawing.Size(381, 25);
             this.workingFolderTextBox.TabIndex = 1;
             // 
             // label1
@@ -220,9 +235,9 @@
             this.groupBox2.Controls.Add(this.userAgentTextBox);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(12, 192);
+            this.groupBox2.Location = new System.Drawing.Point(14, 194);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(690, 145);
+            this.groupBox2.Size = new System.Drawing.Size(654, 145);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Downloads";
@@ -294,7 +309,7 @@
             "8"});
             this.simultaneousDownloadsComboBox.Location = new System.Drawing.Point(216, 63);
             this.simultaneousDownloadsComboBox.Name = "simultaneousDownloadsComboBox";
-            this.simultaneousDownloadsComboBox.Size = new System.Drawing.Size(417, 25);
+            this.simultaneousDownloadsComboBox.Size = new System.Drawing.Size(420, 25);
             this.simultaneousDownloadsComboBox.TabIndex = 3;
             // 
             // label4
@@ -311,7 +326,7 @@
             // 
             this.userAgentTextBox.Location = new System.Drawing.Point(216, 29);
             this.userAgentTextBox.Name = "userAgentTextBox";
-            this.userAgentTextBox.Size = new System.Drawing.Size(417, 25);
+            this.userAgentTextBox.Size = new System.Drawing.Size(420, 25);
             this.userAgentTextBox.TabIndex = 1;
             // 
             // label6
@@ -329,7 +344,7 @@
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.closeButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.closeButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.closeButton.Location = new System.Drawing.Point(606, 592);
+            this.closeButton.Location = new System.Drawing.Point(606, 501);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(96, 32);
             this.closeButton.TabIndex = 10;
@@ -341,7 +356,7 @@
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.okButton.Location = new System.Drawing.Point(509, 592);
+            this.okButton.Location = new System.Drawing.Point(509, 501);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(91, 32);
             this.okButton.TabIndex = 11;
@@ -359,9 +374,9 @@
             this.groupBox3.Controls.Add(this.maxTilesPerStitchedImageTextBox);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(12, 350);
+            this.groupBox3.Location = new System.Drawing.Point(14, 354);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(690, 70);
+            this.groupBox3.Size = new System.Drawing.Size(654, 70);
             this.groupBox3.TabIndex = 12;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tile Stitching";
@@ -403,56 +418,22 @@
             this.groupBox4.Controls.Add(this.gcWriteRawFilesComboBox);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox4.Location = new System.Drawing.Point(12, 434);
+            this.groupBox4.Location = new System.Drawing.Point(14, 9);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(690, 146);
+            this.groupBox4.Size = new System.Drawing.Size(654, 146);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "GeoConvert";
             // 
-            // label13
+            // label15
             // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(20, 32);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(96, 17);
-            this.label13.TabIndex = 3;
-            this.label13.Text = "Write Raw Files";
-            // 
-            // gcWriteRawFilesComboBox
-            // 
-            this.gcWriteRawFilesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.gcWriteRawFilesComboBox.FormattingEnabled = true;
-            this.gcWriteRawFilesComboBox.Items.AddRange(new object[] {
-            "Yes",
-            "No"});
-            this.gcWriteRawFilesComboBox.Location = new System.Drawing.Point(216, 29);
-            this.gcWriteRawFilesComboBox.Name = "gcWriteRawFilesComboBox";
-            this.gcWriteRawFilesComboBox.Size = new System.Drawing.Size(417, 25);
-            this.gcWriteRawFilesComboBox.TabIndex = 5;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(20, 66);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(150, 17);
-            this.label14.TabIndex = 6;
-            this.label14.Text = "Write Images With Mask";
-            // 
-            // gcWriteImagesWithMaskCombo
-            // 
-            this.gcWriteImagesWithMaskCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.gcWriteImagesWithMaskCombo.FormattingEnabled = true;
-            this.gcWriteImagesWithMaskCombo.Items.AddRange(new object[] {
-            "Yes",
-            "No"});
-            this.gcWriteImagesWithMaskCombo.Location = new System.Drawing.Point(216, 63);
-            this.gcWriteImagesWithMaskCombo.Name = "gcWriteImagesWithMaskCombo";
-            this.gcWriteImagesWithMaskCombo.Size = new System.Drawing.Size(417, 25);
-            this.gcWriteImagesWithMaskCombo.TabIndex = 7;
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(20, 101);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(155, 17);
+            this.label15.TabIndex = 9;
+            this.label15.Text = "Do Multiple Smaller Runs";
             // 
             // gcDoMultipleSmallerRunsComboBox
             // 
@@ -466,15 +447,156 @@
             this.gcDoMultipleSmallerRunsComboBox.Size = new System.Drawing.Size(417, 25);
             this.gcDoMultipleSmallerRunsComboBox.TabIndex = 8;
             // 
-            // label15
+            // gcWriteImagesWithMaskCombo
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(20, 101);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(155, 17);
-            this.label15.TabIndex = 9;
-            this.label15.Text = "Do Multiple Smaller Runs";
+            this.gcWriteImagesWithMaskCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gcWriteImagesWithMaskCombo.FormattingEnabled = true;
+            this.gcWriteImagesWithMaskCombo.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.gcWriteImagesWithMaskCombo.Location = new System.Drawing.Point(216, 63);
+            this.gcWriteImagesWithMaskCombo.Name = "gcWriteImagesWithMaskCombo";
+            this.gcWriteImagesWithMaskCombo.Size = new System.Drawing.Size(417, 25);
+            this.gcWriteImagesWithMaskCombo.TabIndex = 7;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.Location = new System.Drawing.Point(20, 66);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(150, 17);
+            this.label14.TabIndex = 6;
+            this.label14.Text = "Write Images With Mask";
+            // 
+            // gcWriteRawFilesComboBox
+            // 
+            this.gcWriteRawFilesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.gcWriteRawFilesComboBox.FormattingEnabled = true;
+            this.gcWriteRawFilesComboBox.Items.AddRange(new object[] {
+            "Yes",
+            "No"});
+            this.gcWriteRawFilesComboBox.Location = new System.Drawing.Point(216, 29);
+            this.gcWriteRawFilesComboBox.Name = "gcWriteRawFilesComboBox";
+            this.gcWriteRawFilesComboBox.Size = new System.Drawing.Size(417, 25);
+            this.gcWriteRawFilesComboBox.TabIndex = 5;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(20, 32);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(96, 17);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Write Raw Files";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.createUSGSAccountLinkLabel);
+            this.groupBox5.Controls.Add(this.usgsPasswordTextBox);
+            this.groupBox5.Controls.Add(this.usgsUsernameTextBox);
+            this.groupBox5.Controls.Add(this.label16);
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox5.Location = new System.Drawing.Point(14, 9);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(654, 143);
+            this.groupBox5.TabIndex = 14;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "USGS Account";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(20, 66);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(64, 17);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Password";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(20, 32);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(67, 17);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "Username";
+            // 
+            // usgsUsernameTextBox
+            // 
+            this.usgsUsernameTextBox.Location = new System.Drawing.Point(216, 29);
+            this.usgsUsernameTextBox.Name = "usgsUsernameTextBox";
+            this.usgsUsernameTextBox.Size = new System.Drawing.Size(417, 25);
+            this.usgsUsernameTextBox.TabIndex = 7;
+            // 
+            // usgsPasswordTextBox
+            // 
+            this.usgsPasswordTextBox.Location = new System.Drawing.Point(216, 63);
+            this.usgsPasswordTextBox.Name = "usgsPasswordTextBox";
+            this.usgsPasswordTextBox.Size = new System.Drawing.Size(417, 25);
+            this.usgsPasswordTextBox.TabIndex = 8;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(690, 477);
+            this.tabControl1.TabIndex = 15;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Location = new System.Drawing.Point(4, 26);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(682, 447);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "AeroScenery";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.groupBox4);
+            this.tabPage2.Location = new System.Drawing.Point(4, 26);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(682, 447);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "GeoConvert";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox5);
+            this.tabPage3.Location = new System.Drawing.Point(4, 26);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(682, 447);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "USGS";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // createUSGSAccountLinkLabel
+            // 
+            this.createUSGSAccountLinkLabel.AutoSize = true;
+            this.createUSGSAccountLinkLabel.Location = new System.Drawing.Point(490, 104);
+            this.createUSGSAccountLinkLabel.Name = "createUSGSAccountLinkLabel";
+            this.createUSGSAccountLinkLabel.Size = new System.Drawing.Size(143, 17);
+            this.createUSGSAccountLinkLabel.TabIndex = 15;
+            this.createUSGSAccountLinkLabel.TabStop = true;
+            this.createUSGSAccountLinkLabel.Text = "Create a USGS Account";
+            this.createUSGSAccountLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.createUSGSAccountLinkLabel_LinkClicked);
             // 
             // SettingsForm
             // 
@@ -482,13 +604,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.closeButton;
-            this.ClientSize = new System.Drawing.Size(714, 636);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
+            this.ClientSize = new System.Drawing.Size(714, 545);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.closeButton);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -507,6 +626,12 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -551,5 +676,15 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ComboBox gcDoMultipleSmallerRunsComboBox;
         private System.Windows.Forms.ComboBox gcWriteImagesWithMaskCombo;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TextBox usgsPasswordTextBox;
+        private System.Windows.Forms.TextBox usgsUsernameTextBox;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.LinkLabel createUSGSAccountLinkLabel;
     }
 }

@@ -34,9 +34,6 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusStripLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.settingsButton = new System.Windows.Forms.ToolStripButton();
-            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.gridSquareSelectionSizeToolstripCombo = new System.Windows.Forms.ToolStripComboBox();
@@ -47,16 +44,10 @@
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.gridSquareLabel = new System.Windows.Forms.ToolStripLabel();
-            this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.resetSquareToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
-            this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressTabPage = new System.Windows.Forms.TabPage();
             this.childTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -70,9 +61,8 @@
             this.parentTaskLabel = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.logTextBox = new System.Windows.Forms.TextBox();
-            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.sideTabControl = new System.Windows.Forms.TabControl();
             this.imagesTabPage = new System.Windows.Forms.TabPage();
-            this.generateAFS2LevelsHelpImage = new System.Windows.Forms.Label();
             this.zoomLevelLabel = new System.Windows.Forms.Label();
             this.zoomLevelTrackBar = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -88,11 +78,47 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.imageSourceComboBox = new System.Windows.Forms.ComboBox();
-            this.terrainTabPage = new System.Windows.Forms.TabPage();
+            this.elevationTabPage = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.usgsTestButton = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.manualElevationTabPage = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
+            this.workingFolderButton = new System.Windows.Forms.Button();
+            this.workingFolderTextBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.generateAFS2LevelsHelpImage = new System.Windows.Forms.Label();
+            this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
+            this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsButton = new System.Windows.Forms.ToolStripButton();
+            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.sceneryEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -102,11 +128,13 @@
             this.progressTabPage.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage5.SuspendLayout();
-            this.tabControl2.SuspendLayout();
+            this.sideTabControl.SuspendLayout();
             this.imagesTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomLevelTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
-            this.terrainTabPage.SuspendLayout();
+            this.elevationTabPage.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.manualElevationTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMap
@@ -164,42 +192,18 @@
             this.helpToolStripButton,
             this.getSDKToolStripButton,
             this.toolStripSeparator4,
+            this.sceneryEditorToolstripButton,
+            this.toolStripSeparator6,
             this.toolStripLabel2,
             this.gridSquareSelectionSizeToolstripCombo,
-            this.versionToolStripLabel});
+            this.versionToolStripLabel,
+            this.toolStripSeparator5});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Padding = new System.Windows.Forms.Padding(12, 5, 0, 5);
             this.toolStrip1.Size = new System.Drawing.Size(1461, 42);
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
-            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(69, 29);
-            this.settingsButton.Text = "Settings";
-            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
-            // 
-            // helpToolStripButton
-            // 
-            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
-            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(52, 29);
-            this.helpToolStripButton.Text = "Help";
-            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
-            // 
-            // getSDKToolStripButton
-            // 
-            this.getSDKToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("getSDKToolStripButton.Image")));
-            this.getSDKToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.getSDKToolStripButton.Name = "getSDKToolStripButton";
-            this.getSDKToolStripButton.Size = new System.Drawing.Size(133, 29);
-            this.getSDKToolStripButton.Text = "Get AeroFly FS2 SDK";
-            this.getSDKToolStripButton.Click += new System.EventHandler(this.getSDKToolStripButton_Click);
             // 
             // toolStripSeparator4
             // 
@@ -208,14 +212,15 @@
             // 
             // toolStripLabel2
             // 
+            this.toolStripLabel2.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(142, 29);
+            this.toolStripLabel2.Size = new System.Drawing.Size(161, 29);
             this.toolStripLabel2.Text = "Grid Square Selection Size";
             // 
             // gridSquareSelectionSizeToolstripCombo
             // 
             this.gridSquareSelectionSizeToolstripCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.gridSquareSelectionSizeToolstripCombo.Enabled = false;
+            this.gridSquareSelectionSizeToolstripCombo.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.gridSquareSelectionSizeToolstripCombo.Items.AddRange(new object[] {
             "Level 9 - Large",
             "Level 13 - Small",
@@ -304,14 +309,6 @@
             this.gridSquareLabel.Size = new System.Drawing.Size(125, 22);
             this.gridSquareLabel.Text = "map_09_xxxx_xxxx";
             // 
-            // toolStripDownloadedLabel
-            // 
-            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
-            this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
-            this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
-            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
-            this.toolStripDownloadedLabel.Text = "Not Downloaded";
-            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -332,53 +329,10 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // openImageFolderToolstripButton
-            // 
-            this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
-            this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
-            this.openImageFolderToolstripButton.Size = new System.Drawing.Size(141, 22);
-            this.openImageFolderToolstripButton.Text = "Open Image Folder";
-            this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
-            // 
-            // deleteImagesToolStripButton
-            // 
-            this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
-            this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
-            this.deleteImagesToolStripButton.Size = new System.Drawing.Size(111, 22);
-            this.deleteImagesToolStripButton.Text = "Delete Images";
-            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
-            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInGoogleMapsToolStripMenuItem,
-            this.openInBingMApsToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(188, 22);
-            this.toolStripDropDownButton1.Text = "Open Grid Square In Map";
-            // 
-            // openInGoogleMapsToolStripMenuItem
-            // 
-            this.openInGoogleMapsToolStripMenuItem.Name = "openInGoogleMapsToolStripMenuItem";
-            this.openInGoogleMapsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.openInGoogleMapsToolStripMenuItem.Text = "Open In Google Maps";
-            this.openInGoogleMapsToolStripMenuItem.Click += new System.EventHandler(this.openInGoogleMapsToolStripMenuItem_Click);
-            // 
-            // openInBingMApsToolStripMenuItem
-            // 
-            this.openInBingMApsToolStripMenuItem.Name = "openInBingMApsToolStripMenuItem";
-            this.openInBingMApsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.openInBingMApsToolStripMenuItem.Text = "Open In Bing Maps";
-            this.openInBingMApsToolStripMenuItem.Click += new System.EventHandler(this.openInBingMApsToolStripMenuItem_Click);
             // 
             // progressTabPage
             // 
@@ -531,18 +485,20 @@
             this.logTextBox.Size = new System.Drawing.Size(1034, 724);
             this.logTextBox.TabIndex = 0;
             // 
-            // tabControl2
+            // sideTabControl
             // 
-            this.tabControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.sideTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControl2.Controls.Add(this.imagesTabPage);
-            this.tabControl2.Controls.Add(this.terrainTabPage);
-            this.tabControl2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl2.Location = new System.Drawing.Point(12, 45);
-            this.tabControl2.Name = "tabControl2";
-            this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(379, 655);
-            this.tabControl2.TabIndex = 7;
+            this.sideTabControl.Controls.Add(this.imagesTabPage);
+            this.sideTabControl.Controls.Add(this.elevationTabPage);
+            this.sideTabControl.Controls.Add(this.manualElevationTabPage);
+            this.sideTabControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sideTabControl.Location = new System.Drawing.Point(12, 45);
+            this.sideTabControl.Name = "sideTabControl";
+            this.sideTabControl.SelectedIndex = 0;
+            this.sideTabControl.Size = new System.Drawing.Size(379, 655);
+            this.sideTabControl.TabIndex = 7;
+            this.sideTabControl.SelectedIndexChanged += new System.EventHandler(this.sideTabControl_SelectedIndexChanged);
             // 
             // imagesTabPage
             // 
@@ -562,16 +518,6 @@
             this.imagesTabPage.TabIndex = 0;
             this.imagesTabPage.Text = "Images";
             this.imagesTabPage.UseVisualStyleBackColor = true;
-            // 
-            // generateAFS2LevelsHelpImage
-            // 
-            this.generateAFS2LevelsHelpImage.AutoSize = true;
-            this.generateAFS2LevelsHelpImage.Image = ((System.Drawing.Image)(resources.GetObject("generateAFS2LevelsHelpImage.Image")));
-            this.generateAFS2LevelsHelpImage.Location = new System.Drawing.Point(151, 135);
-            this.generateAFS2LevelsHelpImage.Name = "generateAFS2LevelsHelpImage";
-            this.generateAFS2LevelsHelpImage.Size = new System.Drawing.Size(16, 17);
-            this.generateAFS2LevelsHelpImage.TabIndex = 10;
-            this.generateAFS2LevelsHelpImage.Text = "  ";
             // 
             // zoomLevelLabel
             // 
@@ -738,7 +684,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 19);
+            this.label2.Location = new System.Drawing.Point(13, 22);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(88, 17);
             this.label2.TabIndex = 2;
@@ -758,25 +704,289 @@
             this.imageSourceComboBox.TabIndex = 1;
             this.imageSourceComboBox.SelectedIndexChanged += new System.EventHandler(this.imageSourceComboBox_SelectedIndexChanged);
             // 
-            // terrainTabPage
+            // elevationTabPage
             // 
-            this.terrainTabPage.Controls.Add(this.label1);
-            this.terrainTabPage.Location = new System.Drawing.Point(4, 26);
-            this.terrainTabPage.Name = "terrainTabPage";
-            this.terrainTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.terrainTabPage.Size = new System.Drawing.Size(371, 625);
-            this.terrainTabPage.TabIndex = 1;
-            this.terrainTabPage.Text = "Terrain";
-            this.terrainTabPage.UseVisualStyleBackColor = true;
+            this.elevationTabPage.Controls.Add(this.button3);
+            this.elevationTabPage.Controls.Add(this.button2);
+            this.elevationTabPage.Controls.Add(this.usgsTestButton);
+            this.elevationTabPage.Controls.Add(this.groupBox3);
+            this.elevationTabPage.Controls.Add(this.label1);
+            this.elevationTabPage.Controls.Add(this.comboBox1);
+            this.elevationTabPage.Controls.Add(this.label8);
+            this.elevationTabPage.Controls.Add(this.checkedListBox1);
+            this.elevationTabPage.Location = new System.Drawing.Point(4, 26);
+            this.elevationTabPage.Name = "elevationTabPage";
+            this.elevationTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.elevationTabPage.Size = new System.Drawing.Size(371, 625);
+            this.elevationTabPage.TabIndex = 1;
+            this.elevationTabPage.Text = "Elevation";
+            this.elevationTabPage.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(199, 499);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(166, 23);
+            this.button3.TabIndex = 19;
+            this.button3.Text = "Scrape FSCloudPort Airports";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(55, 526);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // usgsTestButton
+            // 
+            this.usgsTestButton.Location = new System.Drawing.Point(44, 471);
+            this.usgsTestButton.Name = "usgsTestButton";
+            this.usgsTestButton.Size = new System.Drawing.Size(75, 23);
+            this.usgsTestButton.TabIndex = 17;
+            this.usgsTestButton.Text = "button2";
+            this.usgsTestButton.UseVisualStyleBackColor = true;
+            this.usgsTestButton.Click += new System.EventHandler(this.usgsTestButton_Click);
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.comboBox2);
+            this.groupBox3.Controls.Add(this.checkBox1);
+            this.groupBox3.Controls.Add(this.checkBox4);
+            this.groupBox3.Controls.Add(this.checkBox5);
+            this.groupBox3.Controls.Add(this.checkBox6);
+            this.groupBox3.Location = new System.Drawing.Point(16, 265);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(339, 185);
+            this.groupBox3.TabIndex = 16;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Actions";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "Run Default Actions",
+            "Choose Actions To Run"});
+            this.comboBox2.Location = new System.Drawing.Point(19, 30);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(299, 25);
+            this.comboBox2.TabIndex = 6;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Enabled = false;
+            this.checkBox1.Location = new System.Drawing.Point(19, 149);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(247, 21);
+            this.checkBox1.TabIndex = 5;
+            this.checkBox1.Text = "Ask To Install Elevation Data Into AFS2";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox4
+            // 
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Enabled = false;
+            this.checkBox4.Location = new System.Drawing.Point(19, 122);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(122, 21);
+            this.checkBox4.TabIndex = 2;
+            this.checkBox4.Text = "Run GeoConvert";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            // 
+            // checkBox5
+            // 
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Enabled = false;
+            this.checkBox5.Location = new System.Drawing.Point(19, 95);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(173, 21);
+            this.checkBox5.TabIndex = 1;
+            this.checkBox5.Text = "Generate AID / TMC Files";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            // 
+            // checkBox6
+            // 
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Enabled = false;
+            this.checkBox6.Location = new System.Drawing.Point(19, 68);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(173, 21);
+            this.checkBox6.TabIndex = 0;
+            this.checkBox6.Text = "Download Elevation Data";
+            this.checkBox6.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(151, 29);
+            this.label1.Location = new System.Drawing.Point(13, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Coming Soon";
+            this.label1.Size = new System.Drawing.Size(48, 17);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Source";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "ASTER GDEM v2",
+            "3DEP 1/3 Arc Second"});
+            this.comboBox1.Location = new System.Drawing.Point(112, 19);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(243, 25);
+            this.comboBox1.TabIndex = 14;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(14, 66);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(132, 17);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Generate AFS2 Levels";
+            // 
+            // checkedListBox1
+            // 
+            this.checkedListBox1.CheckOnClick = true;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Items.AddRange(new object[] {
+            "Level 9",
+            "Level 10",
+            "Level 11",
+            "Level 12",
+            "Level 13",
+            "Level 14",
+            "Level 15"});
+            this.checkedListBox1.Location = new System.Drawing.Point(16, 86);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.Size = new System.Drawing.Size(339, 164);
+            this.checkedListBox1.TabIndex = 11;
+            // 
+            // manualElevationTabPage
+            // 
+            this.manualElevationTabPage.Controls.Add(this.label11);
+            this.manualElevationTabPage.Controls.Add(this.button1);
+            this.manualElevationTabPage.Controls.Add(this.textBox1);
+            this.manualElevationTabPage.Controls.Add(this.label10);
+            this.manualElevationTabPage.Controls.Add(this.label9);
+            this.manualElevationTabPage.Controls.Add(this.checkedListBox2);
+            this.manualElevationTabPage.Controls.Add(this.workingFolderButton);
+            this.manualElevationTabPage.Controls.Add(this.workingFolderTextBox);
+            this.manualElevationTabPage.Controls.Add(this.label5);
+            this.manualElevationTabPage.Controls.Add(this.comboBox3);
+            this.manualElevationTabPage.Location = new System.Drawing.Point(4, 26);
+            this.manualElevationTabPage.Name = "manualElevationTabPage";
+            this.manualElevationTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.manualElevationTabPage.Size = new System.Drawing.Size(371, 625);
+            this.manualElevationTabPage.TabIndex = 2;
+            this.manualElevationTabPage.Text = "Manual Elevation";
+            this.manualElevationTabPage.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(13, 102);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(89, 17);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "Output Folder";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(322, 98);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(33, 25);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "...";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(112, 98);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(204, 25);
+            this.textBox1.TabIndex = 23;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(13, 63);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(78, 17);
+            this.label10.TabIndex = 22;
+            this.label10.Text = "Input Folder";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(13, 139);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(132, 17);
+            this.label9.TabIndex = 21;
+            this.label9.Text = "Generate AFS2 Levels";
+            // 
+            // checkedListBox2
+            // 
+            this.checkedListBox2.CheckOnClick = true;
+            this.checkedListBox2.FormattingEnabled = true;
+            this.checkedListBox2.Items.AddRange(new object[] {
+            "Level 9",
+            "Level 10",
+            "Level 11",
+            "Level 12",
+            "Level 13",
+            "Level 14",
+            "Level 15"});
+            this.checkedListBox2.Location = new System.Drawing.Point(15, 159);
+            this.checkedListBox2.Name = "checkedListBox2";
+            this.checkedListBox2.Size = new System.Drawing.Size(339, 164);
+            this.checkedListBox2.TabIndex = 20;
+            // 
+            // workingFolderButton
+            // 
+            this.workingFolderButton.Location = new System.Drawing.Point(322, 59);
+            this.workingFolderButton.Name = "workingFolderButton";
+            this.workingFolderButton.Size = new System.Drawing.Size(33, 25);
+            this.workingFolderButton.TabIndex = 19;
+            this.workingFolderButton.Text = "...";
+            this.workingFolderButton.UseVisualStyleBackColor = true;
+            // 
+            // workingFolderTextBox
+            // 
+            this.workingFolderTextBox.Location = new System.Drawing.Point(112, 59);
+            this.workingFolderTextBox.Name = "workingFolderTextBox";
+            this.workingFolderTextBox.Size = new System.Drawing.Size(204, 25);
+            this.workingFolderTextBox.TabIndex = 18;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(48, 17);
+            this.label5.TabIndex = 17;
+            this.label5.Text = "Source";
+            // 
+            // comboBox3
+            // 
+            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox3.FormattingEnabled = true;
+            this.comboBox3.Items.AddRange(new object[] {
+            "ASTER GDEM v2",
+            "3DEP 1/3 Arc Second"});
+            this.comboBox3.Location = new System.Drawing.Point(112, 19);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(243, 25);
+            this.comboBox3.TabIndex = 16;
             // 
             // startStopButton
             // 
@@ -810,13 +1020,125 @@
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 32);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
+            // 
+            // generateAFS2LevelsHelpImage
+            // 
+            this.generateAFS2LevelsHelpImage.AutoSize = true;
+            this.generateAFS2LevelsHelpImage.Image = ((System.Drawing.Image)(resources.GetObject("generateAFS2LevelsHelpImage.Image")));
+            this.generateAFS2LevelsHelpImage.Location = new System.Drawing.Point(151, 135);
+            this.generateAFS2LevelsHelpImage.Name = "generateAFS2LevelsHelpImage";
+            this.generateAFS2LevelsHelpImage.Size = new System.Drawing.Size(16, 17);
+            this.generateAFS2LevelsHelpImage.TabIndex = 10;
+            this.generateAFS2LevelsHelpImage.Text = "  ";
+            // 
+            // toolStripDownloadedLabel
+            // 
+            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
+            this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
+            this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
+            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
+            this.toolStripDownloadedLabel.Text = "Not Downloaded";
+            // 
+            // openImageFolderToolstripButton
+            // 
+            this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
+            this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
+            this.openImageFolderToolstripButton.Size = new System.Drawing.Size(141, 22);
+            this.openImageFolderToolstripButton.Text = "Open Image Folder";
+            this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
+            // 
+            // deleteImagesToolStripButton
+            // 
+            this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
+            this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
+            this.deleteImagesToolStripButton.Size = new System.Drawing.Size(111, 22);
+            this.deleteImagesToolStripButton.Text = "Delete Images";
+            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInGoogleMapsToolStripMenuItem,
+            this.openInBingMApsToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(188, 22);
+            this.toolStripDropDownButton1.Text = "Open Grid Square In Map";
+            // 
+            // openInGoogleMapsToolStripMenuItem
+            // 
+            this.openInGoogleMapsToolStripMenuItem.Name = "openInGoogleMapsToolStripMenuItem";
+            this.openInGoogleMapsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInGoogleMapsToolStripMenuItem.Text = "Open In Google Maps";
+            this.openInGoogleMapsToolStripMenuItem.Click += new System.EventHandler(this.openInGoogleMapsToolStripMenuItem_Click);
+            // 
+            // openInBingMApsToolStripMenuItem
+            // 
+            this.openInBingMApsToolStripMenuItem.Name = "openInBingMApsToolStripMenuItem";
+            this.openInBingMApsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInBingMApsToolStripMenuItem.Text = "Open In Bing Maps";
+            this.openInBingMApsToolStripMenuItem.Click += new System.EventHandler(this.openInBingMApsToolStripMenuItem_Click);
+            // 
+            // settingsButton
+            // 
+            this.settingsButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
+            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(74, 29);
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
+            // helpToolStripButton
+            // 
+            this.helpToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
+            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.helpToolStripButton.Name = "helpToolStripButton";
+            this.helpToolStripButton.Size = new System.Drawing.Size(55, 29);
+            this.helpToolStripButton.Text = "Help";
+            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
+            // 
+            // getSDKToolStripButton
+            // 
+            this.getSDKToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.getSDKToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("getSDKToolStripButton.Image")));
+            this.getSDKToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.getSDKToolStripButton.Name = "getSDKToolStripButton";
+            this.getSDKToolStripButton.Size = new System.Drawing.Size(147, 29);
+            this.getSDKToolStripButton.Text = "Get AeroFly FS2 SDK";
+            this.getSDKToolStripButton.Click += new System.EventHandler(this.getSDKToolStripButton_Click);
+            // 
+            // sceneryEditorToolstripButton
+            // 
+            this.sceneryEditorToolstripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.sceneryEditorToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("sceneryEditorToolstripButton.Image")));
+            this.sceneryEditorToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.sceneryEditorToolstripButton.Name = "sceneryEditorToolstripButton";
+            this.sceneryEditorToolstripButton.Size = new System.Drawing.Size(112, 29);
+            this.sceneryEditorToolstripButton.Text = "Scenery Editor";
+            this.sceneryEditorToolstripButton.ToolTipText = "Scenery Editor";
+            this.sceneryEditorToolstripButton.Click += new System.EventHandler(this.sceneryEditorToolstripButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1461, 843);
             this.Controls.Add(this.shutdownCheckbox);
-            this.Controls.Add(this.tabControl2);
+            this.Controls.Add(this.sideTabControl);
             this.Controls.Add(this.startStopButton);
             this.Controls.Add(this.mainTabControl);
             this.Controls.Add(this.toolStrip1);
@@ -841,14 +1163,18 @@
             this.groupBox1.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
-            this.tabControl2.ResumeLayout(false);
+            this.sideTabControl.ResumeLayout(false);
             this.imagesTabPage.ResumeLayout(false);
             this.imagesTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomLevelTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.terrainTabPage.ResumeLayout(false);
-            this.terrainTabPage.PerformLayout();
+            this.elevationTabPage.ResumeLayout(false);
+            this.elevationTabPage.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.manualElevationTabPage.ResumeLayout(false);
+            this.manualElevationTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -863,12 +1189,11 @@
         private System.Windows.Forms.TabControl mainTabControl;
         private System.Windows.Forms.TabPage mapTabPage;
         private System.Windows.Forms.TabPage progressTabPage;
-        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabControl sideTabControl;
         private System.Windows.Forms.TabPage imagesTabPage;
-        private System.Windows.Forms.TabPage terrainTabPage;
+        private System.Windows.Forms.TabPage elevationTabPage;
         private System.Windows.Forms.Button startStopButton;
         private System.Windows.Forms.CheckBox downloadImageTileCheckBox;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripButton helpToolStripButton;
         private System.Windows.Forms.ToolStripButton getSDKToolStripButton;
         private System.Windows.Forms.ProgressBar currentActionProgressBar;
@@ -919,6 +1244,33 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripComboBox gridSquareSelectionSizeToolstripCombo;
         private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
+        private System.Windows.Forms.TabPage manualElevationTabPage;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckedListBox checkedListBox2;
+        private System.Windows.Forms.Button workingFolderButton;
+        private System.Windows.Forms.TextBox workingFolderTextBox;
+        private System.Windows.Forms.Button usgsTestButton;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ToolStripButton sceneryEditorToolstripButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 

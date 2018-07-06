@@ -70,8 +70,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "0.4";
-            incrementalVersion = 4;
+            version = "0.5";
+            incrementalVersion = 5;
         }
 
         public Settings Settings
@@ -146,6 +146,7 @@ namespace AeroScenery
             
             this.mainForm.Initialize();
             Application.Run(this.mainForm);
+
         }
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)

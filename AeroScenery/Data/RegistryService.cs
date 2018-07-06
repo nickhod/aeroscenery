@@ -20,7 +20,7 @@ namespace AeroScenery.Data
 
     public class RegistryService
     {
-        private int minSettingsVersion = 3;
+        private int settingsVersion = 4;
 
         public void SaveSettings(Settings settings)
         {
@@ -61,7 +61,20 @@ namespace AeroScenery.Data
             key.SetValue("GeoConvertDoMultipleSmallerRuns", settings.GeoConvertDoMultipleSmallerRuns);
             // --
 
-            key.SetValue("SettingsVersion", minSettingsVersion);
+            // Settings verison 4
+            key.SetValue("USGSUsername", settings.USGSUsername);
+            key.SetValue("USGSPassword", settings.USGSPassword);
+            key.SetValue("Elevation.DownloadElevationData", settings.ElevationSettings.DownloadElevationData);
+            key.SetValue("Elevation.RunGeoConvert", settings.ElevationSettings.RunGeoConvert);
+            key.SetValue("Elevation.GenerateAIDAndTMCFiles", settings.ElevationSettings.GenerateAIDAndTMCFiles);
+            key.SetValue("Elevation.ActionSet", settings.ElevationSettings.ActionSet);
+            key.SetValue("Elevation.InstallElevationData", settings.ElevationSettings.InstallElevationData);
+
+            string afsElevationLevelsCsv = String.Join(",", settings.ElevationSettings.AFSLevelsToGenerate.Select(x => x.ToString()).ToArray());
+            key.SetValue("Elevation.AFSLevelsToGenerate", afsElevationLevelsCsv);
+            // --
+
+            key.SetValue("SettingsVersion", settingsVersion);
         }
 
         public Settings GetSettings()
@@ -107,6 +120,20 @@ namespace AeroScenery.Data
                 // Settings verison 3
                 settings.GeoConvertDoMultipleSmallerRuns = Boolean.Parse(key.GetValueAsString("GeoConvertDoMultipleSmallerRuns"));
                 // --
+
+                // Settings verison 4
+                settings.USGSUsername = key.GetValueAsString("USGSUsername");
+                settings.USGSPassword = key.GetValueAsString("USGSPassword");
+                settings.ElevationSettings.DownloadElevationData = Boolean.Parse(key.GetValueAsString("Elevation.DownloadElevationData"));
+                settings.ElevationSettings.RunGeoConvert = Boolean.Parse(key.GetValueAsString("Elevation.RunGeoConvert"));
+                settings.ElevationSettings.GenerateAIDAndTMCFiles = Boolean.Parse(key.GetValueAsString("Elevation.GenerateAIDAndTMCFiles"));
+                settings.ElevationSettings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("Elevation.ActionSet"));
+                settings.ElevationSettings.InstallElevationData = Boolean.Parse(key.GetValueAsString("Elevation.InstallElevationData"));
+
+                string afsElevationLevelsCsv = key.GetValueAsString("Elevation.AFSLevelsToGenerate");
+                List<int> afsElevationLevels = afsElevationLevelsCsv.Split(',').Select(int.Parse).ToList();
+                settings.ElevationSettings.AFSLevelsToGenerate = afsElevationLevels;
+                // --
             }
 
 
@@ -123,7 +150,7 @@ namespace AeroScenery.Data
                 var currentSettingsVersion = int.Parse(key.GetValueAsString("SettingsVersion"));
 
                 // Do we need to upgrade the settings
-                if (currentSettingsVersion < this.minSettingsVersion)
+                if (currentSettingsVersion < this.settingsVersion)
                 {
                     // Upgrade to settings version 2
                     if (currentSettingsVersion == 1)
@@ -139,6 +166,21 @@ namespace AeroScenery.Data
                     if (currentSettingsVersion == 2)
                     {
                         key.SetValue("GeoConvertDoMultipleSmallerRuns", false);
+                        key.SetValue("SettingsVersion", 3);
+                        currentSettingsVersion = 3;
+                    }
+
+                    // Upgrade to settings verison 4
+                    if (currentSettingsVersion == 3)
+                    {
+                        key.SetValue("USGSUsername", "");
+                        key.SetValue("USGSPassword", "");
+                        key.SetValue("Elevation.DownloadElevationData", true);
+                        key.SetValue("Elevation.RunGeoConvert", false);
+                        key.SetValue("Elevation.GenerateAIDAndTMCFiles", false);
+                        key.SetValue("Elevation.ActionSet", ActionSet.Default);
+                        key.SetValue("Elevation.InstallElevationData", false);
+                        key.SetValue("Elevation.AFSLevelsToGenerate", "9,11,12,13,14");
                         key.SetValue("SettingsVersion", 3);
                         currentSettingsVersion = 3;
                     }
@@ -166,8 +208,11 @@ namespace AeroScenery.Data
             settings.ZoomLevel = 17;
 
             settings.AFSLevelsToGenerate = new List<int>();
+            settings.AFSLevelsToGenerate.Add(9);
             settings.AFSLevelsToGenerate.Add(11);
             settings.AFSLevelsToGenerate.Add(12);
+            settings.AFSLevelsToGenerate.Add(13);
+            settings.AFSLevelsToGenerate.Add(14);
 
             settings.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36";
             settings.DownloadWaitMs = 10;
@@ -205,6 +250,22 @@ namespace AeroScenery.Data
             settings.GeoConvertDoMultipleSmallerRuns = false;
             //--
 
+            // Settings version 4
+            settings.USGSUsername = "";
+            settings.USGSPassword = "";
+            settings.ElevationSettings.DownloadElevationData = true;
+            settings.ElevationSettings.RunGeoConvert = false;
+            settings.ElevationSettings.GenerateAIDAndTMCFiles = false;
+            settings.ElevationSettings.ActionSet = ActionSet.Default;
+            settings.ElevationSettings.InstallElevationData = false;
+
+            settings.ElevationSettings.AFSLevelsToGenerate = new List<int>();
+            settings.ElevationSettings.AFSLevelsToGenerate.Add(9);
+            settings.ElevationSettings.AFSLevelsToGenerate.Add(11);
+            settings.ElevationSettings.AFSLevelsToGenerate.Add(12);
+            settings.ElevationSettings.AFSLevelsToGenerate.Add(13);
+            settings.ElevationSettings.AFSLevelsToGenerate.Add(14);
+            //--
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key.CreateSubKey("AeroScenery");

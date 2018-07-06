@@ -103,6 +103,17 @@ namespace AeroScenery.UI
                 settings.GeoConvertDoMultipleSmallerRuns = false;
             }
 
+
+            if (!String.IsNullOrEmpty(this.usgsUsernameTextBox.Text))
+            {
+                settings.USGSUsername = this.usgsUsernameTextBox.Text;
+            }
+
+            if (!String.IsNullOrEmpty(this.usgsPasswordTextBox.Text))
+            {
+                settings.USGSPassword = this.usgsPasswordTextBox.Text;
+            }
+
             AeroSceneryManager.Instance.SaveSettings();
             this.Hide();
             log.Info("Settings saved");
@@ -162,6 +173,9 @@ namespace AeroScenery.UI
             {
                 this.gcWriteRawFilesComboBox.SelectedIndex = 1;
             }
+
+            this.usgsUsernameTextBox.Text = settings.USGSUsername;
+            this.usgsPasswordTextBox.Text = settings.USGSPassword;
         }
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -300,6 +314,11 @@ namespace AeroScenery.UI
             {
                 this.downloadWaitRandomTextBox.Text = numbersOnly;
             }
+        }
+
+        private void createUSGSAccountLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://ers.cr.usgs.gov/register/");
         }
     }
 }

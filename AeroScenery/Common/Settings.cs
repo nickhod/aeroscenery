@@ -15,6 +15,11 @@ namespace AeroScenery.Common
 
     public class Settings
     {
+        public Settings()
+        {
+            this.ElevationSettings = new ElevationSettings();
+        }
+
         public string AFS2SDKDirectory { get; set; }
 
         public string AFS2Directory { get; set; }
@@ -59,5 +64,10 @@ namespace AeroScenery.Common
         public bool GeoConvertWriteRawFiles { get; set; }
 
         public bool GeoConvertDoMultipleSmallerRuns { get; set; }
+
+        public string USGSUsername { get; set; }
+        public string USGSPassword { get; set; }
+
+        public ElevationSettings ElevationSettings { get; set; }
     }
 }

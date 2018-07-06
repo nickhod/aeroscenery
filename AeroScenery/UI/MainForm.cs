@@ -3,8 +3,11 @@ using AeroScenery.Common;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Data.Models;
+using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.UI;
+using AeroScenery.USGS;
+using AeroScenery.USGS.Models;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -42,12 +45,18 @@ namespace AeroScenery
         private GMapOverlay activeGridSquareOverlay;
         private bool actionsRunning;
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
+        private GMapControlManager gMapControlManager;
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
         private bool uiSetFromSettings;
 
-        private int gridSquareSelectionSize;
+        private MainFormSideTab currentMainFormSideTab;
+        private int afsGridSquareSelectionSize;
+
+        // Whether the user should be shown a dialog about how changing the selection size
+        // removes any current selections.
+        private bool shownSelectionSizeChangeInfo;
 
         public MainForm()
         {
@@ -55,6 +64,7 @@ namespace AeroScenery
 
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
+            this.gMapControlManager = new GMapControlManager();
 
             this.actionsRunning = false;
 
@@ -75,7 +85,7 @@ namespace AeroScenery
             this.downloadThreadProgressControls = new List<DownloadThreadProgressControl>();
             this.uiSetFromSettings = false;
 
-            this.gridSquareSelectionSize = 9;
+            this.afsGridSquareSelectionSize = 9;
             this.gridSquareSelectionSizeToolstripCombo.SelectedIndex = 0;
 
             // TODO - Make this dynamic
@@ -90,6 +100,14 @@ namespace AeroScenery
             this.downloadThreadProgress4.SetDownloadThreadNumber(4);
 
             this.gridSquareLabel.Text = "";
+
+            this.currentMainFormSideTab = MainFormSideTab.Images;
+            // Until if / when we need it
+            this.sideTabControl.TabPages.Remove(this.manualElevationTabPage);
+
+            this.gMapControlManager.GMapControl = this.mainMap;
+
+            this.shownSelectionSizeChangeInfo = true;
         }
 
         public void Initialize()
@@ -297,13 +315,13 @@ namespace AeroScenery
             return null;
         }
 
-        private void SelectGridSquare(int x, int y)
+        private void SelectAFSGridSquare(int x, int y)
         {
             double lat = mainMap.FromLocalToLatLng(x, y).Lat;
             double lon = mainMap.FromLocalToLatLng(x, y).Lng;
 
             // Get the grid square for this lat and lon
-            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, this.afsGridSquareSelectionSize);
 
             gridSquareLabel.Text = gridSquare.Name;
 
@@ -331,7 +349,7 @@ namespace AeroScenery
             if (!this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
             {
                 // Add the selected map overlay but make it invislbe for now
-                var selectedGridSquare = DrawGridSquare(gridSquare, GridSquareDisplayType.Selected);
+                var selectedGridSquare = this.gMapControlManager.DrawGridSquare(gridSquare, GridSquareDisplayType.Selected);
                 selectedGridSquare.IsVisibile = false;
 
                 // Add the AFS2 Grid Squrea and the GMapOverlay to the selected grid squares dictionary
@@ -343,22 +361,89 @@ namespace AeroScenery
 
 
                 // Create the active grid square map overlay, let it be visible
-                this.activeGridSquareOverlay = DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
+                this.activeGridSquareOverlay = this.gMapControlManager.DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
             }
             else
             {
                 // Create the active grid square map overlay, let it be visible
-                this.activeGridSquareOverlay = DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
+                this.activeGridSquareOverlay = this.gMapControlManager.DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
             }
 
             this.SelectedAFS2GridSquare = gridSquare;
-            this.UpdateStatusSrip();
+            this.UpdateStatusStrip();
             this.UpdateToolStrip();
 
             log.InfoFormat("Grid square {0} selected", gridSquare.Name);
         }
 
-        private void UpdateStatusSrip()
+        private void DeselectAFSGridSquare(int x, int y)
+        {
+            double lat = mainMap.FromLocalToLatLng(x, y).Lat;
+            double lon = mainMap.FromLocalToLatLng(x, y).Lng;
+
+            // Get the grid square for this lat and lon
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, this.afsGridSquareSelectionSize);
+
+            // If this grid square is already selected, deselect it
+            if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            {
+                var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+
+                mainMap.Overlays.Remove(squareAndOverlay.GMapOverlay);
+                this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+                this.SelectedAFS2GridSquare = null;
+            }
+
+            this.SelectedAFS2GridSquare = null;
+            gridSquareLabel.Text = "";
+
+            this.activeGridSquareOverlay.Clear();
+            this.activeGridSquareOverlay.Dispose();
+            this.activeGridSquareOverlay = null;
+
+            this.UpdateStatusStrip();
+        }
+
+        /// <summary>
+        /// Clears any currently selected AFSGridSquares
+        /// </summary>
+        private void ClearAllSelectedAFSGridSquares()
+        {
+            foreach (var gridSquare in this.SelectedAFS2GridSquares.Values)
+            {
+                mainMap.Overlays.Remove(gridSquare.GMapOverlay);
+            }
+
+
+            if (this.activeGridSquareOverlay != null)
+            {
+                this.activeGridSquareOverlay.Clear();
+                this.activeGridSquareOverlay.Dispose();
+                this.activeGridSquareOverlay = null;
+            }
+
+            mainMap.Refresh();
+
+            this.SelectedAFS2GridSquares.Clear();
+            this.SelectedAFS2GridSquare = null;
+
+            this.UpdateStatusStrip();
+        }
+
+        private void ClearAllSelectedUSGSGridSquares()
+        {
+            // TODO
+        }
+
+        private void SelectUSGSGridSquare(int x, int y)
+        {
+        }
+        private void DeselectUSGSGridSquare(int x, int y)
+        {
+        }
+
+
+        private void UpdateStatusStrip()
         {
             if (this.SelectedAFS2GridSquares.Count == 1)
             {
@@ -400,68 +485,6 @@ namespace AeroScenery
 
         }
 
-        private GMapOverlay DrawGridSquare(AFS2GridSquare gridSquare, GridSquareDisplayType gridSquareDisplayType)
-        {
-            GMapPolygon polygon = new GMapPolygon(gridSquare.Coordinates, gridSquare.Name);
-
-            switch (gridSquareDisplayType)
-            {
-                case GridSquareDisplayType.Selected:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
-                    polygon.Stroke = new Pen(Color.Blue, 1);
-                    break;
-                case GridSquareDisplayType.Active:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Blue));
-                    polygon.Stroke = new Pen(Color.DeepSkyBlue, 2);
-                    break;
-                case GridSquareDisplayType.Downloaded:
-                    polygon.Fill = new SolidBrush(Color.FromArgb(40, Color.Orange));
-                    polygon.Stroke = new Pen(Color.Orange, 1);
-                    break;
-                default:
-                    break;
-            }
-
-
-            GMapOverlay polygonOverlay = new GMapOverlay(gridSquare.Name);
-            polygonOverlay.Polygons.Add(polygon);
-            mainMap.Overlays.Add(polygonOverlay);
-
-            mainMap.Refresh();
-            polygonOverlay.IsVisibile = false;
-            polygonOverlay.IsVisibile = true;
-
-            return polygonOverlay;
-        }
-
-        private void DeselectGridSquare(int x, int y)
-        {
-            double lat = mainMap.FromLocalToLatLng(x, y).Lat;
-            double lon = mainMap.FromLocalToLatLng(x, y).Lng;
-
-            // Get the grid square for this lat and lon
-            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
-
-            // If this grid square is already selected, deselect it
-            if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
-            {
-                var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
-
-                mainMap.Overlays.Remove(squareAndOverlay.GMapOverlay);
-                this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
-                this.SelectedAFS2GridSquare = null;
-            }
-
-            this.SelectedAFS2GridSquare = null;
-            gridSquareLabel.Text = "";
-
-            this.activeGridSquareOverlay.Clear();
-            this.activeGridSquareOverlay.Dispose();
-            this.activeGridSquareOverlay = null;
-
-            this.UpdateStatusSrip();
-        }
-
         public void LoadDownloadedGridSquares()
         {
             var gridSquares = this.dataRepository.GetAllGridSquares();
@@ -469,7 +492,7 @@ namespace AeroScenery
             foreach (GridSquare gridSquare in gridSquares)
             {
                 var afs2GridSqure = this.gridSquareMapper.ToAFS2GridSquare(gridSquare);
-                var polygonOverlay = this.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
+                var polygonOverlay = this.gMapControlManager.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
 
                 var gridSquareViewModel = new GridSquareViewModel();
                 gridSquareViewModel.GMapOverlay = polygonOverlay;
@@ -482,7 +505,7 @@ namespace AeroScenery
 
         public void AddDownloadedGridSquare(AFS2GridSquare afs2GridSqure)
         {
-            var polygonOverlay = this.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
+            var polygonOverlay = this.gMapControlManager.DrawGridSquare(afs2GridSqure, GridSquareDisplayType.Downloaded);
 
             var gridSquareViewModel = new GridSquareViewModel();
             gridSquareViewModel.GMapOverlay = polygonOverlay;
@@ -527,7 +550,15 @@ namespace AeroScenery
                     // rather than a drag
                     if (dx < 10 && dy < 10)
                     {
-                        this.SelectGridSquare(e.X, e.Y);
+                        switch (this.currentMainFormSideTab)
+                        {
+                            case MainFormSideTab.Images:
+                                this.SelectAFSGridSquare(e.X, e.Y);
+                                break;
+                            case MainFormSideTab.Elevation:
+                                this.SelectUSGSGridSquare(e.X, e.Y);
+                                break;
+                        }
                     }
                 }
             }
@@ -535,7 +566,6 @@ namespace AeroScenery
 
 
         }
-
 
         private void mainMap_DoubleClick(object sender, EventArgs e)
         {
@@ -546,11 +576,19 @@ namespace AeroScenery
             double lon = mainMap.FromLocalToLatLng(evt.X, evt.Y).Lng;
 
             // Get the grid square for this lat and lon
-            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, 9);
+            var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, this.afsGridSquareSelectionSize);
 
             if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
             {
-                this.DeselectGridSquare(evt.X, evt.Y);
+                switch (this.currentMainFormSideTab)
+                {
+                    case MainFormSideTab.Images:
+                        this.DeselectAFSGridSquare(evt.X, evt.Y);
+                        break;
+                    case MainFormSideTab.Elevation:
+                        this.DeselectUSGSGridSquare(evt.X, evt.Y);
+                        break;
+                }
             }
 
 
@@ -703,14 +741,24 @@ namespace AeroScenery
 
                 var checkedLevel = e.Index + 9;
 
-                if (settings.AFSLevelsToGenerate.Contains(checkedLevel))
+                // Don't let anyone select levels that are smaller than the grid square selection size
+                if (checkedLevel < this.afsGridSquareSelectionSize)
                 {
-                    settings.AFSLevelsToGenerate.Remove(checkedLevel);
+                    e.NewValue = e.CurrentValue;
                 }
                 else
                 {
-                    settings.AFSLevelsToGenerate.Add(checkedLevel);
+                    if (settings.AFSLevelsToGenerate.Contains(checkedLevel))
+                    {
+                        settings.AFSLevelsToGenerate.Remove(checkedLevel);
+                    }
+                    else
+                    {
+                        settings.AFSLevelsToGenerate.Add(checkedLevel);
+                    }
                 }
+
+
             }
 
             AeroSceneryManager.Instance.SaveSettings();
@@ -878,7 +926,7 @@ namespace AeroScenery
                         this.activeGridSquareOverlay.Dispose();
                         this.activeGridSquareOverlay = null;
 
-                        this.UpdateStatusSrip();
+                        this.UpdateStatusStrip();
 
                     }
                 }
@@ -906,12 +954,124 @@ namespace AeroScenery
 
         private void MainForm_Shown(object sender, EventArgs e)
         {
-            log.Info("AeroScenery Started");
+            log.Info(String.Format("AeroScenery v{0} Started", AeroSceneryManager.Instance.Version));
             this.CheckForNewerVersions();
         }
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            switch(this.gridSquareSelectionSizeToolstripCombo.SelectedIndex)
+            {
+                // 9
+                case 0:
+                    this.afsGridSquareSelectionSize = 9;
+                    this.ClearAllSelectedAFSGridSquares();
+                    break;
+
+                // 13
+                case 1:
+                    this.afsGridSquareSelectionSize = 13;
+                    this.ClearAllSelectedAFSGridSquares();
+                    //for (int index = 0; index < this.afsLevelsCheckBoxList.Items.Count; ++index)
+                    //{
+                    //    if ((index + 9) < 13)
+                    //    {
+                    //        this.afsLevelsCheckBoxList.SetItemChecked(index, false);
+                    //    }
+                    //}
+                    break;
+
+                // 14
+                case 2:
+                    this.afsGridSquareSelectionSize = 14;
+                    this.ClearAllSelectedAFSGridSquares();
+                    break;
+            }
+
+            if (this.shownSelectionSizeChangeInfo)
+            {
+                DialogResult result = MessageBox.Show("Changing the grid square selection size removes any current selections.\nAeroScenery can only process one size of grid square per run.",
+                    "AeroScenery",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.shownSelectionSizeChangeInfo = false;
+            }
+
+        }
+
+        private async void usgsTestButton_Click(object sender, EventArgs e)
+        {
+            USGSInventoryService service = new USGSInventoryService();
+
+            var loginRequest = new LoginRequest();
+            loginRequest.Username = AeroSceneryManager.Instance.Settings.USGSUsername;
+            loginRequest.Password = AeroSceneryManager.Instance.Settings.USGSPassword;
+            loginRequest.CatalogId = CatalogType.EarthExplorer;
+            loginRequest.AuthType = "EROS";
+            var login = await service.LoginAsync(loginRequest);
+
+            //var datasetSearchRequest = new DatasetSearchRequest();
+            //datasetSearchRequest.DatasetName = "ASTER";
+            //var datasets = await service.DatasetSearchAsync(datasetSearchRequest);
+
+            var searchRequest = new SceneSearchRequest();
+            //searchRequest.DatasetName = "ASTER_GLOBAL_DEM";
+            searchRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
+            //searchRequest.DatasetName = "LANDSAT_8";
+
+            var spatialFilter = new SpatialFilter();
+            spatialFilter.FilterType = "mbr";
+            spatialFilter.LowerLeft = new Coordinate(51.469400, -3.163811);
+            spatialFilter.UpperRight = new Coordinate(51.469400, -3.163811);
+            //spatialFilter.LowerLeft = new Coordinate(75, -135);
+            //spatialFilter.UpperRight = new Coordinate(90, -120);
+            searchRequest.SpatialFilter = spatialFilter;
+
+            var searchResult = await service.SceneSearch(searchRequest);
+
+
+
+            var downloadOptionsRequest = new DownloadOptionsRequest();
+            downloadOptionsRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
+            downloadOptionsRequest.EntityIds = new string[] { "ASTGDEMV2_0N51W004" };
+
+            var asdfdsf = await service.DownloadOptions(downloadOptionsRequest);
+
+            int i = 0;
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            USGSScraper scraper = new USGSScraper();
+            await scraper.LoginAsync(AeroSceneryManager.Instance.Settings.USGSUsername, AeroSceneryManager.Instance.Settings.USGSPassword);
+        }
+
+        private void sideTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (this.sideTabControl.SelectedIndex)
+            {
+                case 0:
+                    this.currentMainFormSideTab = MainFormSideTab.Images;
+                    this.ClearAllSelectedUSGSGridSquares();
+                    break;
+                case 1:
+                    this.currentMainFormSideTab = MainFormSideTab.Elevation;
+                    this.ClearAllSelectedAFSGridSquares();
+                    break;
+            }
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            var fsCloudPortScraper = new FSCloudPortScraper();
+            var airports = await fsCloudPortScraper.ScrapeAirportsAsync();
+            int i = 0;
+        }
+
+        private void sceneryEditorToolstripButton_Click(object sender, EventArgs e)
+        {
+            new SceneryEditorForm().Show();
 
         }
     }
