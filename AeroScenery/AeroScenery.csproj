@@ -139,6 +139,7 @@
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="FSCloudPort\FSCloudPortScraper.cs" />
+    <Compile Include="FSCloudPort\FSCloudPortService.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="ImageProcessing\TileStitcherProgress.cs" />
     <Compile Include="OrthophotoSources\BingHelper.cs" />

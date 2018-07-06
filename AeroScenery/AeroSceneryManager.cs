@@ -3,6 +3,7 @@ using AeroScenery.Common;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Download;
+using AeroScenery.FSCloudPort;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
@@ -43,6 +44,8 @@ namespace AeroScenery
 
         private RegistryService registryService;
 
+        private FSCloudPortService fsCloudPortService;
+
         private IDataRepository dataRepository;
 
         private GridSquareMapper gridSquareMapper;
@@ -68,6 +71,7 @@ namespace AeroScenery
             gridSquareMapper = new GridSquareMapper();
             afsFileGenerator = new AFSFileGenerator();
             dataRepository = new SqlLiteDataRepository();
+            fsCloudPortService = new FSCloudPortService();
 
             imageTiles = null;
             version = "0.5";
@@ -143,11 +147,15 @@ namespace AeroScenery
             {
                 this.ResetGridSquare(name);
             };
-            
+
+            this.fsCloudPortService.UpdateAirportsIfRequiredAsync();
+
             this.mainForm.Initialize();
             Application.Run(this.mainForm);
 
         }
+
+
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)
         {

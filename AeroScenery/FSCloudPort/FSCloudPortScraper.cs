@@ -15,6 +15,8 @@ namespace AeroScenery.FSCloudPort
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
+
+
         public async Task<IList<FSCloudPortAirport>> ScrapeAirportsAsync()
         {
             var urlTemplate = "http://www.fscloudport.com/phdi/p1.nsf/aeroscenery?OpenView&Start={0}&Count={1}";

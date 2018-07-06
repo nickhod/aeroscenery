@@ -92,8 +92,34 @@ namespace AeroScenery.Data
 
                 con.Open();
                 GridSquare result = con.Query<GridSquare>(query, new { name }).FirstOrDefault();
-
                 return result;
+            }
+        }
+
+        public async Task UpdateFSCloudPortAirportsAsync(IList<FSCloudPortAirport> airports)
+        {
+            using (var con = DbConnection())
+            {
+                var deleteQuery = @"DELETE FROM FSCloudPortAirports;";
+
+                try
+                {
+
+                await con.OpenAsync();
+                }
+                catch (Exception ex)
+                {
+                    int i = 0;
+                }
+                //con.Query(deleteQuery);
+
+                //foreach (FSCloudPortAirport airport in airports)
+                //{
+                //    var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached) VALUES 
+                //            (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
+
+                //    await con.QueryAsync(insertQuery, airport);
+                //}
             }
         }
 

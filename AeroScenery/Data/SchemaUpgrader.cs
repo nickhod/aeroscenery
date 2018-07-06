@@ -27,8 +27,10 @@ namespace AeroScenery.Data
                     this.UpgradeToVersion2();
                     break;
                 case 2:
-                    // Version 3 added as a reminder of how this will work
-                    //this.UpgradeToVersion3();
+                    this.UpgradeToVersion3();
+                    break;
+                case 3:
+                    //this.UpgradeToVersion4();
                     break;
             }
         }
@@ -62,13 +64,38 @@ namespace AeroScenery.Data
 
 
             this.SaveNewSchemaVersion(2);
-            //this.UpgradeToVersion3();
+            this.UpgradeToVersion3();
         }
 
-        //private void UpgradeToVersion3()
-        //{
+        private void UpgradeToVersion3()
+        {        
+            using (var con = DbConnection())
+            {
+                con.Open();
+                con.Execute(
+                    @"create table FSCloudPortAirports
+                      (
+                        ICAO            TEXT PRIMARY KEY,
+                        Latitude        REAL,
+                        Longitude       REAL,
+                        Runways         INTEGER,
+                        Buildings       INTEGER,
+                        StaticAircraft  INTEGER
+                        Name            TEXT,
+                        LastModified    TEXT,
+                        LastCached      TEXT
+                      )");
 
-        //}
+                con.Execute(@"CREATE UNIQUE INDEX ix_FSCloudPortAirports_ICAO ON FSCloudPortAirports (ICAO ASC);");
+            }
+
+            this.SaveNewSchemaVersion(3);
+            //this.UpgradeToVersion4();
+        }
+
+        private void UpgradeToVersion4()
+        {
+        }
 
         private SQLiteConnection DbConnection()
         {
