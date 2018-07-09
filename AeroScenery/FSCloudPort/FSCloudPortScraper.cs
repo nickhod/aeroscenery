@@ -21,7 +21,7 @@ namespace AeroScenery.FSCloudPort
         {
             var urlTemplate = "http://www.fscloudport.com/phdi/p1.nsf/aeroscenery?OpenView&Start={0}&Count={1}";
 
-            IList<FSCloudPortAirport> airports = new List<FSCloudPortAirport>();
+            Dictionary<string, FSCloudPortAirport> airports = new Dictionary<string, FSCloudPortAirport>();
 
             try
             {
@@ -56,11 +56,11 @@ namespace AeroScenery.FSCloudPort
                 log.Error("Error scraping FSCloudPort airports", ex);
             }
 
-            return airports;
+            return airports.Values.ToList();
         }
 
 
-        private void ParseAirportListHtml(string html, IList<FSCloudPortAirport> airports)
+        private void ParseAirportListHtml(string html, Dictionary<string, FSCloudPortAirport> airports)
         {
             CQ dom = CQ.Create(html);
             var dataTableRows = dom["body > table tr"].Elements;
@@ -77,60 +77,68 @@ namespace AeroScenery.FSCloudPort
 
                     // There's only one link so get the url directly
                     var url = trCQ["a"].Attr("href");
+                    airport.ICAO = trCQ["a"].Text().Trim().ToUpper();
 
                     // Everything else in InnerText in tds
                     var tds = trCQ["td"].Elements;
 
-                    int jx = 0;
-                    foreach (var td in tds)
+                    if (!airports.ContainsKey(airport.ICAO))
                     {
-                        if (jx > 0)
+                        int jx = 0;
+                        foreach (var td in tds)
                         {
-                            switch (jx)
+                            if (jx > 0)
                             {
-                                // Lat / lon
-                                case 1:
-                                    string[] latLonArray = td.InnerText.Split(',');
+                                switch (jx)
+                                {
+                                    // Lat / lon
+                                    case 1:
+                                        string[] latLonArray = td.InnerText.Split(',');
 
-                                    if (latLonArray.Length == 2)
-                                    {
-                                        airport.Latitude = double.Parse(latLonArray[0]);
-                                        airport.Longitude = double.Parse(latLonArray[1]);
-                                    }
+                                        if (latLonArray.Length == 2)
+                                        {
+                                            airport.Latitude = double.Parse(latLonArray[0]);
+                                            airport.Longitude = double.Parse(latLonArray[1]);
+                                        }
 
-                                    break;
-                                // Runways, buildings, static aircraft
-                                case 2:
-                                    string[] valArray = td.InnerText.Split(',');
+                                        break;
+                                    // Runways, buildings, static aircraft
+                                    case 2:
+                                        string[] valArray = td.InnerText.Split(',');
 
-                                    if (valArray.Length == 3)
-                                    {
-                                        airport.Runways = int.Parse(valArray[0].Trim());
-                                        airport.Buildings = int.Parse(valArray[1].Trim());
-                                        airport.StaticAircraft = int.Parse(valArray[2].Trim());
-                                    }
+                                        if (valArray.Length == 3)
+                                        {
+                                            airport.Runways = int.Parse(valArray[0].Trim());
+                                            airport.Buildings = int.Parse(valArray[1].Trim());
+                                            airport.StaticAircraft = int.Parse(valArray[2].Trim());
+                                        }
 
-                                    break;
-                                // Name
-                                case 3:
-                                    airport.Name = td.InnerText;
-                                    break;
-                                // Last modified
-                                case 4:
-                                    DateTime lastModified = DateTime.UtcNow;
-                                    if (DateTime.TryParseExact(td.InnerText, "dd-MMM yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture,
-                                        System.Globalization.DateTimeStyles.None, out lastModified))
-                                    {
-                                        airport.LastModified = lastModified;
-                                    }
-                                    break;
+                                        break;
+                                    // Name
+                                    case 3:
+                                        airport.Name = td.InnerText.Trim();
+                                        break;
+                                    // Last modified
+                                    case 4:
+                                        DateTime lastModified = DateTime.UtcNow;
+                                        if (DateTime.TryParseExact(td.InnerText, "dd-MMM yyyy HH:mm", System.Globalization.CultureInfo.InvariantCulture,
+                                            System.Globalization.DateTimeStyles.None, out lastModified))
+                                        {
+                                            airport.LastModifiedDateTime = lastModified;
+                                        }
+                                        break;
+                                }
                             }
+
+                            jx++;
                         }
 
-                        jx++;
+                        airports.Add(airport.ICAO, airport);
                     }
 
-                    airports.Add(airport);
+
+
+
 
                 }
 

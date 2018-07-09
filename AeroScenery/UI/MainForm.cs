@@ -46,6 +46,9 @@ namespace AeroScenery
         private bool actionsRunning;
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
         private GMapControlManager gMapControlManager;
+        private FSCloudPortService fsCloudPortService;
+        private VersionService versionService;
+
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
@@ -65,6 +68,8 @@ namespace AeroScenery
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
             this.gMapControlManager = new GMapControlManager();
+            this.fsCloudPortService = new FSCloudPortService();
+            this.versionService = new VersionService();
 
             this.actionsRunning = false;
 
@@ -127,42 +132,17 @@ namespace AeroScenery
             TextBoxAppender.ConfigureTextBoxAppender(this.logTextBox);
 
             versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
-
         }
 
-        private void CheckForNewerVersions()
+        private async void MainForm_Shown(object sender, EventArgs e)
         {
-            Task.Run(() =>
-            {
+            log.Info(String.Format("AeroScenery v{0} Started", AeroSceneryManager.Instance.Version));
+            this.versionService.CheckForNewerVersions();
 
-                try
-                {
-                    using (WebClient client = new WebClient())
-                    {
-                        string versionInfo = client.DownloadString("https://raw.githubusercontent.com/nickhod/aeroscenery/master/version.json");
-
-                        dynamic dyn = JsonConvert.DeserializeObject(versionInfo);
-                        int incrementalVersion = dyn.incrementalVersion;
-                        string semanticVersion = dyn.semanicVersion;
-
-
-                        if (incrementalVersion > AeroSceneryManager.Instance.IncrementalVersion)
-                        {
-                            DialogResult result = MessageBox.Show("A newer version of AeroScenery is available.", 
-                                "AeroScenery", 
-                                MessageBoxButtons.OK, 
-                                MessageBoxIcon.Information);
-                        }
-                    }
-                }
-                catch
-                {
-
-                }
-
-            });
-
+            await this.fsCloudPortService.UpdateAirportsIfRequiredAsync();
         }
+
+
 
         public void UpdateUIFromSettings()
         {
@@ -950,12 +930,6 @@ namespace AeroScenery
             this.mainTabControl.SelectedIndex = 0;
             this.ActionsRunning = false;
             this.ResetProgress();
-        }
-
-        private void MainForm_Shown(object sender, EventArgs e)
-        {
-            log.Info(String.Format("AeroScenery v{0} Started", AeroSceneryManager.Instance.Version));
-            this.CheckForNewerVersions();
         }
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)

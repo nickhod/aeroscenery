@@ -80,7 +80,7 @@ namespace AeroScenery.Data
                         Longitude       REAL,
                         Runways         INTEGER,
                         Buildings       INTEGER,
-                        StaticAircraft  INTEGER
+                        StaticAircraft  INTEGER,
                         Name            TEXT,
                         LastModified    TEXT,
                         LastCached      TEXT

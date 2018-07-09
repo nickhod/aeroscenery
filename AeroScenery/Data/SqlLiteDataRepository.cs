@@ -102,24 +102,27 @@ namespace AeroScenery.Data
             {
                 var deleteQuery = @"DELETE FROM FSCloudPortAirports;";
 
-                try
-                {
-
                 await con.OpenAsync();
-                }
-                catch (Exception ex)
+                await con.ExecuteAsync(deleteQuery);
+
+                foreach (FSCloudPortAirport airport in airports)
                 {
-                    int i = 0;
+                    airport.LastCachedDateTime = DateTime.UtcNow;
+
+                    try
+                    {
+                        var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached) VALUES 
+                            (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
+
+                        await con.ExecuteAsync(insertQuery, airport);
+                    }
+
+                    catch (Exception ex)
+                    {
+                        int i = 0;
+                    }
+
                 }
-                //con.Query(deleteQuery);
-
-                //foreach (FSCloudPortAirport airport in airports)
-                //{
-                //    var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached) VALUES 
-                //            (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
-
-                //    await con.QueryAsync(insertQuery, airport);
-                //}
             }
         }
 

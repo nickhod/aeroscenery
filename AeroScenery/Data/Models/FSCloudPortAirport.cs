@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,23 @@ namespace AeroScenery.Data.Models
         public int Buildings { get; set; }
         public int StaticAircraft { get; set; }
         public string Name { get; set; }
-        public DateTime LastModified { get; set; }
-        public DateTime LastCached { get; set; }
+        public DateTime LastModifiedDateTime { get; set; }
+        public DateTime LastCachedDateTime { get; set; }
+
+        public string LastModified
+        {
+            get
+            {
+                return this.LastModifiedDateTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+        }
+
+        public string LastCached
+        {
+            get
+            {
+                return this.LastCachedDateTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+        }
     }
 }

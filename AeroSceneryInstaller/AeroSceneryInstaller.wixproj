@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>30ba927c-3085-423a-94e3-42d4ed2ba490</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>AeroSceneryInstaller</OutputName>
+    <OutputName>AeroScenery</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -20,6 +20,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AeroSceneryInstaller.wax" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AeroScenery\AeroScenery.csproj">

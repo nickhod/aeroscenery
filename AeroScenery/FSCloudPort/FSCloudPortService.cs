@@ -16,12 +16,16 @@ namespace AeroScenery.FSCloudPort
         {
             this.scraper = new FSCloudPortScraper();
             dataRepository = new SqlLiteDataRepository();
+            dataRepository.Settings = AeroSceneryManager.Instance.Settings;
         }
 
         public async Task UpdateAirportsIfRequiredAsync()
         {
-            var airports = await this.scraper.ScrapeAirportsAsync();
-            await dataRepository.UpdateFSCloudPortAirportsAsync(airports);
+            await Task.Run(async () =>
+            {
+                var airports = await this.scraper.ScrapeAirportsAsync();
+                await dataRepository.UpdateFSCloudPortAirportsAsync(airports);
+            });
 
         }
     }

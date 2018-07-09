@@ -1,30 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="AeroSceneryInstaller" Language="1033" Version="1.0.0.0" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?>
+	<Product Id="*" Name="AeroScenery" Language="1033" Version="1.0.0.0" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of AeroScenery is already installed." />
+		<MediaTemplate EmbedCab="yes" />
 
-		<Feature Id="ProductFeature" Title="AeroSceneryInstaller" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
-		</Feature>
+		<Feature Id="ProductFeature" Title="AeroScenery" Level="1">
+      <ComponentGroupRef Id="ProgramFilesFolder_files" />
+      <ComponentGroupRef Id="ProgramFilesFolderX86_files" />
+      <ComponentGroupRef Id="ProgramFilesFolderX64_files" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="ce72215a-172f-486d-8c9b-8c4503407b43">
+        <Shortcut Id="ApplicationStartMenuShortcut"
+             Name="AeroScenery"
+           Description="AeroScnery Scenery Generation App"
+            Target="[#AeroScenery.exe]"
+                  WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\AeroScenery\AeroScenery" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
 	</Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="AeroSceneryInstaller" />
+        <Directory Id="INSTALLFOLDER" Name="AeroScenery">
+          <Directory Id="X86FOLDER" Name="x86"></Directory>
+          <Directory Id="X64FOLDER" Name="x64"></Directory>
+        </Directory>
 			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="AeroScenery"/>
+      </Directory>
 		</Directory>
+
 	</Fragment>
 
 	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
-		</ComponentGroup>
+	  <ComponentGroup Id="ProgramFilesFolder_files" Directory="INSTALLFOLDER">
+	    <Component Id="AeroScenery.exe" Guid="a284aff9-a32c-40ab-b0af-ed54ad158305">
+	      <File Id="AeroScenery.exe" Name="AeroScenery.exe" Source="$(var.AeroScenery_TargetDir)AeroScenery.exe" />
+	    </Component>
+	    <Component Id="AeroScenery.exe.config" Guid="5e074622-a0d4-4d3a-87a1-ebd0ed8c2db4">
+	      <File Id="AeroScenery.exe.config" Name="AeroScenery.exe.config" Source="$(var.AeroScenery_TargetDir)AeroScenery.exe.config" />
+	    </Component>
+	    <Component Id="Dapper.dll" Guid="efd48dc0-d1e3-4c63-ab4b-80f3207caedd">
+	      <File Id="Dapper.dll" Name="Dapper.dll" Source="$(var.AeroScenery_TargetDir)Dapper.dll" />
+	    </Component>
+	    <Component Id="CsQuery.dll" Guid="44db4c10-7638-4a71-acba-a8319d1f3bb4">
+	      <File Id="CsQuery.dll" Name="CsQuery.dll" Source="$(var.AeroScenery_TargetDir)CsQuery.dll" />
+	    </Component>
+	    <Component Id="EntityFramework.dll" Guid="f1c3b6d8-37f6-45c6-8c46-591cb3f93407">
+	      <File Id="EntityFramework.dll" Name="EntityFramework.dll" Source="$(var.AeroScenery_TargetDir)EntityFramework.dll" />
+	    </Component>
+	    <Component Id="EntityFramework.SqlServer.dll" Guid="fff82767-c6b1-4051-bafc-f7ef2f38f990">
+	      <File Id="EntityFramework.SqlServer.dll" Name="EntityFramework.SqlServer.dll" Source="$(var.AeroScenery_TargetDir)EntityFramework.SqlServer.dll" />
+	    </Component>
+	    <Component Id="GMap.NET.WindowsForms.dll" Guid="d4e6068f-e7cc-431b-a2d0-61973cd03128">
+	      <File Id="GMap.NET.WindowsForms.dll" Name="GMap.NET.WindowsForms.dll" Source="$(var.AeroScenery_TargetDir)GMap.NET.WindowsForms.dll" />
+	    </Component>
+	    <Component Id="GMap.NET.Core.dll" Guid="56cb0c7a-9abd-4cb4-8d74-28d417d46d83">
+	      <File Id="GMap.NET.Core.dll" Name="GMap.NET.Core.dll" Source="$(var.AeroScenery_TargetDir)GMap.NET.Core.dll" />
+	    </Component>
+	    <Component Id="GMap.NET.WindowsPresentation.dll" Guid="2fe827ee-ccfb-45ac-9884-a8fa6dda0772">
+	      <File Id="GMap.NET.WindowsPresentation.dll" Name="GMap.NET.WindowsPresentation.dll" Source="$(var.AeroScenery_TargetDir)GMap.NET.WindowsPresentation.dll" />
+	    </Component>
+	    <Component Id="log4net.dll" Guid="af8e13bc-c0f4-4afe-9082-3b5259f76a12">
+	      <File Id="log4net.dll" Name="log4net.dll" Source="$(var.AeroScenery_TargetDir)log4net.dll" />
+	    </Component>
+	    <Component Id="Newtonsoft.Json.dll" Guid="a00bfcb9-f215-496f-989f-fb1b38dba597">
+	      <File Id="Newtonsoft.Json.dll" Name="Newtonsoft.Json.dll" Source="$(var.AeroScenery_TargetDir)Newtonsoft.Json.dll" />
+	    </Component>
+	    <Component Id="System.Data.SQLite.EF6.dll" Guid="11608240-691b-48bc-b9c3-b4cefbba204a">
+	      <File Id="System.Data.SQLite.EF6.dll" Name="System.Data.SQLite.EF6.dll" Source="$(var.AeroScenery_TargetDir)System.Data.SQLite.EF6.dll" />
+	    </Component>
+	    <Component Id="System.Data.SQLite.dll" Guid="af3bbd98-4661-448a-bb43-239c7d192d3f">
+	      <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="$(var.AeroScenery_TargetDir)System.Data.SQLite.dll" />
+	    </Component>
+	    <Component Id="System.Data.SQLite.Linq.dll" Guid="5396e621-f227-4721-bf3e-44f25671cdef">
+	      <File Id="System.Data.SQLite.Linq.dll" Name="System.Data.SQLite.Linq.dll" Source="$(var.AeroScenery_TargetDir)System.Data.SQLite.Linq.dll" />
+	    </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="ProgramFilesFolderX86_files" Directory="X86FOLDER">
+      <Component Id="x86_SQLite.Interop.dll" Guid="0d78426e-2269-48ec-af4b-31a594ea2520">
+        <File Id="x86_SQLite.Interop.dll" Name="SQLite.Interop.dll" Source="$(var.AeroScenery_TargetDir)\x86\SQLite.Interop.dll" />
+      </Component>
+    </ComponentGroup>
+    
+    <ComponentGroup Id="ProgramFilesFolderX64_files" Directory="X64FOLDER">
+      <Component Id="x64_SQLite.Interop.dll" Guid="f691af39-5184-4c44-8f99-ca88e4b84435">
+        <File Id="x64_SQLite.Interop.dll" Name="SQLite.Interop.dll" Source="$(var.AeroScenery_TargetDir)\x64\SQLite.Interop.dll" />
+      </Component>
+    </ComponentGroup>
 	</Fragment>
 </Wix>
