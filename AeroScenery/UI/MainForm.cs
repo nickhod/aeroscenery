@@ -47,6 +47,8 @@ namespace AeroScenery
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
         private GMapControlManager gMapControlManager;
         private FSCloudPortService fsCloudPortService;
+        private FSCloudPortMarkerManager fsCloudPortMarkerManager;
+
         private VersionService versionService;
 
 
@@ -68,6 +70,7 @@ namespace AeroScenery
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
             this.gMapControlManager = new GMapControlManager();
+            this.fsCloudPortMarkerManager = new FSCloudPortMarkerManager();
             this.fsCloudPortService = new FSCloudPortService();
             this.versionService = new VersionService();
 
@@ -79,10 +82,7 @@ namespace AeroScenery
             mainMap.MaxZoom = 24;
             mainMap.Zoom = 5;
             mainMap.DragButton = MouseButtons.Left;
-
-            mainMap.MouseMove += new MouseEventHandler(MainMap_MouseMove);
-            mainMap.MouseDown += new MouseEventHandler(MainMap_MouseDown);
-            mainMap.MouseUp += new MouseEventHandler(MainMap_MouseUp);
+            mainMap.IgnoreMarkerOnMouseWheel = true;
 
             SelectedAFS2GridSquares = new Dictionary<string, GridSquareViewModel>();
             DownloadedAFS2GridSquares = new Dictionary<string, GridSquareViewModel>();
@@ -111,6 +111,7 @@ namespace AeroScenery
             this.sideTabControl.TabPages.Remove(this.manualElevationTabPage);
 
             this.gMapControlManager.GMapControl = this.mainMap;
+            this.fsCloudPortMarkerManager.GMapControl = this.mainMap;
 
             this.shownSelectionSizeChangeInfo = true;
         }
@@ -140,6 +141,8 @@ namespace AeroScenery
             this.versionService.CheckForNewerVersions();
 
             await this.fsCloudPortService.UpdateAirportsIfRequiredAsync();
+            var airports = await this.fsCloudPortService.GetAirportsAsync();
+            this.fsCloudPortMarkerManager.Airports = airports;
         }
 
 
@@ -163,8 +166,9 @@ namespace AeroScenery
             }
 
             // Zoom Level
-            this.zoomLevelLabel.Text = settings.ZoomLevel.ToString();
             this.zoomLevelTrackBar.Value = settings.ZoomLevel;
+            this.setZoomLevelLabelText();
+
 
             // AFS Levels To Generate
             // Our minimum is 9
@@ -222,33 +226,6 @@ namespace AeroScenery
             this.generateAFSFilesCheckBox.Enabled = true;
             this.runGeoConvertCheckBox.Enabled = true;
             this.installSceneryIntoAFSCheckBox.Enabled = true;
-        }
-
-        void MainMap_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                mouseDownOnMap = false;
-            }
-        }
-
-
-
-        void MainMap_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                mouseDownOnMap = true;
-            }
-        }
-
-
-        private void MainMap_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left && mouseDownOnMap)
-            {
-
-            }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -507,7 +484,7 @@ namespace AeroScenery
             }
         }
 
-        private void mainMap_MouseDown_1(object sender, MouseEventArgs e)
+        private void MainMap_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
@@ -515,7 +492,7 @@ namespace AeroScenery
             }
         }
 
-        private void mainMap_MouseUp_1(object sender, MouseEventArgs e)
+        private void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
             if (this.mapMouseDownLocation != null)
             {
@@ -530,15 +507,22 @@ namespace AeroScenery
                     // rather than a drag
                     if (dx < 10 && dy < 10)
                     {
-                        switch (this.currentMainFormSideTab)
+                        if (!this.mainMap.IsMouseOverMarker)
                         {
-                            case MainFormSideTab.Images:
-                                this.SelectAFSGridSquare(e.X, e.Y);
-                                break;
-                            case MainFormSideTab.Elevation:
-                                this.SelectUSGSGridSquare(e.X, e.Y);
-                                break;
+                            switch (this.currentMainFormSideTab)
+                            {
+                                case MainFormSideTab.Images:
+                                    this.SelectAFSGridSquare(e.X, e.Y);
+                                    break;
+                                case MainFormSideTab.Elevation:
+                                    this.SelectUSGSGridSquare(e.X, e.Y);
+                                    break;
+                            }
                         }
+                    }
+                    else
+                    {
+                        this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
                     }
                 }
             }
@@ -706,9 +690,47 @@ namespace AeroScenery
 
         }
 
+        private void setZoomLevelLabelText()
+        {
+            double metersPerPixel = 0;
+
+            switch (this.zoomLevelTrackBar.Value)
+            {
+                case 12:
+                    metersPerPixel = 38.2185;
+                    break;
+                case 13:
+                    metersPerPixel = 19.1093;
+                    break;
+                case 14:
+                    metersPerPixel = 9.5546;
+                    break;
+                case 15:
+                    metersPerPixel = 4.7773;
+                    break;
+                case 16:
+                    metersPerPixel = 2.3887;
+                    break;
+                case 17:
+                    metersPerPixel = 1.1943;
+                    break;
+                case 18:
+                    metersPerPixel = 0.5972;
+                    break;
+                case 19:
+                    metersPerPixel = 0.2986;
+                    break;
+                case 20:
+                    metersPerPixel = 0.1493;
+                    break;
+            }
+
+            this.zoomLevelLabel.Text = String.Format("{0} - {1} meters/pixel", this.zoomLevelTrackBar.Value, metersPerPixel.ToString("0.000"));
+        }
+
         private void zoomLevelTrackBar_Scroll(object sender, EventArgs e)
         {
-            this.zoomLevelLabel.Text = this.zoomLevelTrackBar.Value.ToString();
+            this.setZoomLevelLabelText();
             AeroSceneryManager.Instance.Settings.ZoomLevel = this.zoomLevelTrackBar.Value;
             AeroSceneryManager.Instance.SaveSettings();
         }
@@ -1036,16 +1058,35 @@ namespace AeroScenery
             }
         }
 
-        private async void button3_Click(object sender, EventArgs e)
-        {
-            var fsCloudPortScraper = new FSCloudPortScraper();
-            var airports = await fsCloudPortScraper.ScrapeAirportsAsync();
-            int i = 0;
-        }
-
         private void sceneryEditorToolstripButton_Click(object sender, EventArgs e)
         {
             new SceneryEditorForm().Show();
+
+        }
+
+        private void AutoSelectAFSLevelsButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void MainMap_OnMapZoomChanged()
+        {
+            this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+        }
+
+        private void hybridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        {
+            this.fsCloudPortMarkerManager.AirportMakerClick(item.Tag.ToString());
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
 
         }
     }

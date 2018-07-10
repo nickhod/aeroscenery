@@ -163,6 +163,7 @@
     <Compile Include="UI\DownloadThreadProgressControl.Designer.cs">
       <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\FSCloudPortMarkerManager.cs" />
     <Compile Include="UI\GetAeroflySDKForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -264,6 +265,8 @@
     <Content Include="aeroscenery.ico" />
     <Content Include="Resources\arrow_down_active.png" />
     <Content Include="Resources\picture_edit.png" />
+    <None Include="Resources\socklight.png" />
+    <None Include="Resources\windsock.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\arrow_down.png" />

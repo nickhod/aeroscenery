@@ -97,6 +97,12 @@ namespace AeroScenery.Data
                 settings.OrthophotoSource = (OrthophotoSource)Enum.Parse(typeof(OrthophotoSource), key.GetValueAsString("OrthophotoSource"));
                 settings.ZoomLevel = int.Parse(key.GetValueAsString("ZoomLevel"));
 
+                // Less than 12 used to be possible
+                if (settings.ZoomLevel < 12)
+                {
+                    settings.ZoomLevel = 12;
+                }
+
                 settings.DownloadWaitMs = int.Parse(key.GetValueAsString("DownloadWaitMs"));
                 settings.DownloadWaitRandomMs = int.Parse(key.GetValueAsString("DownloadWaitRandomMs"));
                 settings.SimultaneousDownloads = int.Parse(key.GetValueAsString("SimultaneousDownloads"));
@@ -108,8 +114,17 @@ namespace AeroScenery.Data
                 settings.WorkingDirectory = key.GetValueAsString("WorkingDirectory");
 
                 string afsLevelsCsv = key.GetValueAsString("AFSLevelsToGenerate");
-                List<int> afsLevels = afsLevelsCsv.Split(',').Select(int.Parse).ToList();
-                settings.AFSLevelsToGenerate = afsLevels;
+
+                if (!string.IsNullOrEmpty(afsLevelsCsv))
+                {
+                    List<int> afsLevels = afsLevelsCsv.Split(',').Select(int.Parse).ToList();
+                    settings.AFSLevelsToGenerate = afsLevels;
+                }
+                else
+                {
+                    settings.AFSLevelsToGenerate = new List<int>();
+                }
+
 
                 // Settings version 2           
                 settings.MaximumStitchedImageSize = int.Parse(key.GetValueAsString("MaximumStitchedImageSize"));

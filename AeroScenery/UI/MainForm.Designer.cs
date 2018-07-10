@@ -34,20 +34,37 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.statusStripLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.settingsButton = new System.Windows.Forms.ToolStripButton();
+            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.sceneryEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.MapTypeToolStripDropDown = new System.Windows.Forms.ToolStripDropDownButton();
+            this.hybridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.satelliteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
             this.gridSquareSelectionSizeToolstripCombo = new System.Windows.Forms.ToolStripComboBox();
             this.versionToolStripLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.mainTabControl = new System.Windows.Forms.TabControl();
             this.mapTabPage = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.toolStrip2 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.gridSquareLabel = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.resetSquareToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
+            this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressTabPage = new System.Windows.Forms.TabPage();
             this.childTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -63,6 +80,8 @@
             this.logTextBox = new System.Windows.Forms.TextBox();
             this.sideTabControl = new System.Windows.Forms.TabControl();
             this.imagesTabPage = new System.Windows.Forms.TabPage();
+            this.autoSelectAFSLevelsButton = new System.Windows.Forms.Button();
+            this.generateAFS2LevelsHelpImage = new System.Windows.Forms.Label();
             this.zoomLevelLabel = new System.Windows.Forms.Label();
             this.zoomLevelTrackBar = new System.Windows.Forms.TrackBar();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -79,7 +98,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.imageSourceComboBox = new System.Windows.Forms.ComboBox();
             this.elevationTabPage = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.usgsTestButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -106,19 +124,6 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.generateAFS2LevelsHelpImage = new System.Windows.Forms.Label();
-            this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
-            this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
-            this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsButton = new System.Windows.Forms.ToolStripButton();
-            this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.sceneryEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -152,7 +157,7 @@
             this.mainMap.MaxZoom = 2;
             this.mainMap.MinZoom = 2;
             this.mainMap.MouseWheelZoomEnabled = true;
-            this.mainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.mainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionWithoutCenter;
             this.mainMap.Name = "mainMap";
             this.mainMap.NegativeMode = false;
             this.mainMap.PolygonsEnabled = true;
@@ -161,18 +166,20 @@
             this.mainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.mainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.mainMap.ShowTileGridLines = false;
-            this.mainMap.Size = new System.Drawing.Size(1034, 724);
+            this.mainMap.Size = new System.Drawing.Size(1034, 715);
             this.mainMap.TabIndex = 0;
             this.mainMap.Zoom = 0D;
+            this.mainMap.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.MainMap_OnMarkerClick);
+            this.mainMap.OnMapZoomChanged += new GMap.NET.MapZoomChanged(this.MainMap_OnMapZoomChanged);
             this.mainMap.DoubleClick += new System.EventHandler(this.mainMap_DoubleClick);
-            this.mainMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseDown_1);
-            this.mainMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.mainMap_MouseUp_1);
+            this.mainMap.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseDown);
+            this.mainMap.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainMap_MouseUp);
             // 
             // statusStrip
             // 
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusStripLabel1});
-            this.statusStrip.Location = new System.Drawing.Point(0, 821);
+            this.statusStrip.Location = new System.Drawing.Point(0, 812);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(1461, 22);
             this.statusStrip.TabIndex = 2;
@@ -194,6 +201,9 @@
             this.toolStripSeparator4,
             this.sceneryEditorToolstripButton,
             this.toolStripSeparator6,
+            this.toolStripButton1,
+            this.MapTypeToolStripDropDown,
+            this.toolStripSeparator7,
             this.toolStripLabel2,
             this.gridSquareSelectionSizeToolstripCombo,
             this.versionToolStripLabel,
@@ -205,10 +215,100 @@
             this.toolStrip1.TabIndex = 4;
             this.toolStrip1.Text = "toolStrip1";
             // 
+            // settingsButton
+            // 
+            this.settingsButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
+            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.settingsButton.Name = "settingsButton";
+            this.settingsButton.Size = new System.Drawing.Size(74, 29);
+            this.settingsButton.Text = "Settings";
+            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+            // 
+            // helpToolStripButton
+            // 
+            this.helpToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
+            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.helpToolStripButton.Name = "helpToolStripButton";
+            this.helpToolStripButton.Size = new System.Drawing.Size(55, 29);
+            this.helpToolStripButton.Text = "Help";
+            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
+            // 
+            // getSDKToolStripButton
+            // 
+            this.getSDKToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.getSDKToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("getSDKToolStripButton.Image")));
+            this.getSDKToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.getSDKToolStripButton.Name = "getSDKToolStripButton";
+            this.getSDKToolStripButton.Size = new System.Drawing.Size(147, 29);
+            this.getSDKToolStripButton.Text = "Get AeroFly FS2 SDK";
+            this.getSDKToolStripButton.Click += new System.EventHandler(this.getSDKToolStripButton_Click);
+            // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
+            // 
+            // sceneryEditorToolstripButton
+            // 
+            this.sceneryEditorToolstripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.sceneryEditorToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("sceneryEditorToolstripButton.Image")));
+            this.sceneryEditorToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.sceneryEditorToolstripButton.Name = "sceneryEditorToolstripButton";
+            this.sceneryEditorToolstripButton.Size = new System.Drawing.Size(112, 29);
+            this.sceneryEditorToolstripButton.Text = "Scenery Editor";
+            this.sceneryEditorToolstripButton.ToolTipText = "Scenery Editor";
+            this.sceneryEditorToolstripButton.Click += new System.EventHandler(this.sceneryEditorToolstripButton_Click);
+            // 
+            // toolStripSeparator6
+            // 
+            this.toolStripSeparator6.Name = "toolStripSeparator6";
+            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(97, 29);
+            this.toolStripButton1.Text = "Hide Airports";
+            // 
+            // MapTypeToolStripDropDown
+            // 
+            this.MapTypeToolStripDropDown.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.hybridToolStripMenuItem,
+            this.satelliteToolStripMenuItem,
+            this.sToolStripMenuItem});
+            this.MapTypeToolStripDropDown.Image = ((System.Drawing.Image)(resources.GetObject("MapTypeToolStripDropDown.Image")));
+            this.MapTypeToolStripDropDown.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.MapTypeToolStripDropDown.Name = "MapTypeToolStripDropDown";
+            this.MapTypeToolStripDropDown.Size = new System.Drawing.Size(88, 29);
+            this.MapTypeToolStripDropDown.Text = "Map Type";
+            // 
+            // hybridToolStripMenuItem
+            // 
+            this.hybridToolStripMenuItem.Name = "hybridToolStripMenuItem";
+            this.hybridToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.hybridToolStripMenuItem.Text = "Google Hybrid Map";
+            this.hybridToolStripMenuItem.Click += new System.EventHandler(this.hybridToolStripMenuItem_Click);
+            // 
+            // satelliteToolStripMenuItem
+            // 
+            this.satelliteToolStripMenuItem.Name = "satelliteToolStripMenuItem";
+            this.satelliteToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.satelliteToolStripMenuItem.Text = "Google Satellite Map";
+            // 
+            // sToolStripMenuItem
+            // 
+            this.sToolStripMenuItem.Name = "sToolStripMenuItem";
+            this.sToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.sToolStripMenuItem.Text = "Google Standard Map";
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(6, 32);
             // 
             // toolStripLabel2
             // 
@@ -236,6 +336,11 @@
             this.versionToolStripLabel.Size = new System.Drawing.Size(30, 29);
             this.versionToolStripLabel.Text = "vX.X";
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 32);
+            // 
             // mainTabControl
             // 
             this.mainTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -248,7 +353,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(401, 45);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(1048, 760);
+            this.mainTabControl.Size = new System.Drawing.Size(1048, 751);
             this.mainTabControl.TabIndex = 6;
             // 
             // mapTabPage
@@ -258,7 +363,7 @@
             this.mapTabPage.Location = new System.Drawing.Point(4, 26);
             this.mapTabPage.Name = "mapTabPage";
             this.mapTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.mapTabPage.Size = new System.Drawing.Size(1040, 730);
+            this.mapTabPage.Size = new System.Drawing.Size(1040, 721);
             this.mapTabPage.TabIndex = 0;
             this.mapTabPage.Text = "Map";
             this.mapTabPage.UseVisualStyleBackColor = true;
@@ -281,10 +386,9 @@
             this.gridSquareLabel,
             this.toolStripDownloadedLabel,
             this.toolStripSeparator3,
-            this.resetSquareToolStripButton,
-            this.toolStripSeparator1,
             this.openImageFolderToolstripButton,
             this.deleteImagesToolStripButton,
+            this.resetSquareToolStripButton,
             this.toolStripSeparator2,
             this.toolStripDropDownButton1});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
@@ -309,6 +413,14 @@
             this.gridSquareLabel.Size = new System.Drawing.Size(125, 22);
             this.gridSquareLabel.Text = "map_09_xxxx_xxxx";
             // 
+            // toolStripDownloadedLabel
+            // 
+            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
+            this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
+            this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
+            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
+            this.toolStripDownloadedLabel.Text = "Not Downloaded";
+            // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
@@ -317,22 +429,61 @@
             // resetSquareToolStripButton
             // 
             this.resetSquareToolStripButton.Enabled = false;
+            this.resetSquareToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("resetSquareToolStripButton.Image")));
             this.resetSquareToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.resetSquareToolStripButton.Name = "resetSquareToolStripButton";
-            this.resetSquareToolStripButton.Size = new System.Drawing.Size(89, 22);
+            this.resetSquareToolStripButton.Size = new System.Drawing.Size(105, 22);
             this.resetSquareToolStripButton.Text = "Reset Square";
             this.resetSquareToolStripButton.ToolTipText = "Reset Square";
             this.resetSquareToolStripButton.Click += new System.EventHandler(this.resetSquareToolStripButton_Click);
             // 
-            // toolStripSeparator1
+            // openImageFolderToolstripButton
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
+            this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
+            this.openImageFolderToolstripButton.Size = new System.Drawing.Size(141, 22);
+            this.openImageFolderToolstripButton.Text = "Open Image Folder";
+            this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
+            // 
+            // deleteImagesToolStripButton
+            // 
+            this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
+            this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
+            this.deleteImagesToolStripButton.Size = new System.Drawing.Size(111, 22);
+            this.deleteImagesToolStripButton.Text = "Delete Images";
+            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openInGoogleMapsToolStripMenuItem,
+            this.openInBingMApsToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(188, 22);
+            this.toolStripDropDownButton1.Text = "Open Grid Square In Map";
+            // 
+            // openInGoogleMapsToolStripMenuItem
+            // 
+            this.openInGoogleMapsToolStripMenuItem.Name = "openInGoogleMapsToolStripMenuItem";
+            this.openInGoogleMapsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInGoogleMapsToolStripMenuItem.Text = "Open In Google Maps";
+            this.openInGoogleMapsToolStripMenuItem.Click += new System.EventHandler(this.openInGoogleMapsToolStripMenuItem_Click);
+            // 
+            // openInBingMApsToolStripMenuItem
+            // 
+            this.openInBingMApsToolStripMenuItem.Name = "openInBingMApsToolStripMenuItem";
+            this.openInBingMApsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+            this.openInBingMApsToolStripMenuItem.Text = "Open In Bing Maps";
+            this.openInBingMApsToolStripMenuItem.Click += new System.EventHandler(this.openInBingMApsToolStripMenuItem_Click);
             // 
             // progressTabPage
             // 
@@ -346,7 +497,7 @@
             this.progressTabPage.Location = new System.Drawing.Point(4, 26);
             this.progressTabPage.Name = "progressTabPage";
             this.progressTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.progressTabPage.Size = new System.Drawing.Size(1040, 730);
+            this.progressTabPage.Size = new System.Drawing.Size(1040, 721);
             this.progressTabPage.TabIndex = 1;
             this.progressTabPage.Text = "Progress";
             // 
@@ -467,7 +618,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 26);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1040, 730);
+            this.tabPage5.Size = new System.Drawing.Size(1040, 721);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Log";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -482,7 +633,7 @@
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
-            this.logTextBox.Size = new System.Drawing.Size(1034, 724);
+            this.logTextBox.Size = new System.Drawing.Size(1034, 715);
             this.logTextBox.TabIndex = 0;
             // 
             // sideTabControl
@@ -496,12 +647,13 @@
             this.sideTabControl.Location = new System.Drawing.Point(12, 45);
             this.sideTabControl.Name = "sideTabControl";
             this.sideTabControl.SelectedIndex = 0;
-            this.sideTabControl.Size = new System.Drawing.Size(379, 655);
+            this.sideTabControl.Size = new System.Drawing.Size(379, 646);
             this.sideTabControl.TabIndex = 7;
             this.sideTabControl.SelectedIndexChanged += new System.EventHandler(this.sideTabControl_SelectedIndexChanged);
             // 
             // imagesTabPage
             // 
+            this.imagesTabPage.Controls.Add(this.autoSelectAFSLevelsButton);
             this.imagesTabPage.Controls.Add(this.generateAFS2LevelsHelpImage);
             this.imagesTabPage.Controls.Add(this.zoomLevelLabel);
             this.imagesTabPage.Controls.Add(this.zoomLevelTrackBar);
@@ -514,15 +666,35 @@
             this.imagesTabPage.Location = new System.Drawing.Point(4, 26);
             this.imagesTabPage.Name = "imagesTabPage";
             this.imagesTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.imagesTabPage.Size = new System.Drawing.Size(371, 625);
+            this.imagesTabPage.Size = new System.Drawing.Size(371, 616);
             this.imagesTabPage.TabIndex = 0;
             this.imagesTabPage.Text = "Images";
             this.imagesTabPage.UseVisualStyleBackColor = true;
             // 
+            // autoSelectAFSLevelsButton
+            // 
+            this.autoSelectAFSLevelsButton.Location = new System.Drawing.Point(217, 132);
+            this.autoSelectAFSLevelsButton.Name = "autoSelectAFSLevelsButton";
+            this.autoSelectAFSLevelsButton.Size = new System.Drawing.Size(138, 32);
+            this.autoSelectAFSLevelsButton.TabIndex = 11;
+            this.autoSelectAFSLevelsButton.Text = "Choose For Me";
+            this.autoSelectAFSLevelsButton.UseVisualStyleBackColor = true;
+            this.autoSelectAFSLevelsButton.Click += new System.EventHandler(this.AutoSelectAFSLevelsButton_Click);
+            // 
+            // generateAFS2LevelsHelpImage
+            // 
+            this.generateAFS2LevelsHelpImage.AutoSize = true;
+            this.generateAFS2LevelsHelpImage.Image = ((System.Drawing.Image)(resources.GetObject("generateAFS2LevelsHelpImage.Image")));
+            this.generateAFS2LevelsHelpImage.Location = new System.Drawing.Point(151, 139);
+            this.generateAFS2LevelsHelpImage.Name = "generateAFS2LevelsHelpImage";
+            this.generateAFS2LevelsHelpImage.Size = new System.Drawing.Size(16, 17);
+            this.generateAFS2LevelsHelpImage.TabIndex = 10;
+            this.generateAFS2LevelsHelpImage.Text = "  ";
+            // 
             // zoomLevelLabel
             // 
             this.zoomLevelLabel.AutoSize = true;
-            this.zoomLevelLabel.Location = new System.Drawing.Point(109, 65);
+            this.zoomLevelLabel.Location = new System.Drawing.Point(182, 65);
             this.zoomLevelLabel.Name = "zoomLevelLabel";
             this.zoomLevelLabel.Size = new System.Drawing.Size(22, 17);
             this.zoomLevelLabel.TabIndex = 9;
@@ -534,12 +706,12 @@
             this.zoomLevelTrackBar.LargeChange = 1;
             this.zoomLevelTrackBar.Location = new System.Drawing.Point(16, 88);
             this.zoomLevelTrackBar.Maximum = 20;
-            this.zoomLevelTrackBar.Minimum = 8;
+            this.zoomLevelTrackBar.Minimum = 12;
             this.zoomLevelTrackBar.Name = "zoomLevelTrackBar";
             this.zoomLevelTrackBar.Size = new System.Drawing.Size(337, 45);
             this.zoomLevelTrackBar.TabIndex = 8;
             this.zoomLevelTrackBar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.zoomLevelTrackBar.Value = 8;
+            this.zoomLevelTrackBar.Value = 12;
             this.zoomLevelTrackBar.Scroll += new System.EventHandler(this.zoomLevelTrackBar_Scroll);
             // 
             // groupBox2
@@ -553,7 +725,7 @@
             this.groupBox2.Controls.Add(this.generateAFSFilesCheckBox);
             this.groupBox2.Controls.Add(this.stitchImageTilesCheckBox);
             this.groupBox2.Controls.Add(this.downloadImageTileCheckBox);
-            this.groupBox2.Location = new System.Drawing.Point(16, 334);
+            this.groupBox2.Location = new System.Drawing.Point(16, 356);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(339, 241);
             this.groupBox2.TabIndex = 7;
@@ -648,7 +820,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 135);
+            this.label4.Location = new System.Drawing.Point(13, 139);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(132, 17);
             this.label4.TabIndex = 6;
@@ -666,7 +838,7 @@
             "Level 13",
             "Level 14",
             "Level 15"});
-            this.afsLevelsCheckBoxList.Location = new System.Drawing.Point(16, 156);
+            this.afsLevelsCheckBoxList.Location = new System.Drawing.Point(16, 177);
             this.afsLevelsCheckBoxList.Name = "afsLevelsCheckBoxList";
             this.afsLevelsCheckBoxList.Size = new System.Drawing.Size(339, 164);
             this.afsLevelsCheckBoxList.TabIndex = 5;
@@ -677,9 +849,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(15, 65);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(75, 17);
+            this.label3.Size = new System.Drawing.Size(160, 17);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Zoom Level";
+            this.label3.Text = "Image Detail (Zoom Level)";
             // 
             // label2
             // 
@@ -706,7 +878,6 @@
             // 
             // elevationTabPage
             // 
-            this.elevationTabPage.Controls.Add(this.button3);
             this.elevationTabPage.Controls.Add(this.button2);
             this.elevationTabPage.Controls.Add(this.usgsTestButton);
             this.elevationTabPage.Controls.Add(this.groupBox3);
@@ -717,20 +888,10 @@
             this.elevationTabPage.Location = new System.Drawing.Point(4, 26);
             this.elevationTabPage.Name = "elevationTabPage";
             this.elevationTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.elevationTabPage.Size = new System.Drawing.Size(371, 625);
+            this.elevationTabPage.Size = new System.Drawing.Size(371, 616);
             this.elevationTabPage.TabIndex = 1;
             this.elevationTabPage.Text = "Elevation";
             this.elevationTabPage.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(199, 499);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(166, 23);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Scrape FSCloudPort Airports";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -886,7 +1047,7 @@
             this.manualElevationTabPage.Location = new System.Drawing.Point(4, 26);
             this.manualElevationTabPage.Name = "manualElevationTabPage";
             this.manualElevationTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.manualElevationTabPage.Size = new System.Drawing.Size(371, 625);
+            this.manualElevationTabPage.Size = new System.Drawing.Size(371, 616);
             this.manualElevationTabPage.TabIndex = 2;
             this.manualElevationTabPage.Text = "Manual Elevation";
             this.manualElevationTabPage.UseVisualStyleBackColor = true;
@@ -993,7 +1154,7 @@
             this.startStopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.startStopButton.Enabled = false;
             this.startStopButton.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startStopButton.Location = new System.Drawing.Point(12, 742);
+            this.startStopButton.Location = new System.Drawing.Point(12, 733);
             this.startStopButton.Name = "startStopButton";
             this.startStopButton.Size = new System.Drawing.Size(379, 63);
             this.startStopButton.TabIndex = 3;
@@ -1006,7 +1167,7 @@
             this.shutdownCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.shutdownCheckbox.AutoSize = true;
             this.shutdownCheckbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.shutdownCheckbox.Location = new System.Drawing.Point(12, 713);
+            this.shutdownCheckbox.Location = new System.Drawing.Point(12, 704);
             this.shutdownCheckbox.Name = "shutdownCheckbox";
             this.shutdownCheckbox.Size = new System.Drawing.Size(223, 21);
             this.shutdownCheckbox.TabIndex = 8;
@@ -1020,123 +1181,11 @@
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
             // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(6, 32);
-            // 
-            // toolStripSeparator6
-            // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
-            // 
-            // generateAFS2LevelsHelpImage
-            // 
-            this.generateAFS2LevelsHelpImage.AutoSize = true;
-            this.generateAFS2LevelsHelpImage.Image = ((System.Drawing.Image)(resources.GetObject("generateAFS2LevelsHelpImage.Image")));
-            this.generateAFS2LevelsHelpImage.Location = new System.Drawing.Point(151, 135);
-            this.generateAFS2LevelsHelpImage.Name = "generateAFS2LevelsHelpImage";
-            this.generateAFS2LevelsHelpImage.Size = new System.Drawing.Size(16, 17);
-            this.generateAFS2LevelsHelpImage.TabIndex = 10;
-            this.generateAFS2LevelsHelpImage.Text = "  ";
-            // 
-            // toolStripDownloadedLabel
-            // 
-            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
-            this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
-            this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
-            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
-            this.toolStripDownloadedLabel.Text = "Not Downloaded";
-            // 
-            // openImageFolderToolstripButton
-            // 
-            this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
-            this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
-            this.openImageFolderToolstripButton.Size = new System.Drawing.Size(141, 22);
-            this.openImageFolderToolstripButton.Text = "Open Image Folder";
-            this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
-            // 
-            // deleteImagesToolStripButton
-            // 
-            this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
-            this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
-            this.deleteImagesToolStripButton.Size = new System.Drawing.Size(111, 22);
-            this.deleteImagesToolStripButton.Text = "Delete Images";
-            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openInGoogleMapsToolStripMenuItem,
-            this.openInBingMApsToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(188, 22);
-            this.toolStripDropDownButton1.Text = "Open Grid Square In Map";
-            // 
-            // openInGoogleMapsToolStripMenuItem
-            // 
-            this.openInGoogleMapsToolStripMenuItem.Name = "openInGoogleMapsToolStripMenuItem";
-            this.openInGoogleMapsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.openInGoogleMapsToolStripMenuItem.Text = "Open In Google Maps";
-            this.openInGoogleMapsToolStripMenuItem.Click += new System.EventHandler(this.openInGoogleMapsToolStripMenuItem_Click);
-            // 
-            // openInBingMApsToolStripMenuItem
-            // 
-            this.openInBingMApsToolStripMenuItem.Name = "openInBingMApsToolStripMenuItem";
-            this.openInBingMApsToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
-            this.openInBingMApsToolStripMenuItem.Text = "Open In Bing Maps";
-            this.openInBingMApsToolStripMenuItem.Click += new System.EventHandler(this.openInBingMApsToolStripMenuItem_Click);
-            // 
-            // settingsButton
-            // 
-            this.settingsButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
-            this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.settingsButton.Name = "settingsButton";
-            this.settingsButton.Size = new System.Drawing.Size(74, 29);
-            this.settingsButton.Text = "Settings";
-            this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
-            // 
-            // helpToolStripButton
-            // 
-            this.helpToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.helpToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("helpToolStripButton.Image")));
-            this.helpToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.helpToolStripButton.Name = "helpToolStripButton";
-            this.helpToolStripButton.Size = new System.Drawing.Size(55, 29);
-            this.helpToolStripButton.Text = "Help";
-            this.helpToolStripButton.Click += new System.EventHandler(this.helpToolStripButton_Click);
-            // 
-            // getSDKToolStripButton
-            // 
-            this.getSDKToolStripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.getSDKToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("getSDKToolStripButton.Image")));
-            this.getSDKToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.getSDKToolStripButton.Name = "getSDKToolStripButton";
-            this.getSDKToolStripButton.Size = new System.Drawing.Size(147, 29);
-            this.getSDKToolStripButton.Text = "Get AeroFly FS2 SDK";
-            this.getSDKToolStripButton.Click += new System.EventHandler(this.getSDKToolStripButton_Click);
-            // 
-            // sceneryEditorToolstripButton
-            // 
-            this.sceneryEditorToolstripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.sceneryEditorToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("sceneryEditorToolstripButton.Image")));
-            this.sceneryEditorToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.sceneryEditorToolstripButton.Name = "sceneryEditorToolstripButton";
-            this.sceneryEditorToolstripButton.Size = new System.Drawing.Size(112, 29);
-            this.sceneryEditorToolstripButton.Text = "Scenery Editor";
-            this.sceneryEditorToolstripButton.ToolTipText = "Scenery Editor";
-            this.sceneryEditorToolstripButton.Click += new System.EventHandler(this.sceneryEditorToolstripButton_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1461, 843);
+            this.ClientSize = new System.Drawing.Size(1461, 834);
             this.Controls.Add(this.shutdownCheckbox);
             this.Controls.Add(this.sideTabControl);
             this.Controls.Add(this.startStopButton);
@@ -1225,7 +1274,6 @@
         private System.Windows.Forms.ToolStripButton openImageFolderToolstripButton;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripButton resetSquareToolStripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel gridSquareLabel;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
@@ -1267,10 +1315,16 @@
         private System.Windows.Forms.TextBox workingFolderTextBox;
         private System.Windows.Forms.Button usgsTestButton;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ToolStripButton sceneryEditorToolstripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.Button autoSelectAFSLevelsButton;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripDropDownButton MapTypeToolStripDropDown;
+        private System.Windows.Forms.ToolStripMenuItem hybridToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem satelliteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
     }
 }
 

@@ -96,39 +96,63 @@ namespace AeroScenery.Data
             }
         }
 
-        public async Task UpdateFSCloudPortAirportsAsync(IList<FSCloudPortAirport> airports)
+        public IList<FSCloudPortAirport> GetAllFSCloudPortAirports()
+        {
+            using (var con = DbConnection())
+            {
+                var query = @"SELECT * FROM FSCloudPortAirports ORDER BY Latitude, Longitude";
+
+                con.Open();
+                List<FSCloudPortAirport> result = con.Query<FSCloudPortAirport>(query).ToList();
+
+                return result;
+            }
+        }
+
+        public void UpdateFSCloudPortAirports(IList<FSCloudPortAirport> airports)
         {
             using (var con = DbConnection())
             {
                 var deleteQuery = @"DELETE FROM FSCloudPortAirports;";
 
-                await con.OpenAsync();
-                await con.ExecuteAsync(deleteQuery);
+                con.Open();
+                con.Execute(deleteQuery);
 
-                foreach (FSCloudPortAirport airport in airports)
+                SQLiteTransaction transaction = con.BeginTransaction();
+
+                try
                 {
-                    airport.LastCachedDateTime = DateTime.UtcNow;
-
-                    try
+                    foreach (FSCloudPortAirport airport in airports)
                     {
+                        airport.LastCachedDateTime = DateTime.UtcNow;
+
                         var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached) VALUES 
-                            (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
+                        (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
 
-                        await con.ExecuteAsync(insertQuery, airport);
+                        con.Execute(insertQuery, airport);
                     }
 
-                    catch (Exception ex)
-                    {
-                        int i = 0;
-                    }
-
+                    transaction.Commit();
                 }
+                catch (SQLiteException ex)
+                {
+                    transaction.Rollback();
+                }
+
+                int i = 0;
             }
         }
 
         public void UpgradeDatabase()
         {
-            var dbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
+            var oldDbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
+            var dbPath = this.settings.AeroSceneryDBDirectory + @"\aeroscenery.db";
+
+            // The db files used to be called aerofly.db before
+            if (File.Exists(oldDbPath))
+            {
+                File.Move(oldDbPath, dbPath);
+            }
 
             if (!File.Exists(dbPath))
             {
@@ -141,11 +165,11 @@ namespace AeroScenery.Data
 
         public void CreateDatabase()
         {
-            var dbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
+            var dbPath = this.settings.AeroSceneryDBDirectory + @"\aeroscenery.db";
 
             if (!File.Exists(dbPath))
             {
-                SQLiteConnection.CreateFile("aerofly.db");
+                SQLiteConnection.CreateFile(dbPath);
                 CreateSchema();
             }
         }
@@ -220,7 +244,7 @@ namespace AeroScenery.Data
             set
             {
                 this.settings = value;
-                this.dbPath = this.settings.AeroSceneryDBDirectory + @"\aerofly.db";
+                this.dbPath = this.settings.AeroSceneryDBDirectory + @"\aeroscenery.db";
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using AeroScenery.Data;
+using AeroScenery.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,16 @@ namespace AeroScenery.FSCloudPort
             await Task.Run(async () =>
             {
                 var airports = await this.scraper.ScrapeAirportsAsync();
-                await dataRepository.UpdateFSCloudPortAirportsAsync(airports);
+                dataRepository.UpdateFSCloudPortAirports(airports);
+            });
+
+        }
+
+        public async Task<IList<FSCloudPortAirport>> GetAirportsAsync()
+        {
+            return await Task.Run(() =>
+            {
+                return dataRepository.GetAllFSCloudPortAirports();
             });
 
         }
