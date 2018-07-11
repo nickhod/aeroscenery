@@ -18,6 +18,7 @@ namespace AeroScenery.Common
         public Settings()
         {
             this.ElevationSettings = new ElevationSettings();
+            this.SceneryEditorSettings = new SceneryEditorSettings();
         }
 
         public string AFS2SDKDirectory { get; set; }
@@ -68,6 +69,13 @@ namespace AeroScenery.Common
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
 
+        public int? MapControlLastZoomLevel { get; set;}
+        public double? MapControlLastX { get; set; }
+        public double? MapControlLastY { get; set; }
+        public string MapControlLastMapType { get; set; }
+        public bool ShowAirports { get; set; }
+
         public ElevationSettings ElevationSettings { get; set; }
+        public SceneryEditorSettings SceneryEditorSettings { get; set; }
     }
 }

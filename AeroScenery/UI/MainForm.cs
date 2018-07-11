@@ -76,11 +76,8 @@ namespace AeroScenery
 
             this.actionsRunning = false;
 
-            mainMap.MapProvider = GMapProviders.GoogleHybridMap;
-            //mainMap.Position = new PointLatLng(54.6961334816182, 25.2985095977783);
-            mainMap.MinZoom = 0;
+            mainMap.MinZoom = 2;
             mainMap.MaxZoom = 24;
-            mainMap.Zoom = 5;
             mainMap.DragButton = MouseButtons.Left;
             mainMap.IgnoreMarkerOnMouseWheel = true;
 
@@ -190,6 +187,27 @@ namespace AeroScenery
                     break;
             }
 
+            // Map stuff
+            mainMap.MapProvider = GMapProviderHelper.GetGMapProvider(settings.MapControlLastMapType);
+            if (settings.MapControlLastZoomLevel.HasValue && settings.MapControlLastZoomLevel > 1)
+            {
+                mainMap.Zoom = settings.MapControlLastZoomLevel.Value;
+            }
+            else
+            {
+                mainMap.Zoom = 5;
+            }
+
+            if (settings.MapControlLastX.HasValue && settings.MapControlLastY.HasValue)
+            {
+                mainMap.Position = new PointLatLng(settings.MapControlLastX.Value, settings.MapControlLastY.Value);
+            }
+
+
+            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            {
+                this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+            }
 
             this.uiSetFromSettings = true;
 
@@ -232,6 +250,8 @@ namespace AeroScenery
         {
             mainMap.Manager.CancelTileCaching();
             mainMap.Dispose();
+
+            AeroSceneryManager.Instance.SaveSettings();
         }
 
         private void ButtonStart_Click(object sender, EventArgs e)
@@ -522,7 +542,10 @@ namespace AeroScenery
                     }
                     else
                     {
-                        this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+                        if (AeroSceneryManager.Instance.Settings.ShowAirports)
+                        {
+                            this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+                        }
                     }
                 }
             }
@@ -1072,7 +1095,18 @@ namespace AeroScenery
 
         private void MainMap_OnMapZoomChanged()
         {
-            this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+            AeroSceneryManager.Instance.Settings.MapControlLastZoomLevel = Convert.ToInt32(this.mainMap.Zoom);
+
+            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            {
+                this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+            }
+        }
+
+        private void MainMap_OnMapDrag()
+        {
+            AeroSceneryManager.Instance.Settings.MapControlLastX = this.mainMap.Position.Lat;
+            AeroSceneryManager.Instance.Settings.MapControlLastY = this.mainMap.Position.Lng;
         }
 
         private void hybridToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1088,6 +1122,54 @@ namespace AeroScenery
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
 
+        }
+
+        private void showAirportsToolstripButton_Click(object sender, EventArgs e)
+        {
+            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            {
+                AeroSceneryManager.Instance.Settings.ShowAirports = false;
+                this.showAirportsToolstripButton.Text = "Show Airports";
+                this.fsCloudPortMarkerManager.RemoveAllFSCloudPortMarkers();
+
+            }
+            else
+            {
+                AeroSceneryManager.Instance.Settings.ShowAirports = true;
+                this.showAirportsToolstripButton.Text = "Hide Airports";
+                this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+            }
+        }
+
+        private void mapTypeToolStripDropDown_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            switch(e.ClickedItem.Tag)
+            {
+                case "GoogleHybrid":
+                    this.mainMap.MapProvider = GMapProviders.GoogleHybridMap;
+                    break;
+                case "GoogleSatellite":
+                    this.mainMap.MapProvider = GMapProviders.GoogleSatelliteMap;
+                    break;
+                case "GoogleStandard":
+                    this.mainMap.MapProvider = GMapProviders.GoogleMap;
+                    break;
+                case "BingHybrid":
+                    this.mainMap.MapProvider = GMapProviders.BingHybridMap;
+                    break;
+                case "BingSatellite":
+                    this.mainMap.MapProvider = GMapProviders.BingSatelliteMap;
+                    break;
+                case "BingStandard":
+                    this.mainMap.MapProvider = GMapProviders.BingMap;
+                    break;
+                case "OpenStreetMap":
+                    this.mainMap.MapProvider = GMapProviders.OpenStreetMap;
+                    break;
+            }
+
+            var mapProviderName = this.mainMap.MapProvider.GetType();
+            AeroSceneryManager.Instance.Settings.MapControlLastMapType = mapProviderName.Name.Replace("Provider", "");
         }
     }
 }

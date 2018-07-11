@@ -20,12 +20,14 @@ namespace AeroScenery.Data
 
     public class RegistryService
     {
-        private int settingsVersion = 4;
+        private int settingsVersion = 6;
 
         public void SaveSettings(Settings settings)
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key = key.OpenSubKey("AeroScenery", true);
+
+            var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
 
             key.SetValue("DownloadImageTiles", settings.DownloadImageTiles);
             key.SetValue("StitchImageTiles", settings.StitchImageTiles);
@@ -74,6 +76,78 @@ namespace AeroScenery.Data
             key.SetValue("Elevation.AFSLevelsToGenerate", afsElevationLevelsCsv);
             // --
 
+            // Settings version 5
+            if (settings.MapControlLastZoomLevel.HasValue)
+            {
+                key.SetValue("MapControlLastZoomLevel", settings.MapControlLastZoomLevel);
+            }
+            else
+            {
+                key.SetValue("MapControlLastZoomLevel", "");
+            }
+
+            if (settings.MapControlLastX.HasValue)
+            {
+                key.SetValue("MapControlLastX", settings.MapControlLastX);
+
+            }
+            else
+            {
+                key.SetValue("MapControlLastX", "");
+
+            }
+
+            if (settings.MapControlLastY.HasValue)
+            {
+                key.SetValue("MapControlLastY", settings.MapControlLastY);
+
+            }
+            else
+            {
+                key.SetValue("MapControlLastY", "");
+            }
+
+            key.SetValue("MapControlLastMapType", settings.MapControlLastMapType);
+
+
+            if (settings.SceneryEditorSettings.MapControlLastZoomLevel.HasValue)
+            {
+                sceneryEditorKey.SetValue("MapControlLastZoomLevel", settings.SceneryEditorSettings.MapControlLastZoomLevel);
+            }
+            else
+            {
+                sceneryEditorKey.SetValue("MapControlLastZoomLevel", "");
+            }
+
+
+            if (settings.SceneryEditorSettings.MapControlLastX.HasValue)
+            {
+                sceneryEditorKey.SetValue("MapControlLastX", settings.SceneryEditorSettings.MapControlLastX);
+            }
+            else
+            {
+                sceneryEditorKey.SetValue("MapControlLastX", "");
+            }
+
+            if (settings.SceneryEditorSettings.MapControlLastY.HasValue)
+            {
+                sceneryEditorKey.SetValue("MapControlLastY", settings.SceneryEditorSettings.MapControlLastY);
+            }
+            else
+            {
+                sceneryEditorKey.SetValue("MapControlLastY", "");
+            }
+
+            sceneryEditorKey.SetValue("MapControlLastMapType", settings.SceneryEditorSettings.MapControlLastMapType);
+            // --
+
+
+            // Settings version 6
+            key.SetValue("ShowAirports", settings.ShowAirports);
+            sceneryEditorKey.SetValue("ShowAirports", settings.SceneryEditorSettings.ShowAirports);
+
+            // -- 
+
             key.SetValue("SettingsVersion", settingsVersion);
         }
 
@@ -84,8 +158,11 @@ namespace AeroScenery.Data
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", false);
             key = key.OpenSubKey("AeroScenery", false);
 
+
             if (key != null)
             {
+                var sceneryEditorKey = key.OpenSubKey("SceneryEditor", false);
+
                 settings.DownloadImageTiles = Boolean.Parse(key.GetValueAsString("DownloadImageTiles"));
                 settings.StitchImageTiles = Boolean.Parse(key.GetValueAsString("StitchImageTiles"));
                 settings.GenerateAIDAndTMCFiles = Boolean.Parse(key.GetValueAsString("GenerateAIDAndTMCFiles"));
@@ -149,6 +226,53 @@ namespace AeroScenery.Data
                 List<int> afsElevationLevels = afsElevationLevelsCsv.Split(',').Select(int.Parse).ToList();
                 settings.ElevationSettings.AFSLevelsToGenerate = afsElevationLevels;
                 // --
+
+                // Settings version 5
+                var mapControlLastZoomLevelStr = key.GetValueAsString("MapControlLastZoomLevel");
+                if (!String.IsNullOrEmpty(mapControlLastZoomLevelStr))
+                {
+                    settings.MapControlLastZoomLevel = int.Parse(mapControlLastZoomLevelStr);
+                }
+
+                var mapControlLastXStr = key.GetValueAsString("MapControlLastX");
+                if (!String.IsNullOrEmpty(mapControlLastXStr))
+                {
+                    settings.MapControlLastX = double.Parse(mapControlLastXStr);
+                }
+
+                var mapControlLastYStr = key.GetValueAsString("MapControlLastY");
+                if (!String.IsNullOrEmpty(mapControlLastYStr))
+                {
+                    settings.MapControlLastY = double.Parse(mapControlLastYStr);
+                }
+
+                settings.MapControlLastMapType = key.GetValueAsString("MapControlLastMapType");
+
+                var sceneryEditorMapControlLastZoomLevelStr = sceneryEditorKey.GetValueAsString("MapControlLastZoomLevel");
+                if (!String.IsNullOrEmpty(sceneryEditorMapControlLastZoomLevelStr))
+                {
+                    settings.SceneryEditorSettings.MapControlLastZoomLevel = int.Parse(sceneryEditorMapControlLastZoomLevelStr);
+                }
+
+                var sceneryEditorMapControlLastXStr = sceneryEditorKey.GetValueAsString("MapControlLastX");
+                if (!String.IsNullOrEmpty(sceneryEditorMapControlLastXStr))
+                {
+                    settings.SceneryEditorSettings.MapControlLastX = double.Parse(sceneryEditorMapControlLastXStr);
+                }
+
+                var sceneryEditorMapControlLastYStr = sceneryEditorKey.GetValueAsString("MapControlLastY");
+                if (!String.IsNullOrEmpty(sceneryEditorMapControlLastYStr))
+                {
+                    settings.SceneryEditorSettings.MapControlLastY = double.Parse(sceneryEditorMapControlLastYStr);
+                }
+
+                settings.SceneryEditorSettings.MapControlLastMapType = sceneryEditorKey.GetValueAsString("MapControlLastMapType");
+                // --
+
+                // Settings verison 6
+                settings.ShowAirports = bool.Parse(key.GetValueAsString("ShowAirports"));
+                settings.SceneryEditorSettings.ShowAirports = bool.Parse(sceneryEditorKey.GetValueAsString("ShowAirports"));
+                // --
             }
 
 
@@ -162,6 +286,8 @@ namespace AeroScenery.Data
 
             if (key != null)
             {
+                var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
+
                 var currentSettingsVersion = int.Parse(key.GetValueAsString("SettingsVersion"));
 
                 // Do we need to upgrade the settings
@@ -196,8 +322,32 @@ namespace AeroScenery.Data
                         key.SetValue("Elevation.ActionSet", ActionSet.Default);
                         key.SetValue("Elevation.InstallElevationData", false);
                         key.SetValue("Elevation.AFSLevelsToGenerate", "9,11,12,13,14");
-                        key.SetValue("SettingsVersion", 3);
-                        currentSettingsVersion = 3;
+                        key.SetValue("SettingsVersion", 4);
+                        currentSettingsVersion = 4;
+                    }
+
+                    // Upgrade to settings version 5
+                    if (currentSettingsVersion == 4)
+                    {
+                        key.SetValue("MapControlLastZoomLevel", "");
+                        key.SetValue("MapControlLastX", "");
+                        key.SetValue("MapControlLastY", "");
+                        key.SetValue("MapControlLastMapType", "GoogleHybridMap");
+
+                        sceneryEditorKey.SetValue("MapControlLastZoomLevel", "");
+                        sceneryEditorKey.SetValue("MapControlLastX", "");
+                        sceneryEditorKey.SetValue("MapControlLastY", "");
+                        sceneryEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
+
+                        key.SetValue("SettingsVersion", 5);
+                        currentSettingsVersion = 5;
+                    }
+
+                    // Upgrade to settings version 6
+                    if (currentSettingsVersion == 5)
+                    {
+                        key.SetValue("ShowAirports", false);
+                        sceneryEditorKey.SetValue("ShowAirports", false);
                     }
                 }
 
@@ -282,8 +432,26 @@ namespace AeroScenery.Data
             settings.ElevationSettings.AFSLevelsToGenerate.Add(14);
             //--
 
+            // Settings version 5
+            settings.MapControlLastZoomLevel = null;
+            settings.MapControlLastX = null;
+            settings.MapControlLastY = null;
+            settings.MapControlLastMapType = "GoogleHybridMap";
+
+            settings.SceneryEditorSettings.MapControlLastZoomLevel = null;
+            settings.SceneryEditorSettings.MapControlLastX = null;
+            settings.SceneryEditorSettings.MapControlLastY = null;
+            settings.SceneryEditorSettings.MapControlLastMapType = "OpenStreetMap";
+            // --
+
+            // Settings version 6
+            settings.ShowAirports = false;
+            settings.SceneryEditorSettings.ShowAirports = false;
+            // --
+
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key.CreateSubKey("AeroScenery");
+            var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
 
             SaveSettings(settings);
 

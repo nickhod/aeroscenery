@@ -78,6 +78,10 @@ namespace AeroScenery.UI
             }
         }
 
-
+        public void RemoveAllFSCloudPortMarkers()
+        {
+            airportMarkers.Markers.Clear();
+            this.GMapControl.Overlays.Remove(airportMarkers);
+        }
     }
 }

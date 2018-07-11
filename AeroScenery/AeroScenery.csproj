@@ -119,8 +119,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\ElevationSettings.cs" />
+    <Compile Include="Common\GMapProviderHelper.cs" />
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Point.cs" />
+    <Compile Include="Common\SceneryEditorSettings.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\StitchedImage.cs" />
     <Compile Include="Common\TextBoxAppender.cs" />
@@ -190,10 +192,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\MainFormSideTab.cs" />
-    <Compile Include="UI\SceneryEditorForm.cs">
+    <Compile Include="UI\SceneryEditor\SceneryEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SceneryEditorForm.Designer.cs">
+    <Compile Include="UI\SceneryEditor\SceneryEditorForm.Designer.cs">
       <DependentUpon>SceneryEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SettingsForm.cs">
@@ -239,7 +241,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\SceneryEditorForm.resx">
+    <EmbeddedResource Include="UI\SceneryEditor\SceneryEditorForm.resx">
       <DependentUpon>SceneryEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingsForm.resx">
