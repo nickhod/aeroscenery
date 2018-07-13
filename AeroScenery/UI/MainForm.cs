@@ -1,5 +1,6 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
+using AeroScenery.Controls;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Data.Models;
@@ -63,9 +64,19 @@ namespace AeroScenery
         // removes any current selections.
         private bool shownSelectionSizeChangeInfo;
 
+
+        ContextMenuForButton m_popedContainerForButton;//a user control that is derievd from PopedContainer; it can contain any type of controls and you design it as if you design a form!!!
+        PoperContainer m_poperContainerForButton;//the container... which displays previous user control as a context poped up menu
+
+
         public MainForm()
         {
             InitializeComponent();
+
+
+            m_popedContainerForButton = new ContextMenuForButton();
+            m_poperContainerForButton = new PoperContainer(m_popedContainerForButton);
+
 
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
@@ -632,7 +643,7 @@ namespace AeroScenery
 
                 if (Directory.Exists(gridSquareDirectory))
                 {
-                    DialogResult result = MessageBox.Show("Are you sure you want to delete all images for this grid square? (No AFS2 Scenery will be affected).",
+                    DialogResult result = MessageBox.Show("Are you sure you want to delete all related to this grid square?\n(Nothing will be deleted in your AFS2 scenery folders)",
                         "AeroScenery",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
@@ -643,14 +654,16 @@ namespace AeroScenery
 
                         Task.Run(() =>
                         {
-                            foreach (FileInfo file in di.GetFiles())
-                            {
-                                file.Delete();
-                            }
                             foreach (DirectoryInfo dir in di.GetDirectories())
                             {
                                 dir.Delete(true);
                             }
+
+                            foreach (FileInfo file in di.GetFiles())
+                            {
+                                file.Delete();
+                            }
+
                         });
                     
                     }
@@ -1117,6 +1130,10 @@ namespace AeroScenery
         private void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
             this.fsCloudPortMarkerManager.AirportMakerClick(item.Tag.ToString());
+            if (e.Button == MouseButtons.Left)
+            {
+                this.m_poperContainerForButton.Show(this, e.Location);
+            }
         }
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
@@ -1170,6 +1187,15 @@ namespace AeroScenery
 
             var mapProviderName = this.mainMap.MapProvider.GetType();
             AeroSceneryManager.Instance.Settings.MapControlLastMapType = mapProviderName.Name.Replace("Provider", "");
+        }
+
+        private void MainTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Prevent users returning to the map page if actions are running
+            if (actionsRunning && e.TabPageIndex == 0)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

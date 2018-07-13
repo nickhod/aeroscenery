@@ -132,6 +132,36 @@
     <Compile Include="Controls\CustomMessageBox.designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForButton.Designer.cs">
+      <DependentUpon>ContextMenuForButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForForm.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForForm.Designer.cs">
+      <DependentUpon>ContextMenuForForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\ContextMenuForLabel.Designer.cs">
+      <DependentUpon>ContextMenuForLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\PopedCotainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\PopedCotainer.Designer.cs">
+      <DependentUpon>PopedCotainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\PoperContainer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\SuperContextMenu\PoperContainer.Designer.cs">
+      <DependentUpon>PoperContainer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Data\IDataRepository.cs" />
     <Compile Include="Data\ImageTileService.cs" />
     <Compile Include="Data\Mappers\GridSquareMapper.cs" />
@@ -225,6 +255,18 @@
     <EmbeddedResource Include="Controls\CustomMessageBox.resx">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuperContextMenu\ContextMenuForButton.resx">
+      <DependentUpon>ContextMenuForButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuperContextMenu\ContextMenuForForm.resx">
+      <DependentUpon>ContextMenuForForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuperContextMenu\ContextMenuForLabel.resx">
+      <DependentUpon>ContextMenuForLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SuperContextMenu\PopedCotainer.resx">
+      <DependentUpon>PopedCotainer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DownloadThreadProgressControl.resx">
       <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,6 +307,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="aeroscenery.ico" />
+    <Content Include="Controls\SuperContextMenu\copy.png" />
+    <Content Include="Controls\SuperContextMenu\cut.png" />
+    <Content Include="Controls\SuperContextMenu\paste.png" />
     <Content Include="Resources\arrow_down_active.png" />
     <Content Include="Resources\picture_edit.png" />
     <None Include="Resources\socklight.png" />
