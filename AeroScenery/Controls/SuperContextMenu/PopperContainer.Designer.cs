@@ -1,6 +1,6 @@
 ﻿namespace AeroScenery.Controls
 {
-    partial class PoperContainer
+    partial class PopperContainer
     {
         /// <summary>
         /// Required designer variable.

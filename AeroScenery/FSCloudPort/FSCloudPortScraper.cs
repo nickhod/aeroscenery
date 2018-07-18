@@ -6,8 +6,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace AeroScenery.FSCloudPort
 {
@@ -76,7 +78,7 @@ namespace AeroScenery.FSCloudPort
                     var trCQ = CQ.Create(dataTableRow);
 
                     // There's only one link so get the url directly
-                    var url = trCQ["a"].Attr("href");
+                    airport.Url = trCQ["a"].Attr("href");
                     airport.ICAO = trCQ["a"].Text().Trim().ToUpper();
 
                     // Everything else in InnerText in tds
@@ -116,7 +118,7 @@ namespace AeroScenery.FSCloudPort
                                         break;
                                     // Name
                                     case 3:
-                                        airport.Name = td.InnerText.Trim();
+                                        airport.Name = WebUtility.HtmlDecode(td.InnerText.Trim());
                                         break;
                                     // Last modified
                                     case 4:

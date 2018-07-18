@@ -126,8 +126,8 @@ namespace AeroScenery.Data
                     {
                         airport.LastCachedDateTime = DateTime.UtcNow;
 
-                        var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached) VALUES 
-                        (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached);";
+                        var insertQuery = @"INSERT INTO FSCloudPortAirports (ICAO, Latitude, Longitude, Runways, Buildings, StaticAircraft, Name, LastModified, LastCached, Url) VALUES 
+                        (@ICAO, @Latitude, @Longitude, @Runways, @Buildings, @StaticAircraft, @Name, @LastModified, @LastCached, @Url);";
 
                         con.Execute(insertQuery, airport);
                     }

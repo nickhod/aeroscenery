@@ -16,22 +16,34 @@ namespace AeroScenery.Data.Models
         public int Buildings { get; set; }
         public int StaticAircraft { get; set; }
         public string Name { get; set; }
-        public DateTime LastModifiedDateTime { get; set; }
-        public DateTime LastCachedDateTime { get; set; }
 
-        public string LastModified
+        public string Url { get; set; }
+
+        public string LastModified { get; set; }
+
+        public string LastCached { get; set; }
+
+        public DateTime LastModifiedDateTime
         {
             get
             {
-                return this.LastModifiedDateTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(this.LastModified, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+            set
+            {
+                this.LastModified =  value.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             }
         }
 
-        public string LastCached
+        public DateTime LastCachedDateTime
         {
             get
             {
-                return this.LastCachedDateTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                return DateTime.ParseExact(this.LastCached, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+            }
+            set
+            {
+                this.LastCached = value.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
             }
         }
     }

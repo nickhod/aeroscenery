@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace AeroScenery.Controls
 {
-    public partial class PoperContainer : ToolStripDropDown
+    public partial class PopperContainer : ToolStripDropDown
     {
         private Control m_popedContainer;
 
@@ -17,7 +17,7 @@ namespace AeroScenery.Controls
 
    
 
-        public PoperContainer(Control popedControl)
+        public PopperContainer(Control popedControl)
         {
             InitializeComponent();
 

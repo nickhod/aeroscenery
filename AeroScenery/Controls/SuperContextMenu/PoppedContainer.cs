@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace AeroScenery.Controls
 {
-    public partial class PopedCotainer : UserControl
+    public partial class PoppedContainer : UserControl
     {
-        public PopedCotainer()
+        public PoppedContainer()
         {
             InitializeComponent();
         }

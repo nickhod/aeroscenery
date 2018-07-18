@@ -1,4 +1,5 @@
-﻿using AeroScenery.Data.Models;
+﻿using AeroScenery.Controls;
+using AeroScenery.Data.Models;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -9,6 +10,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AeroScenery.UI
 {
@@ -20,10 +22,44 @@ namespace AeroScenery.UI
 
         private Dictionary<string, FSCloudPortAirport> airportLookup;
 
+        private FSCloudPortAirportPopup fsCloudPortPopup;
+
+        private PopperContainer containerForFSCloudPortPopup;
+
+        public bool PopupShown { get; set; }
+
+        public int ClickCount { get; set; }
+
         public FSCloudPortMarkerManager()
         {
             airportMarkers = new GMapOverlay("FSCloudPortAirportMarkers");
             airportLookup = new Dictionary<string, FSCloudPortAirport>();
+
+            // FSCloudPort popup window
+            this.fsCloudPortPopup = new FSCloudPortAirportPopup();
+            this.containerForFSCloudPortPopup = new PopperContainer(fsCloudPortPopup);
+            this.containerForFSCloudPortPopup.AutoClose = false;
+
+            this.fsCloudPortPopup.CloseClicked += FsCloudPortPopup_CloseClicked;
+
+            this.containerForFSCloudPortPopup.Opened += ContainerForFSCloudPortPopup_Opened;
+            this.containerForFSCloudPortPopup.Closed += ContainerForFSCloudPortPopup_Closed;
+        }
+
+        private void ContainerForFSCloudPortPopup_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            this.PopupShown = false;
+        }
+
+        private void ContainerForFSCloudPortPopup_Opened(object sender, EventArgs e)
+        {
+            this.ClickCount = 0;
+            this.PopupShown = true;
+        }
+
+        private void FsCloudPortPopup_CloseClicked(object sender, EventArgs e)
+        {
+            this.containerForFSCloudPortPopup.Close();
         }
 
         public void UpdateFSCloudPortMarkers()
@@ -62,11 +98,6 @@ namespace AeroScenery.UI
             //this.GMapControl.Refresh();
         }
 
-        public void AirportMakerClick(string icao)
-        {
-            var airport = this.airportLookup[icao];
-        }
-
         public IList<FSCloudPortAirport> Airports
         {
             set
@@ -83,5 +114,26 @@ namespace AeroScenery.UI
             airportMarkers.Markers.Clear();
             this.GMapControl.Overlays.Remove(airportMarkers);
         }
+
+        public void ShowAirportPopup(string icao, Form form, Point location)
+        {
+            FSCloudPortAirport airport = null;
+
+            if (this.airportLookup.TryGetValue(icao, out airport))
+            {
+                this.fsCloudPortPopup.Airport = airport;
+                this.containerForFSCloudPortPopup.Show(form, location);
+
+            }
+
+        }
+
+        public void CloseAirportPopup()
+        {
+            this.containerForFSCloudPortPopup.Close();
+        }
+
+
+
     }
 }

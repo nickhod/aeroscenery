@@ -16,6 +16,38 @@ namespace AeroScenery.Data
         {
             return key.GetValue(name).ToString();
         }
+
+        public static bool GetValueAsBoolean(this RegistryKey key, string name, bool defaultValue)
+        {
+            bool result = defaultValue;
+            bool.TryParse(key.GetValue(name).ToString(), out result);
+
+            return result;
+        }
+
+        public static int GetValueAsInteger(this RegistryKey key, string name, int defaultValue)
+        {
+            int result = defaultValue;
+            int.TryParse(key.GetValue(name).ToString(), out result);
+
+            return result;
+        }
+
+        public static double GetValueAsDouble(this RegistryKey key, string name, double defaultValue)
+        {
+            double result = defaultValue;
+            double.TryParse(key.GetValue(name).ToString(), out result);
+
+            return result;
+        }
+
+        public static T GetValueAsEnum<T>(this RegistryKey key, string name, T defaultValue) where T : struct
+        {
+            T result = defaultValue;
+            Enum.TryParse<T>(key.GetValue(name).ToString(), out result);
+
+            return result;
+        }
     }
 
     public class RegistryService
@@ -163,16 +195,18 @@ namespace AeroScenery.Data
             {
                 var sceneryEditorKey = key.OpenSubKey("SceneryEditor", false);
 
-                settings.DownloadImageTiles = Boolean.Parse(key.GetValueAsString("DownloadImageTiles"));
-                settings.StitchImageTiles = Boolean.Parse(key.GetValueAsString("StitchImageTiles"));
-                settings.GenerateAIDAndTMCFiles = Boolean.Parse(key.GetValueAsString("GenerateAIDAndTMCFiles"));
-                settings.RunGeoConvert = Boolean.Parse(key.GetValueAsString("RunGeoConvert"));
-                settings.DeleteStitchedImageTiles = Boolean.Parse(key.GetValueAsString("DeleteStitchedImageTiles"));
-                settings.InstallScenery = Boolean.Parse(key.GetValueAsString("InstallScenery"));
-                settings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("ActionSet"));
+                settings.DownloadImageTiles = key.GetValueAsBoolean("DownloadImageTiles", true);
+                settings.StitchImageTiles = key.GetValueAsBoolean("StitchImageTiles", false);
+                settings.GenerateAIDAndTMCFiles = key.GetValueAsBoolean("GenerateAIDAndTMCFiles", false);
+                settings.RunGeoConvert = key.GetValueAsBoolean("RunGeoConvert", false);
+                settings.DeleteStitchedImageTiles = key.GetValueAsBoolean("DeleteStitchedImageTiles", false);
+                settings.InstallScenery = key.GetValueAsBoolean("InstallScenery", false);
+                //settings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("ActionSet"));
+                settings.ActionSet = key.GetValueAsEnum<ActionSet>("ActionSet", ActionSet.Default);
 
-                settings.OrthophotoSource = (OrthophotoSource)Enum.Parse(typeof(OrthophotoSource), key.GetValueAsString("OrthophotoSource"));
-                settings.ZoomLevel = int.Parse(key.GetValueAsString("ZoomLevel"));
+                //settings.OrthophotoSource = (OrthophotoSource)Enum.Parse(typeof(OrthophotoSource), key.GetValueAsString("OrthophotoSource"));
+                settings.OrthophotoSource = key.GetValueAsEnum<OrthophotoSource>("OrthophotoSource", OrthophotoSource.Google);
+                settings.ZoomLevel = key.GetValueAsInteger("ZoomLevel", 17);
 
                 // Less than 12 used to be possible
                 if (settings.ZoomLevel < 12)
@@ -180,9 +214,9 @@ namespace AeroScenery.Data
                     settings.ZoomLevel = 12;
                 }
 
-                settings.DownloadWaitMs = int.Parse(key.GetValueAsString("DownloadWaitMs"));
-                settings.DownloadWaitRandomMs = int.Parse(key.GetValueAsString("DownloadWaitRandomMs"));
-                settings.SimultaneousDownloads = int.Parse(key.GetValueAsString("SimultaneousDownloads"));
+                settings.DownloadWaitMs = key.GetValueAsInteger("DownloadWaitMs", 10);
+                settings.DownloadWaitRandomMs = key.GetValueAsInteger("DownloadWaitRandomMs", 3);
+                settings.SimultaneousDownloads = key.GetValueAsInteger("SimultaneousDownloads", 4);
                 settings.UserAgent = key.GetValueAsString("UserAgent");
 
                 settings.AFS2SDKDirectory = key.GetValueAsString("AFS2SDKDirectory");
@@ -204,46 +238,70 @@ namespace AeroScenery.Data
 
 
                 // Settings version 2           
-                settings.MaximumStitchedImageSize = int.Parse(key.GetValueAsString("MaximumStitchedImageSize"));
-                settings.GeoConvertWriteImagesWithMask = Boolean.Parse(key.GetValueAsString("GeoConvertWriteImagesWithMask"));
-                settings.GeoConvertWriteRawFiles = Boolean.Parse(key.GetValueAsString("GeoConvertWriteRawFiles"));
+                settings.MaximumStitchedImageSize = key.GetValueAsInteger("MaximumStitchedImageSize", 32);
+                settings.GeoConvertWriteImagesWithMask = key.GetValueAsBoolean("GeoConvertWriteImagesWithMask", true);
+                settings.GeoConvertWriteRawFiles = key.GetValueAsBoolean("GeoConvertWriteRawFiles", true);
                 //--
 
                 // Settings verison 3
-                settings.GeoConvertDoMultipleSmallerRuns = Boolean.Parse(key.GetValueAsString("GeoConvertDoMultipleSmallerRuns"));
+                settings.GeoConvertDoMultipleSmallerRuns = key.GetValueAsBoolean("GeoConvertDoMultipleSmallerRuns", false);
                 // --
 
                 // Settings verison 4
                 settings.USGSUsername = key.GetValueAsString("USGSUsername");
                 settings.USGSPassword = key.GetValueAsString("USGSPassword");
-                settings.ElevationSettings.DownloadElevationData = Boolean.Parse(key.GetValueAsString("Elevation.DownloadElevationData"));
-                settings.ElevationSettings.RunGeoConvert = Boolean.Parse(key.GetValueAsString("Elevation.RunGeoConvert"));
-                settings.ElevationSettings.GenerateAIDAndTMCFiles = Boolean.Parse(key.GetValueAsString("Elevation.GenerateAIDAndTMCFiles"));
-                settings.ElevationSettings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("Elevation.ActionSet"));
-                settings.ElevationSettings.InstallElevationData = Boolean.Parse(key.GetValueAsString("Elevation.InstallElevationData"));
+                settings.ElevationSettings.DownloadElevationData = key.GetValueAsBoolean("Elevation.DownloadElevationData", true);
+                settings.ElevationSettings.RunGeoConvert = key.GetValueAsBoolean("Elevation.RunGeoConvert", false);
+                settings.ElevationSettings.GenerateAIDAndTMCFiles = key.GetValueAsBoolean("Elevation.GenerateAIDAndTMCFiles", false);
+                //settings.ElevationSettings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("Elevation.ActionSet"));
+                settings.ElevationSettings.ActionSet = key.GetValueAsEnum<ActionSet>("Elevation.ActionSet", ActionSet.Default);
+                settings.ElevationSettings.InstallElevationData = key.GetValueAsBoolean("Elevation.InstallElevationData", false);
 
                 string afsElevationLevelsCsv = key.GetValueAsString("Elevation.AFSLevelsToGenerate");
-                List<int> afsElevationLevels = afsElevationLevelsCsv.Split(',').Select(int.Parse).ToList();
-                settings.ElevationSettings.AFSLevelsToGenerate = afsElevationLevels;
+                if (string.IsNullOrEmpty(afsElevationLevelsCsv))
+                {
+                    settings.ElevationSettings.AFSLevelsToGenerate = new List<int>();
+                }
+                else
+                {
+                    List<int> afsElevationLevels = afsElevationLevelsCsv.Split(',').Select(int.Parse).ToList();
+                    settings.ElevationSettings.AFSLevelsToGenerate = afsElevationLevels;
+                }
+
                 // --
 
                 // Settings version 5
                 var mapControlLastZoomLevelStr = key.GetValueAsString("MapControlLastZoomLevel");
                 if (!String.IsNullOrEmpty(mapControlLastZoomLevelStr))
                 {
-                    settings.MapControlLastZoomLevel = int.Parse(mapControlLastZoomLevelStr);
+                    int mapControlLastZoomLevel;
+
+                    if (int.TryParse(mapControlLastZoomLevelStr, out mapControlLastZoomLevel))
+                    {
+                        settings.MapControlLastZoomLevel = mapControlLastZoomLevel;
+                    }
                 }
 
                 var mapControlLastXStr = key.GetValueAsString("MapControlLastX");
                 if (!String.IsNullOrEmpty(mapControlLastXStr))
                 {
-                    settings.MapControlLastX = double.Parse(mapControlLastXStr);
+                    double mapControlLastX;
+
+                    if (double.TryParse(mapControlLastXStr, out mapControlLastX))
+                    {
+                        settings.MapControlLastX = mapControlLastX;
+                    }
                 }
 
                 var mapControlLastYStr = key.GetValueAsString("MapControlLastY");
                 if (!String.IsNullOrEmpty(mapControlLastYStr))
                 {
-                    settings.MapControlLastY = double.Parse(mapControlLastYStr);
+                    double mapControlLastY;
+
+                    if (double.TryParse(mapControlLastYStr, out mapControlLastY))
+                    {
+                        settings.MapControlLastY = mapControlLastY;
+                    }
                 }
 
                 settings.MapControlLastMapType = key.GetValueAsString("MapControlLastMapType");
@@ -251,27 +309,42 @@ namespace AeroScenery.Data
                 var sceneryEditorMapControlLastZoomLevelStr = sceneryEditorKey.GetValueAsString("MapControlLastZoomLevel");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastZoomLevelStr))
                 {
-                    settings.SceneryEditorSettings.MapControlLastZoomLevel = int.Parse(sceneryEditorMapControlLastZoomLevelStr);
+                    int sceneryEditorMapControlLastZoomLevel;
+
+                    if (int.TryParse(sceneryEditorMapControlLastZoomLevelStr, out sceneryEditorMapControlLastZoomLevel))
+                    {
+                        settings.SceneryEditorSettings.MapControlLastZoomLevel = sceneryEditorMapControlLastZoomLevel;
+                    }
                 }
 
                 var sceneryEditorMapControlLastXStr = sceneryEditorKey.GetValueAsString("MapControlLastX");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastXStr))
                 {
-                    settings.SceneryEditorSettings.MapControlLastX = double.Parse(sceneryEditorMapControlLastXStr);
+                    double sceneryEditorMapControlLastX;
+
+                    if (double.TryParse(sceneryEditorMapControlLastXStr, out sceneryEditorMapControlLastX))
+                    {
+                        settings.SceneryEditorSettings.MapControlLastX = sceneryEditorMapControlLastX;
+                    }
                 }
 
                 var sceneryEditorMapControlLastYStr = sceneryEditorKey.GetValueAsString("MapControlLastY");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastYStr))
                 {
-                    settings.SceneryEditorSettings.MapControlLastY = double.Parse(sceneryEditorMapControlLastYStr);
+                    double sceneryEditorMapControlLastY;
+
+                    if (double.TryParse(sceneryEditorMapControlLastYStr, out sceneryEditorMapControlLastY))
+                    {
+                        settings.SceneryEditorSettings.MapControlLastY = sceneryEditorMapControlLastY;
+                    }
                 }
 
                 settings.SceneryEditorSettings.MapControlLastMapType = sceneryEditorKey.GetValueAsString("MapControlLastMapType");
                 // --
 
                 // Settings verison 6
-                settings.ShowAirports = bool.Parse(key.GetValueAsString("ShowAirports"));
-                settings.SceneryEditorSettings.ShowAirports = bool.Parse(sceneryEditorKey.GetValueAsString("ShowAirports"));
+                settings.ShowAirports = key.GetValueAsBoolean("ShowAirports", false);
+                settings.SceneryEditorSettings.ShowAirports = sceneryEditorKey.GetValueAsBoolean("ShowAirports", false);
                 // --
             }
 
@@ -297,7 +370,7 @@ namespace AeroScenery.Data
                     if (currentSettingsVersion == 1)
                     {
                         key.SetValue("MaximumStitchedImageSize", 32);
-                        key.SetValue("GeoConvertWriteImagesWithMask", false);
+                        key.SetValue("GeoConvertWriteImagesWithMask", true);
                         key.SetValue("GeoConvertWriteRawFiles", true);
                         key.SetValue("SettingsVersion", 2);
                         currentSettingsVersion = 2;
@@ -334,7 +407,7 @@ namespace AeroScenery.Data
                         key.SetValue("MapControlLastY", "");
                         key.SetValue("MapControlLastMapType", "GoogleHybridMap");
 
-                        sceneryEditorKey.SetValue("MapControlLastZoomLevel", "");
+                        sceneryEditorKey.SetValue("MapControlLastZoomLevel", 3);
                         sceneryEditorKey.SetValue("MapControlLastX", "");
                         sceneryEditorKey.SetValue("MapControlLastY", "");
                         sceneryEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
@@ -369,7 +442,7 @@ namespace AeroScenery.Data
             settings.DeleteStitchedImageTiles = false;
             settings.InstallScenery = false;
 
-            settings.OrthophotoSource = OrthophotoSource.Bing;
+            settings.OrthophotoSource = OrthophotoSource.Google;
             settings.ZoomLevel = 17;
 
             settings.AFSLevelsToGenerate = new List<int>();
@@ -407,7 +480,7 @@ namespace AeroScenery.Data
 
             // Settings version 2           
             settings.MaximumStitchedImageSize = 32;
-            settings.GeoConvertWriteImagesWithMask = false;
+            settings.GeoConvertWriteImagesWithMask = true;
             settings.GeoConvertWriteRawFiles = true;
             //--
 
@@ -433,7 +506,7 @@ namespace AeroScenery.Data
             //--
 
             // Settings version 5
-            settings.MapControlLastZoomLevel = null;
+            settings.MapControlLastZoomLevel = 3;
             settings.MapControlLastX = null;
             settings.MapControlLastY = null;
             settings.MapControlLastMapType = "GoogleHybridMap";

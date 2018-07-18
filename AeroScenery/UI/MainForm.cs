@@ -47,6 +47,8 @@ namespace AeroScenery
         private bool actionsRunning;
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
         private GMapControlManager gMapControlManager;
+
+        // Airport related
         private FSCloudPortService fsCloudPortService;
         private FSCloudPortMarkerManager fsCloudPortMarkerManager;
 
@@ -64,19 +66,9 @@ namespace AeroScenery
         // removes any current selections.
         private bool shownSelectionSizeChangeInfo;
 
-
-        ContextMenuForButton m_popedContainerForButton;//a user control that is derievd from PopedContainer; it can contain any type of controls and you design it as if you design a form!!!
-        PoperContainer m_poperContainerForButton;//the container... which displays previous user control as a context poped up menu
-
-
         public MainForm()
         {
             InitializeComponent();
-
-
-            m_popedContainerForButton = new ContextMenuForButton();
-            m_poperContainerForButton = new PoperContainer(m_popedContainerForButton);
-
 
             this.afs2Grid = new AFS2Grid();
             this.gridSquareMapper = new GridSquareMapper();
@@ -151,6 +143,11 @@ namespace AeroScenery
             await this.fsCloudPortService.UpdateAirportsIfRequiredAsync();
             var airports = await this.fsCloudPortService.GetAirportsAsync();
             this.fsCloudPortMarkerManager.Airports = airports;
+
+            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            {
+                this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+            }
         }
 
 
@@ -218,6 +215,11 @@ namespace AeroScenery
             if (AeroSceneryManager.Instance.Settings.ShowAirports)
             {
                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
+                this.showAirportsToolstripButton.Text = "Hide Airports";
+            }
+            else
+            {
+                this.showAirportsToolstripButton.Text = "Show Airports";
             }
 
             this.uiSetFromSettings = true;
@@ -527,41 +529,56 @@ namespace AeroScenery
         {
             if (this.mapMouseDownLocation != null)
             {
-                if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                // Are we showing an airport popup
+                if (this.fsCloudPortMarkerManager.PopupShown)
                 {
-                    var mouseUpLocation = new System.Drawing.Point(e.X, e.Y);
-
-                    var dx = Math.Abs(mouseUpLocation.X - this.mapMouseDownLocation.X);
-                    var dy = Math.Abs(mouseUpLocation.Y - this.mapMouseDownLocation.Y);
-
-                    // If there was little movement it was probably meant as a click
-                    // rather than a drag
-                    if (dx < 10 && dy < 10)
+                    // The first click is a click to open it.
+                    // We therefore need to count clicks and close after the second click
+                    if (this.fsCloudPortMarkerManager.ClickCount > 0)
                     {
-                        if (!this.mainMap.IsMouseOverMarker)
+                        this.fsCloudPortMarkerManager.CloseAirportPopup();                    
+                    }
+
+                    this.fsCloudPortMarkerManager.ClickCount++;
+
+                }
+                else
+                {
+                    if (e.Button == System.Windows.Forms.MouseButtons.Left)
+                    {
+                        var mouseUpLocation = new System.Drawing.Point(e.X, e.Y);
+
+                        var dx = Math.Abs(mouseUpLocation.X - this.mapMouseDownLocation.X);
+                        var dy = Math.Abs(mouseUpLocation.Y - this.mapMouseDownLocation.Y);
+
+                        // If there was little movement it was probably meant as a click
+                        // rather than a drag
+                        if (dx < 10 && dy < 10)
                         {
-                            switch (this.currentMainFormSideTab)
+                            if (!this.mainMap.IsMouseOverMarker)
                             {
-                                case MainFormSideTab.Images:
-                                    this.SelectAFSGridSquare(e.X, e.Y);
-                                    break;
-                                case MainFormSideTab.Elevation:
-                                    this.SelectUSGSGridSquare(e.X, e.Y);
-                                    break;
+                                switch (this.currentMainFormSideTab)
+                                {
+                                    case MainFormSideTab.Images:
+                                        this.SelectAFSGridSquare(e.X, e.Y);
+                                        break;
+                                    case MainFormSideTab.Elevation:
+                                        this.SelectUSGSGridSquare(e.X, e.Y);
+                                        break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+                            {
+                                this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
                             }
                         }
                     }
-                    else
-                    {
-                        if (AeroSceneryManager.Instance.Settings.ShowAirports)
-                        {
-                            this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
-                        }
-                    }
                 }
+
             }
-
-
 
         }
 
@@ -1129,10 +1146,10 @@ namespace AeroScenery
 
         private void MainMap_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            this.fsCloudPortMarkerManager.AirportMakerClick(item.Tag.ToString());
             if (e.Button == MouseButtons.Left)
             {
-                this.m_poperContainerForButton.Show(this, e.Location);
+                var icao = item.Tag.ToString();
+                this.fsCloudPortMarkerManager.ShowAirportPopup(icao, this, e.Location);
             }
         }
 

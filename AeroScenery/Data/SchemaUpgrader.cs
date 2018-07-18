@@ -30,7 +30,10 @@ namespace AeroScenery.Data
                     this.UpgradeToVersion3();
                     break;
                 case 3:
-                    //this.UpgradeToVersion4();
+                    this.UpgradeToVersion4();
+                    break;
+                case 4:
+                    //this.UpgradeToVersion5();
                     break;
             }
         }
@@ -90,11 +93,22 @@ namespace AeroScenery.Data
             }
 
             this.SaveNewSchemaVersion(3);
-            //this.UpgradeToVersion4();
+            this.UpgradeToVersion4();
         }
 
         private void UpgradeToVersion4()
         {
+            using (var con = DbConnection())
+            {
+                // Add a column for airport url
+                con.Open();
+                con.Execute(@"ALTER TABLE FSCloudPortAirports ADD COLUMN Url TEXT DEFAULT '';");
+                con.Close();
+            }
+
+
+            this.SaveNewSchemaVersion(4);
+            //this.UpgradeToVersion5();
         }
 
         private SQLiteConnection DbConnection()
