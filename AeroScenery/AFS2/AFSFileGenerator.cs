@@ -1,4 +1,5 @@
 ﻿using AeroScenery.Common;
+using AeroScenery.Controls;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace AeroScenery.AFS2
@@ -84,7 +86,19 @@ namespace AeroScenery.AFS2
                         i++;
                     }
 
-                    this.GenerateTMCFile(afs2GridSquare, stitchedTilesDirectory, afsGridSquareDirectory, firstStitchedImageAeroFile);
+                    if (firstStitchedImageAeroFile != null)
+                    {
+                        this.GenerateTMCFile(afs2GridSquare, stitchedTilesDirectory, afsGridSquareDirectory, firstStitchedImageAeroFile);
+                    }
+                    else
+                    {
+                        var messageBox = new CustomMessageBox("No stiched images found for this grid square and this image detail (zoom) level.\nRun the 'Download Image Tiles' and 'Stitch Image Tiles' actions first.",
+                            "AeroScenery",
+                            MessageBoxIcon.Error);
+
+                        messageBox.ShowDialog();
+                    }
+
 
 
                 }

@@ -21,49 +21,67 @@ namespace AeroScenery.AFS2
             {
                 var tmcFiles = Directory.EnumerateFiles(stitchedTilesDirectory, "*.tmc").ToList();
 
-                foreach (string tmcFilename in tmcFiles)
+                if (tmcFiles.Count > 0)
                 {
-                    string geoconvertPath = String.Format("{0}\\aerofly_fs_2_geoconvert", AeroSceneryManager.Instance.Settings.AFS2SDKDirectory);
-                    string geoconvertFilename = String.Format("{0}\\aerofly_fs_2_geoconvert.exe", geoconvertPath);
-
-                    if (!File.Exists(geoconvertFilename))
+                    foreach (string tmcFilename in tmcFiles)
                     {
-                        log.Error("Could not find GeoConvert");
+                        string geoconvertPath = String.Format("{0}\\aerofly_fs_2_geoconvert", AeroSceneryManager.Instance.Settings.AFS2SDKDirectory);
+                        string geoconvertFilename = String.Format("{0}\\aerofly_fs_2_geoconvert.exe", geoconvertPath);
 
-                        var messageBox = new CustomMessageBox("Could not find GeoConvert",
-                            "AeroScenery", 
-                            MessageBoxIcon.Error);
-
-                        messageBox.ShowDialog();
-                    }
-                    else
-                    {
-                        mainForm.UpdateChildTaskLabel("Running GeoConvert");
-                        log.Info("Running GeoConvert");
-
-                        var proc = new Process
+                        if (!File.Exists(geoconvertFilename))
                         {
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = geoconvertFilename,
-                                Arguments = tmcFilename,
-                                UseShellExecute = true,
-                                RedirectStandardOutput = false,
-                                CreateNoWindow = false,
-                                WorkingDirectory = geoconvertPath
-                            }
-                        };
+                            log.Error("Could not find GeoConvert");
 
-                        proc.Start();
+                            var messageBox = new CustomMessageBox("Could not find GeoConvert",
+                                "AeroScenery",
+                                MessageBoxIcon.Error);
+
+                            messageBox.ShowDialog();
+                        }
+                        else
+                        {
+                            mainForm.UpdateChildTaskLabel("Running GeoConvert");
+                            log.Info("Running GeoConvert");
+
+                            var proc = new Process
+                            {
+                                StartInfo = new ProcessStartInfo
+                                {
+                                    FileName = geoconvertFilename,
+                                    Arguments = tmcFilename,
+                                    UseShellExecute = true,
+                                    RedirectStandardOutput = false,
+                                    CreateNoWindow = false,
+                                    WorkingDirectory = geoconvertPath
+                                }
+                            };
+
+                            proc.Start();
+
+                        }
 
                     }
-
                 }
+                else
+                {
+                    // Tile download directory does not exist
+                    var messageBox = new CustomMessageBox("No TCM file was found for this grid square and this image detail (zoom) level.\nRun the 'Download Image Tiles', 'Stitch Image Tiles' and 'Generate AID / TMC Files' actions first.",
+                        "AeroScenery",
+                        MessageBoxIcon.Error);
+
+                    messageBox.ShowDialog();
+                }
+
 
             }
             else
             {
                 // Tile download directory does not exist
+                var messageBox = new CustomMessageBox("No stiched images found for this grid square and this image detail (zoom) level.\nRun the 'Download Image Tiles' and 'Stitch Image Tiles' actions first.",
+                    "AeroScenery",
+                    MessageBoxIcon.Error);
+
+                messageBox.ShowDialog();
             }
         }
     }

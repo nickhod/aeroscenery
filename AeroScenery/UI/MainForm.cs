@@ -130,14 +130,15 @@ namespace AeroScenery
 
             this.LoadDownloadedGridSquares();
 
-            TextBoxAppender.ConfigureTextBoxAppender(this.logTextBox);
-
             versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
         }
 
         private async void MainForm_Shown(object sender, EventArgs e)
         {
+            TextBoxAppender.ConfigureTextBoxAppender(this.logTextBox);
+
             log.Info(String.Format("AeroScenery v{0} Started", AeroSceneryManager.Instance.Version));
+
             this.versionService.CheckForNewerVersions();
 
             await this.fsCloudPortService.UpdateAirportsIfRequiredAsync();
@@ -148,6 +149,7 @@ namespace AeroScenery
             {
                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
             }
+
         }
 
 
