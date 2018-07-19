@@ -8,6 +8,7 @@ using AeroScenery.Data.Models;
 using System.IO;
 using System.Data.SQLite;
 using Dapper;
+using System.Globalization;
 
 namespace AeroScenery.Data
 {
@@ -107,6 +108,27 @@ namespace AeroScenery.Data
 
                 return result;
             }
+        }
+
+        public DateTime GetFSCloudPortAirportsLastCachedDateTime()
+        {
+            // By default make the data in need of an update
+            var result = DateTime.UtcNow.AddDays(-10);
+
+            using (var con = DbConnection())
+            {
+                var query = @"SELECT LastCached FROM FSCloudPortAirports LiMIT 1";
+
+                con.Open();
+                var lastCachedStr = con.Query<string>(query).FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(lastCachedStr))
+                {
+                    result = DateTime.ParseExact(lastCachedStr, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture);
+                }
+            }
+
+            return result;
         }
 
         public void UpdateFSCloudPortAirports(IList<FSCloudPortAirport> airports)

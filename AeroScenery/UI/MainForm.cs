@@ -349,7 +349,6 @@ namespace AeroScenery
 
                 this.SelectedAFS2GridSquares.Add(gridSquare.Name, gridSquareViewModel);
 
-
                 // Create the active grid square map overlay, let it be visible
                 this.activeGridSquareOverlay = this.gMapControlManager.DrawGridSquare(gridSquare, GridSquareDisplayType.Active);
             }
@@ -647,7 +646,11 @@ namespace AeroScenery
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name));
+                    var messageBox = new CustomMessageBox(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name), 
+                        "AeroScenery", 
+                        MessageBoxIcon.Information);
+
+                    messageBox.ShowDialog();
                 }
             }
         }
@@ -660,10 +663,15 @@ namespace AeroScenery
 
                 if (Directory.Exists(gridSquareDirectory))
                 {
-                    DialogResult result = MessageBox.Show("Are you sure you want to delete all related to this grid square?\n(Nothing will be deleted in your AFS2 scenery folders)",
-                        "AeroScenery",
-                        MessageBoxButtons.YesNo,
+                    var messageBox = new CustomMessageBox("Are you sure you want to delete all related to this grid square?\n(Nothing will be deleted in your AFS2 scenery folders)", 
+                        "AeroScenery", 
                         MessageBoxIcon.Question);
+
+                    messageBox.SetButtons(
+                        new string[] { "Yes", "No" },
+                        new DialogResult[] { DialogResult.Yes, DialogResult.No });
+
+                    DialogResult result = messageBox.ShowDialog();
 
                     if (result == DialogResult.Yes )
                     {
@@ -687,7 +695,11 @@ namespace AeroScenery
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name));
+                    var messageBox = new CustomMessageBox(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name),
+                        "AeroScenery",
+                        MessageBoxIcon.Information);
+
+                    messageBox.ShowDialog();
                 }
             }
         }
@@ -954,10 +966,15 @@ namespace AeroScenery
 
         private void resetSquareToolStripButton_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to reset the downloaded status of this grid square? (No files will be deleted).",
+            var messageBox = new CustomMessageBox("Are you sure you want to reset the downloaded status of this grid square? (No files will be deleted).",
                 "AeroScenery",
-                MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
+
+            messageBox.SetButtons(
+                new string[] { "Yes", "No" },
+                new DialogResult[] { DialogResult.Yes, DialogResult.No });
+
+            DialogResult result = messageBox.ShowDialog();
 
             if (result == DialogResult.Yes)
             {
@@ -1009,7 +1026,19 @@ namespace AeroScenery
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch(this.gridSquareSelectionSizeToolstripCombo.SelectedIndex)
+            // If any grid squares are selected and the message hasn't been show before,
+            // show a message to say that the selection will be lost when changing size
+            if (this.SelectedAFS2GridSquares.Count() > 0 && this.shownSelectionSizeChangeInfo)
+            {
+                var messageBox = new CustomMessageBox("Changing the grid square selection size removes any current selections.\nAeroScenery can only process one size of grid square per run.",
+                    "AeroScenery", MessageBoxIcon.Information);
+
+                messageBox.ShowDialog();
+
+                this.shownSelectionSizeChangeInfo = false;
+            }
+
+            switch (this.gridSquareSelectionSizeToolstripCombo.SelectedIndex)
             {
                 // 9
                 case 0:
@@ -1035,16 +1064,6 @@ namespace AeroScenery
                     this.afsGridSquareSelectionSize = 14;
                     this.ClearAllSelectedAFSGridSquares();
                     break;
-            }
-
-            if (this.shownSelectionSizeChangeInfo)
-            {
-                DialogResult result = MessageBox.Show("Changing the grid square selection size removes any current selections.\nAeroScenery can only process one size of grid square per run.",
-                    "AeroScenery",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.shownSelectionSizeChangeInfo = false;
             }
 
         }

@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using AeroScenery.Controls;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,10 +30,11 @@ namespace AeroScenery.AFS2
                     {
                         log.Error("Could not find GeoConvert");
 
-                        DialogResult result = MessageBox.Show("Could not find GeoConvert",
-                            "AeroScenery",
-                            MessageBoxButtons.OK,
+                        var messageBox = new CustomMessageBox("Could not find GeoConvert",
+                            "AeroScenery", 
                             MessageBoxIcon.Error);
+
+                        messageBox.ShowDialog();
                     }
                     else
                     {

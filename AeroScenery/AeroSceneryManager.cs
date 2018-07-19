@@ -1,5 +1,6 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
+using AeroScenery.Controls;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Download;
@@ -375,19 +376,21 @@ namespace AeroScenery
         {
             if (String.IsNullOrEmpty(this.settings.AFS2SDKDirectory))
             {
-                DialogResult result = MessageBox.Show("Please set the location of the Aerofly SDK in Settings before running Geoconvert",
-                    "AeroScenery",
-                    MessageBoxButtons.OK,
+                var messageBox = new CustomMessageBox("Please set the location of the Aerofly SDK in Settings before running Geoconvert",
+                    "AeroScenery", 
                     MessageBoxIcon.Warning);
+
+                messageBox.ShowDialog();
             }
             else
             {
                 if (settings.AFSLevelsToGenerate.Count == 0)
                 {
-                    DialogResult result = MessageBox.Show("Please choose one or more AFS levels to generate before running Geoconvert",
+                    var messageBox = new CustomMessageBox("Please choose one or more AFS levels to generate before running Geoconvert",
                         "AeroScenery",
-                        MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
+
+                    messageBox.ShowDialog();
                 }
                 else
                 {

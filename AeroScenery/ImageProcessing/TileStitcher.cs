@@ -1,4 +1,5 @@
 ﻿using AeroScenery.Common;
+using AeroScenery.Controls;
 using AeroScenery.OrthoPhotoSources;
 using log4net;
 using Microsoft.VisualBasic.Devices;
@@ -282,10 +283,11 @@ namespace AeroScenery.ImageProcessing
             {
                 log.Error("There was an error cropping the file " + stitchFilename, ex);
 
-                DialogResult result = MessageBox.Show(String.Format("There was an error cropping the file {0}.", stitchFilename),
-                    "AeroScenery",
-                    MessageBoxButtons.OK,
+                var messageBox = new CustomMessageBox(String.Format("There was an error cropping the file {0}.", stitchFilename), 
+                    "AeroScenery", 
                     MessageBoxIcon.Error);
+
+                messageBox.ShowDialog();
             }
 
 

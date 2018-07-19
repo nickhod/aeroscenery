@@ -24,8 +24,14 @@ namespace AeroScenery.FSCloudPort
         {
             await Task.Run(async () =>
             {
-                var airports = await this.scraper.ScrapeAirportsAsync();
-                dataRepository.UpdateFSCloudPortAirports(airports);
+                var lastCached = dataRepository.GetFSCloudPortAirportsLastCachedDateTime();
+
+                // Only update airports if we cached them longer than a day ago
+                if (lastCached <= DateTime.UtcNow.AddDays(-1))
+                {
+                    var airports = await this.scraper.ScrapeAirportsAsync();
+                    dataRepository.UpdateFSCloudPortAirports(airports);
+                }
             });
 
         }

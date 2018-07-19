@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace CustomMessageBox
+namespace AeroScenery.Controls
 {
     /// <summary>
     /// A customizable Dialog box with 3 buttons, custom icon, and checkbox.

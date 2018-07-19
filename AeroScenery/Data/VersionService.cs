@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using AeroScenery.Controls;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,10 +30,11 @@ namespace AeroScenery.Data
 
                         if (incrementalVersion > AeroSceneryManager.Instance.IncrementalVersion)
                         {
-                            DialogResult result = MessageBox.Show("A newer version of AeroScenery is available.",
-                                "AeroScenery",
-                                MessageBoxButtons.OK,
+                            var messageBox = new CustomMessageBox("A newer version of AeroScenery is available.", 
+                                "AeroScenery", 
                                 MessageBoxIcon.Information);
+
+                            messageBox.ShowDialog();
                         }
                     }
                 }

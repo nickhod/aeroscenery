@@ -1,4 +1,4 @@
-﻿namespace CustomMessageBox
+﻿namespace AeroScenery.Controls
 {
     partial class CustomMessageBox
     {
@@ -99,13 +99,11 @@
             this.btn3.Visible = false;
             this.btn3.Click += new System.EventHandler(this.btn_Click);
             // 
-            // DialogBox
+            // CustomMessageBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btn1;
             this.ClientSize = new System.Drawing.Size(485, 149);
-            this.ControlBox = false;
             this.Controls.Add(this.btn3);
             this.Controls.Add(this.chkBx);
             this.Controls.Add(this.btn1);
@@ -115,7 +113,9 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "DialogBox";
+            this.Name = "CustomMessageBox";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "[Title]";
             this.Load += new System.EventHandler(this.DialogBox_Load);
