@@ -113,6 +113,7 @@
     <Compile Include="AFS2\AFS2GridSquare.cs" />
     <Compile Include="AFS2\AFSFileGenerator.cs" />
     <Compile Include="AFS2\AFSFileGeneratorProgress.cs" />
+    <Compile Include="AFS2\AFSLevel.cs" />
     <Compile Include="AFS2\AIDFile.cs" />
     <Compile Include="AFS2\GeoConvertManager.cs" />
     <Compile Include="AFS2\TMCFile.cs" />

@@ -66,6 +66,11 @@ namespace AeroScenery
         // removes any current selections.
         private bool shownSelectionSizeChangeInfo;
 
+        private List<AFSLevel> afsLevels;
+        private List<AFSLevel> elevationAfsLevels;
+
+        private bool processCheckBoxListEvents;
+
         public MainForm()
         {
             InitializeComponent();
@@ -123,6 +128,35 @@ namespace AeroScenery
             toolTip1.InitialDelay = 500;
             toolTip1.SetToolTip(this.generateAFS2LevelsHelpImage, "Aerofly FS2 has image sets at different levels of detail.\nHere you can control which levels the images downloaded should be displayed on.");
 
+            // Initialize the AFS Levels CheckBoxLists
+            afsLevels = new List<AFSLevel>();
+            afsLevels.Add(new AFSLevel("Level 9", 9));
+            afsLevels.Add(new AFSLevel("Level 10", 10));
+            afsLevels.Add(new AFSLevel("Level 11", 11));
+            afsLevels.Add(new AFSLevel("Level 12", 12));
+            afsLevels.Add(new AFSLevel("Level 13", 13));
+            afsLevels.Add(new AFSLevel("Level 14", 14));
+            afsLevels.Add(new AFSLevel("Level 15", 15));
+
+            elevationAfsLevels = new List<AFSLevel>();
+            elevationAfsLevels.Add(new AFSLevel("Level 9", 9));
+            elevationAfsLevels.Add(new AFSLevel("Level 10", 10));
+            elevationAfsLevels.Add(new AFSLevel("Level 11", 11));
+            elevationAfsLevels.Add(new AFSLevel("Level 12", 12));
+            elevationAfsLevels.Add(new AFSLevel("Level 13", 13));
+            elevationAfsLevels.Add(new AFSLevel("Level 14", 14));
+            elevationAfsLevels.Add(new AFSLevel("Level 15", 15));
+
+            this.afsLevelsCheckBoxList.DataSource = afsLevels;
+            this.afsLevelsCheckBoxList.DisplayMember = "Name";
+            this.afsLevelsCheckBoxList.ValueMember = "Level";
+            this.afsLevelsCheckBoxList.ClearSelected();
+
+            this.elevationAfsLevelCheckBoxList.DataSource = afsLevels;
+            this.elevationAfsLevelCheckBoxList.DisplayMember = "Name";
+            this.elevationAfsLevelCheckBoxList.ValueMember = "Level";
+            this.afsLevelsCheckBoxList.ClearSelected();
+
             this.UpdateUIFromSettings();
 
             this.dataRepository = new SqlLiteDataRepository();
@@ -131,6 +165,8 @@ namespace AeroScenery
             this.LoadDownloadedGridSquares();
 
             versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
+
+            this.processCheckBoxListEvents = true;
         }
 
         private async void MainForm_Shown(object sender, EventArgs e)
@@ -178,10 +214,16 @@ namespace AeroScenery
 
 
             // AFS Levels To Generate
-            // Our minimum is 9
-            foreach (int afsLevel in settings.AFSLevelsToGenerate)
+            for (int i = 0; i < afsLevelsCheckBoxList.Items.Count; i++)
             {
-                this.afsLevelsCheckBoxList.SetItemChecked(afsLevel - 9, true);
+                AFSLevel level = (AFSLevel)afsLevelsCheckBoxList.Items[i];
+
+                if (settings.AFSLevelsToGenerate.Contains(level.Level))
+                {
+                    level.IsChecked = true;
+                    afsLevelsCheckBoxList.SetItemChecked(i, level.IsChecked);
+                }
+
             }
 
             // Action set
@@ -804,16 +846,32 @@ namespace AeroScenery
 
         private void gridSquareLevelsCheckBoxList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (uiSetFromSettings)
+            if (uiSetFromSettings && processCheckBoxListEvents)
             {
                 var settings = AeroSceneryManager.Instance.Settings;
 
-                var checkedLevel = e.Index + 9;
+                //var checkedLevel = e.Index + 9;
+                var afsLevel = (AFSLevel)this.afsLevelsCheckBoxList.Items[e.Index];                
+                var checkedLevel = afsLevel.Level;
+
+                if (e.NewValue == CheckState.Checked)
+                {
+                    afsLevel.IsChecked = true;
+                }
+                else
+                {
+                    afsLevel.IsChecked = false;
+                }
 
                 // Don't let anyone select levels that are smaller than the grid square selection size
                 if (checkedLevel < this.afsGridSquareSelectionSize)
                 {
                     e.NewValue = e.CurrentValue;
+
+                    CustomMessageBox message = new CustomMessageBox("You cannnot selected an AFS Level bigger than the grid square selection size.", 
+                        "AeroScenery", MessageBoxIcon.Information);
+
+                    message.ShowDialog();
                 }
                 else
                 {
@@ -827,10 +885,9 @@ namespace AeroScenery
                     }
                 }
 
-
+                AeroSceneryManager.Instance.SaveSettings();
             }
 
-            AeroSceneryManager.Instance.SaveSettings();
         }
 
         private void downloadImageTileCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -1028,6 +1085,8 @@ namespace AeroScenery
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var settings = AeroSceneryManager.Instance.Settings;
+
             // If any grid squares are selected and the message hasn't been show before,
             // show a message to say that the selection will be lost when changing size
             if (this.SelectedAFS2GridSquares.Count() > 0 && this.shownSelectionSizeChangeInfo)
@@ -1039,6 +1098,8 @@ namespace AeroScenery
 
                 this.shownSelectionSizeChangeInfo = false;
             }
+
+            int? minAFSLevel = null;
 
             switch (this.gridSquareSelectionSizeToolstripCombo.SelectedIndex)
             {
@@ -1052,21 +1113,38 @@ namespace AeroScenery
                 case 1:
                     this.afsGridSquareSelectionSize = 13;
                     this.ClearAllSelectedAFSGridSquares();
-                    //for (int index = 0; index < this.afsLevelsCheckBoxList.Items.Count; ++index)
-                    //{
-                    //    if ((index + 9) < 13)
-                    //    {
-                    //        this.afsLevelsCheckBoxList.SetItemChecked(index, false);
-                    //    }
-                    //}
+                    minAFSLevel = 13;
                     break;
 
                 // 14
                 case 2:
                     this.afsGridSquareSelectionSize = 14;
                     this.ClearAllSelectedAFSGridSquares();
+                    minAFSLevel = 14;
                     break;
             }
+
+            if (minAFSLevel.HasValue)
+            {
+                this.processCheckBoxListEvents = false;
+
+                for (int index = 0; index < this.afsLevelsCheckBoxList.Items.Count; ++index)
+                {
+                    var afsLevel = (AFSLevel)this.afsLevelsCheckBoxList.Items[index];
+
+                    if (afsLevel.Level < minAFSLevel.Value)
+                    {
+                        this.afsLevelsCheckBoxList.SetItemChecked(index, false);
+                        afsLevel.IsChecked = false;
+                        settings.AFSLevelsToGenerate.Remove(afsLevel.Level);
+                    }
+                }
+
+                AeroSceneryManager.Instance.SaveSettings();
+
+                this.processCheckBoxListEvents = true;
+            }
+
 
         }
 
@@ -1234,6 +1312,16 @@ namespace AeroScenery
             {
                 e.Cancel = true;
             }
+        }
+
+        private void afsLevelsCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void afsLevelsCheckBoxList_Leave(object sender, EventArgs e)
+        {
+            this.afsLevelsCheckBoxList.ClearSelected();
         }
     }
 }
