@@ -1049,7 +1049,17 @@ namespace AeroScenery
 
                         this.DownloadedAFS2GridSquares.Remove(this.SelectedAFS2GridSquare.Name);
 
-                        this.SelectedAFS2GridSquares.Remove(this.SelectedAFS2GridSquare.Name);
+                        var selectedGridSquare = this.SelectedAFS2GridSquares[this.SelectedAFS2GridSquare.Name];
+
+                        if (selectedGridSquare != null)
+                        {
+                            selectedGridSquare.GMapOverlay.Clear();
+                            selectedGridSquare.GMapOverlay.Dispose();
+                            selectedGridSquare.GMapOverlay = null;
+
+                            this.SelectedAFS2GridSquares.Remove(this.SelectedAFS2GridSquare.Name);
+                        }
+
                         this.SelectedAFS2GridSquare = null;
                         gridSquareLabel.Text = "";
 
@@ -1218,7 +1228,82 @@ namespace AeroScenery
 
         private void AutoSelectAFSLevelsButton_Click(object sender, EventArgs e)
         {
+            var zoomLevel = AeroSceneryManager.Instance.Settings.ZoomLevel;
 
+            List<int> afsLevels = new List<int>();
+
+            switch (this.afsGridSquareSelectionSize)
+            {
+                case 9:
+
+                    afsLevels.Add(9);
+                    afsLevels.Add(10);
+                    afsLevels.Add(12);
+
+                    if (zoomLevel > 15)
+                    {
+                        afsLevels.Add(13);
+                    }
+
+                    if (zoomLevel > 16)
+                    {
+                        afsLevels.Add(14);                    
+                    }
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+
+                    break;
+                case 13:
+
+                    afsLevels.Add(13);
+                    afsLevels.Add(14);
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+
+                    break;
+                case 14:
+                    afsLevels.Add(14);
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+                    break;
+            }
+
+            this.SetAFSLevels(afsLevels);
+        }
+
+        private void SetAFSLevels(List<int> afsLevels)
+        {
+            // Uncheck everything first
+            for (int i = 0; i < afsLevelsCheckBoxList.Items.Count; i++)
+            {
+                AFSLevel level = (AFSLevel)afsLevelsCheckBoxList.Items[i];
+                level.IsChecked = false;
+                afsLevelsCheckBoxList.SetItemChecked(i, false);
+            }
+
+            // Check what needs to be checked
+            for (int i = 0; i < afsLevelsCheckBoxList.Items.Count; i++)
+            {
+                AFSLevel level = (AFSLevel)afsLevelsCheckBoxList.Items[i];
+
+                if (afsLevels.Contains(level.Level))
+                {
+                    level.IsChecked = true;
+                    afsLevelsCheckBoxList.SetItemChecked(i, level.IsChecked);
+                }
+
+            }
+
+            AeroSceneryManager.Instance.Settings.AFSLevelsToGenerate = afsLevels;
         }
 
 

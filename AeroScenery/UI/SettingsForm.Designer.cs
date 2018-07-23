@@ -61,22 +61,20 @@
             this.maxTilesPerStitchedImageTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.gcDoMultipleSmallerRunsComboBox = new System.Windows.Forms.ComboBox();
             this.gcWriteImagesWithMaskCombo = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
             this.gcWriteRawFilesComboBox = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.createUSGSAccountLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.usgsPasswordTextBox = new System.Windows.Forms.TextBox();
+            this.usgsUsernameTextBox = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.usgsUsernameTextBox = new System.Windows.Forms.TextBox();
-            this.usgsPasswordTextBox = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.createUSGSAccountLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -411,8 +409,6 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.gcDoMultipleSmallerRunsComboBox);
             this.groupBox4.Controls.Add(this.gcWriteImagesWithMaskCombo);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.gcWriteRawFilesComboBox);
@@ -420,32 +416,10 @@
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(14, 9);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(654, 146);
+            this.groupBox4.Size = new System.Drawing.Size(654, 112);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "GeoConvert";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(20, 101);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(155, 17);
-            this.label15.TabIndex = 9;
-            this.label15.Text = "Do Multiple Smaller Runs";
-            // 
-            // gcDoMultipleSmallerRunsComboBox
-            // 
-            this.gcDoMultipleSmallerRunsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.gcDoMultipleSmallerRunsComboBox.FormattingEnabled = true;
-            this.gcDoMultipleSmallerRunsComboBox.Items.AddRange(new object[] {
-            "Yes",
-            "No"});
-            this.gcDoMultipleSmallerRunsComboBox.Location = new System.Drawing.Point(216, 98);
-            this.gcDoMultipleSmallerRunsComboBox.Name = "gcDoMultipleSmallerRunsComboBox";
-            this.gcDoMultipleSmallerRunsComboBox.Size = new System.Drawing.Size(417, 25);
-            this.gcDoMultipleSmallerRunsComboBox.TabIndex = 8;
             // 
             // gcWriteImagesWithMaskCombo
             // 
@@ -506,6 +480,31 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "USGS Account";
             // 
+            // createUSGSAccountLinkLabel
+            // 
+            this.createUSGSAccountLinkLabel.AutoSize = true;
+            this.createUSGSAccountLinkLabel.Location = new System.Drawing.Point(490, 104);
+            this.createUSGSAccountLinkLabel.Name = "createUSGSAccountLinkLabel";
+            this.createUSGSAccountLinkLabel.Size = new System.Drawing.Size(143, 17);
+            this.createUSGSAccountLinkLabel.TabIndex = 15;
+            this.createUSGSAccountLinkLabel.TabStop = true;
+            this.createUSGSAccountLinkLabel.Text = "Create a USGS Account";
+            this.createUSGSAccountLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.createUSGSAccountLinkLabel_LinkClicked);
+            // 
+            // usgsPasswordTextBox
+            // 
+            this.usgsPasswordTextBox.Location = new System.Drawing.Point(216, 63);
+            this.usgsPasswordTextBox.Name = "usgsPasswordTextBox";
+            this.usgsPasswordTextBox.Size = new System.Drawing.Size(417, 25);
+            this.usgsPasswordTextBox.TabIndex = 8;
+            // 
+            // usgsUsernameTextBox
+            // 
+            this.usgsUsernameTextBox.Location = new System.Drawing.Point(216, 29);
+            this.usgsUsernameTextBox.Name = "usgsUsernameTextBox";
+            this.usgsUsernameTextBox.Size = new System.Drawing.Size(417, 25);
+            this.usgsUsernameTextBox.TabIndex = 7;
+            // 
             // label16
             // 
             this.label16.AutoSize = true;
@@ -525,20 +524,6 @@
             this.label17.Size = new System.Drawing.Size(67, 17);
             this.label17.TabIndex = 3;
             this.label17.Text = "Username";
-            // 
-            // usgsUsernameTextBox
-            // 
-            this.usgsUsernameTextBox.Location = new System.Drawing.Point(216, 29);
-            this.usgsUsernameTextBox.Name = "usgsUsernameTextBox";
-            this.usgsUsernameTextBox.Size = new System.Drawing.Size(417, 25);
-            this.usgsUsernameTextBox.TabIndex = 7;
-            // 
-            // usgsPasswordTextBox
-            // 
-            this.usgsPasswordTextBox.Location = new System.Drawing.Point(216, 63);
-            this.usgsPasswordTextBox.Name = "usgsPasswordTextBox";
-            this.usgsPasswordTextBox.Size = new System.Drawing.Size(417, 25);
-            this.usgsPasswordTextBox.TabIndex = 8;
             // 
             // tabControl1
             // 
@@ -586,17 +571,6 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "USGS";
             this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // createUSGSAccountLinkLabel
-            // 
-            this.createUSGSAccountLinkLabel.AutoSize = true;
-            this.createUSGSAccountLinkLabel.Location = new System.Drawing.Point(490, 104);
-            this.createUSGSAccountLinkLabel.Name = "createUSGSAccountLinkLabel";
-            this.createUSGSAccountLinkLabel.Size = new System.Drawing.Size(143, 17);
-            this.createUSGSAccountLinkLabel.TabIndex = 15;
-            this.createUSGSAccountLinkLabel.TabStop = true;
-            this.createUSGSAccountLinkLabel.Text = "Create a USGS Account";
-            this.createUSGSAccountLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.createUSGSAccountLinkLabel_LinkClicked);
             // 
             // SettingsForm
             // 
@@ -673,8 +647,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox gcWriteRawFilesComboBox;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.ComboBox gcDoMultipleSmallerRunsComboBox;
         private System.Windows.Forms.ComboBox gcWriteImagesWithMaskCombo;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox usgsPasswordTextBox;

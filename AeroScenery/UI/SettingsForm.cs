@@ -94,14 +94,14 @@ namespace AeroScenery.UI
                 settings.GeoConvertWriteRawFiles = false;
             }
 
-            if (this.gcDoMultipleSmallerRunsComboBox.SelectedIndex == 0)
-            {
-                settings.GeoConvertDoMultipleSmallerRuns= true;
-            }
-            else
-            {
-                settings.GeoConvertDoMultipleSmallerRuns = false;
-            }
+            //if (this.gcDoMultipleSmallerRunsComboBox.SelectedIndex == 0)
+            //{
+            //    settings.GeoConvertDoMultipleSmallerRuns= true;
+            //}
+            //else
+            //{
+            //    settings.GeoConvertDoMultipleSmallerRuns = false;
+            //}
 
 
             if (!String.IsNullOrEmpty(this.usgsUsernameTextBox.Text))
@@ -147,14 +147,14 @@ namespace AeroScenery.UI
 
             this.maxTilesPerStitchedImageTextBox.Text = settings.MaximumStitchedImageSize.ToString();
 
-            if (settings.GeoConvertDoMultipleSmallerRuns)
-            {
-                this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 0;
-            }
-            else
-            {
-                this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 1;
-            }
+            //if (settings.GeoConvertDoMultipleSmallerRuns)
+            //{
+            //    this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 0;
+            //}
+            //else
+            //{
+            //    this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 1;
+            //}
 
             if (settings.GeoConvertWriteImagesWithMask)
             {
