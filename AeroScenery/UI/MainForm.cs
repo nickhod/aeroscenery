@@ -192,6 +192,7 @@ namespace AeroScenery
 
         public void UpdateUIFromSettings()
         {
+            log.Info("Updating UI from settings");
             var settings = AeroSceneryManager.Instance.Settings;
 
             // Orthophoto Source

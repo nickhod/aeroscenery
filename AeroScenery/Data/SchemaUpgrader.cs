@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using Dapper;
 using AeroScenery.Data.Models;
 using System.Globalization;
+using log4net;
 
 namespace AeroScenery.Data
 {
     public class SchemaUpgrader
     {
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
+
         private string dbPath;
 
         public SchemaUpgrader(string dbPath)
@@ -57,6 +60,8 @@ namespace AeroScenery.Data
 
         private void UpgradeToVersion2()
         {
+            log.Info("Updating database to version 2");
+
             using (var con = DbConnection())
             {
                 // Add a column to store GridSquare level
@@ -71,7 +76,9 @@ namespace AeroScenery.Data
         }
 
         private void UpgradeToVersion3()
-        {        
+        {
+            log.Info("Updating database to version 3");
+
             using (var con = DbConnection())
             {
                 con.Open();
@@ -98,6 +105,8 @@ namespace AeroScenery.Data
 
         private void UpgradeToVersion4()
         {
+            log.Info("Updating database to version 4");
+
             using (var con = DbConnection())
             {
                 // Add a column for airport url

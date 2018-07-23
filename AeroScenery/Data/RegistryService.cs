@@ -1,5 +1,6 @@
 ﻿using AeroScenery.Common;
 using AeroScenery.OrthoPhotoSources;
+using log4net;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,18 @@ using System.Threading.Tasks;
 namespace AeroScenery.Data
 {
     public static class RegistryExtensions
-    { 
+    {
+
         public static string GetValueAsString(this RegistryKey key, string name)
         {
-            return key.GetValue(name).ToString();
+            object result = key.GetValue(name);
+
+            if (result != null)
+            {
+                return result.ToString();
+            }
+
+            return null;
         }
 
         public static bool GetValueAsBoolean(this RegistryKey key, string name, bool defaultValue)
@@ -52,6 +61,8 @@ namespace AeroScenery.Data
 
     public class RegistryService
     {
+        private readonly ILog log = LogManager.GetLogger("AeroScenery");
+
         private int settingsVersion = 6;
 
         public void SaveSettings(Settings settings)
@@ -183,8 +194,74 @@ namespace AeroScenery.Data
             key.SetValue("SettingsVersion", settingsVersion);
         }
 
+        internal void LogSettings(Settings settings)
+        {
+            string afsLevelsCsv = "";
+
+            if (settings.AFSLevelsToGenerate.Count > 0)
+            {
+                afsLevelsCsv = String.Join(",", settings.AFSLevelsToGenerate.Select(x => x.ToString()).ToArray());
+            }
+
+            log.Info(String.Format("AFS2SDKDirectory: {0}", settings.AFS2SDKDirectory));
+            log.Info(String.Format("AFS2Directory: {0}", settings.AFS2Directory));
+            log.Info(String.Format("WorkingDirectory: {0}", settings.WorkingDirectory));
+            log.Info(String.Format("AeroSceneryDBDirectory: {0}", settings.AeroSceneryDBDirectory));
+            log.Info(String.Format("OrthophotoSource: {0}", settings.OrthophotoSource));
+            log.Info(String.Format("ZoomLevel: {0}", settings.ZoomLevel));
+            log.Info(String.Format("DownloadImageTiles: {0}", settings.DownloadImageTiles));
+            log.Info(String.Format("StitchImageTiles: {0}", settings.StitchImageTiles));
+            log.Info(String.Format("GenerateAIDAndTMCFiles: {0}", settings.GenerateAIDAndTMCFiles));
+            log.Info(String.Format("RunGeoConvert: {0}", settings.RunGeoConvert));
+            log.Info(String.Format("DeleteStitchedImageTiles: {0}", settings.DeleteStitchedImageTiles));
+            log.Info(String.Format("InstallScenery: {0}", settings.InstallScenery));
+            log.Info(String.Format("ActionSet: {0}", settings.ActionSet));
+            log.Info(String.Format("AFSLevelsToGenerate: {0}", afsLevelsCsv));
+            log.Info(String.Format("UserAgent: {0}", settings.UserAgent));
+            log.Info(String.Format("DownloadWaitMs: {0}", settings.DownloadWaitMs));
+            log.Info(String.Format("DownloadWaitRandomMs: {0}", settings.DownloadWaitRandomMs));
+            log.Info(String.Format("SimultaneousDownloads: {0}", settings.SimultaneousDownloads));
+            log.Info(String.Format("MaximumStitchedImageSize: {0}", settings.MaximumStitchedImageSize));
+            log.Info(String.Format("GeoConvertWriteImagesWithMask: {0}", settings.GeoConvertWriteImagesWithMask));
+            log.Info(String.Format("GeoConvertWriteRawFiles: {0}", settings.GeoConvertWriteRawFiles));
+            log.Info(String.Format("GeoConvertDoMultipleSmallerRuns: {0}", settings.GeoConvertDoMultipleSmallerRuns));
+            log.Info(String.Format("USGSUsername: {0}", settings.USGSUsername));
+            //log.Info(String.Format("USGSPassword: {0}", settings.USGSPassword);
+            log.Info(String.Format("MapControlLastMapType: {0}", settings.MapControlLastMapType));
+            log.Info(String.Format("ShowAirports: {0}", settings.ShowAirports));
+
+            if (settings.MapControlLastZoomLevel.HasValue)
+            {
+                log.Info(String.Format("MapControlLastZoomLevel: {0}", settings.MapControlLastZoomLevel));
+            }
+            else
+            {
+                log.Info("MapControlLastZoomLevel: null");
+            }
+
+            if (settings.MapControlLastX.HasValue)
+            {
+                log.Info(String.Format("MapControlLastX: {0}", settings.MapControlLastX));
+            }
+            else
+            {
+                log.Info("MapControlLastX: null");
+            }
+
+            if (settings.MapControlLastX.HasValue)
+            {
+                log.Info(String.Format("MapControlLastY: {0}", settings.MapControlLastY));
+            }
+            else
+            {
+                log.Info("MapControlLastY: null");
+            }
+        }
+
         public Settings GetSettings()
         {
+            log.Info("Reading Settings");
+
             Settings settings = new Settings();
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", false);
@@ -201,10 +278,8 @@ namespace AeroScenery.Data
                 settings.RunGeoConvert = key.GetValueAsBoolean("RunGeoConvert", false);
                 settings.DeleteStitchedImageTiles = key.GetValueAsBoolean("DeleteStitchedImageTiles", false);
                 settings.InstallScenery = key.GetValueAsBoolean("InstallScenery", false);
-                //settings.ActionSet = (ActionSet)Enum.Parse(typeof(ActionSet), key.GetValueAsString("ActionSet"));
                 settings.ActionSet = key.GetValueAsEnum<ActionSet>("ActionSet", ActionSet.Default);
 
-                //settings.OrthophotoSource = (OrthophotoSource)Enum.Parse(typeof(OrthophotoSource), key.GetValueAsString("OrthophotoSource"));
                 settings.OrthophotoSource = key.GetValueAsEnum<OrthophotoSource>("OrthophotoSource", OrthophotoSource.Google);
                 settings.ZoomLevel = key.GetValueAsInteger("ZoomLevel", 17);
 
@@ -360,71 +435,76 @@ namespace AeroScenery.Data
             if (key != null)
             {
                 var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
+                var currentSettingsVersionStr = key.GetValueAsString("SettingsVersion");
 
-                var currentSettingsVersion = int.Parse(key.GetValueAsString("SettingsVersion"));
-
-                // Do we need to upgrade the settings
-                if (currentSettingsVersion < this.settingsVersion)
+                if (!string.IsNullOrEmpty(currentSettingsVersionStr))
                 {
-                    // Upgrade to settings version 2
-                    if (currentSettingsVersion == 1)
+                    var currentSettingsVersion = int.Parse(currentSettingsVersionStr);
+
+                    // Do we need to upgrade the settings
+                    if (currentSettingsVersion < this.settingsVersion)
                     {
-                        key.SetValue("MaximumStitchedImageSize", 32);
-                        key.SetValue("GeoConvertWriteImagesWithMask", true);
-                        key.SetValue("GeoConvertWriteRawFiles", true);
-                        key.SetValue("SettingsVersion", 2);
-                        currentSettingsVersion = 2;
+                        // Upgrade to settings version 2
+                        if (currentSettingsVersion == 1)
+                        {
+                            key.SetValue("MaximumStitchedImageSize", 32);
+                            key.SetValue("GeoConvertWriteImagesWithMask", true);
+                            key.SetValue("GeoConvertWriteRawFiles", true);
+                            key.SetValue("SettingsVersion", 2);
+                            currentSettingsVersion = 2;
+                        }
+
+                        // Upgrade to settings verison 3
+                        if (currentSettingsVersion == 2)
+                        {
+                            key.SetValue("GeoConvertDoMultipleSmallerRuns", false);
+                            key.SetValue("SettingsVersion", 3);
+                            currentSettingsVersion = 3;
+                        }
+
+                        // Upgrade to settings verison 4
+                        if (currentSettingsVersion == 3)
+                        {
+                            key.SetValue("USGSUsername", "");
+                            key.SetValue("USGSPassword", "");
+                            key.SetValue("Elevation.DownloadElevationData", true);
+                            key.SetValue("Elevation.RunGeoConvert", false);
+                            key.SetValue("Elevation.GenerateAIDAndTMCFiles", false);
+                            key.SetValue("Elevation.ActionSet", ActionSet.Default);
+                            key.SetValue("Elevation.InstallElevationData", false);
+                            key.SetValue("Elevation.AFSLevelsToGenerate", "9,11,12,13,14");
+                            key.SetValue("SettingsVersion", 4);
+                            currentSettingsVersion = 4;
+                        }
+
+                        // Upgrade to settings version 5
+                        if (currentSettingsVersion == 4)
+                        {
+                            key.SetValue("MapControlLastZoomLevel", "");
+                            key.SetValue("MapControlLastX", "");
+                            key.SetValue("MapControlLastY", "");
+                            key.SetValue("MapControlLastMapType", "GoogleHybridMap");
+
+                            sceneryEditorKey.SetValue("MapControlLastZoomLevel", 3);
+                            sceneryEditorKey.SetValue("MapControlLastX", "");
+                            sceneryEditorKey.SetValue("MapControlLastY", "");
+                            sceneryEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
+
+                            key.SetValue("SettingsVersion", 5);
+                            currentSettingsVersion = 5;
+                        }
+
+                        // Upgrade to settings version 6
+                        if (currentSettingsVersion == 5)
+                        {
+                            key.SetValue("ShowAirports", false);
+                            sceneryEditorKey.SetValue("ShowAirports", false);
+                        }
                     }
 
-                    // Upgrade to settings verison 3
-                    if (currentSettingsVersion == 2)
-                    {
-                        key.SetValue("GeoConvertDoMultipleSmallerRuns", false);
-                        key.SetValue("SettingsVersion", 3);
-                        currentSettingsVersion = 3;
-                    }
-
-                    // Upgrade to settings verison 4
-                    if (currentSettingsVersion == 3)
-                    {
-                        key.SetValue("USGSUsername", "");
-                        key.SetValue("USGSPassword", "");
-                        key.SetValue("Elevation.DownloadElevationData", true);
-                        key.SetValue("Elevation.RunGeoConvert", false);
-                        key.SetValue("Elevation.GenerateAIDAndTMCFiles", false);
-                        key.SetValue("Elevation.ActionSet", ActionSet.Default);
-                        key.SetValue("Elevation.InstallElevationData", false);
-                        key.SetValue("Elevation.AFSLevelsToGenerate", "9,11,12,13,14");
-                        key.SetValue("SettingsVersion", 4);
-                        currentSettingsVersion = 4;
-                    }
-
-                    // Upgrade to settings version 5
-                    if (currentSettingsVersion == 4)
-                    {
-                        key.SetValue("MapControlLastZoomLevel", "");
-                        key.SetValue("MapControlLastX", "");
-                        key.SetValue("MapControlLastY", "");
-                        key.SetValue("MapControlLastMapType", "GoogleHybridMap");
-
-                        sceneryEditorKey.SetValue("MapControlLastZoomLevel", 3);
-                        sceneryEditorKey.SetValue("MapControlLastX", "");
-                        sceneryEditorKey.SetValue("MapControlLastY", "");
-                        sceneryEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
-
-                        key.SetValue("SettingsVersion", 5);
-                        currentSettingsVersion = 5;
-                    }
-
-                    // Upgrade to settings version 6
-                    if (currentSettingsVersion == 5)
-                    {
-                        key.SetValue("ShowAirports", false);
-                        sceneryEditorKey.SetValue("ShowAirports", false);
-                    }
+                    return true;
                 }
 
-                return true;
             }
 
             return false;
@@ -432,6 +512,8 @@ namespace AeroScenery.Data
 
         public Settings CreateDefaultSettings()
         {
+            log.Info("Creating Default");
+
             Settings settings = new Settings();
 
             settings.ActionSet = ActionSet.Default;

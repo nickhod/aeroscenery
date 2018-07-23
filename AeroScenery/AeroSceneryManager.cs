@@ -125,6 +125,8 @@ namespace AeroScenery
                 this.settings = registryService.CreateDefaultSettings();
             }
 
+            registryService.LogSettings(this.settings);
+
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
 
