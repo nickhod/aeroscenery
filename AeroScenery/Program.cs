@@ -1,4 +1,5 @@
-﻿using AeroScenery.Controls;
+﻿using AeroScenery.Common;
+using AeroScenery.Controls;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,22 @@ namespace AeroScenery
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif
 
-            AeroSceneryManager.Instance.Initialize();
+            string[] args = Environment.GetCommandLineArgs();
+
+            var startForm = ApplicationArea.AeroScenery;
+
+            // The first argument is the exe name
+            if (args != null && args.Length > 1)
+            {
+                if (args[1] == "/sceneryeditor")
+                {
+                    startForm = ApplicationArea.AeroSceneryEditor;
+                }
+            }
+
+            AeroSceneryManager.Instance.Initialize(startForm);
+
+
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

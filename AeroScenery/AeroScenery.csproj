@@ -54,6 +54,15 @@
   <PropertyGroup>
     <ApplicationIcon>aeroscenery.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugSceneryEditor|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\DebugSceneryEditor\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
@@ -78,6 +87,9 @@
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MakarovDev.ExpandCollapsePanel">
+      <HintPath>..\ThirdParty\ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -106,6 +118,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WeifenLuo.WinFormsUI.Docking, Version=3.0.4.0, Culture=neutral, PublicKeyToken=5cded1a1a0a7b481, processorArchitecture=MSIL">
+      <HintPath>packages\DockPanelSuite.3.0.4\lib\net40\WeifenLuo.WinFormsUI.Docking.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AeroSceneryManager.cs" />
@@ -117,6 +132,8 @@
     <Compile Include="AFS2\AIDFile.cs" />
     <Compile Include="AFS2\GeoConvertManager.cs" />
     <Compile Include="AFS2\TMCFile.cs" />
+    <Compile Include="AFS2\TOCFile.cs" />
+    <Compile Include="AFS2\TSCFile.cs" />
     <Compile Include="Common\BetterWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -126,6 +143,7 @@
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\SceneryEditorSettings.cs" />
     <Compile Include="Common\Settings.cs" />
+    <Compile Include="Common\ApplicationArea.cs" />
     <Compile Include="Common\StitchedImage.cs" />
     <Compile Include="Common\TextBoxAppender.cs" />
     <Compile Include="Controls\CustomMessageBox.cs">
@@ -167,6 +185,55 @@
     <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
+    <Compile Include="SceneryEditor\Cultivation\CultivationProcessor.cs" />
+    <Compile Include="SceneryEditor\Models\Airport.cs" />
+    <Compile Include="SceneryEditor\Models\AirportDecal.cs" />
+    <Compile Include="SceneryEditor\Models\AirportGround.cs" />
+    <Compile Include="SceneryEditor\Models\AirportTower.cs" />
+    <Compile Include="SceneryEditor\Models\AnimatedSceneryObject.cs" />
+    <Compile Include="SceneryEditor\Models\AutoCultivationArea.cs" />
+    <Compile Include="SceneryEditor\Models\AutoCultivationExclusionArea.cs" />
+    <Compile Include="SceneryEditor\Models\Building.cs" />
+    <Compile Include="SceneryEditor\Models\BuildingArea.cs" />
+    <Compile Include="SceneryEditor\Models\Helipad.cs" />
+    <Compile Include="SceneryEditor\Models\Light.cs" />
+    <Compile Include="SceneryEditor\Models\LightArea.cs" />
+    <Compile Include="SceneryEditor\Models\LightLine.cs" />
+    <Compile Include="SceneryEditor\Models\ParkingPosition.cs" />
+    <Compile Include="SceneryEditor\Models\Plant.cs" />
+    <Compile Include="SceneryEditor\Models\PlantArea.cs" />
+    <Compile Include="SceneryEditor\Models\ProjectSettings.cs" />
+    <Compile Include="SceneryEditor\Models\Runway.cs" />
+    <Compile Include="SceneryEditor\Models\SceneryEditorProject.cs" />
+    <Compile Include="SceneryEditor\Models\SceneryObject.cs" />
+    <Compile Include="SceneryEditor\Models\StartPosition.cs" />
+    <Compile Include="SceneryEditor\Models\ViewPosition.cs" />
+    <Compile Include="SceneryEditor\Project\ProjectProcessor.cs" />
+    <Compile Include="SceneryEditor\Project\ProjectService.cs" />
+    <Compile Include="SceneryEditor\UI\BuildPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\BuildPanel.Designer.cs">
+      <DependentUpon>BuildPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\ProjectWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\ProjectWindow.Designer.cs">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\PropertiesPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\PropertiesPanel.Designer.cs">
+      <DependentUpon>PropertiesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\ToolboxPanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SceneryEditor\UI\ToolboxPanel.Designer.cs">
+      <DependentUpon>ToolboxPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DownloadFailedForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,10 +279,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\MainFormSideTab.cs" />
-    <Compile Include="UI\SceneryEditor\SceneryEditorForm.cs">
+    <Compile Include="SceneryEditor\UI\SceneryEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SceneryEditor\SceneryEditorForm.Designer.cs">
+    <Compile Include="SceneryEditor\UI\SceneryEditorForm.Designer.cs">
       <DependentUpon>SceneryEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SettingsForm.cs">
@@ -248,6 +315,18 @@
     <EmbeddedResource Include="Controls\SuperContextMenu\PoppedContainer.resx">
       <DependentUpon>PoppedContainer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="SceneryEditor\UI\BuildPanel.resx">
+      <DependentUpon>BuildPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SceneryEditor\UI\ProjectWindow.resx">
+      <DependentUpon>ProjectWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SceneryEditor\UI\PropertiesPanel.resx">
+      <DependentUpon>PropertiesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SceneryEditor\UI\ToolboxPanel.resx">
+      <DependentUpon>ToolboxPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DownloadThreadProgressControl.resx">
       <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -267,7 +346,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="UI\SceneryEditor\SceneryEditorForm.resx">
+    <EmbeddedResource Include="SceneryEditor\UI\SceneryEditorForm.resx">
       <DependentUpon>SceneryEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingsForm.resx">
@@ -310,6 +389,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SceneryEditor\OSM\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets')" />

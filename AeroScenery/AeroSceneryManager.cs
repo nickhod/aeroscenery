@@ -8,6 +8,7 @@ using AeroScenery.FSCloudPort;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
+using AeroScenery.SceneryEditor.UI;
 using AeroScenery.UI;
 using log4net;
 using System;
@@ -23,7 +24,8 @@ namespace AeroScenery
 {
     public class AeroSceneryManager
     {
-        public MainForm mainForm;
+        private MainForm mainForm;
+        private SceneryEditorForm sceneryEditorForm;
 
         private BingOrthophotoSource bingOrthophotoSource;
         private GoogleOrthophotoSource googleOrthophotoSource;
@@ -113,7 +115,15 @@ namespace AeroScenery
             }
         }
 
-        public void Initialize()
+        public SceneryEditorForm SceneryEditorForm
+        {
+            get
+            {
+                return this.sceneryEditorForm;
+            }
+        }
+
+        public void Initialize(ApplicationArea applicationArea)
         {
             // Create settings if required and read them
             if (registryService.SettingsInRegistry())
@@ -130,30 +140,50 @@ namespace AeroScenery
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
 
-            this.mainForm = new MainForm();
-            this.mainForm.StartStopClicked += async (sender, eventArgs) =>
+            switch(applicationArea)
             {
-                if (this.mainForm.ActionsRunning)
-                {
-                    await StartSceneryGenerationProcessAsync(sender, eventArgs);
-                }
-                else
-                {
-                    StopSceneryGenerationProcess(sender, eventArgs);
-                }
-            };
+                case ApplicationArea.AeroScenery:
 
-            this.mainForm.ResetGridSquare += (sender, name) =>
-            {
-                this.ResetGridSquare(name);
-            };
+                    this.mainForm = new MainForm();
+                    this.mainForm.StartStopClicked += async (sender, eventArgs) =>
+                    {
+                        if (this.mainForm.ActionsRunning)
+                        {
+                            await StartSceneryGenerationProcessAsync(sender, eventArgs);
+                        }
+                        else
+                        {
+                            StopSceneryGenerationProcess(sender, eventArgs);
+                        }
+                    };
 
-            this.mainForm.Initialize();
-            Application.Run(this.mainForm);
+                    this.mainForm.ResetGridSquare += (sender, name) =>
+                    {
+                        this.ResetGridSquare(name);
+                    };
+
+                    this.mainForm.Initialize();
+                    Application.Run(this.mainForm);
+
+                    break;
+                case ApplicationArea.AeroSceneryEditor:
+
+                    this.sceneryEditorForm = new SceneryEditorForm();
+                    this.sceneryEditorForm.Initialize();
+                    Application.Run(this.sceneryEditorForm);
+
+                    break;
+            }
+
+
 
         }
 
-
+        public void ShowSceneryEditor()
+        {
+            this.sceneryEditorForm = new SceneryEditorForm();
+            this.sceneryEditorForm.Show();
+        }
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)
         {
@@ -511,6 +541,7 @@ namespace AeroScenery
         {
             this.registryService.SaveSettings(this.settings);
         }
+
 
     }
 }

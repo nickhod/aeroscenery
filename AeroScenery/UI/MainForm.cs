@@ -6,6 +6,7 @@ using AeroScenery.Data.Mappers;
 using AeroScenery.Data.Models;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
+using AeroScenery.SceneryEditor.UI;
 using AeroScenery.UI;
 using AeroScenery.USGS;
 using AeroScenery.USGS.Models;
@@ -85,7 +86,7 @@ namespace AeroScenery
             this.actionsRunning = false;
 
             mainMap.MinZoom = 2;
-            mainMap.MaxZoom = 24;
+            mainMap.MaxZoom = 23;
             mainMap.DragButton = MouseButtons.Left;
             mainMap.IgnoreMarkerOnMouseWheel = true;
 
@@ -277,13 +278,13 @@ namespace AeroScenery
             this.stitchImageTilesCheckBox.Checked = true;
             this.generateAFSFilesCheckBox.Checked = true;
             this.runGeoConvertCheckBox.Checked = true;
-            this.installSceneryIntoAFSCheckBox.Checked = true;
+            //this.installSceneryIntoAFSCheckBox.Checked = true;
 
             this.downloadImageTileCheckBox.Enabled = false;
             this.stitchImageTilesCheckBox.Enabled = false;
             this.generateAFSFilesCheckBox.Enabled = false;
             this.runGeoConvertCheckBox.Enabled = false;
-            this.installSceneryIntoAFSCheckBox.Enabled = false;
+            //this.installSceneryIntoAFSCheckBox.Enabled = false;
         }
 
         private void SetCustomActions()
@@ -295,13 +296,13 @@ namespace AeroScenery
             this.generateAFSFilesCheckBox.Checked = settings.GenerateAIDAndTMCFiles;
             this.runGeoConvertCheckBox.Checked = settings.RunGeoConvert;
             this.deleteStitchedImagesCheckBox.Checked = settings.DeleteStitchedImageTiles;
-            this.installSceneryIntoAFSCheckBox.Checked = settings.InstallScenery;
+            //this.installSceneryIntoAFSCheckBox.Checked = settings.InstallScenery;
 
             this.downloadImageTileCheckBox.Enabled = true;
             this.stitchImageTilesCheckBox.Enabled = true;
             this.generateAFSFilesCheckBox.Enabled = true;
             this.runGeoConvertCheckBox.Enabled = true;
-            this.installSceneryIntoAFSCheckBox.Enabled = true;
+            //this.installSceneryIntoAFSCheckBox.Enabled = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -1223,8 +1224,16 @@ namespace AeroScenery
 
         private void sceneryEditorToolstripButton_Click(object sender, EventArgs e)
         {
-            new SceneryEditorForm().Show();
+            this.mainMap.DisableFocusOnMouseEnter = true;
+            AeroSceneryManager.Instance.ShowSceneryEditor();
 
+            AeroSceneryManager.Instance.SceneryEditorForm.OnFormClosed += SceneryEditorForm_OnFormClosed;
+
+        }
+
+        private void SceneryEditorForm_OnFormClosed(object sender, EventArgs e)
+        {
+            this.mainMap.DisableFocusOnMouseEnter = false;
         }
 
         private void AutoSelectAFSLevelsButton_Click(object sender, EventArgs e)

@@ -15,6 +15,65 @@ namespace AeroScenery.AFS2
         public double LonMax { get; set; }
         public double LatMax { get; set; }
         public bool WriteImagesWithMask { get; set; }
+
+        public string NorthEastLonLatStr
+        {
+            get
+            {
+                var eastLon = LonMin;
+                var northLat = LatMin;
+
+                if (northLat >= 0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (eastLon >= 0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+
+                return String.Format("{0} {1}", eastLon.ToString("0.00", CultureInfo.InvariantCulture), northLat.ToString("0.00", CultureInfo.InvariantCulture));
+            }
+        }
+
+        public string SouthWestLonLatStr
+        {
+            get
+            {
+                var westLon = LonMax;
+                var southLat = LatMax;
+
+                if (westLon >= 0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                if (southLat >= 0)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                return String.Format("{0} {1}", westLon.ToString("0.00", CultureInfo.InvariantCulture), southLat.ToString("0.00", CultureInfo.InvariantCulture));
+            }
+        }
     }
 
     public class TMCFile
@@ -64,8 +123,8 @@ namespace AeroScenery.AFS2
                 {
                     sb.AppendLine("\t\t\t<[tmcolormap_region][element][0]");
                     sb.AppendLine(String.Format("\t\t\t\t<[uint32] [level] [{0}]>", region.Level));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0} {1}]>", region.LonMin.ToString("0.00", CultureInfo.InvariantCulture), region.LatMin.ToString("0.00", CultureInfo.InvariantCulture)));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0} {1}]>", region.LonMax.ToString("0.00", CultureInfo.InvariantCulture), region.LatMax.ToString("0.00", CultureInfo.InvariantCulture)));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0}]>", region.NorthEastLonLatStr));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0}]>", region.SouthWestLonLatStr));
                     sb.AppendLine(String.Format("\t\t\t\t<[bool] [write_images_with_mask] [{0}]>", region.WriteImagesWithMask.ToString().ToLower()));
                     sb.AppendLine("\t\t\t" + ">");
                     sb.AppendLine("");
