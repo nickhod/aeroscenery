@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AeroScenery.SceneryEditor.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,19 +13,27 @@ namespace AeroScenery.SceneryEditor.UI
 {
     public partial class ToolboxPanel : WeifenLuo.WinFormsUI.Docking.DockContent
     {
+        public delegate void SceneryToolEventHandler(SceneryTool sceneryTool, object sender, EventArgs e);
+        public event SceneryToolEventHandler SceneryToolSelected;
+
         public ToolboxPanel()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ToolBoxButton_Click(object sender, EventArgs e)
         {
+            var buttonTag = ((Button)sender).Tag;
 
-        }
-
-        private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            switch (buttonTag)
+            {
+                case "Pointer":
+                    SceneryToolSelected?.Invoke(SceneryTool.Pointer, this, e);
+                    break;
+                case "SinglePlant":
+                    SceneryToolSelected?.Invoke(SceneryTool.SinglePlant, this, e);
+                    break;
+            }
         }
     }
 }

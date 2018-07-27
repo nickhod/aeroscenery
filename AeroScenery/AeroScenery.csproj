@@ -137,7 +137,11 @@
     <Compile Include="Common\BetterWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Common\Direction.cs" />
     <Compile Include="Common\ElevationSettings.cs" />
+    <Compile Include="Common\GeoArea.cs" />
+    <Compile Include="Common\GeoCoordinate.cs" />
+    <Compile Include="Common\GeoCoordinatesHelper.cs" />
     <Compile Include="Common\GMapProviderHelper.cs" />
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Point.cs" />
@@ -185,6 +189,7 @@
     <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
+    <Compile Include="SceneryEditor\Common\SceneryTool.cs" />
     <Compile Include="SceneryEditor\Cultivation\CultivationProcessor.cs" />
     <Compile Include="SceneryEditor\Models\Airport.cs" />
     <Compile Include="SceneryEditor\Models\AirportDecal.cs" />

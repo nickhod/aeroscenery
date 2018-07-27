@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"><?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?>
 	<Product Id="*" Name="AeroScenery" Language="1033" Version="1.0.0.0" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -16,6 +17,7 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="ce72215a-172f-486d-8c9b-8c4503407b43">
         <Shortcut Id="ApplicationStartMenuShortcut" Name="AeroScenery" Description="AeroScnery Scenery Generation App" Target="[#AeroScenery.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <Shortcut Id="SceneryEditorStartMenuShortcut" Name="AeroScenery Scenery Editor" Description="AeroScnery Scenery Editor" Target="[#AeroScenery.exe]" Arguments="/sceneryeditor" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Software\AeroScenery\AeroScenery" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>

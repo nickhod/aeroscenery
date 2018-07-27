@@ -1227,11 +1227,11 @@ namespace AeroScenery
             this.mainMap.DisableFocusOnMouseEnter = true;
             AeroSceneryManager.Instance.ShowSceneryEditor();
 
-            AeroSceneryManager.Instance.SceneryEditorForm.OnFormClosed += SceneryEditorForm_OnFormClosed;
+            AeroSceneryManager.Instance.SceneryEditorForm.SceneryEditorFormClosed += SceneryEditorForm_SceneryEditorFormClosed;
 
         }
 
-        private void SceneryEditorForm_OnFormClosed(object sender, EventArgs e)
+        private void SceneryEditorForm_SceneryEditorFormClosed(object sender, EventArgs e)
         {
             this.mainMap.DisableFocusOnMouseEnter = false;
         }

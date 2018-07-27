@@ -100,6 +100,7 @@
             // 
             // saveProjectToolStripMenuItem
             // 
+            this.saveProjectToolStripMenuItem.Enabled = false;
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
             this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.saveProjectToolStripMenuItem.Text = "Save Project";
@@ -110,6 +111,7 @@
             this.saveProjectAsToolStripMenuItem.Name = "saveProjectAsToolStripMenuItem";
             this.saveProjectAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.saveProjectAsToolStripMenuItem.Text = "Save Project As";
+            this.saveProjectAsToolStripMenuItem.Click += new System.EventHandler(this.saveProjectAsToolStripMenuItem_ClickAsync);
             // 
             // toolStripSeparator1
             // 

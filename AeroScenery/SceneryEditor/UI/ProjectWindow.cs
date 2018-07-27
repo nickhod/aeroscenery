@@ -14,6 +14,8 @@ namespace AeroScenery.SceneryEditor.UI
 {
     public partial class ProjectWindow : WeifenLuo.WinFormsUI.Docking.DockContent
     {
+
+
         public ProjectWindow()
         {
             InitializeComponent();
