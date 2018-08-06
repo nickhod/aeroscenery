@@ -1,5 +1,7 @@
 ﻿using AeroScenery.AFS2;
+using AeroScenery.Common;
 using AeroScenery.SceneryEditor.Common;
+using AeroScenery.SceneryEditor.GMapCustom;
 using AeroScenery.SceneryEditor.Models;
 using AeroScenery.SceneryEditor.Project;
 using GMap.NET;
@@ -33,6 +35,8 @@ namespace AeroScenery.SceneryEditor.UI
         public event EventHandler SceneryEditorFormClosed;
 
         private SceneryTool currentSceneryTool;
+
+        private GMapOverlay planMarkers;
 
         public SceneryEditorForm()
         {
@@ -84,19 +88,13 @@ namespace AeroScenery.SceneryEditor.UI
 
         private void DrawMapPolygon(double lat, double lng)
         {
-            //var width = 0.01;
-            //var height = 0.01;
-
-            //var northEast = new PointLatLng(lat, lng);
-            //var northWest = new PointLatLng(lat , lng + width);
-            //var southEast = new PointLatLng(lat -  , lng);
-            //var southWest = new PointLatLng(lat , lng);
+            //var area = GeoCoordinatesHelper.RectangleFromCenterPoint(new GeoCoordinate(lat, lng), 0.01, 0.01);
 
             //var pointList = new List<PointLatLng>();
-            //pointList.Add(northEast);
-            //pointList.Add(northWest);
-            //pointList.Add(southEast);
-            //pointList.Add(southWest);
+            //pointList.Add(new PointLatLng(area.NorthLatitude, area.WestLongitude));
+            //pointList.Add(new PointLatLng(area.NorthLatitude, area.EastLongitude));
+            //pointList.Add(new PointLatLng(area.SouthLatitude, area.EastLongitude));
+            //pointList.Add(new PointLatLng(area.SouthLatitude, area.WestLongitude));
 
             //GMapPolygon polygon = new GMapPolygon(pointList, "Test");
 
@@ -111,6 +109,18 @@ namespace AeroScenery.SceneryEditor.UI
             //this.projectWindow.EditorMap.Refresh();
             //polygonOverlay.IsVisibile = false;
             //polygonOverlay.IsVisibile = true;
+
+            if (this.planMarkers == null)
+            {
+                this.planMarkers = new GMapOverlay("Plant Markers");
+                this.projectWindow.EditorMap.Overlays.Add(this.planMarkers);
+            }
+
+            GMapMarker marker = new PlantMarker(new PointLatLng(lat, lng), this.projectWindow.EditorMap);
+
+            this.planMarkers.Markers.Add(marker);
+
+            this.projectWindow.EditorMap.Refresh();
 
 
         }

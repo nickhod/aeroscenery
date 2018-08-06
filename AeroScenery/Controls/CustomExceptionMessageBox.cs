@@ -18,17 +18,17 @@ namespace AeroScenery.Controls
     /// <summary>
     /// A customizable Dialog box with 3 buttons, custom icon, and checkbox.
     /// </summary>
-    public partial class CustomMessageBox : Form
+    public partial class CustomExceptionMessageBox : Form
     {
         /// <summary>
         /// Create a new instance of the dialog box with a message and title.
         /// </summary>
         /// <param name="message">Message text.</param>
         /// <param name="title">Dialog Box title.</param>
-        public CustomMessageBox(string message, string title)
+        public CustomExceptionMessageBox(string message, string title)
             : this(message, title, MessageBoxIcon.None)
         {
-            
+
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace AeroScenery.Controls
         /// <param name="message">Message text.</param>
         /// <param name="title">Dialog Box title.</param>
         /// <param name="icon">Standard system messagebox icon.</param>
-        public CustomMessageBox(string message, string title, MessageBoxIcon icon)
+        public CustomExceptionMessageBox(string message, string title, MessageBoxIcon icon)
             : this(message, title, GetMessageBoxIcon(icon))
         {
 
@@ -49,7 +49,7 @@ namespace AeroScenery.Controls
         /// <param name="message">Message text.</param>
         /// <param name="title">Dialog Box title.</param>
         /// <param name="icon">Custom icon.</param>
-        public CustomMessageBox(string message, string title, Icon icon)
+        public CustomExceptionMessageBox(string message, string title, Icon icon)
         {
             InitializeComponent();
 
@@ -161,6 +161,11 @@ namespace AeroScenery.Controls
 
         }
 
+        public void SetExceptionText(string exceptionText)
+        {
+            this.exceptionTextBox.Text = exceptionText;
+        }
+
         /// <summary>
         /// The min required width of the button and checkbox row. Sum of button widths + checkbox width + margins.
         /// </summary>
@@ -183,27 +188,6 @@ namespace AeroScenery.Controls
             return btn.Size.Width;
         }
 
-        /// <summary>
-        /// Enables the checkbox. By default the checkbox is unchecked.
-        /// </summary>
-        /// <param name="text">Text of the checkbox.</param>
-        public void SetCheckbox(string text)
-        {
-            this.SetCheckbox(text, false);
-        }
-        
-        /// <summary>
-        /// Enables the checkbox and the default checked state.
-        /// </summary>
-        /// <param name="text">Text of the checkbox.</param>
-        /// <param name="chcked">Default checked state of the box.</param>
-        public void SetCheckbox(string text, bool chcked)
-        {
-            this.chkBx.Visible = true;
-            this.chkBx.Text = text;
-            this.chkBx.Checked = chcked;
-            this.m_minButtonRowWidth += this.chkBx.Size.Width + CHECKBOX_SPACE;
-        }
 
         #endregion
 
@@ -235,7 +219,11 @@ namespace AeroScenery.Controls
             int requiredWidth = this.messageLbl.Location.X + this.messageLbl.Size.Width + FORM_X_MARGIN;
             requiredWidth = requiredWidth > m_minButtonRowWidth ? requiredWidth : m_minButtonRowWidth;
 
-            int requiredHeight = this.messageLbl.Location.Y + this.messageLbl.Size.Height - this.btn2.Location.Y + this.ClientSize.Height + TEXT_Y_MARGIN;
+            int requiredHeight = this.messageLbl.Location.Y + 
+                this.messageLbl.Size.Height - this.btn2.Location.Y +
+                this.exceptionTextBox.Height + 
+                this.ClientSize.Height 
+                + TEXT_Y_MARGIN;
 
             int minSetWidth = this.ClientSize.Width > this.m_minWidth ? this.ClientSize.Width : this.m_minWidth;
             int minSetHeight = this.ClientSize.Height > this.m_minHeight ? this.ClientSize.Height : this.m_minHeight;
@@ -273,11 +261,8 @@ namespace AeroScenery.Controls
             x -= btn1.Size.Width;
             btn1.Location = new Point(x, y);
 
-            if (this.chkBx.Visible)
-                this.chkBx.Location = new Point(FORM_X_MARGIN, this.chkBx.Location.Y);
-
         }
-        
+
         #endregion
 
         #region Icon Pain
@@ -303,17 +288,6 @@ namespace AeroScenery.Controls
         #endregion
 
         #region Result API
-
-        /// <summary>
-        /// If visible checkbox was checked.
-        /// </summary>
-        public bool CheckboxChecked
-        {
-            get
-            {
-                return this.chkBx.Checked;
-            }
-        }
 
         DialogBoxResult m_result;
         /// <summary>
@@ -341,12 +315,5 @@ namespace AeroScenery.Controls
         }
 
         #endregion
-    }
-
-    public enum DialogBoxResult
-    {
-        Button1,
-        Button2,
-        Button3
     }
 }

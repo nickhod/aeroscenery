@@ -1,0 +1,22 @@
+﻿
+     _                     ____                                       
+    / \    ___  _ __  ___ / ___|   ___  ___  _ __    ___  _ __  _   _ 
+   / _ \  / _ \| '__|/ _ \\___ \  / __|/ _ \| '_ \  / _ \| '__|| | | |
+  / ___ \|  __/| |  | (_) |___) || (__|  __/| | | ||  __/| |   | |_| |
+ /_/   \_\\___||_|   \___/|____/  \___|\___||_| |_| \___||_|    \__, |
+                                                                |___/ 
+
+                           By Nick Hoddinott
+						GNU GENERAL PUBLIC LICENSE
+
+Change log
+
+0.5.1
+
+- GeoConvert no longer runs if the user stops the generation process
+- Open Map toolbar item now uses decimal point irrespective of system culture
+- Map toolbar items are not enabled if a grid square is not selected
+- FSCloudPort airport coordinates are parsed with a decimal point irrespective of system culture
+- Custom message box form for catch all exception handling
+- Airport markers are now shown correctly when "Show Airports" is pressed if the map has not been moved
+- 

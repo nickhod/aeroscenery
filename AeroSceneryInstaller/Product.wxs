@@ -16,8 +16,11 @@
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="ce72215a-172f-486d-8c9b-8c4503407b43">
-        <Shortcut Id="ApplicationStartMenuShortcut" Name="AeroScenery" Description="AeroScnery Scenery Generation App" Target="[#AeroScenery.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
-        <Shortcut Id="SceneryEditorStartMenuShortcut" Name="AeroScenery Scenery Editor" Description="AeroScnery Scenery Editor" Target="[#AeroScenery.exe]" Arguments="/sceneryeditor" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="AeroScenery" Description="AeroScnery Scenery Generation App" 
+                  Target="[#AeroScenery.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <!--<Shortcut Id="SceneryEditorStartMenuShortcut" Name="AeroScenery Scenery Editor" Description="AeroScnery Scenery Editor" 
+        Target="[#AeroScenery.exe]" Arguments="/sceneryeditor" WorkingDirectory="APPLICATIONROOTDIRECTORY" />-->
+        
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
         <RegistryValue Root="HKCU" Key="Software\AeroScenery\AeroScenery" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>

@@ -39,7 +39,7 @@
             this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.sceneryEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
+            this.sceneryEditorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.showAirportsToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.mapTypeToolStripDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.hybridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,18 +65,15 @@
             this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.resetSquareToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.cultivationToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.openMapToolStripDropDownButton = new System.Windows.Forms.ToolStripDropDownButton();
             this.openInGoogleMapsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openInBingMApsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.progressTabPage = new System.Windows.Forms.TabPage();
             this.childTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.label6 = new System.Windows.Forms.Label();
             this.currentActionProgressBar = new System.Windows.Forms.ProgressBar();
             this.parentTaskLabel = new System.Windows.Forms.Label();
@@ -128,6 +125,10 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -205,7 +206,7 @@
             this.getSDKToolStripButton,
             this.toolStripSeparator4,
             this.sceneryEditorToolstripButton,
-            this.toolStripSeparator6,
+            this.sceneryEditorSeparator,
             this.showAirportsToolstripButton,
             this.mapTypeToolStripDropDown,
             this.toolStripSeparator7,
@@ -266,10 +267,10 @@
             this.sceneryEditorToolstripButton.ToolTipText = "Scenery Editor";
             this.sceneryEditorToolstripButton.Click += new System.EventHandler(this.sceneryEditorToolstripButton_Click);
             // 
-            // toolStripSeparator6
+            // sceneryEditorSeparator
             // 
-            this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(6, 32);
+            this.sceneryEditorSeparator.Name = "sceneryEditorSeparator";
+            this.sceneryEditorSeparator.Size = new System.Drawing.Size(6, 32);
             // 
             // showAirportsToolstripButton
             // 
@@ -432,8 +433,9 @@
             this.openImageFolderToolstripButton,
             this.deleteImagesToolStripButton,
             this.resetSquareToolStripButton,
+            this.cultivationToolStripButton,
             this.toolStripSeparator2,
-            this.toolStripDropDownButton1});
+            this.openMapToolStripDropDownButton});
             this.toolStrip2.Location = new System.Drawing.Point(0, 0);
             this.toolStrip2.Name = "toolStrip2";
             this.toolStrip2.Size = new System.Drawing.Size(1034, 25);
@@ -471,6 +473,7 @@
             // 
             // openImageFolderToolstripButton
             // 
+            this.openImageFolderToolstripButton.Enabled = false;
             this.openImageFolderToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("openImageFolderToolstripButton.Image")));
             this.openImageFolderToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.openImageFolderToolstripButton.Name = "openImageFolderToolstripButton";
@@ -481,6 +484,7 @@
             // 
             // deleteImagesToolStripButton
             // 
+            this.deleteImagesToolStripButton.Enabled = false;
             this.deleteImagesToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("deleteImagesToolStripButton.Image")));
             this.deleteImagesToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteImagesToolStripButton.Name = "deleteImagesToolStripButton";
@@ -500,22 +504,32 @@
             this.resetSquareToolStripButton.ToolTipText = "Reset the download status of this grid square";
             this.resetSquareToolStripButton.Click += new System.EventHandler(this.resetSquareToolStripButton_Click);
             // 
+            // cultivationToolStripButton
+            // 
+            this.cultivationToolStripButton.Enabled = false;
+            this.cultivationToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("cultivationToolStripButton.Image")));
+            this.cultivationToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.cultivationToolStripButton.Name = "cultivationToolStripButton";
+            this.cultivationToolStripButton.Size = new System.Drawing.Size(88, 22);
+            this.cultivationToolStripButton.Text = "Cultivation";
+            // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
-            // toolStripDropDownButton1
+            // openMapToolStripDropDownButton
             // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openMapToolStripDropDownButton.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInGoogleMapsToolStripMenuItem,
             this.openInBingMApsToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(114, 22);
-            this.toolStripDropDownButton1.Text = "Open In Map";
-            this.toolStripDropDownButton1.ToolTipText = "Open Square In Map";
+            this.openMapToolStripDropDownButton.Enabled = false;
+            this.openMapToolStripDropDownButton.Image = ((System.Drawing.Image)(resources.GetObject("openMapToolStripDropDownButton.Image")));
+            this.openMapToolStripDropDownButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openMapToolStripDropDownButton.Name = "openMapToolStripDropDownButton";
+            this.openMapToolStripDropDownButton.Size = new System.Drawing.Size(114, 22);
+            this.openMapToolStripDropDownButton.Text = "Open In Map";
+            this.openMapToolStripDropDownButton.ToolTipText = "Open Square In Map";
             // 
             // openInGoogleMapsToolStripMenuItem
             // 
@@ -581,54 +595,6 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Downloaders";
-            // 
-            // downloadThreadProgress4
-            // 
-            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
-            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
-            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
-            this.downloadThreadProgress4.TabIndex = 3;
-            // 
-            // downloadThreadProgress3
-            // 
-            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
-            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
-            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
-            this.downloadThreadProgress3.TabIndex = 2;
-            // 
-            // downloadThreadProgress2
-            // 
-            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
-            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
-            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
-            this.downloadThreadProgress2.TabIndex = 1;
-            // 
-            // downloadThreadProgress1
-            // 
-            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
-            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
-            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
-            this.downloadThreadProgress1.TabIndex = 0;
             // 
             // label6
             // 
@@ -1200,6 +1166,7 @@
             // 
             this.shutdownCheckbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.shutdownCheckbox.AutoSize = true;
+            this.shutdownCheckbox.Enabled = false;
             this.shutdownCheckbox.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.shutdownCheckbox.Location = new System.Drawing.Point(12, 704);
             this.shutdownCheckbox.Name = "shutdownCheckbox";
@@ -1214,6 +1181,54 @@
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
+            // 
+            // downloadThreadProgress4
+            // 
+            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
+            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
+            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
+            this.downloadThreadProgress4.TabIndex = 3;
+            // 
+            // downloadThreadProgress3
+            // 
+            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
+            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
+            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
+            this.downloadThreadProgress3.TabIndex = 2;
+            // 
+            // downloadThreadProgress2
+            // 
+            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
+            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
+            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
+            this.downloadThreadProgress2.TabIndex = 1;
+            // 
+            // downloadThreadProgress1
+            // 
+            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
+            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
+            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
+            this.downloadThreadProgress1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -1306,7 +1321,7 @@
         private System.Windows.Forms.ToolStrip toolStrip2;
         private System.Windows.Forms.ToolStripButton deleteImagesToolStripButton;
         private System.Windows.Forms.ToolStripButton openImageFolderToolstripButton;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+        private System.Windows.Forms.ToolStripDropDownButton openMapToolStripDropDownButton;
         private System.Windows.Forms.ToolStripButton resetSquareToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripLabel gridSquareLabel;
@@ -1350,7 +1365,7 @@
         private System.Windows.Forms.Button usgsTestButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ToolStripButton sceneryEditorToolstripButton;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
+        private System.Windows.Forms.ToolStripSeparator sceneryEditorSeparator;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.Button autoSelectAFSLevelsButton;
         private System.Windows.Forms.ToolStripButton showAirportsToolstripButton;
@@ -1363,6 +1378,7 @@
         private System.Windows.Forms.ToolStripMenuItem bingSatelliteMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem binStandardMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openStreetMapToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton cultivationToolStripButton;
     }
 }
 

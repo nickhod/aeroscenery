@@ -5,6 +5,7 @@ using log4net;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -99,8 +100,8 @@ namespace AeroScenery.FSCloudPort
 
                                         if (latLonArray.Length == 2)
                                         {
-                                            airport.Latitude = double.Parse(latLonArray[0]);
-                                            airport.Longitude = double.Parse(latLonArray[1]);
+                                            airport.Latitude = double.Parse(latLonArray[0], CultureInfo.InvariantCulture);
+                                            airport.Longitude = double.Parse(latLonArray[1], CultureInfo.InvariantCulture);
                                         }
 
                                         break;

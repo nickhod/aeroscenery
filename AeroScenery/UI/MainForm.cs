@@ -21,6 +21,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -168,6 +169,13 @@ namespace AeroScenery
             versionToolStripLabel.Text = "v" + AeroSceneryManager.Instance.Version;
 
             this.processCheckBoxListEvents = true;
+
+#if RELEASE
+            this.sceneryEditorSeparator.Visible = false;
+            this.sceneryEditorToolstripButton.Visible = false;
+            this.cultivationToolStripButton.Visible = false;
+#endif
+
         }
 
         private async void MainForm_Shown(object sender, EventArgs e)
@@ -318,12 +326,14 @@ namespace AeroScenery
             // Are we currently running actions
             if (this.ActionsRunning)
             {
+                // Stop
                 this.mainTabControl.SelectedIndex = 0;
                 this.ActionsRunning = false;
                 this.ResetProgress();
             }
             else
             {
+                // Start
                 this.mainTabControl.SelectedIndex = 1;
                 this.ActionsRunning = true;
             }
@@ -419,24 +429,29 @@ namespace AeroScenery
             // Get the grid square for this lat and lon
             var gridSquare = afs2Grid.GetGridSquareAtLatLon(lat, lon, this.afsGridSquareSelectionSize);
 
-            // If this grid square is already selected, deselect it
-            if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+            if (gridSquare != null)
             {
-                var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
+                // If this grid square is already selected, deselect it
+                if (this.SelectedAFS2GridSquares.ContainsKey(gridSquare.Name))
+                {
+                    var squareAndOverlay = this.SelectedAFS2GridSquares[gridSquare.Name];
 
-                mainMap.Overlays.Remove(squareAndOverlay.GMapOverlay);
-                this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+                    mainMap.Overlays.Remove(squareAndOverlay.GMapOverlay);
+                    this.SelectedAFS2GridSquares.Remove(gridSquare.Name);
+                    this.SelectedAFS2GridSquare = null;
+                }
+
                 this.SelectedAFS2GridSquare = null;
+                gridSquareLabel.Text = "";
+
+                this.activeGridSquareOverlay.Clear();
+                this.activeGridSquareOverlay.Dispose();
+                this.activeGridSquareOverlay = null;
+
+                this.UpdateStatusStrip();
+                this.UpdateToolStrip();
             }
 
-            this.SelectedAFS2GridSquare = null;
-            gridSquareLabel.Text = "";
-
-            this.activeGridSquareOverlay.Clear();
-            this.activeGridSquareOverlay.Dispose();
-            this.activeGridSquareOverlay = null;
-
-            this.UpdateStatusStrip();
         }
 
         /// <summary>
@@ -516,6 +531,21 @@ namespace AeroScenery
                     toolStripDownloadedLabel.Image = imageList1.Images[1];
                     resetSquareToolStripButton.Enabled = true;
                 }
+            }
+
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                this.openImageFolderToolstripButton.Enabled = true;
+                this.deleteImagesToolStripButton.Enabled = true;
+                this.cultivationToolStripButton.Enabled = true;
+                this.openMapToolStripDropDownButton.Enabled = true;
+            }
+            else
+            {
+                this.openImageFolderToolstripButton.Enabled = false;
+                this.deleteImagesToolStripButton.Enabled = false;
+                this.cultivationToolStripButton.Enabled = false;
+                this.openMapToolStripDropDownButton.Enabled = false;
             }
 
         }
@@ -660,7 +690,11 @@ namespace AeroScenery
             {
                 var selectedGridSquare = this.SelectedAFS2GridSquare;
                 var googleMapsUrl = "https://www.google.com/maps/@{0},{1},60000m/data=!3m1!1e3";
-                System.Diagnostics.Process.Start(String.Format(googleMapsUrl, selectedGridSquare.GetCenter().Lat, selectedGridSquare.GetCenter().Lng));
+
+                string latStr = selectedGridSquare.GetCenter().Lat.ToString("#.####################", CultureInfo.InvariantCulture);
+                string lngStr = selectedGridSquare.GetCenter().Lng.ToString("#.####################", CultureInfo.InvariantCulture);
+
+                System.Diagnostics.Process.Start(String.Format(googleMapsUrl, latStr, lngStr));
             }
         }
 
@@ -670,7 +704,11 @@ namespace AeroScenery
             {
                 var selectedGridSquare = this.SelectedAFS2GridSquare;
                 var bingMapsUrl = "https://www.bing.com/maps/default.aspx?cp={0}~{1}&lvl=10&style=h";
-                System.Diagnostics.Process.Start(String.Format(bingMapsUrl, selectedGridSquare.GetCenter().Lat, selectedGridSquare.GetCenter().Lng));
+
+                string latStr = selectedGridSquare.GetCenter().Lat.ToString("#.####################", CultureInfo.InvariantCulture);
+                string lngStr = selectedGridSquare.GetCenter().Lng.ToString("#.####################", CultureInfo.InvariantCulture);
+
+                System.Diagnostics.Process.Start(String.Format(bingMapsUrl, latStr, lngStr));
             }
 
         }
@@ -1354,6 +1392,7 @@ namespace AeroScenery
 
         private void showAirportsToolstripButton_Click(object sender, EventArgs e)
         {
+            // We need to hide airports
             if (AeroSceneryManager.Instance.Settings.ShowAirports)
             {
                 AeroSceneryManager.Instance.Settings.ShowAirports = false;
@@ -1361,6 +1400,7 @@ namespace AeroScenery
                 this.fsCloudPortMarkerManager.RemoveAllFSCloudPortMarkers();
 
             }
+            // We need to show airports
             else
             {
                 AeroSceneryManager.Instance.Settings.ShowAirports = true;

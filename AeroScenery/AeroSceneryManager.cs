@@ -74,8 +74,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "0.5";
-            incrementalVersion = 5;
+            version = "0.5.1";
+            incrementalVersion = 6;
         }
 
         public Settings Settings
@@ -182,6 +182,7 @@ namespace AeroScenery
         public void ShowSceneryEditor()
         {
             this.sceneryEditorForm = new SceneryEditorForm();
+            this.sceneryEditorForm.Initialize();
             this.sceneryEditorForm.Show();
         }
 
@@ -362,7 +363,7 @@ namespace AeroScenery
                 }
 
                 // If required Move on to running Geoconvert for each tile
-                if (this.settings.RunGeoConvert)
+                if (this.settings.RunGeoConvert && this.mainForm.ActionsRunning)
                 {
                     this.StartGeoConvertProcess();
                 }
@@ -406,19 +407,11 @@ namespace AeroScenery
 
         public void StartGeoConvertProcess()
         {
-            if (String.IsNullOrEmpty(this.settings.AFS2SDKDirectory))
+            if (this.mainForm.ActionsRunning)
             {
-                var messageBox = new CustomMessageBox("Please set the location of the Aerofly SDK in Settings before running Geoconvert",
-                    "AeroScenery", 
-                    MessageBoxIcon.Warning);
-
-                messageBox.ShowDialog();
-            }
-            else
-            {
-                if (settings.AFSLevelsToGenerate.Count == 0)
+                if (String.IsNullOrEmpty(this.settings.AFS2SDKDirectory))
                 {
-                    var messageBox = new CustomMessageBox("Please choose one or more AFS levels to generate before running Geoconvert",
+                    var messageBox = new CustomMessageBox("Please set the location of the Aerofly SDK in Settings before running Geoconvert",
                         "AeroScenery",
                         MessageBoxIcon.Warning);
 
@@ -426,37 +419,53 @@ namespace AeroScenery
                 }
                 else
                 {
-                    log.Info("Starting GeoConvert Process");
-
-                    int i = 0;
-                    // Run the Geoconvert process for each selected grid square
-                    foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+                    if (settings.AFSLevelsToGenerate.Count == 0)
                     {
-                        var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
-                        this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
-                        log.Info(currentGrideSquareMessage);
+                        var messageBox = new CustomMessageBox("Please choose one or more AFS levels to generate before running Geoconvert",
+                            "AeroScenery",
+                            MessageBoxIcon.Warning);
 
-                        // Do we have a directory for this afs grid square in our working directory?
-                        var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
-
-                        if (Directory.Exists(afsGridSquareDirectory))
-                        {
-                            var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
-
-                            this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
-                        }
-                        else
-                        {
-                            // Working directory does not exist
-                        }
-
-                        i++;
+                        messageBox.ShowDialog();
                     }
+                    else
+                    {
+                        log.Info("Starting GeoConvert Process");
+
+                        int i = 0;
+
+                        // Run the Geoconvert process for each selected grid square
+                        foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+                        {
+                            if (this.mainForm.ActionsRunning)
+                            {
+                                var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
+                                this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
+                                log.Info(currentGrideSquareMessage);
+
+                                // Do we have a directory for this afs grid square in our working directory?
+                                var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
+
+                                if (Directory.Exists(afsGridSquareDirectory))
+                                {
+                                    var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
+
+                                    this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
+                                }
+                                else
+                                {
+                                    // Working directory does not exist
+                                }
+
+                                i++;
+                            }
+
+                        }
+                    }
+
+
                 }
 
-
             }
-
 
         }
 

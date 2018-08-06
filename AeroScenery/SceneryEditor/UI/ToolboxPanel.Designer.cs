@@ -42,6 +42,8 @@
             this.button9 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
             this.advancedFlowLayoutPanel1 = new MakarovDev.ExpandCollapsePanel.AdvancedFlowLayoutPanel();
+            this.advancedFlowLayoutPanel2 = new MakarovDev.ExpandCollapsePanel.AdvancedFlowLayoutPanel();
+            this.pointerToolBoxButton = new System.Windows.Forms.Button();
             this.expandCollapsePanel2 = new MakarovDev.ExpandCollapsePanel.ExpandCollapsePanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.button14 = new System.Windows.Forms.Button();
@@ -54,14 +56,12 @@
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.singlePlantToolBoxButton = new System.Windows.Forms.Button();
-            this.advancedFlowLayoutPanel2 = new MakarovDev.ExpandCollapsePanel.AdvancedFlowLayoutPanel();
-            this.pointerToolBoxButton = new System.Windows.Forms.Button();
             this.expandCollapsePanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.advancedFlowLayoutPanel1.SuspendLayout();
+            this.advancedFlowLayoutPanel2.SuspendLayout();
             this.expandCollapsePanel2.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.advancedFlowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // expandCollapsePanel1
@@ -78,7 +78,7 @@
             this.expandCollapsePanel1.Size = new System.Drawing.Size(267, 401);
             this.expandCollapsePanel1.TabIndex = 0;
             this.expandCollapsePanel1.Text = "Scenery";
-            this.expandCollapsePanel1.UseAnimation = true;
+            this.expandCollapsePanel1.UseAnimation = false;
             // 
             // flowLayoutPanel1
             // 
@@ -280,14 +280,46 @@
             // 
             // advancedFlowLayoutPanel1
             // 
+            this.advancedFlowLayoutPanel1.AutoScroll = true;
             this.advancedFlowLayoutPanel1.Controls.Add(this.advancedFlowLayoutPanel2);
             this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel1);
             this.advancedFlowLayoutPanel1.Controls.Add(this.expandCollapsePanel2);
             this.advancedFlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.advancedFlowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.advancedFlowLayoutPanel1.Name = "advancedFlowLayoutPanel1";
-            this.advancedFlowLayoutPanel1.Size = new System.Drawing.Size(273, 920);
+            this.advancedFlowLayoutPanel1.Size = new System.Drawing.Size(273, 824);
             this.advancedFlowLayoutPanel1.TabIndex = 1;
+            // 
+            // advancedFlowLayoutPanel2
+            // 
+            this.advancedFlowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedFlowLayoutPanel2.AutoScroll = true;
+            this.advancedFlowLayoutPanel2.Controls.Add(this.pointerToolBoxButton);
+            this.advancedFlowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.advancedFlowLayoutPanel2.Name = "advancedFlowLayoutPanel2";
+            this.advancedFlowLayoutPanel2.Size = new System.Drawing.Size(267, 33);
+            this.advancedFlowLayoutPanel2.TabIndex = 2;
+            // 
+            // pointerToolBoxButton
+            // 
+            this.pointerToolBoxButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pointerToolBoxButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
+            this.pointerToolBoxButton.FlatAppearance.BorderSize = 0;
+            this.pointerToolBoxButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pointerToolBoxButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pointerToolBoxButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pointerToolBoxButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.pointerToolBoxButton.Location = new System.Drawing.Point(3, 3);
+            this.pointerToolBoxButton.Name = "pointerToolBoxButton";
+            this.pointerToolBoxButton.Size = new System.Drawing.Size(261, 26);
+            this.pointerToolBoxButton.TabIndex = 2;
+            this.pointerToolBoxButton.Tag = "Pointer";
+            this.pointerToolBoxButton.Text = "Pointer";
+            this.pointerToolBoxButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.pointerToolBoxButton.UseVisualStyleBackColor = true;
+            this.pointerToolBoxButton.Click += new System.EventHandler(this.ToolBoxButton_Click);
             // 
             // expandCollapsePanel2
             // 
@@ -300,10 +332,10 @@
             this.expandCollapsePanel2.IsExpanded = true;
             this.expandCollapsePanel2.Location = new System.Drawing.Point(3, 449);
             this.expandCollapsePanel2.Name = "expandCollapsePanel2";
-            this.expandCollapsePanel2.Size = new System.Drawing.Size(267, 369);
+            this.expandCollapsePanel2.Size = new System.Drawing.Size(267, 365);
             this.expandCollapsePanel2.TabIndex = 1;
             this.expandCollapsePanel2.Text = "Cultivation";
-            this.expandCollapsePanel2.UseAnimation = true;
+            this.expandCollapsePanel2.UseAnimation = false;
             // 
             // flowLayoutPanel2
             // 
@@ -322,7 +354,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(3, 32);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(261, 357);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(261, 325);
             this.flowLayoutPanel2.TabIndex = 3;
             // 
             // button14
@@ -463,6 +495,7 @@
             // singlePlantToolBoxButton
             // 
             this.singlePlantToolBoxButton.FlatAppearance.BorderSize = 0;
+            this.singlePlantToolBoxButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveBorder;
             this.singlePlantToolBoxButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
             this.singlePlantToolBoxButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.singlePlantToolBoxButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -477,43 +510,13 @@
             this.singlePlantToolBoxButton.UseVisualStyleBackColor = true;
             this.singlePlantToolBoxButton.Click += new System.EventHandler(this.ToolBoxButton_Click);
             // 
-            // advancedFlowLayoutPanel2
-            // 
-            this.advancedFlowLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.advancedFlowLayoutPanel2.Controls.Add(this.pointerToolBoxButton);
-            this.advancedFlowLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.advancedFlowLayoutPanel2.Name = "advancedFlowLayoutPanel2";
-            this.advancedFlowLayoutPanel2.Size = new System.Drawing.Size(267, 33);
-            this.advancedFlowLayoutPanel2.TabIndex = 2;
-            // 
-            // pointerToolBoxButton
-            // 
-            this.pointerToolBoxButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pointerToolBoxButton.FlatAppearance.BorderColor = System.Drawing.SystemColors.Control;
-            this.pointerToolBoxButton.FlatAppearance.BorderSize = 0;
-            this.pointerToolBoxButton.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.pointerToolBoxButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pointerToolBoxButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pointerToolBoxButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.pointerToolBoxButton.Location = new System.Drawing.Point(3, 3);
-            this.pointerToolBoxButton.Name = "pointerToolBoxButton";
-            this.pointerToolBoxButton.Size = new System.Drawing.Size(261, 26);
-            this.pointerToolBoxButton.TabIndex = 2;
-            this.pointerToolBoxButton.Tag = "Pointer";
-            this.pointerToolBoxButton.Text = "Pointer";
-            this.pointerToolBoxButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.pointerToolBoxButton.UseVisualStyleBackColor = true;
-            this.pointerToolBoxButton.Click += new System.EventHandler(this.ToolBoxButton_Click);
-            // 
             // ToolboxPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(273, 920);
+            this.ClientSize = new System.Drawing.Size(273, 824);
             this.CloseButton = false;
             this.CloseButtonVisible = false;
             this.Controls.Add(this.advancedFlowLayoutPanel1);
@@ -527,10 +530,10 @@
             this.expandCollapsePanel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.advancedFlowLayoutPanel1.ResumeLayout(false);
+            this.advancedFlowLayoutPanel2.ResumeLayout(false);
             this.expandCollapsePanel2.ResumeLayout(false);
             this.expandCollapsePanel2.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
-            this.advancedFlowLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

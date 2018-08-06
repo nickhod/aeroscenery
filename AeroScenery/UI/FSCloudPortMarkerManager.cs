@@ -66,6 +66,7 @@ namespace AeroScenery.UI
         {
             airportMarkers.Markers.Clear();
             this.GMapControl.Overlays.Remove(airportMarkers);
+            this.GMapControl.Overlays.Add(airportMarkers);
 
             var mapBounds = this.GMapControl.ViewArea;
 
@@ -93,9 +94,6 @@ namespace AeroScenery.UI
                 Debug.WriteLine("Looped through airports in " + elapsedMs + "ms");
             }
 
-
-            this.GMapControl.Overlays.Add(airportMarkers);
-            //this.GMapControl.Refresh();
         }
 
         public IList<FSCloudPortAirport> Airports

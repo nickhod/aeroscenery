@@ -69,8 +69,8 @@ namespace AeroScenery
                 log.Error(ex.Message);
                 log.Error(ex.StackTrace);
 
-                sb.AppendLine("An unhandled error occurred");
                 sb.AppendLine(ex.Message);
+                sb.AppendLine(ex.StackTrace);
 
                 if (ex.InnerException != null)
                 {
@@ -80,9 +80,11 @@ namespace AeroScenery
                     sb.AppendLine(ex.InnerException.Message);
                 }
 
-                var messageBox = new CustomMessageBox(sb.ToString(),
+                var messageBox = new CustomExceptionMessageBox("An unhandled error occurred. Please copy the text below to report an issue.",
                     "AeroScenery",
                     MessageBoxIcon.Error);
+
+                messageBox.SetExceptionText(sb.ToString());
 
                 messageBox.ShowDialog();
             }

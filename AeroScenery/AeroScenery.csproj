@@ -46,7 +46,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;RELEASE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -150,6 +150,12 @@
     <Compile Include="Common\ApplicationArea.cs" />
     <Compile Include="Common\StitchedImage.cs" />
     <Compile Include="Common\TextBoxAppender.cs" />
+    <Compile Include="Controls\CustomExceptionMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomExceptionMessageBox.Designer.cs">
+      <DependentUpon>CustomExceptionMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,7 @@
     <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
     <Compile Include="SceneryEditor\Common\SceneryTool.cs" />
     <Compile Include="SceneryEditor\Cultivation\CultivationProcessor.cs" />
+    <Compile Include="SceneryEditor\GMapCustom\PlantMarker.cs" />
     <Compile Include="SceneryEditor\Models\Airport.cs" />
     <Compile Include="SceneryEditor\Models\AirportDecal.cs" />
     <Compile Include="SceneryEditor\Models\AirportGround.cs" />
@@ -314,6 +321,9 @@
     <Compile Include="USGS\Models\USGSInventoryResponse.cs" />
     <Compile Include="USGS\USGSInventoryService.cs" />
     <Compile Include="USGS\USGSScraper.cs" />
+    <EmbeddedResource Include="Controls\CustomExceptionMessageBox.resx">
+      <DependentUpon>CustomExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\CustomMessageBox.resx">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -375,6 +385,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="aeroscenery.ico" />
+    <Content Include="changelog.txt" />
     <Content Include="Resources\arrow_down_active.png" />
     <Content Include="Resources\picture_edit.png" />
     <None Include="Resources\socklight.png" />
