@@ -23,3 +23,6 @@ Change log
 - UI is locked while tasks are running to prevent collection modified exceptions
 - Recreate raw and ttc folders before running GeoConvert
 - Fixed issue with image tile stitcher where image was cropped to the wrong width
+- Option to shrink grid square coordinates in the TMC file by specified value. Defaults to 0.01. This forces GeoConvert to snap "outwards" to the nearest edge​
+- AID files use exponential notation
+- TMC files use more accurate coordinates
