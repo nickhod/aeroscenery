@@ -100,8 +100,8 @@ namespace AeroScenery.FSCloudPort
 
                                         if (latLonArray.Length == 2)
                                         {
-                                            airport.Latitude = double.Parse(latLonArray[0], CultureInfo.InvariantCulture);
-                                            airport.Longitude = double.Parse(latLonArray[1], CultureInfo.InvariantCulture);
+                                            airport.Latitude = double.Parse(latLonArray[0], NumberStyles.Any, CultureInfo.InvariantCulture);
+                                            airport.Longitude = double.Parse(latLonArray[1], NumberStyles.Any, CultureInfo.InvariantCulture);
                                         }
 
                                         break;

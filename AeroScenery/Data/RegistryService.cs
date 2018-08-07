@@ -1,4 +1,5 @@
 ﻿using AeroScenery.Common;
+using AeroScenery.Controls;
 using AeroScenery.OrthoPhotoSources;
 using log4net;
 using Microsoft.Win32;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AeroScenery.Data
 {
@@ -63,7 +65,7 @@ namespace AeroScenery.Data
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
-        private int settingsVersion = 6;
+        private int settingsVersion = 7;
 
         public void SaveSettings(Settings settings)
         {
@@ -191,6 +193,10 @@ namespace AeroScenery.Data
 
             // -- 
 
+            // Settings version 7
+            key.SetValue("ShrinkTMCGridSquareCoords", settings.ShrinkTMCGridSquareCoords);
+            // -- 
+
             key.SetValue("SettingsVersion", settingsVersion);
         }
 
@@ -256,6 +262,10 @@ namespace AeroScenery.Data
             {
                 log.Info("MapControlLastY: null");
             }
+
+            log.Info(String.Format("ShrinkTMCGridSquareCoords: {0}", settings.ShrinkTMCGridSquareCoords));
+
+
         }
 
         public Settings GetSettings()
@@ -421,6 +431,10 @@ namespace AeroScenery.Data
                 settings.ShowAirports = key.GetValueAsBoolean("ShowAirports", false);
                 settings.SceneryEditorSettings.ShowAirports = sceneryEditorKey.GetValueAsBoolean("ShowAirports", false);
                 // --
+
+                // Settings verison 7
+                settings.ShrinkTMCGridSquareCoords = key.GetValueAsDouble("ShrinkTMCGridSquareCoords", 0.01);
+                // --
             }
 
 
@@ -499,6 +513,16 @@ namespace AeroScenery.Data
                         {
                             key.SetValue("ShowAirports", false);
                             sceneryEditorKey.SetValue("ShowAirports", false);
+                            key.SetValue("SettingsVersion", 6);
+                            currentSettingsVersion = 6;
+                        }
+
+                        // Upgrade to settings version 7
+                        if (currentSettingsVersion == 6)
+                        {
+                            key.SetValue("ShrinkTMCGridSquareCoords", 0.01);
+                            key.SetValue("SettingsVersion", 7);
+                            currentSettingsVersion = 7;
                         }
                     }
 
@@ -604,6 +628,10 @@ namespace AeroScenery.Data
             settings.SceneryEditorSettings.ShowAirports = false;
             // --
 
+            // Settings version 7
+            settings.ShrinkTMCGridSquareCoords = 0.01;
+            // --
+
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key.CreateSubKey("AeroScenery");
             var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
@@ -612,6 +640,62 @@ namespace AeroScenery.Data
 
             return settings;
         }
+
+        public void CheckConfiguredDirectories(Settings settings)
+        {
+            string myDocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+            if (!Directory.Exists(settings.AeroSceneryDBDirectory))
+            {
+                string aeroSceneryDBDirectoryPath = myDocumentsPath + @"\AeroScenery\database\";
+
+                if (!Directory.Exists(aeroSceneryDBDirectoryPath))
+                {
+                    Directory.CreateDirectory(aeroSceneryDBDirectoryPath);
+                }
+
+                settings.AeroSceneryDBDirectory = aeroSceneryDBDirectoryPath;
+
+                var messageBox = new CustomMessageBox("The configured AeroScenery database directory does not exist. It will be reset to " + aeroSceneryDBDirectoryPath + ".",
+                    "AeroScenery",
+                    MessageBoxIcon.Warning);
+
+                messageBox.ShowDialog();
+            }
+
+            if (!Directory.Exists(settings.WorkingDirectory))
+            {
+                string aeroSceneryWorkingDirectoryPath = myDocumentsPath + @"\AeroScenery\working\";
+
+                if (!Directory.Exists(aeroSceneryWorkingDirectoryPath))
+                {
+                    Directory.CreateDirectory(aeroSceneryWorkingDirectoryPath);
+                }
+
+                settings.WorkingDirectory = aeroSceneryWorkingDirectoryPath;
+
+
+                var messageBox = new CustomMessageBox("The configured AeroScenery working directory does not exist. It will be reset to " + aeroSceneryWorkingDirectoryPath + ".",
+                    "AeroScenery",
+                    MessageBoxIcon.Warning);
+
+                messageBox.ShowDialog();
+            }
+
+            if (!Directory.Exists(settings.AFS2SDKDirectory))
+            {
+                settings.AFS2SDKDirectory = "";
+
+                var messageBox = new CustomMessageBox("The configured Aerofly FS2 SDK directory does not exist. It will be reset as blank.",
+                    "AeroScenery",
+                    MessageBoxIcon.Warning);
+
+                messageBox.ShowDialog();
+            }
+
+            this.SaveSettings(settings);
+        }       
+
 
     }
 }

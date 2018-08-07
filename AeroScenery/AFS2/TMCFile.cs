@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AeroScenery.Common;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -16,62 +17,31 @@ namespace AeroScenery.AFS2
         public double LatMax { get; set; }
         public bool WriteImagesWithMask { get; set; }
 
-        public string NorthEastLonLatStr
+        public string NorthWestLonLatStr
         {
             get
             {
-                var eastLon = LonMin;
+                var westLon = LonMin;
                 var northLat = LatMin;
 
-                if (northLat >= 0)
-                {
+                var westLonShrink = GeoCoordinatesHelper.CalculateOffset(westLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.East);
+                var northLatShrink = GeoCoordinatesHelper.CalculateOffset(northLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.South);
 
-                }
-                else
-                {
-
-                }
-
-                if (eastLon >= 0)
-                {
-
-                }
-                else
-                {
-
-                }
-
-
-                return String.Format("{0} {1}", eastLon.ToString("0.00", CultureInfo.InvariantCulture), northLat.ToString("0.00", CultureInfo.InvariantCulture));
+                return String.Format("{0} {1}", westLonShrink.ToString("0.00######", CultureInfo.InvariantCulture), northLatShrink.ToString("0.00######", CultureInfo.InvariantCulture));
             }
         }
 
-        public string SouthWestLonLatStr
+        public string SouthEastLonLatStr
         {
             get
             {
-                var westLon = LonMax;
+                var eastLon = LonMax;
                 var southLat = LatMax;
 
-                if (westLon >= 0)
-                {
+                var eastLonShrink = GeoCoordinatesHelper.CalculateOffset(eastLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.West);
+                var southLatShrink = GeoCoordinatesHelper.CalculateOffset(southLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.North);
 
-                }
-                else
-                {
-
-                }
-
-                if (southLat >= 0)
-                {
-
-                }
-                else
-                {
-
-                }
-
-                return String.Format("{0} {1}", westLon.ToString("0.00", CultureInfo.InvariantCulture), southLat.ToString("0.00", CultureInfo.InvariantCulture));
+                return String.Format("{0} {1}", eastLonShrink.ToString("0.00######", CultureInfo.InvariantCulture), southLatShrink.ToString("0.00######", CultureInfo.InvariantCulture));
             }
         }
     }
@@ -123,8 +93,8 @@ namespace AeroScenery.AFS2
                 {
                     sb.AppendLine("\t\t\t<[tmcolormap_region][element][0]");
                     sb.AppendLine(String.Format("\t\t\t\t<[uint32] [level] [{0}]>", region.Level));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0}]>", region.NorthEastLonLatStr));
-                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0}]>", region.SouthWestLonLatStr));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_min] [{0}]>", region.NorthWestLonLatStr));
+                    sb.AppendLine(String.Format("\t\t\t\t<[vector2_float64] [lonlat_max] [{0}]>", region.SouthEastLonLatStr));
                     sb.AppendLine(String.Format("\t\t\t\t<[bool] [write_images_with_mask] [{0}]>", region.WriteImagesWithMask.ToString().ToLower()));
                     sb.AppendLine("\t\t\t" + ">");
                     sb.AppendLine("");

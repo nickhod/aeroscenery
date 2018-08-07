@@ -59,8 +59,8 @@ namespace AeroScenery.AFS2
                                 firstStitchedImageAeroFile = stitchedImageAeroFile;
                             }
 
-                            var stepsPerPixelX = Math.Abs((stitchedImageAeroFile.WestLongitude - stitchedImageAeroFile.EastLongitude) / stitchedImageAeroFile.Width);
-                            var stepsPerPixelY = -Math.Abs((stitchedImageAeroFile.NorthLatitude - stitchedImageAeroFile.SouthLatitude) / stitchedImageAeroFile.Height);
+                            double stepsPerPixelX = Math.Abs((stitchedImageAeroFile.WestLongitude - stitchedImageAeroFile.EastLongitude) / stitchedImageAeroFile.Width);
+                            double stepsPerPixelY = -Math.Abs((stitchedImageAeroFile.NorthLatitude - stitchedImageAeroFile.SouthLatitude) / stitchedImageAeroFile.Height);
 
                             var aidFile = new AIDFile();
 

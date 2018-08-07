@@ -75,6 +75,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label11 = new System.Windows.Forms.Label();
+            this.shrinkTMCGridSquaresTextBox = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -409,6 +412,9 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.shrinkTMCGridSquaresTextBox);
+            this.groupBox4.Controls.Add(this.label15);
             this.groupBox4.Controls.Add(this.gcWriteImagesWithMaskCombo);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.gcWriteRawFilesComboBox);
@@ -416,7 +422,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(14, 9);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(654, 112);
+            this.groupBox4.Size = new System.Drawing.Size(654, 144);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "GeoConvert";
@@ -572,6 +578,34 @@
             this.tabPage3.Text = "USGS";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(301, 104);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(56, 17);
+            this.label11.TabIndex = 10;
+            this.label11.Text = "degrees";
+            // 
+            // shrinkTMCGridSquaresTextBox
+            // 
+            this.shrinkTMCGridSquaresTextBox.Location = new System.Drawing.Point(216, 101);
+            this.shrinkTMCGridSquaresTextBox.Name = "shrinkTMCGridSquaresTextBox";
+            this.shrinkTMCGridSquaresTextBox.Size = new System.Drawing.Size(79, 25);
+            this.shrinkTMCGridSquaresTextBox.TabIndex = 9;
+            this.shrinkTMCGridSquaresTextBox.TextChanged += new System.EventHandler(this.ShrinkTMCGridSquaresTextBox_TextChanged);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(20, 104);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(170, 17);
+            this.label15.TabIndex = 8;
+            this.label15.Text = "Shrink TMC grid squares by";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
@@ -658,5 +692,8 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.LinkLabel createUSGSAccountLinkLabel;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox shrinkTMCGridSquaresTextBox;
+        private System.Windows.Forms.Label label15;
     }
 }

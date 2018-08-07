@@ -11,7 +11,7 @@
 
 Change log
 
-0.5.1
+0.6
 
 - GeoConvert no longer runs if the user stops the generation process
 - Open Map toolbar item now uses decimal point irrespective of system culture
@@ -19,4 +19,7 @@ Change log
 - FSCloudPort airport coordinates are parsed with a decimal point irrespective of system culture
 - Custom message box form for catch all exception handling
 - Airport markers are now shown correctly when "Show Airports" is pressed if the map has not been moved
-- 
+- Database, wokring and SDK folders are now checked for existence on app start
+- UI is locked while tasks are running to prevent collection modified exceptions
+- Recreate raw and ttc folders before running GeoConvert
+- Fixed issue with image tile stitcher where image was cropped to the wrong width

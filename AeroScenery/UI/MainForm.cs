@@ -330,16 +330,56 @@ namespace AeroScenery
                 this.mainTabControl.SelectedIndex = 0;
                 this.ActionsRunning = false;
                 this.ResetProgress();
+                this.UnlockUI();
             }
             else
             {
                 // Start
                 this.mainTabControl.SelectedIndex = 1;
                 this.ActionsRunning = true;
+                this.LockUI();
             }
 
 
             StartStopClicked(this, e);
+        }
+
+        private void LockUI()
+        {
+            this.imageSourceComboBox.Enabled = false;
+            this.zoomLevelTrackBar.Enabled = false;
+            this.autoSelectAFSLevelsButton.Enabled = false;
+            this.afsLevelsCheckBoxList.Enabled = false;
+            this.actionSetComboBox.Enabled = false;
+            this.shutdownCheckbox.Enabled = false;
+
+            this.downloadImageTileCheckBox.Enabled = false;
+            this.stitchImageTilesCheckBox.Enabled = false;
+            this.generateAFSFilesCheckBox.Enabled = false;
+            this.runGeoConvertCheckBox.Enabled = false;
+            this.deleteStitchedImagesCheckBox.Enabled = false;
+            this.installSceneryIntoAFSCheckBox.Enabled = false;
+        }
+
+        private void UnlockUI()
+        {
+            this.imageSourceComboBox.Enabled = true;
+            this.zoomLevelTrackBar.Enabled = true;
+            this.autoSelectAFSLevelsButton.Enabled = true;
+            this.afsLevelsCheckBoxList.Enabled = true;
+            this.actionSetComboBox.Enabled = true;
+            //this.shutdownCheckbox.Enabled = true;
+
+            // Only re-enable these if run custom actions is selected
+            if(AeroSceneryManager.Instance.Settings.ActionSet == ActionSet.Custom)
+            {
+                this.downloadImageTileCheckBox.Enabled = true;
+                this.stitchImageTilesCheckBox.Enabled = true;
+                this.generateAFSFilesCheckBox.Enabled = true;
+                this.runGeoConvertCheckBox.Enabled = true;
+                this.deleteStitchedImagesCheckBox.Enabled = true;
+                this.installSceneryIntoAFSCheckBox.Enabled = true;
+            }
         }
 
         private void ResetProgress()
@@ -1131,6 +1171,7 @@ namespace AeroScenery
             this.mainTabControl.SelectedIndex = 0;
             this.ActionsRunning = false;
             this.ResetProgress();
+            this.UnlockUI();
         }
 
         private void gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged(object sender, EventArgs e)
@@ -1258,6 +1299,7 @@ namespace AeroScenery
                     this.ClearAllSelectedAFSGridSquares();
                     break;
             }
+
         }
 
         private void sceneryEditorToolstripButton_Click(object sender, EventArgs e)
@@ -1457,6 +1499,15 @@ namespace AeroScenery
         private void afsLevelsCheckBoxList_Leave(object sender, EventArgs e)
         {
             this.afsLevelsCheckBoxList.ClearSelected();
+        }
+
+        private void sideTabControl_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            // Prevent users returning to the map page if actions are running
+            if (actionsRunning)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

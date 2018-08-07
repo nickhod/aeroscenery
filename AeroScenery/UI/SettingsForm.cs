@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Globalization;
 
 namespace AeroScenery.UI
 {
@@ -114,6 +115,8 @@ namespace AeroScenery.UI
                 settings.USGSPassword = this.usgsPasswordTextBox.Text;
             }
 
+            settings.ShrinkTMCGridSquareCoords = double.Parse(this.shrinkTMCGridSquaresTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture);
+
             AeroSceneryManager.Instance.SaveSettings();
             this.Hide();
             log.Info("Settings saved");
@@ -176,6 +179,8 @@ namespace AeroScenery.UI
 
             this.usgsUsernameTextBox.Text = settings.USGSUsername;
             this.usgsPasswordTextBox.Text = settings.USGSPassword;
+
+            this.shrinkTMCGridSquaresTextBox.Text = settings.ShrinkTMCGridSquareCoords.ToString();
         }
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -296,6 +301,11 @@ namespace AeroScenery.UI
             return new string(input.Where(c => char.IsDigit(c)).ToArray());
         }
 
+        private string GetDecimal(string input)
+        {
+            return new string(input.Where(c => char.IsDigit(c) || c == '.').ToArray());
+        }
+
         private void downloadWaitTextBox_TextChanged(object sender, EventArgs e)
         {
             var numbersOnly = this.GetNumbers(this.downloadWaitTextBox.Text);
@@ -319,6 +329,16 @@ namespace AeroScenery.UI
         private void createUSGSAccountLinkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("https://ers.cr.usgs.gov/register/");
+        }
+
+        private void ShrinkTMCGridSquaresTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var numbersOnly = this.GetDecimal(this.shrinkTMCGridSquaresTextBox.Text);
+
+            if (this.shrinkTMCGridSquaresTextBox.Text != numbersOnly)
+            {
+                this.shrinkTMCGridSquaresTextBox.Text = numbersOnly;
+            }
         }
     }
 }

@@ -74,7 +74,7 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "0.5.1";
+            version = "0.6";
             incrementalVersion = 6;
         }
 
@@ -136,6 +136,8 @@ namespace AeroScenery
             }
 
             registryService.LogSettings(this.settings);
+
+            registryService.CheckConfiguredDirectories(this.settings);
 
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
@@ -449,7 +451,33 @@ namespace AeroScenery
                                 {
                                     var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
 
-                                    this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
+                                    if (Directory.Exists(stitchedTilesDirectory))
+                                    {
+                                        // Create raw and ttc directories if required. They could have been deleted manually.
+                                        var rawDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-raw\";
+                                        var ttcDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-ttc\";
+
+                                        if (!Directory.Exists(rawDirectory))
+                                        {
+                                            Directory.CreateDirectory(rawDirectory);
+                                        }
+
+                                        if (!Directory.Exists(ttcDirectory))
+                                        {
+                                            Directory.CreateDirectory(ttcDirectory);
+                                        }
+
+                                        this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
+                                    }
+                                    else
+                                    {
+                                        var messageBox = new CustomMessageBox(String.Format("Could not find any stitched images for the grid square {0}", afs2GridSquare.Name),
+                                            "AeroScenery",
+                                            MessageBoxIcon.Error);
+
+                                        messageBox.ShowDialog();
+                                    }
+
                                 }
                                 else
                                 {

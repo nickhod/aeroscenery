@@ -44,17 +44,17 @@ namespace AeroScenery.ImageProcessing
                 // We can work everything else out from this
                 this.GetStartingAndEndTileXY(tileDownloadDirectory, out startTileX, out startTileY, out endTileX, out endTileY);
 
-                Debug.WriteLine(startTileX);
-                Debug.WriteLine(startTileY);
-                Debug.WriteLine(endTileX);
-                Debug.WriteLine(endTileY);
+                //Debug.WriteLine("startTileX " + startTileX);
+                //Debug.WriteLine("startTileY " + startTileY);
+                //Debug.WriteLine("endTileX " + endTileX);
+                //Debug.WriteLine("endTileY " + endTileY);
 
-                int numberOfTilesX = (int)(endTileX - startTileX);
-                int numberOfTilesY = (int)(endTileY - startTileY);
+                int numberOfTilesX = (endTileX - startTileX) + 1;
+                int numberOfTilesY = (endTileY - startTileY) + 1;
 
-                Debug.WriteLine("Tiles X " + numberOfTilesX);
-                Debug.WriteLine("Tiles Y " + numberOfTilesY);
-                Debug.WriteLine("Filename prefix " + filenamePrefix);
+                //Debug.WriteLine("Tiles X " + numberOfTilesX);
+                //Debug.WriteLine("Tiles Y " + numberOfTilesY);
+                //Debug.WriteLine("Filename prefix " + filenamePrefix);
 
                 var firstImageTile = this.LoadImageTile(tileDownloadDirectory, startTileX, startTileY);
 
@@ -65,8 +65,6 @@ namespace AeroScenery.ImageProcessing
                 var tileWidth = firstImageTile.Width;
                 var tileHeight = firstImageTile.Height;
 
-
-                // TODO - Needs to come from config
                 int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
                 int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
 
@@ -189,9 +187,11 @@ namespace AeroScenery.ImageProcessing
                                             {
                                                 // Even if the image was invalid, we still had an aero file for it
                                                 // so it counts as a used column
-                                                if (xIx > columnsUsed)
+                                                var colsUsedInThisRow = xIx + 1;
+
+                                                if (columnsUsed < colsUsedInThisRow)
                                                 {
-                                                    columnsUsed = xIx + 1;
+                                                    columnsUsed = colsUsedInThisRow;
                                                 }
 
                                                 if (tile != null)
@@ -227,6 +227,9 @@ namespace AeroScenery.ImageProcessing
                             stitchedImage.StichedImageSetX = stitchedImagesXIx + 1;
                             stitchedImage.StichedImageSetY = stitchedImagesYIx + 1;
 
+                            //Debug.WriteLine("Rows Used " + rowsUsed);
+                            //Debug.WriteLine("Columns Used " + columnsUsed);
+
 
                             // Have we drawn an image to the maximum number of rows and columns for this image?
                             if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
@@ -239,14 +242,12 @@ namespace AeroScenery.ImageProcessing
                             else
                             {
                                 // Resize the bitmap down to the used number of rows and columns
+                                log.InfoFormat("Cropping stitched image {0}", stitchFilename);
                                 CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight), stitchedTilesDirectory, stitchFilename);
                                 tileStitcherProgress.CurrentStitchedImage++;
                             }
 
                             this.SaveStitchedImageAeroFile(this.stitchedImageXmlSerializer, stitchedImage, stitchedTilesDirectory);
-
-                            //Debug.WriteLine("Columns Used: " + columnsUsed);
-                            //Debug.WriteLine("Rows Used: " + rowsUsed);
                         }
 
                     }

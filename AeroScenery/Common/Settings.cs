@@ -74,6 +74,7 @@ namespace AeroScenery.Common
         public double? MapControlLastY { get; set; }
         public string MapControlLastMapType { get; set; }
         public bool ShowAirports { get; set; }
+        public double ShrinkTMCGridSquareCoords { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
         public SceneryEditorSettings SceneryEditorSettings { get; set; }
