@@ -186,6 +186,7 @@
     <Compile Include="Data\VersionService.cs" />
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />
+    <Compile Include="ElevationData\ElevationDataManager.cs" />
     <Compile Include="FSCloudPort\FSCloudPortScraper.cs" />
     <Compile Include="FSCloudPort\FSCloudPortService.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />

@@ -11,6 +11,10 @@
 
 Change log
 
+0.7
+
+- 
+
 0.6
 
 - GeoConvert no longer runs if the user stops the generation process

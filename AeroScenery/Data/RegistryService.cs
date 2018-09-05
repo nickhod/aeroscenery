@@ -65,7 +65,7 @@ namespace AeroScenery.Data
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
-        private int settingsVersion = 7;
+        private int settingsVersion = 8;
 
         public void SaveSettings(Settings settings)
         {
@@ -197,6 +197,10 @@ namespace AeroScenery.Data
             key.SetValue("ShrinkTMCGridSquareCoords", settings.ShrinkTMCGridSquareCoords);
             // -- 
 
+            // Settings version 8
+            key.SetValue("AFS2UserDirectory", settings.AFS2UserDirectory);
+            // -- 
+
             key.SetValue("SettingsVersion", settingsVersion);
         }
 
@@ -211,6 +215,7 @@ namespace AeroScenery.Data
 
             log.Info(String.Format("AFS2SDKDirectory: {0}", settings.AFS2SDKDirectory));
             log.Info(String.Format("AFS2Directory: {0}", settings.AFS2Directory));
+            log.Info(String.Format("AFS2UserDirectory: {0}", settings.AFS2UserDirectory));
             log.Info(String.Format("WorkingDirectory: {0}", settings.WorkingDirectory));
             log.Info(String.Format("AeroSceneryDBDirectory: {0}", settings.AeroSceneryDBDirectory));
             log.Info(String.Format("OrthophotoSource: {0}", settings.OrthophotoSource));
@@ -435,6 +440,10 @@ namespace AeroScenery.Data
                 // Settings verison 7
                 settings.ShrinkTMCGridSquareCoords = key.GetValueAsDouble("ShrinkTMCGridSquareCoords", 0.01);
                 // --
+
+                // Settings verison 8
+                settings.AFS2UserDirectory = key.GetValueAsString("AFS2UserDirectory");
+                // --
             }
 
 
@@ -523,6 +532,14 @@ namespace AeroScenery.Data
                             key.SetValue("ShrinkTMCGridSquareCoords", 0.01);
                             key.SetValue("SettingsVersion", 7);
                             currentSettingsVersion = 7;
+                        }
+
+                        // Upgrade to settings version 8
+                        if (currentSettingsVersion == 7)
+                        {
+                            key.SetValue("AFS2UserDirectory", "");
+                            key.SetValue("SettingsVersion", 8);
+                            currentSettingsVersion = 8;
                         }
                     }
 
@@ -630,6 +647,10 @@ namespace AeroScenery.Data
 
             // Settings version 7
             settings.ShrinkTMCGridSquareCoords = 0.01;
+            // --
+
+            // Settings version 8
+            settings.AFS2UserDirectory = "";
             // --
 
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);

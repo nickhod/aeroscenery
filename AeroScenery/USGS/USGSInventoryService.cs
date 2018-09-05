@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace AeroScenery.USGS
         {
             using (var client = new HttpClient())
             {
+                this.InitialiseRequest();
                 client.BaseAddress = new Uri(baseUrl);
 
                 var requestString = JsonConvert.SerializeObject(loginRequest);
@@ -48,6 +50,7 @@ namespace AeroScenery.USGS
         {
             using (var client = new HttpClient())
             {
+                this.InitialiseRequest();
                 client.BaseAddress = new Uri(baseUrl);
 
                 if (!String.IsNullOrEmpty(this.apiKey) && String.IsNullOrEmpty(datasetSearchRequest.ApiKey))
@@ -77,6 +80,7 @@ namespace AeroScenery.USGS
         {
             using (var client = new HttpClient())
             {
+                this.InitialiseRequest();
                 client.BaseAddress = new Uri(baseUrl);
 
                 if (!String.IsNullOrEmpty(this.apiKey) && String.IsNullOrEmpty(sceneSearchRequest.ApiKey))
@@ -102,6 +106,7 @@ namespace AeroScenery.USGS
         {
             using (var client = new HttpClient())
             {
+                this.InitialiseRequest();
                 client.BaseAddress = new Uri(baseUrl);
 
                 if (!String.IsNullOrEmpty(this.apiKey) && String.IsNullOrEmpty(downloadOptionsRequest.ApiKey))
@@ -121,5 +126,13 @@ namespace AeroScenery.USGS
                 return result;
             }
         }
+
+        private void InitialiseRequest()
+        {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
+                       SecurityProtocolType.Tls11 |
+                       SecurityProtocolType.Tls12;
+        }
+
     }
 }

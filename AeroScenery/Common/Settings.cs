@@ -75,6 +75,7 @@ namespace AeroScenery.Common
         public string MapControlLastMapType { get; set; }
         public bool ShowAirports { get; set; }
         public double ShrinkTMCGridSquareCoords { get; set; }
+        public string AFS2UserDirectory { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
         public SceneryEditorSettings SceneryEditorSettings { get; set; }

@@ -26,6 +26,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -805,7 +806,18 @@ namespace AeroScenery
                         {
                             foreach (DirectoryInfo dir in di.GetDirectories())
                             {
-                                dir.Delete(true);
+                                // Fun C# bug where it refuses to delete a directory because it's not
+                                // empty, even though we are doing recursive
+                                // We just wait a bit and try again
+                                try
+                                {
+                                    dir.Delete(true);
+                                }
+                                catch (IOException)
+                                {
+                                    Thread.Sleep(100);
+                                    dir.Delete(true);
+                                }
                             }
 
                             foreach (FileInfo file in di.GetFiles())
@@ -1270,20 +1282,25 @@ namespace AeroScenery
             var searchResult = await service.SceneSearch(searchRequest);
 
 
+            // This doesn't work without special permission
+            //var downloadOptionsRequest = new DownloadOptionsRequest();
+            //downloadOptionsRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
+            //downloadOptionsRequest.EntityIds = new string[] { "ASTGDEMV2_0N51W004" };
 
-            var downloadOptionsRequest = new DownloadOptionsRequest();
-            downloadOptionsRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
-            downloadOptionsRequest.EntityIds = new string[] { "ASTGDEMV2_0N51W004" };
+            //var asdfdsf = await service.DownloadOptions(downloadOptionsRequest);
 
-            var asdfdsf = await service.DownloadOptions(downloadOptionsRequest);
+            //int i = 0;
 
-            int i = 0;
+            USGSScraper scraper = new USGSScraper();
+            await scraper.LoginAsync(AeroSceneryManager.Instance.Settings.USGSUsername, AeroSceneryManager.Instance.Settings.USGSPassword);
+
+            var downloadPageUrl = "https://earthexplorer.usgs.gov/download/external/options/ASTER_GLOBAL_DEM_DE/ASTGDEMV2_0N51W004/INVSVC/";
+
+            await scraper.DownloadAsync(downloadPageUrl, @"E:\Temp");
         }
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            USGSScraper scraper = new USGSScraper();
-            await scraper.LoginAsync(AeroSceneryManager.Instance.Settings.USGSUsername, AeroSceneryManager.Instance.Settings.USGSPassword);
         }
 
         private void sideTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -1327,7 +1344,7 @@ namespace AeroScenery
                 case 9:
 
                     afsLevels.Add(9);
-                    afsLevels.Add(10);
+                    afsLevels.Add(11);
                     afsLevels.Add(12);
 
                     if (zoomLevel > 15)
@@ -1508,6 +1525,11 @@ namespace AeroScenery
             {
                 e.Cancel = true;
             }
+        }
+
+        private void installSceneryToolStripButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

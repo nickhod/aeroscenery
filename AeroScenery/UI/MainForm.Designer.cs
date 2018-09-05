@@ -63,6 +63,7 @@
             this.toolStripDownloadedLabel = new System.Windows.Forms.ToolStripLabel();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.openImageFolderToolstripButton = new System.Windows.Forms.ToolStripButton();
+            this.installSceneryToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.deleteImagesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.resetSquareToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.cultivationToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -431,6 +432,7 @@
             this.toolStripDownloadedLabel,
             this.toolStripSeparator3,
             this.openImageFolderToolstripButton,
+            this.installSceneryToolStripButton,
             this.deleteImagesToolStripButton,
             this.resetSquareToolStripButton,
             this.cultivationToolStripButton,
@@ -481,6 +483,16 @@
             this.openImageFolderToolstripButton.Text = "Open Folder";
             this.openImageFolderToolstripButton.ToolTipText = "Open the folder for this grid square";
             this.openImageFolderToolstripButton.Click += new System.EventHandler(this.openImageFolderToolstripButton_Click);
+            // 
+            // installSceneryToolStripButton
+            // 
+            this.installSceneryToolStripButton.Enabled = false;
+            this.installSceneryToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("installSceneryToolStripButton.Image")));
+            this.installSceneryToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.installSceneryToolStripButton.Name = "installSceneryToolStripButton";
+            this.installSceneryToolStripButton.Size = new System.Drawing.Size(110, 22);
+            this.installSceneryToolStripButton.Text = "Install Scenery";
+            this.installSceneryToolStripButton.Click += new System.EventHandler(this.installSceneryToolStripButton_Click);
             // 
             // deleteImagesToolStripButton
             // 
@@ -953,22 +965,21 @@
             // 
             this.button2.Location = new System.Drawing.Point(55, 526);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(139, 23);
             this.button2.TabIndex = 18;
-            this.button2.Text = "button2";
+            this.button2.Text = "Get USGS Download";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Visible = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // usgsTestButton
             // 
-            this.usgsTestButton.Location = new System.Drawing.Point(44, 471);
+            this.usgsTestButton.Location = new System.Drawing.Point(55, 486);
             this.usgsTestButton.Name = "usgsTestButton";
-            this.usgsTestButton.Size = new System.Drawing.Size(75, 23);
+            this.usgsTestButton.Size = new System.Drawing.Size(139, 23);
             this.usgsTestButton.TabIndex = 17;
-            this.usgsTestButton.Text = "button2";
+            this.usgsTestButton.Text = "Get USGS Inventory";
+            this.usgsTestButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.usgsTestButton.UseVisualStyleBackColor = true;
-            this.usgsTestButton.Visible = false;
             this.usgsTestButton.Click += new System.EventHandler(this.usgsTestButton_Click);
             // 
             // groupBox3
@@ -1381,6 +1392,7 @@
         private System.Windows.Forms.ToolStripMenuItem binStandardMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openStreetMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton cultivationToolStripButton;
+        private System.Windows.Forms.ToolStripButton installSceneryToolStripButton;
     }
 }
 

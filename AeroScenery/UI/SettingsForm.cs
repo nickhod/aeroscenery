@@ -34,7 +34,7 @@ namespace AeroScenery.UI
             settings.WorkingDirectory = pathWithTrailingDirectorySeparatorChar(this.workingFolderTextBox.Text);
             settings.AeroSceneryDBDirectory = pathWithTrailingDirectorySeparatorChar(this.aeroSceneryDatabaseFolderTextBox.Text);
             settings.AFS2SDKDirectory = pathWithTrailingDirectorySeparatorChar(this.afsSDKFolderTextBox.Text);
-            settings.AFS2Directory = pathWithTrailingDirectorySeparatorChar(this.afsFolderTextBox.Text);
+            settings.AFS2UserDirectory = pathWithTrailingDirectorySeparatorChar(this.afsUserFolderTextBox.Text);
 
             if (settings.AFS2SDKDirectory.Contains("aerofly_fs_2_geoconvert"))
             {
@@ -129,7 +129,7 @@ namespace AeroScenery.UI
             this.workingFolderTextBox.Text = settings.WorkingDirectory;
             this.aeroSceneryDatabaseFolderTextBox.Text = settings.AeroSceneryDBDirectory;
             this.afsSDKFolderTextBox.Text = settings.AFS2SDKDirectory;
-            this.afsFolderTextBox.Text = settings.AFS2Directory;
+            this.afsUserFolderTextBox.Text = settings.AFS2UserDirectory;
 
             this.userAgentTextBox.Text = settings.UserAgent;
             this.downloadWaitTextBox.Text = settings.DownloadWaitMs.ToString();
@@ -224,15 +224,15 @@ namespace AeroScenery.UI
             }
         }
 
-        private void afsFolderButton_Click(object sender, EventArgs e)
+        private void afsUserFolderButton_Click(object sender, EventArgs e)
         {
             var settings = AeroSceneryManager.Instance.Settings;
             DialogResult result = this.folderBrowserDialog1.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                this.afsFolderTextBox.Text = folderBrowserDialog1.SelectedPath;
-                settings.AFS2Directory = this.afsFolderTextBox.Text;
+                this.afsUserFolderTextBox.Text = folderBrowserDialog1.SelectedPath;
+                settings.AFS2UserDirectory = this.afsUserFolderTextBox.Text;
             }
         }
 
@@ -339,6 +339,11 @@ namespace AeroScenery.UI
             {
                 this.shrinkTMCGridSquaresTextBox.Text = numbersOnly;
             }
+        }
+
+        private void AddUserFolderToConfigButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
