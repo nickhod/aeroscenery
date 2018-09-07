@@ -115,8 +115,6 @@ namespace AeroScenery
             this.gridSquareLabel.Text = "";
 
             this.currentMainFormSideTab = MainFormSideTab.Images;
-            // Until if / when we need it
-            this.sideTabControl.TabPages.Remove(this.manualElevationTabPage);
 
             this.gMapControlManager.GMapControl = this.mainMap;
             this.fsCloudPortMarkerManager.GMapControl = this.mainMap;
@@ -172,8 +170,6 @@ namespace AeroScenery
             this.processCheckBoxListEvents = true;
 
 #if RELEASE
-            this.sceneryEditorSeparator.Visible = false;
-            this.sceneryEditorToolstripButton.Visible = false;
             this.cultivationToolStripButton.Visible = false;
 #endif
 
@@ -1319,16 +1315,7 @@ namespace AeroScenery
 
         }
 
-        private void sceneryEditorToolstripButton_Click(object sender, EventArgs e)
-        {
-            this.mainMap.DisableFocusOnMouseEnter = true;
-            AeroSceneryManager.Instance.ShowSceneryEditor();
-
-            AeroSceneryManager.Instance.SceneryEditorForm.SceneryEditorFormClosed += SceneryEditorForm_SceneryEditorFormClosed;
-
-        }
-
-        private void SceneryEditorForm_SceneryEditorFormClosed(object sender, EventArgs e)
+        private void CultivationEditorForm_CultivationEditorFormClosed(object sender, EventArgs e)
         {
             this.mainMap.DisableFocusOnMouseEnter = false;
         }
@@ -1529,6 +1516,14 @@ namespace AeroScenery
 
         private void installSceneryToolStripButton_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void cultivationToolStripButton_Click(object sender, EventArgs e)
+        {
+            this.mainMap.DisableFocusOnMouseEnter = true;
+            AeroSceneryManager.Instance.ShowCultivationEditor();
+            AeroSceneryManager.Instance.CultivationEditorForm.CultivationEditorFormClosed += CultivationEditorForm_CultivationEditorFormClosed;
 
         }
     }

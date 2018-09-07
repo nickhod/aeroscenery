@@ -145,7 +145,7 @@
     <Compile Include="Common\GMapProviderHelper.cs" />
     <Compile Include="Common\ImageTile.cs" />
     <Compile Include="Common\Point.cs" />
-    <Compile Include="Common\SceneryEditorSettings.cs" />
+    <Compile Include="Common\CultivationEditorSettings.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\ApplicationArea.cs" />
     <Compile Include="Common\StitchedImage.cs" />
@@ -196,55 +196,55 @@
     <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
-    <Compile Include="SceneryEditor\Common\SceneryTool.cs" />
-    <Compile Include="SceneryEditor\Cultivation\CultivationProcessor.cs" />
-    <Compile Include="SceneryEditor\GMapCustom\PlantMarker.cs" />
-    <Compile Include="SceneryEditor\Models\Airport.cs" />
-    <Compile Include="SceneryEditor\Models\AirportDecal.cs" />
-    <Compile Include="SceneryEditor\Models\AirportGround.cs" />
-    <Compile Include="SceneryEditor\Models\AirportTower.cs" />
-    <Compile Include="SceneryEditor\Models\AnimatedSceneryObject.cs" />
-    <Compile Include="SceneryEditor\Models\AutoCultivationArea.cs" />
-    <Compile Include="SceneryEditor\Models\AutoCultivationExclusionArea.cs" />
-    <Compile Include="SceneryEditor\Models\Building.cs" />
-    <Compile Include="SceneryEditor\Models\BuildingArea.cs" />
-    <Compile Include="SceneryEditor\Models\Helipad.cs" />
-    <Compile Include="SceneryEditor\Models\Light.cs" />
-    <Compile Include="SceneryEditor\Models\LightArea.cs" />
-    <Compile Include="SceneryEditor\Models\LightLine.cs" />
-    <Compile Include="SceneryEditor\Models\ParkingPosition.cs" />
-    <Compile Include="SceneryEditor\Models\Plant.cs" />
-    <Compile Include="SceneryEditor\Models\PlantArea.cs" />
-    <Compile Include="SceneryEditor\Models\ProjectSettings.cs" />
-    <Compile Include="SceneryEditor\Models\Runway.cs" />
-    <Compile Include="SceneryEditor\Models\SceneryEditorProject.cs" />
-    <Compile Include="SceneryEditor\Models\SceneryObject.cs" />
-    <Compile Include="SceneryEditor\Models\StartPosition.cs" />
-    <Compile Include="SceneryEditor\Models\ViewPosition.cs" />
-    <Compile Include="SceneryEditor\Project\ProjectProcessor.cs" />
-    <Compile Include="SceneryEditor\Project\ProjectService.cs" />
-    <Compile Include="SceneryEditor\UI\BuildPanel.cs">
+    <Compile Include="CultivationEditor\Common\SceneryTool.cs" />
+    <Compile Include="CultivationEditor\Cultivation\CultivationProcessor.cs" />
+    <Compile Include="CultivationEditor\GMapCustom\PlantMarker.cs" />
+    <Compile Include="CultivationEditor\Models\Airport.cs" />
+    <Compile Include="CultivationEditor\Models\AirportDecal.cs" />
+    <Compile Include="CultivationEditor\Models\AirportGround.cs" />
+    <Compile Include="CultivationEditor\Models\AirportTower.cs" />
+    <Compile Include="CultivationEditor\Models\AnimatedSceneryObject.cs" />
+    <Compile Include="CultivationEditor\Models\AutoCultivationArea.cs" />
+    <Compile Include="CultivationEditor\Models\AutoCultivationExclusionArea.cs" />
+    <Compile Include="CultivationEditor\Models\Building.cs" />
+    <Compile Include="CultivationEditor\Models\BuildingArea.cs" />
+    <Compile Include="CultivationEditor\Models\Helipad.cs" />
+    <Compile Include="CultivationEditor\Models\Light.cs" />
+    <Compile Include="CultivationEditor\Models\LightArea.cs" />
+    <Compile Include="CultivationEditor\Models\LightLine.cs" />
+    <Compile Include="CultivationEditor\Models\ParkingPosition.cs" />
+    <Compile Include="CultivationEditor\Models\Plant.cs" />
+    <Compile Include="CultivationEditor\Models\PlantArea.cs" />
+    <Compile Include="CultivationEditor\Models\ProjectSettings.cs" />
+    <Compile Include="CultivationEditor\Models\Runway.cs" />
+    <Compile Include="CultivationEditor\Models\CultivationEditorProject.cs" />
+    <Compile Include="CultivationEditor\Models\SceneryObject.cs" />
+    <Compile Include="CultivationEditor\Models\StartPosition.cs" />
+    <Compile Include="CultivationEditor\Models\ViewPosition.cs" />
+    <Compile Include="CultivationEditor\Project\ProjectProcessor.cs" />
+    <Compile Include="CultivationEditor\Project\ProjectService.cs" />
+    <Compile Include="CultivationEditor\UI\BuildPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneryEditor\UI\BuildPanel.Designer.cs">
+    <Compile Include="CultivationEditor\UI\BuildPanel.Designer.cs">
       <DependentUpon>BuildPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="SceneryEditor\UI\ProjectWindow.cs">
+    <Compile Include="CultivationEditor\UI\ProjectWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneryEditor\UI\ProjectWindow.Designer.cs">
+    <Compile Include="CultivationEditor\UI\ProjectWindow.Designer.cs">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="SceneryEditor\UI\PropertiesPanel.cs">
+    <Compile Include="CultivationEditor\UI\PropertiesPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneryEditor\UI\PropertiesPanel.Designer.cs">
+    <Compile Include="CultivationEditor\UI\PropertiesPanel.Designer.cs">
       <DependentUpon>PropertiesPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="SceneryEditor\UI\ToolboxPanel.cs">
+    <Compile Include="CultivationEditor\UI\ToolboxPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneryEditor\UI\ToolboxPanel.Designer.cs">
+    <Compile Include="CultivationEditor\UI\ToolboxPanel.Designer.cs">
       <DependentUpon>ToolboxPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DownloadFailedForm.cs">
@@ -292,11 +292,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\MainFormSideTab.cs" />
-    <Compile Include="SceneryEditor\UI\SceneryEditorForm.cs">
+    <Compile Include="CultivationEditor\UI\CultivationEditorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SceneryEditor\UI\SceneryEditorForm.Designer.cs">
-      <DependentUpon>SceneryEditorForm.cs</DependentUpon>
+    <Compile Include="CultivationEditor\UI\CultivationEditorForm.Designer.cs">
+      <DependentUpon>CultivationEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\SettingsForm.cs">
       <SubType>Form</SubType>
@@ -331,16 +331,16 @@
     <EmbeddedResource Include="Controls\SuperContextMenu\PoppedContainer.resx">
       <DependentUpon>PoppedContainer.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneryEditor\UI\BuildPanel.resx">
+    <EmbeddedResource Include="CultivationEditor\UI\BuildPanel.resx">
       <DependentUpon>BuildPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneryEditor\UI\ProjectWindow.resx">
+    <EmbeddedResource Include="CultivationEditor\UI\ProjectWindow.resx">
       <DependentUpon>ProjectWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneryEditor\UI\PropertiesPanel.resx">
+    <EmbeddedResource Include="CultivationEditor\UI\PropertiesPanel.resx">
       <DependentUpon>PropertiesPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SceneryEditor\UI\ToolboxPanel.resx">
+    <EmbeddedResource Include="CultivationEditor\UI\ToolboxPanel.resx">
       <DependentUpon>ToolboxPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DownloadThreadProgressControl.resx">
@@ -362,8 +362,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SceneryEditor\UI\SceneryEditorForm.resx">
-      <DependentUpon>SceneryEditorForm.cs</DependentUpon>
+    <EmbeddedResource Include="CultivationEditor\UI\CultivationEditorForm.resx">
+      <DependentUpon>CultivationEditorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
@@ -389,6 +389,7 @@
     <Content Include="changelog.txt" />
     <Content Include="Resources\arrow_down_active.png" />
     <Content Include="Resources\picture_edit.png" />
+    <Content Include="roadmap.txt" />
     <None Include="Resources\socklight.png" />
     <None Include="Resources\windsock.png" />
   </ItemGroup>
@@ -408,7 +409,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SceneryEditor\OSM\" />
+    <Folder Include="CultivationEditor\OSM\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.108.0\build\net451\System.Data.SQLite.Core.targets')" />

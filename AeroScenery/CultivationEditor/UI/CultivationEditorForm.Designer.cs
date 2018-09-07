@@ -1,6 +1,6 @@
 ﻿namespace AeroScenery.SceneryEditor.UI
 {
-    partial class SceneryEditorForm
+    partial class CultivationEditorForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SceneryEditorForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CultivationEditorForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -278,7 +278,7 @@
             this.dockPanel1.Size = new System.Drawing.Size(1270, 693);
             this.dockPanel1.TabIndex = 1;
             // 
-            // SceneryEditorForm
+            // CultivationEditorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -291,9 +291,9 @@
             this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "SceneryEditorForm";
-            this.Text = "Scenery Editor";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SceneryEditorForm_FormClosing);
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SceneryEditorForm_FormClosed);
+            this.Text = "Cultivation Editor";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CultivationEditorForm_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.CultivationEditorForm_FormClosed);
             this.Resize += new System.EventHandler(this.SceneryEditorForm_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

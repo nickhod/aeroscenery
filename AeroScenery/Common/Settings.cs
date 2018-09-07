@@ -18,7 +18,7 @@ namespace AeroScenery.Common
         public Settings()
         {
             this.ElevationSettings = new ElevationSettings();
-            this.SceneryEditorSettings = new SceneryEditorSettings();
+            this.CultivationEditorSettings = new CultivationEditorSettings();
         }
 
         public string AFS2SDKDirectory { get; set; }
@@ -78,6 +78,6 @@ namespace AeroScenery.Common
         public string AFS2UserDirectory { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
-        public SceneryEditorSettings SceneryEditorSettings { get; set; }
+        public CultivationEditorSettings CultivationEditorSettings { get; set; }
     }
 }

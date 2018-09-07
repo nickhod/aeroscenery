@@ -21,7 +21,7 @@ using WeifenLuo.WinFormsUI.Docking;
 
 namespace AeroScenery.SceneryEditor.UI
 {
-    public partial class SceneryEditorForm : Form
+    public partial class CultivationEditorForm : Form
     {
         private ProjectWindow projectWindow;
         private ToolboxPanel toolboxPanel;
@@ -32,13 +32,13 @@ namespace AeroScenery.SceneryEditor.UI
         private SceneryEditorProject sceneryEditorProject;
 
 
-        public event EventHandler SceneryEditorFormClosed;
+        public event EventHandler CultivationEditorFormClosed;
 
         private SceneryTool currentSceneryTool;
 
         private GMapOverlay planMarkers;
 
-        public SceneryEditorForm()
+        public CultivationEditorForm()
         {
             InitializeComponent();
 
@@ -130,7 +130,7 @@ namespace AeroScenery.SceneryEditor.UI
             this.currentSceneryTool = sceneryTool;
         }
 
-        private void SceneryEditorForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void CultivationEditorForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.projectWindow.EditorMap.Manager.CancelTileCaching();
             this.projectWindow.Dispose();
@@ -165,11 +165,11 @@ namespace AeroScenery.SceneryEditor.UI
             File.WriteAllText(filename, tocFile.ToString());
         }
 
-        private void SceneryEditorForm_FormClosed(object sender, FormClosedEventArgs e)
+        private void CultivationEditorForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (SceneryEditorFormClosed != null)
+            if (CultivationEditorFormClosed != null)
             {
-                SceneryEditorFormClosed(this, e);
+                CultivationEditorFormClosed(this, e);
             }
         }
 

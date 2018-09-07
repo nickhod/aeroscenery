@@ -72,7 +72,7 @@ namespace AeroScenery.Data
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
             key = key.OpenSubKey("AeroScenery", true);
 
-            var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
+            var cultivationEditorKey = key.CreateSubKey("SceneryEditor");
 
             key.SetValue("DownloadImageTiles", settings.DownloadImageTiles);
             key.SetValue("StitchImageTiles", settings.StitchImageTiles);
@@ -155,41 +155,41 @@ namespace AeroScenery.Data
             key.SetValue("MapControlLastMapType", settings.MapControlLastMapType);
 
 
-            if (settings.SceneryEditorSettings.MapControlLastZoomLevel.HasValue)
+            if (settings.CultivationEditorSettings.MapControlLastZoomLevel.HasValue)
             {
-                sceneryEditorKey.SetValue("MapControlLastZoomLevel", settings.SceneryEditorSettings.MapControlLastZoomLevel);
+                cultivationEditorKey.SetValue("MapControlLastZoomLevel", settings.CultivationEditorSettings.MapControlLastZoomLevel);
             }
             else
             {
-                sceneryEditorKey.SetValue("MapControlLastZoomLevel", "");
+                cultivationEditorKey.SetValue("MapControlLastZoomLevel", "");
             }
 
 
-            if (settings.SceneryEditorSettings.MapControlLastX.HasValue)
+            if (settings.CultivationEditorSettings.MapControlLastX.HasValue)
             {
-                sceneryEditorKey.SetValue("MapControlLastX", settings.SceneryEditorSettings.MapControlLastX);
+                cultivationEditorKey.SetValue("MapControlLastX", settings.CultivationEditorSettings.MapControlLastX);
             }
             else
             {
-                sceneryEditorKey.SetValue("MapControlLastX", "");
+                cultivationEditorKey.SetValue("MapControlLastX", "");
             }
 
-            if (settings.SceneryEditorSettings.MapControlLastY.HasValue)
+            if (settings.CultivationEditorSettings.MapControlLastY.HasValue)
             {
-                sceneryEditorKey.SetValue("MapControlLastY", settings.SceneryEditorSettings.MapControlLastY);
+                cultivationEditorKey.SetValue("MapControlLastY", settings.CultivationEditorSettings.MapControlLastY);
             }
             else
             {
-                sceneryEditorKey.SetValue("MapControlLastY", "");
+                cultivationEditorKey.SetValue("MapControlLastY", "");
             }
 
-            sceneryEditorKey.SetValue("MapControlLastMapType", settings.SceneryEditorSettings.MapControlLastMapType);
+            cultivationEditorKey.SetValue("MapControlLastMapType", settings.CultivationEditorSettings.MapControlLastMapType);
             // --
 
 
             // Settings version 6
             key.SetValue("ShowAirports", settings.ShowAirports);
-            sceneryEditorKey.SetValue("ShowAirports", settings.SceneryEditorSettings.ShowAirports);
+            cultivationEditorKey.SetValue("ShowAirports", settings.CultivationEditorSettings.ShowAirports);
 
             // -- 
 
@@ -285,7 +285,7 @@ namespace AeroScenery.Data
 
             if (key != null)
             {
-                var sceneryEditorKey = key.OpenSubKey("SceneryEditor", false);
+                var cultivationEditorKey = key.OpenSubKey("SceneryEditor", false);
 
                 settings.DownloadImageTiles = key.GetValueAsBoolean("DownloadImageTiles", true);
                 settings.StitchImageTiles = key.GetValueAsBoolean("StitchImageTiles", false);
@@ -396,45 +396,45 @@ namespace AeroScenery.Data
 
                 settings.MapControlLastMapType = key.GetValueAsString("MapControlLastMapType");
 
-                var sceneryEditorMapControlLastZoomLevelStr = sceneryEditorKey.GetValueAsString("MapControlLastZoomLevel");
+                var sceneryEditorMapControlLastZoomLevelStr = cultivationEditorKey.GetValueAsString("MapControlLastZoomLevel");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastZoomLevelStr))
                 {
                     int sceneryEditorMapControlLastZoomLevel;
 
                     if (int.TryParse(sceneryEditorMapControlLastZoomLevelStr, out sceneryEditorMapControlLastZoomLevel))
                     {
-                        settings.SceneryEditorSettings.MapControlLastZoomLevel = sceneryEditorMapControlLastZoomLevel;
+                        settings.CultivationEditorSettings.MapControlLastZoomLevel = sceneryEditorMapControlLastZoomLevel;
                     }
                 }
 
-                var sceneryEditorMapControlLastXStr = sceneryEditorKey.GetValueAsString("MapControlLastX");
+                var sceneryEditorMapControlLastXStr = cultivationEditorKey.GetValueAsString("MapControlLastX");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastXStr))
                 {
                     double sceneryEditorMapControlLastX;
 
                     if (double.TryParse(sceneryEditorMapControlLastXStr, out sceneryEditorMapControlLastX))
                     {
-                        settings.SceneryEditorSettings.MapControlLastX = sceneryEditorMapControlLastX;
+                        settings.CultivationEditorSettings.MapControlLastX = sceneryEditorMapControlLastX;
                     }
                 }
 
-                var sceneryEditorMapControlLastYStr = sceneryEditorKey.GetValueAsString("MapControlLastY");
+                var sceneryEditorMapControlLastYStr = cultivationEditorKey.GetValueAsString("MapControlLastY");
                 if (!String.IsNullOrEmpty(sceneryEditorMapControlLastYStr))
                 {
                     double sceneryEditorMapControlLastY;
 
                     if (double.TryParse(sceneryEditorMapControlLastYStr, out sceneryEditorMapControlLastY))
                     {
-                        settings.SceneryEditorSettings.MapControlLastY = sceneryEditorMapControlLastY;
+                        settings.CultivationEditorSettings.MapControlLastY = sceneryEditorMapControlLastY;
                     }
                 }
 
-                settings.SceneryEditorSettings.MapControlLastMapType = sceneryEditorKey.GetValueAsString("MapControlLastMapType");
+                settings.CultivationEditorSettings.MapControlLastMapType = cultivationEditorKey.GetValueAsString("MapControlLastMapType");
                 // --
 
                 // Settings verison 6
                 settings.ShowAirports = key.GetValueAsBoolean("ShowAirports", false);
-                settings.SceneryEditorSettings.ShowAirports = sceneryEditorKey.GetValueAsBoolean("ShowAirports", false);
+                settings.CultivationEditorSettings.ShowAirports = cultivationEditorKey.GetValueAsBoolean("ShowAirports", false);
                 // --
 
                 // Settings verison 7
@@ -457,7 +457,7 @@ namespace AeroScenery.Data
 
             if (key != null)
             {
-                var sceneryEditorKey = key.CreateSubKey("SceneryEditor");
+                var cultivationEditorKey = key.CreateSubKey("SceneryEditor");
                 var currentSettingsVersionStr = key.GetValueAsString("SettingsVersion");
 
                 if (!string.IsNullOrEmpty(currentSettingsVersionStr))
@@ -508,10 +508,10 @@ namespace AeroScenery.Data
                             key.SetValue("MapControlLastY", "");
                             key.SetValue("MapControlLastMapType", "GoogleHybridMap");
 
-                            sceneryEditorKey.SetValue("MapControlLastZoomLevel", 3);
-                            sceneryEditorKey.SetValue("MapControlLastX", "");
-                            sceneryEditorKey.SetValue("MapControlLastY", "");
-                            sceneryEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
+                            cultivationEditorKey.SetValue("MapControlLastZoomLevel", 3);
+                            cultivationEditorKey.SetValue("MapControlLastX", "");
+                            cultivationEditorKey.SetValue("MapControlLastY", "");
+                            cultivationEditorKey.SetValue("MapControlLastMapType", "OpenStreetMap");
 
                             key.SetValue("SettingsVersion", 5);
                             currentSettingsVersion = 5;
@@ -521,7 +521,7 @@ namespace AeroScenery.Data
                         if (currentSettingsVersion == 5)
                         {
                             key.SetValue("ShowAirports", false);
-                            sceneryEditorKey.SetValue("ShowAirports", false);
+                            cultivationEditorKey.SetValue("ShowAirports", false);
                             key.SetValue("SettingsVersion", 6);
                             currentSettingsVersion = 6;
                         }
@@ -634,15 +634,15 @@ namespace AeroScenery.Data
             settings.MapControlLastY = null;
             settings.MapControlLastMapType = "GoogleHybridMap";
 
-            settings.SceneryEditorSettings.MapControlLastZoomLevel = null;
-            settings.SceneryEditorSettings.MapControlLastX = null;
-            settings.SceneryEditorSettings.MapControlLastY = null;
-            settings.SceneryEditorSettings.MapControlLastMapType = "OpenStreetMap";
+            settings.CultivationEditorSettings.MapControlLastZoomLevel = null;
+            settings.CultivationEditorSettings.MapControlLastX = null;
+            settings.CultivationEditorSettings.MapControlLastY = null;
+            settings.CultivationEditorSettings.MapControlLastMapType = "OpenStreetMap";
             // --
 
             // Settings version 6
             settings.ShowAirports = false;
-            settings.SceneryEditorSettings.ShowAirports = false;
+            settings.CultivationEditorSettings.ShowAirports = false;
             // --
 
             // Settings version 7

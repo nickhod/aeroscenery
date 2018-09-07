@@ -38,8 +38,6 @@
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.sceneryEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
-            this.sceneryEditorSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.showAirportsToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.mapTypeToolStripDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.hybridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,17 +114,6 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label8 = new System.Windows.Forms.Label();
             this.elevationAfsLevelCheckBoxList = new System.Windows.Forms.CheckedListBox();
-            this.manualElevationTabPage = new System.Windows.Forms.TabPage();
-            this.label11 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
-            this.workingFolderButton = new System.Windows.Forms.Button();
-            this.workingFolderTextBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
@@ -145,7 +132,6 @@
             this.groupBox2.SuspendLayout();
             this.elevationTabPage.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.manualElevationTabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMap
@@ -206,8 +192,6 @@
             this.helpToolStripButton,
             this.getSDKToolStripButton,
             this.toolStripSeparator4,
-            this.sceneryEditorToolstripButton,
-            this.sceneryEditorSeparator,
             this.showAirportsToolstripButton,
             this.mapTypeToolStripDropDown,
             this.toolStripSeparator7,
@@ -256,22 +240,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
-            // 
-            // sceneryEditorToolstripButton
-            // 
-            this.sceneryEditorToolstripButton.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.sceneryEditorToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("sceneryEditorToolstripButton.Image")));
-            this.sceneryEditorToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.sceneryEditorToolstripButton.Name = "sceneryEditorToolstripButton";
-            this.sceneryEditorToolstripButton.Size = new System.Drawing.Size(112, 29);
-            this.sceneryEditorToolstripButton.Text = "Scenery Editor";
-            this.sceneryEditorToolstripButton.ToolTipText = "Scenery Editor";
-            this.sceneryEditorToolstripButton.Click += new System.EventHandler(this.sceneryEditorToolstripButton_Click);
-            // 
-            // sceneryEditorSeparator
-            // 
-            this.sceneryEditorSeparator.Name = "sceneryEditorSeparator";
-            this.sceneryEditorSeparator.Size = new System.Drawing.Size(6, 32);
             // 
             // showAirportsToolstripButton
             // 
@@ -524,6 +492,7 @@
             this.cultivationToolStripButton.Name = "cultivationToolStripButton";
             this.cultivationToolStripButton.Size = new System.Drawing.Size(88, 22);
             this.cultivationToolStripButton.Text = "Cultivation";
+            this.cultivationToolStripButton.Click += new System.EventHandler(this.cultivationToolStripButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -715,7 +684,6 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.sideTabControl.Controls.Add(this.imagesTabPage);
             this.sideTabControl.Controls.Add(this.elevationTabPage);
-            this.sideTabControl.Controls.Add(this.manualElevationTabPage);
             this.sideTabControl.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sideTabControl.Location = new System.Drawing.Point(12, 45);
             this.sideTabControl.Name = "sideTabControl";
@@ -1093,123 +1061,6 @@
             this.elevationAfsLevelCheckBoxList.Size = new System.Drawing.Size(339, 164);
             this.elevationAfsLevelCheckBoxList.TabIndex = 11;
             // 
-            // manualElevationTabPage
-            // 
-            this.manualElevationTabPage.Controls.Add(this.label11);
-            this.manualElevationTabPage.Controls.Add(this.button1);
-            this.manualElevationTabPage.Controls.Add(this.textBox1);
-            this.manualElevationTabPage.Controls.Add(this.label10);
-            this.manualElevationTabPage.Controls.Add(this.label9);
-            this.manualElevationTabPage.Controls.Add(this.checkedListBox2);
-            this.manualElevationTabPage.Controls.Add(this.workingFolderButton);
-            this.manualElevationTabPage.Controls.Add(this.workingFolderTextBox);
-            this.manualElevationTabPage.Controls.Add(this.label5);
-            this.manualElevationTabPage.Controls.Add(this.comboBox3);
-            this.manualElevationTabPage.Location = new System.Drawing.Point(4, 26);
-            this.manualElevationTabPage.Name = "manualElevationTabPage";
-            this.manualElevationTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.manualElevationTabPage.Size = new System.Drawing.Size(371, 616);
-            this.manualElevationTabPage.TabIndex = 2;
-            this.manualElevationTabPage.Text = "Manual Elevation";
-            this.manualElevationTabPage.UseVisualStyleBackColor = true;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(13, 102);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(89, 17);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "Output Folder";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(322, 98);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(33, 25);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "...";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(112, 98);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(204, 25);
-            this.textBox1.TabIndex = 23;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(13, 63);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(78, 17);
-            this.label10.TabIndex = 22;
-            this.label10.Text = "Input Folder";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(13, 139);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(132, 17);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Generate AFS2 Levels";
-            // 
-            // checkedListBox2
-            // 
-            this.checkedListBox2.CheckOnClick = true;
-            this.checkedListBox2.FormattingEnabled = true;
-            this.checkedListBox2.Items.AddRange(new object[] {
-            "Level 9",
-            "Level 10",
-            "Level 11",
-            "Level 12",
-            "Level 13",
-            "Level 14",
-            "Level 15"});
-            this.checkedListBox2.Location = new System.Drawing.Point(15, 159);
-            this.checkedListBox2.Name = "checkedListBox2";
-            this.checkedListBox2.Size = new System.Drawing.Size(339, 164);
-            this.checkedListBox2.TabIndex = 20;
-            // 
-            // workingFolderButton
-            // 
-            this.workingFolderButton.Location = new System.Drawing.Point(322, 59);
-            this.workingFolderButton.Name = "workingFolderButton";
-            this.workingFolderButton.Size = new System.Drawing.Size(33, 25);
-            this.workingFolderButton.TabIndex = 19;
-            this.workingFolderButton.Text = "...";
-            this.workingFolderButton.UseVisualStyleBackColor = true;
-            // 
-            // workingFolderTextBox
-            // 
-            this.workingFolderTextBox.Location = new System.Drawing.Point(112, 59);
-            this.workingFolderTextBox.Name = "workingFolderTextBox";
-            this.workingFolderTextBox.Size = new System.Drawing.Size(204, 25);
-            this.workingFolderTextBox.TabIndex = 18;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 22);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(48, 17);
-            this.label5.TabIndex = 17;
-            this.label5.Text = "Source";
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
-            "ASTER GDEM v2",
-            "3DEP 1/3 Arc Second"});
-            this.comboBox3.Location = new System.Drawing.Point(112, 19);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(243, 25);
-            this.comboBox3.TabIndex = 16;
-            // 
             // startStopButton
             // 
             this.startStopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -1284,8 +1135,6 @@
             this.elevationTabPage.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.manualElevationTabPage.ResumeLayout(false);
-            this.manualElevationTabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1354,7 +1203,6 @@
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
         private System.Windows.Forms.ToolStripComboBox gridSquareSelectionSizeToolstripCombo;
         private System.Windows.Forms.ToolStripLabel versionToolStripLabel;
-        private System.Windows.Forms.TabPage manualElevationTabPage;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.CheckBox checkBox1;
@@ -1365,20 +1213,8 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckedListBox elevationAfsLevelCheckBoxList;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.CheckedListBox checkedListBox2;
-        private System.Windows.Forms.Button workingFolderButton;
-        private System.Windows.Forms.TextBox workingFolderTextBox;
         private System.Windows.Forms.Button usgsTestButton;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.ToolStripButton sceneryEditorToolstripButton;
-        private System.Windows.Forms.ToolStripSeparator sceneryEditorSeparator;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.Button autoSelectAFSLevelsButton;
         private System.Windows.Forms.ToolStripButton showAirportsToolstripButton;

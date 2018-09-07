@@ -25,7 +25,7 @@ namespace AeroScenery
     public class AeroSceneryManager
     {
         private MainForm mainForm;
-        private SceneryEditorForm sceneryEditorForm;
+        private CultivationEditorForm cultivationEditorForm;
 
         private BingOrthophotoSource bingOrthophotoSource;
         private GoogleOrthophotoSource googleOrthophotoSource;
@@ -115,11 +115,11 @@ namespace AeroScenery
             }
         }
 
-        public SceneryEditorForm SceneryEditorForm
+        public CultivationEditorForm CultivationEditorForm
         {
             get
             {
-                return this.sceneryEditorForm;
+                return this.cultivationEditorForm;
             }
         }
 
@@ -142,50 +142,34 @@ namespace AeroScenery
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
 
-            switch(applicationArea)
+            this.mainForm = new MainForm();
+            this.mainForm.StartStopClicked += async (sender, eventArgs) =>
             {
-                case ApplicationArea.AeroScenery:
+                if (this.mainForm.ActionsRunning)
+                {
+                    await StartSceneryGenerationProcessAsync(sender, eventArgs);
+                }
+                else
+                {
+                    StopSceneryGenerationProcess(sender, eventArgs);
+                }
+            };
 
-                    this.mainForm = new MainForm();
-                    this.mainForm.StartStopClicked += async (sender, eventArgs) =>
-                    {
-                        if (this.mainForm.ActionsRunning)
-                        {
-                            await StartSceneryGenerationProcessAsync(sender, eventArgs);
-                        }
-                        else
-                        {
-                            StopSceneryGenerationProcess(sender, eventArgs);
-                        }
-                    };
+            this.mainForm.ResetGridSquare += (sender, name) =>
+            {
+                this.ResetGridSquare(name);
+            };
 
-                    this.mainForm.ResetGridSquare += (sender, name) =>
-                    {
-                        this.ResetGridSquare(name);
-                    };
-
-                    this.mainForm.Initialize();
-                    Application.Run(this.mainForm);
-
-                    break;
-                case ApplicationArea.AeroSceneryEditor:
-
-                    this.sceneryEditorForm = new SceneryEditorForm();
-                    this.sceneryEditorForm.Initialize();
-                    Application.Run(this.sceneryEditorForm);
-
-                    break;
-            }
-
-
+            this.mainForm.Initialize();
+            Application.Run(this.mainForm);
 
         }
 
-        public void ShowSceneryEditor()
+        public void ShowCultivationEditor()
         {
-            this.sceneryEditorForm = new SceneryEditorForm();
-            this.sceneryEditorForm.Initialize();
-            this.sceneryEditorForm.Show();
+            this.cultivationEditorForm = new CultivationEditorForm();
+            this.cultivationEditorForm.Initialize();
+            this.cultivationEditorForm.Show();
         }
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)
