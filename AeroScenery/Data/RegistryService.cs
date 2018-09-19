@@ -703,7 +703,8 @@ namespace AeroScenery.Data
                 messageBox.ShowDialog();
             }
 
-            if (!Directory.Exists(settings.AFS2SDKDirectory))
+            // If the SDK directory isn't blank but doesn't exist show a warning
+            if (!string.IsNullOrEmpty(settings.AFS2SDKDirectory) && !Directory.Exists(settings.AFS2SDKDirectory))
             {
                 settings.AFS2SDKDirectory = "";
 

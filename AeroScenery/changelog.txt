@@ -13,7 +13,8 @@ Change log
 
 0.7
 
-- 
+- Added "Install Scenery" map toolbar button
+- Fixed issue with decimal separator parsing of "Shrink TMC grid squares" value
 
 0.6
 

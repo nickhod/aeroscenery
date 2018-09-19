@@ -4,6 +4,7 @@ using AeroScenery.Controls;
 using AeroScenery.Data;
 using AeroScenery.Data.Mappers;
 using AeroScenery.Data.Models;
+using AeroScenery.FileManagement;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.SceneryEditor.UI;
@@ -56,7 +57,7 @@ namespace AeroScenery
         private FSCloudPortMarkerManager fsCloudPortMarkerManager;
 
         private VersionService versionService;
-
+        private SceneryInstaller sceneryInstaller;
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
@@ -84,6 +85,7 @@ namespace AeroScenery
             this.fsCloudPortMarkerManager = new FSCloudPortMarkerManager();
             this.fsCloudPortService = new FSCloudPortService();
             this.versionService = new VersionService();
+            this.sceneryInstaller = new SceneryInstaller();
 
             this.actionsRunning = false;
 
@@ -170,7 +172,8 @@ namespace AeroScenery
             this.processCheckBoxListEvents = true;
 
 #if RELEASE
-            this.cultivationToolStripButton.Visible = false;
+            this.cultivationEditorToolstripButton.Visible = false;
+            this.cultivationToolStripSeparator.Visible = false;
 #endif
 
         }
@@ -574,15 +577,15 @@ namespace AeroScenery
             {
                 this.openImageFolderToolstripButton.Enabled = true;
                 this.deleteImagesToolStripButton.Enabled = true;
-                this.cultivationToolStripButton.Enabled = true;
                 this.openMapToolStripDropDownButton.Enabled = true;
+                this.installSceneryToolStripButton.Enabled = true;
             }
             else
             {
                 this.openImageFolderToolstripButton.Enabled = false;
                 this.deleteImagesToolStripButton.Enabled = false;
-                this.cultivationToolStripButton.Enabled = false;
                 this.openMapToolStripDropDownButton.Enabled = false;
+                this.installSceneryToolStripButton.Enabled = false;
             }
 
         }
@@ -834,11 +837,6 @@ namespace AeroScenery
                     messageBox.ShowDialog();
                 }
             }
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void imageSourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1514,17 +1512,78 @@ namespace AeroScenery
             }
         }
 
-        private void installSceneryToolStripButton_Click(object sender, EventArgs e)
+        private void InstallSceneryToolStripButton_Click(object sender, EventArgs e)
         {
+            if (this.SelectedAFS2GridSquare != null)
+            {
+                var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + this.SelectedAFS2GridSquare.Name;
 
+                if (Directory.Exists(gridSquareDirectory))
+                {
+                    // Do we have an Aerofly folder to install into?
+                    string afsSceneryInstallDirectory = DirectoryHelper.FindAFSSceneryInstallDirectory(AeroSceneryManager.Instance.Settings);
+
+                    if (afsSceneryInstallDirectory != null)
+                    {
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.AppendLine("Are you sure you want to install all scenery for this grid square?");
+                        sb.AppendLine("Any existing files in the same destination folder will be overwritten.");
+                        sb.AppendLine("");
+                        sb.AppendLine(String.Format("Destination: {0}", afsSceneryInstallDirectory));
+
+                        var messageBox = new CustomMessageBox(sb.ToString(),
+                            "AeroScenery",
+                            MessageBoxIcon.Question);
+
+                        messageBox.SetButtons(
+                            new string[] { "Yes", "No" },
+                            new DialogResult[] { DialogResult.Yes, DialogResult.No });
+
+                        DialogResult result = messageBox.ShowDialog();
+
+                        if (result == DialogResult.Yes)
+                        {
+                            this.sceneryInstaller.InstallScenery(this.SelectedAFS2GridSquare.Name, gridSquareDirectory, afsSceneryInstallDirectory);
+                        }
+                    }
+                    else
+                    {
+                        // There is no User Directory configured, the MyDocs AFS folder was not found
+                        if (String.IsNullOrEmpty(AeroSceneryManager.Instance.Settings.AFS2UserDirectory))
+                        {
+                            var msgStr = "The Aerofly User folder in your Windows Documents folder was not found.\nIt should be there. Please check your Aerofly installation.";
+                            var messageBox = new CustomMessageBox(msgStr,"AeroScenery",MessageBoxIcon.Error);
+
+                            messageBox.ShowDialog();
+                        }  
+                        // A User directory is configured, but it wasn't found
+                        else
+                        {
+                            var msgStr = "The configured AFS User folder was not found.\nPlease check your AeroScenery settings.";
+                            var messageBox = new CustomMessageBox(msgStr, "AeroScenery", MessageBoxIcon.Error);
+
+                            messageBox.ShowDialog();
+                        }
+
+                    }
+                }
+                else
+                {
+                    var messageBox = new CustomMessageBox(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name),
+                        "AeroScenery",
+                        MessageBoxIcon.Information);
+
+                    messageBox.ShowDialog();
+                }
+            }
         }
 
-        private void cultivationToolStripButton_Click(object sender, EventArgs e)
+        private void CultivationEditorToolstripButton_Click(object sender, EventArgs e)
         {
             this.mainMap.DisableFocusOnMouseEnter = true;
             AeroSceneryManager.Instance.ShowCultivationEditor();
             AeroSceneryManager.Instance.CultivationEditorForm.CultivationEditorFormClosed += CultivationEditorForm_CultivationEditorFormClosed;
-
         }
     }
 }

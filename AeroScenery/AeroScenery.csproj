@@ -138,6 +138,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\Direction.cs" />
+    <Compile Include="Common\DirectoryHelper.cs" />
     <Compile Include="Common\ElevationSettings.cs" />
     <Compile Include="Common\GeoArea.cs" />
     <Compile Include="Common\GeoCoordinate.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Download\DownloadManager.cs" />
     <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="ElevationData\ElevationDataManager.cs" />
+    <Compile Include="FileManagement\CultivationInstaller.cs" />
+    <Compile Include="FileManagement\SceneryInstaller.cs" />
     <Compile Include="FSCloudPort\FSCloudPortScraper.cs" />
     <Compile Include="FSCloudPort\FSCloudPortService.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
