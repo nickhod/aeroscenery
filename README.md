@@ -7,8 +7,7 @@ To give AeroScenery a try:
 3. Click Settings in the top left and copy the directory of the Aerofly SDK, e.g. C:\aerofly_fs_2_sdk_tools_20171123\aerofly_fs_2_sdk_tools
 4. Click somewhere over land on the map to select a tile
 5. Select Google as the image source
-6. Select a zoom level depending on how long you're willing to wait
-7. Under "Generate AFS2 Levels" select the AFS2 Levels you want to eventually output
-8. Under "Actions" select "Choose Actions to Run"
-9. Select "Download Image Tiles" and "Stitch Image Tiles"
-10. Click Start
+6. Select a zoom level depending on how long you're willing to wait. 16 or 17 are usually good choices
+7. Under "Generate AFS2 Levels" click "Choose For Me"
+8. Under "Actions" select "Run Default Actions"
+9. Click Start
