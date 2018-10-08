@@ -58,6 +58,7 @@ namespace AeroScenery
 
         private VersionService versionService;
         private SceneryInstaller sceneryInstaller;
+        private FileManager fileManager;
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
@@ -86,6 +87,7 @@ namespace AeroScenery
             this.fsCloudPortService = new FSCloudPortService();
             this.versionService = new VersionService();
             this.sceneryInstaller = new SceneryInstaller();
+            this.fileManager = new FileManager();
 
             this.actionsRunning = false;
 
@@ -779,7 +781,7 @@ namespace AeroScenery
             }
         }
 
-        private void deleteImagesToolStripButton_Click(object sender, EventArgs e)
+        private async void deleteImagesToolStripButton_ClickAsync(object sender, EventArgs e)
         {
             if (this.SelectedAFS2GridSquare != null)
             {
@@ -787,46 +789,24 @@ namespace AeroScenery
 
                 if (Directory.Exists(gridSquareDirectory))
                 {
-                    var messageBox = new CustomMessageBox("Are you sure you want to delete all related to this grid square?\n(Nothing will be deleted in your AFS2 scenery folders)", 
-                        "AeroScenery", 
-                        MessageBoxIcon.Question);
-
-                    messageBox.SetButtons(
-                        new string[] { "Yes", "No" },
-                        new DialogResult[] { DialogResult.Yes, DialogResult.No });
-
-                    DialogResult result = messageBox.ShowDialog();
-
-                    if (result == DialogResult.Yes )
+                    using (var deleteSquareOptionsForm = new DeleteSquareOptionsForm())
                     {
-                        System.IO.DirectoryInfo di = new DirectoryInfo(gridSquareDirectory);
-
-                        Task.Run(() =>
+                        var result = deleteSquareOptionsForm.ShowDialog();
+                        if (result == DialogResult.OK)
                         {
-                            foreach (DirectoryInfo dir in di.GetDirectories())
-                            {
-                                // Fun C# bug where it refuses to delete a directory because it's not
-                                // empty, even though we are doing recursive
-                                // We just wait a bit and try again
-                                try
-                                {
-                                    dir.Delete(true);
-                                }
-                                catch (IOException)
-                                {
-                                    Thread.Sleep(100);
-                                    dir.Delete(true);
-                                }
-                            }
+                            var deleteTask = this.fileManager.DeleteGridSquareFilesAsync(gridSquareDirectory, deleteSquareOptionsForm.DeleteMapImageTiles, deleteSquareOptionsForm.DeleteStitchedImages,
+                                deleteSquareOptionsForm.DeleteGeoconvertRawImages, deleteSquareOptionsForm.DeleteTTCFiles);
 
-                            foreach (FileInfo file in di.GetFiles())
-                            {
-                                file.Delete();
-                            }
+                            var fileOperationProgressForm = new FileOperationProgressForm();
+                            fileOperationProgressForm.MessageText = "Deleting Files";
+                            fileOperationProgressForm.Title = "Deleting Files";
 
-                        });
-                    
+                            fileOperationProgressForm.FileOperationTask = deleteTask;
+                            await fileOperationProgressForm.DoTaskAsync();
+                            fileOperationProgressForm = null;
+                        }
                     }
+
                 }
                 else
                 {

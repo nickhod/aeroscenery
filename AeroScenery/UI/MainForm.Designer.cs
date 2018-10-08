@@ -487,7 +487,7 @@
             this.deleteImagesToolStripButton.Size = new System.Drawing.Size(94, 22);
             this.deleteImagesToolStripButton.Text = "Delete Files";
             this.deleteImagesToolStripButton.ToolTipText = "Delete files related to this grid square";
-            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_Click);
+            this.deleteImagesToolStripButton.Click += new System.EventHandler(this.deleteImagesToolStripButton_ClickAsync);
             // 
             // resetSquareToolStripButton
             // 

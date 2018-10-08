@@ -189,6 +189,7 @@
     <Compile Include="Download\DownloadThreadProgress.cs" />
     <Compile Include="ElevationData\ElevationDataManager.cs" />
     <Compile Include="FileManagement\CultivationInstaller.cs" />
+    <Compile Include="FileManagement\FileManager.cs" />
     <Compile Include="FileManagement\SceneryInstaller.cs" />
     <Compile Include="FSCloudPort\FSCloudPortScraper.cs" />
     <Compile Include="FSCloudPort\FSCloudPortService.cs" />
@@ -249,6 +250,18 @@
     </Compile>
     <Compile Include="CultivationEditor\UI\ToolboxPanel.Designer.cs">
       <DependentUpon>ToolboxPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FileOperationProgressForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\FileOperationProgressForm.Designer.cs">
+      <DependentUpon>FileOperationProgressForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DeleteSquareOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DeleteSquareOptionsForm.Designer.cs">
+      <DependentUpon>DeleteSquareOptionsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DownloadFailedForm.cs">
       <SubType>Form</SubType>
@@ -345,6 +358,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CultivationEditor\UI\ToolboxPanel.resx">
       <DependentUpon>ToolboxPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\FileOperationProgressForm.resx">
+      <DependentUpon>FileOperationProgressForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DeleteSquareOptionsForm.resx">
+      <DependentUpon>DeleteSquareOptionsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DownloadThreadProgressControl.resx">
       <DependentUpon>DownloadThreadProgressControl.cs</DependentUpon>

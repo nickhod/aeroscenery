@@ -15,6 +15,8 @@ Change log
 
 - Added "Install Scenery" map toolbar button
 - Fixed issue with decimal separator parsing of "Shrink TMC grid squares" value
+- "Delete Files" map toolbar button now lets the user select what files to delete
+- Added fast delete files method to help with deleting many small image tiles
 
 0.6
 
