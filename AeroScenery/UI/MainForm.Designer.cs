@@ -476,7 +476,7 @@
             this.installSceneryToolStripButton.Name = "installSceneryToolStripButton";
             this.installSceneryToolStripButton.Size = new System.Drawing.Size(110, 22);
             this.installSceneryToolStripButton.Text = "Install Scenery";
-            this.installSceneryToolStripButton.Click += new System.EventHandler(this.InstallSceneryToolStripButton_Click);
+            this.installSceneryToolStripButton.Click += new System.EventHandler(this.InstallSceneryToolStripButton_ClickAsync);
             // 
             // deleteImagesToolStripButton
             // 
