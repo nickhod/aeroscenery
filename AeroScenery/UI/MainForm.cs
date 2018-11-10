@@ -1496,72 +1496,44 @@ namespace AeroScenery
         {
             if (this.SelectedAFS2GridSquare != null)
             {
-                await this.sceneryInstaller.StartSceneryInstallation(this.SelectedAFS2GridSquare);
+                var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + this.SelectedAFS2GridSquare.Name;
+
+                if (Directory.Exists(gridSquareDirectory))
+                {
+                    var result = this.sceneryInstaller.ConfirmSceneryInstallation(this.SelectedAFS2GridSquare);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        var ttcFiles = new List<string>();
+
+                        var duplicateResult = this.sceneryInstaller.CheckForDuplicateTTCFiles(this.SelectedAFS2GridSquare, out ttcFiles);
+
+                        if (duplicateResult == null || duplicateResult == DialogResult.OK)
+                        {
+                            var installTask = this.sceneryInstaller.InstallSceneryAsync(this.SelectedAFS2GridSquare, ttcFiles);
+
+                            var fileOperationProgressForm = new FileOperationProgressForm();
+                            fileOperationProgressForm.MessageText = "Installing Scenery";
+                            fileOperationProgressForm.Title = "Installing Scenery";
+
+                            fileOperationProgressForm.FileOperationTask = installTask;
+                            await fileOperationProgressForm.DoTaskAsync();
+                            fileOperationProgressForm = null;
+                        }
+                    }
+
+                }
+                else
+                {
+                    var messageBox = new CustomMessageBox(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name),
+                        "AeroScenery",
+                        MessageBoxIcon.Information);
+
+                    messageBox.ShowDialog();
+                }
+
             }
 
-            //if (this.SelectedAFS2GridSquare != null)
-            //{
-            //    var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + this.SelectedAFS2GridSquare.Name;
-
-            //    if (Directory.Exists(gridSquareDirectory))
-            //    {
-            //        // Do we have an Aerofly folder to install into?
-            //        string afsSceneryInstallDirectory = DirectoryHelper.FindAFSSceneryInstallDirectory(AeroSceneryManager.Instance.Settings);
-
-            //        if (afsSceneryInstallDirectory != null)
-            //        {
-            //            StringBuilder sb = new StringBuilder();
-
-            //            sb.AppendLine("Are you sure you want to install all scenery for this grid square?");
-            //            sb.AppendLine("Any existing files in the same destination folder will be overwritten.");
-            //            sb.AppendLine("");
-            //            sb.AppendLine(String.Format("Destination: {0}", afsSceneryInstallDirectory));
-
-            //            var messageBox = new CustomMessageBox(sb.ToString(),
-            //                "AeroScenery",
-            //                MessageBoxIcon.Question);
-
-            //            messageBox.SetButtons(
-            //                new string[] { "Yes", "No" },
-            //                new DialogResult[] { DialogResult.Yes, DialogResult.No });
-
-            //            DialogResult result = messageBox.ShowDialog();
-
-            //            if (result == DialogResult.Yes)
-            //            {
-            //                this.sceneryInstaller.InstallScenery(this.SelectedAFS2GridSquare.Name, gridSquareDirectory, afsSceneryInstallDirectory);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            // There is no User Directory configured, the MyDocs AFS folder was not found
-            //            if (String.IsNullOrEmpty(AeroSceneryManager.Instance.Settings.AFS2UserDirectory))
-            //            {
-            //                var msgStr = "The Aerofly User folder in your Windows Documents folder was not found.\nIt should be there. Please check your Aerofly installation.";
-            //                var messageBox = new CustomMessageBox(msgStr,"AeroScenery",MessageBoxIcon.Error);
-
-            //                messageBox.ShowDialog();
-            //            }  
-            //            // A User directory is configured, but it wasn't found
-            //            else
-            //            {
-            //                var msgStr = "The configured AFS User folder was not found.\nPlease check your AeroScenery settings.";
-            //                var messageBox = new CustomMessageBox(msgStr, "AeroScenery", MessageBoxIcon.Error);
-
-            //                messageBox.ShowDialog();
-            //            }
-
-            //        }
-            //    }
-            //    else
-            //    {
-            //        var messageBox = new CustomMessageBox(String.Format("There is no image folder yet for grid square {0}", this.SelectedAFS2GridSquare.Name),
-            //            "AeroScenery",
-            //            MessageBoxIcon.Information);
-
-            //        messageBox.ShowDialog();
-            //    }
-            //}
         }
 
         private void CultivationEditorToolstripButton_Click(object sender, EventArgs e)
