@@ -72,8 +72,16 @@ namespace AeroScenery.FileManagement
 
             ttcFiles = this.EnumerateFilesRecursive(gridSquareDirectory, "*.ttc").ToList();
 
+            List<string> ttcFileNames = new List<string>();
+
+            foreach (var ttcFile in ttcFiles)
+            {
+                var tccFileName = Path.GetFileName(ttcFile);
+                ttcFileNames.Add(tccFileName);
+            }
+
             // Check for duplicate ttc files
-            if (ttcFiles.Count != ttcFiles.Distinct().Count())
+            if (ttcFileNames.Count != ttcFileNames.Distinct().Count())
             {
                 StringBuilder sbDuplicates = new StringBuilder();
 
@@ -86,13 +94,10 @@ namespace AeroScenery.FileManagement
                     MessageBoxIcon.Warning);
 
                 duplicatesMessageBox.SetButtons(
-                    new string[] { "OK", "Cancel" },
+                    new string[] { "Continue", "Cancel" },
                     new DialogResult[] { DialogResult.OK, DialogResult.Cancel });
 
-                DialogResult duplicatesResult = duplicatesMessageBox.ShowDialog();
-
                 result = duplicatesMessageBox.ShowDialog();
-
             }
 
             return result;
@@ -121,7 +126,7 @@ namespace AeroScenery.FileManagement
                         }
 
                         // This is now the level9 grid square that contains the selected grid square
-                        var afsSceneryFinalInstallDirectory = String.Format(@"{0}\{1}", afsSceneryInstallDirectory, afs2GridSquare.Name);
+                        var afsSceneryFinalInstallDirectory = String.Format(@"{0}\{1}", afsSceneryInstallDirectory, level9GridSquare.Name);
 
                         if (!Directory.Exists(afsSceneryFinalInstallDirectory))
                         {
@@ -133,6 +138,12 @@ namespace AeroScenery.FileManagement
                         {
                             var filename = Path.GetFileName(ttcFilePath);
                             var destinationPath = String.Format(@"{0}/{1}", afsSceneryFinalInstallDirectory, filename);
+
+                            // We want to overwrite files so that users can install updated files again
+                            if (File.Exists(destinationPath))
+                            {
+                                File.Delete(destinationPath);
+                            }
                             File.Copy(ttcFilePath, destinationPath);
                         }
 
