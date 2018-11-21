@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AeroScenery.SceneryEditor.Models
+namespace AeroScenery.CultivationEditor.Models
 {
     public class StartPosition
     {

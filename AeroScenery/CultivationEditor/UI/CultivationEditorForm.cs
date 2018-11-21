@@ -1,9 +1,9 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
-using AeroScenery.SceneryEditor.Common;
-using AeroScenery.SceneryEditor.GMapCustom;
-using AeroScenery.SceneryEditor.Models;
-using AeroScenery.SceneryEditor.Project;
+using AeroScenery.CultivationEditor.Common;
+using AeroScenery.CultivationEditor.GMapCustom;
+using AeroScenery.CultivationEditor.Models;
+using AeroScenery.CultivationEditor.Project;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeifenLuo.WinFormsUI.Docking;
 
-namespace AeroScenery.SceneryEditor.UI
+namespace AeroScenery.CultivationEditor.UI
 {
     public partial class CultivationEditorForm : Form
     {

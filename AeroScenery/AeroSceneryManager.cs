@@ -8,7 +8,7 @@ using AeroScenery.FSCloudPort;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
-using AeroScenery.SceneryEditor.UI;
+using AeroScenery.CultivationEditor.UI;
 using AeroScenery.UI;
 using log4net;
 using System;
