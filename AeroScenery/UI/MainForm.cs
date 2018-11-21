@@ -58,6 +58,7 @@ namespace AeroScenery
 
         private VersionService versionService;
         private SceneryInstaller sceneryInstaller;
+        private FileManager fileManager;
 
         // Whether we have finished initially updating the UI with settings
         // We can therefore ignore control events until this is true
@@ -86,6 +87,7 @@ namespace AeroScenery
             this.fsCloudPortService = new FSCloudPortService();
             this.versionService = new VersionService();
             this.sceneryInstaller = new SceneryInstaller();
+            this.fileManager = new FileManager();
 
             this.actionsRunning = false;
 
@@ -779,7 +781,7 @@ namespace AeroScenery
             }
         }
 
-        private void deleteImagesToolStripButton_Click(object sender, EventArgs e)
+        private async void deleteImagesToolStripButton_ClickAsync(object sender, EventArgs e)
         {
             if (this.SelectedAFS2GridSquare != null)
             {
@@ -787,46 +789,24 @@ namespace AeroScenery
 
                 if (Directory.Exists(gridSquareDirectory))
                 {
-                    var messageBox = new CustomMessageBox("Are you sure you want to delete all related to this grid square?\n(Nothing will be deleted in your AFS2 scenery folders)", 
-                        "AeroScenery", 
-                        MessageBoxIcon.Question);
-
-                    messageBox.SetButtons(
-                        new string[] { "Yes", "No" },
-                        new DialogResult[] { DialogResult.Yes, DialogResult.No });
-
-                    DialogResult result = messageBox.ShowDialog();
-
-                    if (result == DialogResult.Yes )
+                    using (var deleteSquareOptionsForm = new DeleteSquareOptionsForm())
                     {
-                        System.IO.DirectoryInfo di = new DirectoryInfo(gridSquareDirectory);
-
-                        Task.Run(() =>
+                        var result = deleteSquareOptionsForm.ShowDialog();
+                        if (result == DialogResult.OK)
                         {
-                            foreach (DirectoryInfo dir in di.GetDirectories())
-                            {
-                                // Fun C# bug where it refuses to delete a directory because it's not
-                                // empty, even though we are doing recursive
-                                // We just wait a bit and try again
-                                try
-                                {
-                                    dir.Delete(true);
-                                }
-                                catch (IOException)
-                                {
-                                    Thread.Sleep(100);
-                                    dir.Delete(true);
-                                }
-                            }
+                            var deleteTask = this.fileManager.DeleteGridSquareFilesAsync(gridSquareDirectory, deleteSquareOptionsForm.DeleteMapImageTiles, deleteSquareOptionsForm.DeleteStitchedImages,
+                                deleteSquareOptionsForm.DeleteGeoconvertRawImages, deleteSquareOptionsForm.DeleteTTCFiles);
 
-                            foreach (FileInfo file in di.GetFiles())
-                            {
-                                file.Delete();
-                            }
+                            var fileOperationProgressForm = new FileOperationProgressForm();
+                            fileOperationProgressForm.MessageText = "Deleting Files";
+                            fileOperationProgressForm.Title = "Deleting Files";
 
-                        });
-                    
+                            fileOperationProgressForm.FileOperationTask = deleteTask;
+                            await fileOperationProgressForm.DoTaskAsync();
+                            fileOperationProgressForm = null;
+                        }
                     }
+
                 }
                 else
                 {
@@ -1512,7 +1492,7 @@ namespace AeroScenery
             }
         }
 
-        private void InstallSceneryToolStripButton_Click(object sender, EventArgs e)
+        private async void InstallSceneryToolStripButton_ClickAsync(object sender, EventArgs e)
         {
             if (this.SelectedAFS2GridSquare != null)
             {
@@ -1520,53 +1500,28 @@ namespace AeroScenery
 
                 if (Directory.Exists(gridSquareDirectory))
                 {
-                    // Do we have an Aerofly folder to install into?
-                    string afsSceneryInstallDirectory = DirectoryHelper.FindAFSSceneryInstallDirectory(AeroSceneryManager.Instance.Settings);
+                    var result = this.sceneryInstaller.ConfirmSceneryInstallation(this.SelectedAFS2GridSquare);
 
-                    if (afsSceneryInstallDirectory != null)
+                    if (result == DialogResult.Yes)
                     {
-                        StringBuilder sb = new StringBuilder();
+                        var ttcFiles = new List<string>();
 
-                        sb.AppendLine("Are you sure you want to install all scenery for this grid square?");
-                        sb.AppendLine("Any existing files in the same destination folder will be overwritten.");
-                        sb.AppendLine("");
-                        sb.AppendLine(String.Format("Destination: {0}", afsSceneryInstallDirectory));
+                        var duplicateResult = this.sceneryInstaller.CheckForDuplicateTTCFiles(this.SelectedAFS2GridSquare, out ttcFiles);
 
-                        var messageBox = new CustomMessageBox(sb.ToString(),
-                            "AeroScenery",
-                            MessageBoxIcon.Question);
-
-                        messageBox.SetButtons(
-                            new string[] { "Yes", "No" },
-                            new DialogResult[] { DialogResult.Yes, DialogResult.No });
-
-                        DialogResult result = messageBox.ShowDialog();
-
-                        if (result == DialogResult.Yes)
+                        if (duplicateResult == null || duplicateResult == DialogResult.OK)
                         {
-                            this.sceneryInstaller.InstallScenery(this.SelectedAFS2GridSquare.Name, gridSquareDirectory, afsSceneryInstallDirectory);
+                            var installTask = this.sceneryInstaller.InstallSceneryAsync(this.SelectedAFS2GridSquare, ttcFiles);
+
+                            var fileOperationProgressForm = new FileOperationProgressForm();
+                            fileOperationProgressForm.MessageText = "Installing Scenery";
+                            fileOperationProgressForm.Title = "Installing Scenery";
+
+                            fileOperationProgressForm.FileOperationTask = installTask;
+                            await fileOperationProgressForm.DoTaskAsync();
+                            fileOperationProgressForm = null;
                         }
                     }
-                    else
-                    {
-                        // There is no User Directory configured, the MyDocs AFS folder was not found
-                        if (String.IsNullOrEmpty(AeroSceneryManager.Instance.Settings.AFS2UserDirectory))
-                        {
-                            var msgStr = "The Aerofly User folder in your Windows Documents folder was not found.\nIt should be there. Please check your Aerofly installation.";
-                            var messageBox = new CustomMessageBox(msgStr,"AeroScenery",MessageBoxIcon.Error);
 
-                            messageBox.ShowDialog();
-                        }  
-                        // A User directory is configured, but it wasn't found
-                        else
-                        {
-                            var msgStr = "The configured AFS User folder was not found.\nPlease check your AeroScenery settings.";
-                            var messageBox = new CustomMessageBox(msgStr, "AeroScenery", MessageBoxIcon.Error);
-
-                            messageBox.ShowDialog();
-                        }
-
-                    }
                 }
                 else
                 {
@@ -1576,7 +1531,9 @@ namespace AeroScenery
 
                     messageBox.ShowDialog();
                 }
+
             }
+
         }
 
         private void CultivationEditorToolstripButton_Click(object sender, EventArgs e)

@@ -1,83 +1,159 @@
-﻿using System;
+﻿using AeroScenery.AFS2;
+using AeroScenery.Common;
+using AeroScenery.Controls;
+using AeroScenery.UI;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace AeroScenery.FileManagement
 {
     public class SceneryInstaller
     {
-        public async Task<bool> DuplicateTTCFilesFoundAsync(string sourceDirectory)
-        {
-            var sdf = "sdf";
+        private AFS2Grid afsGrid;
 
-            var task = Task.Run(() =>
+
+        public SceneryInstaller()
+        {
+            this.afsGrid = new AFS2Grid();
+        }
+
+        public DialogResult ConfirmSceneryInstallation(AFS2GridSquare afs2GridSquare)
+        {
+            var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + afs2GridSquare.Name;
+
+            DialogResult result = DialogResult.No;
+
+            // Does this grid square exist
+            if (Directory.Exists(gridSquareDirectory))
+            {
+                // Do we have an Aerofly folder to install into?
+                string afsSceneryInstallDirectory = DirectoryHelper.FindAFSSceneryInstallDirectory(AeroSceneryManager.Instance.Settings);
+
+                if (afsSceneryInstallDirectory != null)
+                {
+                    // Confirm that the user does want to install scenery
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendLine("Are you sure you want to install all scenery for this grid square?");
+                    sb.AppendLine("Any existing files in the same destination folder will be overwritten.");
+                    sb.AppendLine("");
+                    sb.AppendLine(String.Format("Destination: {0}", afsSceneryInstallDirectory));
+
+                    var messageBox = new CustomMessageBox(sb.ToString(),
+                        "AeroScenery",
+                        MessageBoxIcon.Question);
+
+                    messageBox.SetButtons(
+                        new string[] { "Yes", "No" },
+                        new DialogResult[] { DialogResult.Yes, DialogResult.No });
+
+                    result = messageBox.ShowDialog();
+                }
+            }
+            else
             {
 
-                sdf = "sdf";
+            }
 
-                var ttcFiles = this.EnumerateFilesRecursive(sourceDirectory, "*.ttc");
+            return result;
+        }
 
-                //foreach (DirectoryInfo dir in di.GetDirectories())
-                //{
-                //    // Fun C# bug where it refuses to delete a directory because it's not
-                //    // empty, even though we are doing recursive
-                //    // We just wait a bit and try again
-                //    try
-                //    {
-                //        dir.Delete(true);
-                //    }
-                //    catch (IOException)
-                //    {
-                //        Thread.Sleep(100);
-                //        dir.Delete(true);
-                //    }
-                //}
+        public DialogResult? CheckForDuplicateTTCFiles(AFS2GridSquare afs2GridSquare, out List<string> ttcFiles)
+        {
+            // A null dialog result means that there are no duplicates
+            DialogResult? result = null;
 
-                //foreach (FileInfo file in di.GetFiles())
-                //{
-                //    file.Delete();
-                //}
+            var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + afs2GridSquare.Name;
+
+            ttcFiles = this.EnumerateFilesRecursive(gridSquareDirectory, "*.ttc").ToList();
+
+            List<string> ttcFileNames = new List<string>();
+
+            foreach (var ttcFile in ttcFiles)
+            {
+                var tccFileName = Path.GetFileName(ttcFile);
+                ttcFileNames.Add(tccFileName);
+            }
+
+            // Check for duplicate ttc files
+            if (ttcFileNames.Count != ttcFileNames.Distinct().Count())
+            {
+                StringBuilder sbDuplicates = new StringBuilder();
+
+                sbDuplicates.AppendLine(String.Format("Duplicate ttc files were found in the folder for grid square ({0})", afs2GridSquare.Name));
+                sbDuplicates.AppendLine("This may be because you have downloaded this grid square with multiple map image providers.");
+                sbDuplicates.AppendLine("If you continue with the install you may get a mismatched set of ttc files.");
+
+                var duplicatesMessageBox = new CustomMessageBox(sbDuplicates.ToString(),
+                    "AeroScenery",
+                    MessageBoxIcon.Warning);
+
+                duplicatesMessageBox.SetButtons(
+                    new string[] { "Continue", "Cancel" },
+                    new DialogResult[] { DialogResult.OK, DialogResult.Cancel });
+
+                result = duplicatesMessageBox.ShowDialog();
+            }
+
+            return result;
+        }
+
+        public async Task InstallSceneryAsync(AFS2GridSquare afs2GridSquare, List<string> ttcFiles)
+        {
+            var task = Task.Run(() =>
+            {
+                var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + afs2GridSquare.Name;
+
+                // Does this grid square exist
+                if (Directory.Exists(gridSquareDirectory))
+                {
+                    // Do we have an Aerofly folder to install into?
+                    string afsSceneryInstallDirectory = DirectoryHelper.FindAFSSceneryInstallDirectory(AeroSceneryManager.Instance.Settings);
+
+                    if (afsSceneryInstallDirectory != null)
+                    {
+                        // We install ttc files into a folder of the level 9 grid square containing the selected grid square
+                        var level9GridSquare = afs2GridSquare;
+
+                        if (afs2GridSquare.Level != 9)
+                        {
+                            level9GridSquare = this.afsGrid.GetGridSquareAtLatLon(afs2GridSquare.GetCenter().Lat, afs2GridSquare.GetCenter().Lng, 9);
+                        }
+
+                        // This is now the level9 grid square that contains the selected grid square
+                        var afsSceneryFinalInstallDirectory = String.Format(@"{0}\{1}", afsSceneryInstallDirectory, level9GridSquare.Name);
+
+                        if (!Directory.Exists(afsSceneryFinalInstallDirectory))
+                        {
+                            Directory.CreateDirectory(afsSceneryFinalInstallDirectory);
+                        }
+
+                        // Copy the files over
+                        foreach(var ttcFilePath in ttcFiles)
+                        {
+                            var filename = Path.GetFileName(ttcFilePath);
+                            var destinationPath = String.Format(@"{0}/{1}", afsSceneryFinalInstallDirectory, filename);
+
+                            // We want to overwrite files so that users can install updated files again
+                            if (File.Exists(destinationPath))
+                            {
+                                File.Delete(destinationPath);
+                            }
+                            File.Copy(ttcFilePath, destinationPath);
+                        }
+
+                    }
+
+                }
 
             });
 
             await task;
-            return false;
-
-        }
-
-        public void InstallScenery(string gridSquareName, string sourceDirectory, string destinationDirectory)
-        {
-            //System.IO.DirectoryInfo di = new DirectoryInfo(gridSquareDirectory);
-
-            Task.Run(() =>
-            {
-                var ttcFiles = this.EnumerateFilesRecursive(sourceDirectory, "*.ttc");
-
-                //foreach (DirectoryInfo dir in di.GetDirectories())
-                //{
-                //    // Fun C# bug where it refuses to delete a directory because it's not
-                //    // empty, even though we are doing recursive
-                //    // We just wait a bit and try again
-                //    try
-                //    {
-                //        dir.Delete(true);
-                //    }
-                //    catch (IOException)
-                //    {
-                //        Thread.Sleep(100);
-                //        dir.Delete(true);
-                //    }
-                //}
-
-                //foreach (FileInfo file in di.GetFiles())
-                //{
-                //    file.Delete();
-                //}
-
-            });
         }
 
         /// <summary>
@@ -117,5 +193,7 @@ namespace AeroScenery.FileManagement
                 }
             }
         }
+
+
     }
 }
