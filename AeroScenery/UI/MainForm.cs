@@ -192,7 +192,7 @@ namespace AeroScenery
             var airports = await this.fsCloudPortService.GetAirportsAsync();
             this.fsCloudPortMarkerManager.Airports = airports;
 
-            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            if (AeroSceneryManager.Instance.Settings.ShowAirports.Value)
             {
                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
             }
@@ -221,7 +221,7 @@ namespace AeroScenery
             }
 
             // Zoom Level
-            this.zoomLevelTrackBar.Value = settings.ZoomLevel;
+            this.zoomLevelTrackBar.Value = settings.ZoomLevel.Value;
             this.setZoomLevelLabelText();
 
 
@@ -268,7 +268,7 @@ namespace AeroScenery
             }
 
 
-            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            if (AeroSceneryManager.Instance.Settings.ShowAirports.Value)
             {
                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
                 this.showAirportsToolstripButton.Text = "Hide Airports";
@@ -301,11 +301,11 @@ namespace AeroScenery
         {
             var settings = AeroSceneryManager.Instance.Settings;
             // Actions
-            this.downloadImageTileCheckBox.Checked = settings.DownloadImageTiles;
-            this.stitchImageTilesCheckBox.Checked = settings.StitchImageTiles;
-            this.generateAFSFilesCheckBox.Checked = settings.GenerateAIDAndTMCFiles;
-            this.runGeoConvertCheckBox.Checked = settings.RunGeoConvert;
-            this.deleteStitchedImagesCheckBox.Checked = settings.DeleteStitchedImageTiles;
+            this.downloadImageTileCheckBox.Checked = settings.DownloadImageTiles.Value;
+            this.stitchImageTilesCheckBox.Checked = settings.StitchImageTiles.Value;
+            this.generateAFSFilesCheckBox.Checked = settings.GenerateAIDAndTMCFiles.Value;
+            this.runGeoConvertCheckBox.Checked = settings.RunGeoConvert.Value;
+            this.deleteStitchedImagesCheckBox.Checked = settings.DeleteStitchedImageTiles.Value;
             //this.installSceneryIntoAFSCheckBox.Checked = settings.InstallScenery;
 
             this.downloadImageTileCheckBox.Enabled = true;
@@ -687,7 +687,7 @@ namespace AeroScenery
                         }
                         else
                         {
-                            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+                            if (AeroSceneryManager.Instance.Settings.ShowAirports.Value)
                             {
                                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
                             }
@@ -1383,7 +1383,7 @@ namespace AeroScenery
         {
             AeroSceneryManager.Instance.Settings.MapControlLastZoomLevel = Convert.ToInt32(this.mainMap.Zoom);
 
-            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            if (AeroSceneryManager.Instance.Settings.ShowAirports.Value)
             {
                 this.fsCloudPortMarkerManager.UpdateFSCloudPortMarkers();
             }
@@ -1417,7 +1417,7 @@ namespace AeroScenery
         private void showAirportsToolstripButton_Click(object sender, EventArgs e)
         {
             // We need to hide airports
-            if (AeroSceneryManager.Instance.Settings.ShowAirports)
+            if (AeroSceneryManager.Instance.Settings.ShowAirports.Value)
             {
                 AeroSceneryManager.Instance.Settings.ShowAirports = false;
                 this.showAirportsToolstripButton.Text = "Show Airports";

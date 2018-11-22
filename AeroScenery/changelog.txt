@@ -11,8 +11,10 @@
 
 Change log
 
-0.7
+1.0
 
+- 
+- Switched from registry based config to xml file config
 - Added "Install Scenery" map toolbar button
 - Fixed issue with decimal separator parsing of "Shrink TMC grid squares" value
 - "Delete Files" map toolbar button now lets the user select what files to delete

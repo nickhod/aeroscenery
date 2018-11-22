@@ -45,7 +45,7 @@ namespace AeroScenery
 
         private Common.Settings settings;
 
-        private RegistryService registryService;
+        private SettingsService settingsService;
 
         private IDataRepository dataRepository;
 
@@ -68,7 +68,7 @@ namespace AeroScenery
             geoConvertManager = new GeoConvertManager();
             imageTileService = new ImageTileService();
             tileStitcher = new TileStitcher();
-            registryService = new RegistryService();
+            settingsService = new SettingsService();
             gridSquareMapper = new GridSquareMapper();
             afsFileGenerator = new AFSFileGenerator();
             dataRepository = new SqlLiteDataRepository();
@@ -126,18 +126,9 @@ namespace AeroScenery
         public void Initialize(ApplicationArea applicationArea)
         {
             // Create settings if required and read them
-            if (registryService.SettingsInRegistry())
-            {
-                this.settings = registryService.GetSettings();
-            }
-            else
-            {
-                this.settings = registryService.CreateDefaultSettings();
-            }
-
-            registryService.LogSettings(this.settings);
-
-            registryService.CheckConfiguredDirectories(this.settings);
+            this.settings = settingsService.GetSettings();
+            settingsService.LogSettings(this.settings);
+            settingsService.CheckConfiguredDirectories(this.settings);
 
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
@@ -267,7 +258,7 @@ namespace AeroScenery
                     }
 
                     // Download Imamge Tiles
-                    if (this.Settings.DownloadImageTiles && this.mainForm.ActionsRunning)
+                    if (this.Settings.DownloadImageTiles.Value && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Calculating Image Tiles To Download");
                         log.Info("Calculating Image Tiles To Download");
@@ -279,13 +270,13 @@ namespace AeroScenery
                             switch (settings.OrthophotoSource)
                             {
                                 case OrthophotoSource.Bing:
-                                    imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
                                 case OrthophotoSource.Google:
-                                    imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
                                 case OrthophotoSource.USGS:
-                                    imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel);
+                                    imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
                             }
                         });
@@ -318,7 +309,7 @@ namespace AeroScenery
                     }
 
                     // Stitch Image Tiles
-                    if (this.Settings.StitchImageTiles && this.mainForm.ActionsRunning)
+                    if (this.Settings.StitchImageTiles.Value && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Stitching Image Tiles");
                         log.Info("Stitching Image Tiles");
@@ -331,7 +322,7 @@ namespace AeroScenery
                     }
 
                     // Generate AID and TMC Files
-                    if (this.Settings.GenerateAIDAndTMCFiles && this.mainForm.ActionsRunning)
+                    if (this.Settings.GenerateAIDAndTMCFiles.Value && this.mainForm.ActionsRunning)
                     {
                         this.mainForm.UpdateChildTaskLabel("Generating AFS Metadata Files");
                         log.Info("Generating AFS Metadata Files");
@@ -349,7 +340,7 @@ namespace AeroScenery
                 }
 
                 // If required Move on to running Geoconvert for each tile
-                if (this.settings.RunGeoConvert && this.mainForm.ActionsRunning)
+                if (this.settings.RunGeoConvert.Value && this.mainForm.ActionsRunning)
                 {
                     this.StartGeoConvertProcess();
                 }
@@ -560,7 +551,7 @@ namespace AeroScenery
 
         public void SaveSettings()
         {
-            this.registryService.SaveSettings(this.settings);
+            this.settingsService.SaveSettings(this.settings);
         }
 
 

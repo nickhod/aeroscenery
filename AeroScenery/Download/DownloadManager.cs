@@ -59,8 +59,8 @@ namespace AeroScenery.Download
                         var xmlSerializer = new XmlSerializer(typeof(ImageTile));
 
 
-                        var maxWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs + AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs;
-                        var minWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs - AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs;
+                        var maxWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs.Value + AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs.Value;
+                        var minWait = AeroSceneryManager.Instance.Settings.DownloadWaitMs.Value - AeroSceneryManager.Instance.Settings.DownloadWaitRandomMs.Value;
                         Random random = new Random();
 
 

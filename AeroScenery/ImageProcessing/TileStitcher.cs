@@ -65,8 +65,8 @@ namespace AeroScenery.ImageProcessing
                 var tileWidth = firstImageTile.Width;
                 var tileHeight = firstImageTile.Height;
 
-                int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
-                int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize;
+                int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
+                int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
 
                 // Calculate the size of our stitched images in each direction
                 var imageSizeX = maxTilesPerStitchedImageX * tileWidth;

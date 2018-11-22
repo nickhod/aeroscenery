@@ -133,8 +133,8 @@ namespace AeroScenery.AFS2
             tmcFile.FolderDestinationRaw = geoConvertRawPath;
             tmcFile.FolderDestinationTTC = geoConvertTTCPath;
             tmcFile.FolderSourceFiles = stitchedTilesDirectory;
-            tmcFile.WriteImagesWithMask = AeroSceneryManager.Instance.Settings.GeoConvertWriteImagesWithMask;
-            tmcFile.WriteRawFiles = AeroSceneryManager.Instance.Settings.GeoConvertWriteRawFiles;
+            tmcFile.WriteImagesWithMask = AeroSceneryManager.Instance.Settings.GeoConvertWriteImagesWithMask.Value;
+            tmcFile.WriteRawFiles = AeroSceneryManager.Instance.Settings.GeoConvertWriteRawFiles.Value;
             tmcFile.WriteTTCFiles = true;
 
             // All TMC regions will have the same lat / lon max and min
@@ -175,7 +175,7 @@ namespace AeroScenery.AFS2
                 region.LatMin = tmcRegionTemplate.LatMin;
                 region.LonMin = tmcRegionTemplate.LonMin;
                 region.Level = afsLevel;
-                region.WriteImagesWithMask = AeroSceneryManager.Instance.Settings.GeoConvertWriteImagesWithMask;
+                region.WriteImagesWithMask = AeroSceneryManager.Instance.Settings.GeoConvertWriteImagesWithMask.Value;
                 regions.Add(region);
             }
 

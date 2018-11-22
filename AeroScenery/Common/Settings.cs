@@ -18,7 +18,6 @@ namespace AeroScenery.Common
         public Settings()
         {
             this.ElevationSettings = new ElevationSettings();
-            this.CultivationEditorSettings = new CultivationEditorSettings();
         }
 
         public string AFS2SDKDirectory { get; set; }
@@ -31,19 +30,19 @@ namespace AeroScenery.Common
 
         public OrthophotoSource OrthophotoSource { get; set; }
 
-        public int ZoomLevel { get; set; }
+        public int? ZoomLevel { get; set; }
 
-        public bool DownloadImageTiles { get; set; }
+        public bool? DownloadImageTiles { get; set; }
 
-        public bool StitchImageTiles { get; set; }
+        public bool? StitchImageTiles { get; set; }
 
-        public bool GenerateAIDAndTMCFiles { get; set; }
+        public bool? GenerateAIDAndTMCFiles { get; set; }
 
-        public bool RunGeoConvert { get; set; }
+        public bool? RunGeoConvert { get; set; }
 
-        public bool DeleteStitchedImageTiles { get; set; }
+        public bool? DeleteStitchedImageTiles { get; set; }
 
-        public bool InstallScenery { get; set; }
+        public bool? InstallScenery { get; set; }
 
         public ActionSet ActionSet { get; set; }
 
@@ -52,19 +51,19 @@ namespace AeroScenery.Common
         public string UserAgent { get; set; }
 
 
-        public int DownloadWaitMs { get; set; }
+        public int? DownloadWaitMs { get; set; }
 
-        public int DownloadWaitRandomMs { get; set; }
+        public int? DownloadWaitRandomMs { get; set; }
 
-        public int SimultaneousDownloads { get; set; }
+        public int? SimultaneousDownloads { get; set; }
 
-        public int MaximumStitchedImageSize { get; set; }
+        public int? MaximumStitchedImageSize { get; set; }
 
-        public bool GeoConvertWriteImagesWithMask { get; set; }
+        public bool? GeoConvertWriteImagesWithMask { get; set; }
 
-        public bool GeoConvertWriteRawFiles { get; set; }
+        public bool? GeoConvertWriteRawFiles { get; set; }
 
-        public bool GeoConvertDoMultipleSmallerRuns { get; set; }
+        public bool? GeoConvertDoMultipleSmallerRuns { get; set; }
 
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
@@ -73,11 +72,10 @@ namespace AeroScenery.Common
         public double? MapControlLastX { get; set; }
         public double? MapControlLastY { get; set; }
         public string MapControlLastMapType { get; set; }
-        public bool ShowAirports { get; set; }
-        public double ShrinkTMCGridSquareCoords { get; set; }
+        public bool? ShowAirports { get; set; }
+        public double? ShrinkTMCGridSquareCoords { get; set; }
         public string AFS2UserDirectory { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
-        public CultivationEditorSettings CultivationEditorSettings { get; set; }
     }
 }

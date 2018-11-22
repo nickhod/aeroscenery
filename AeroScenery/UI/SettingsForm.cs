@@ -159,7 +159,7 @@ namespace AeroScenery.UI
             //    this.gcDoMultipleSmallerRunsComboBox.SelectedIndex = 1;
             //}
 
-            if (settings.GeoConvertWriteImagesWithMask)
+            if (settings.GeoConvertWriteImagesWithMask.Value)
             {
                 this.gcWriteImagesWithMaskCombo.SelectedIndex = 0;
             }
@@ -168,7 +168,7 @@ namespace AeroScenery.UI
                 this.gcWriteImagesWithMaskCombo.SelectedIndex = 1;
             }
 
-            if (settings.GeoConvertWriteRawFiles)
+            if (settings.GeoConvertWriteRawFiles.Value)
             {
                 this.gcWriteRawFilesComboBox.SelectedIndex = 0;
             }

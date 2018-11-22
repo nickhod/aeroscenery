@@ -79,6 +79,21 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            this.label20 = new System.Windows.Forms.Label();
+            this.trackBar3 = new System.Windows.Forms.TrackBar();
+            this.label21 = new System.Windows.Forms.Label();
+            this.trackBar4 = new System.Windows.Forms.TrackBar();
+            this.label22 = new System.Windows.Forms.Label();
+            this.trackBar5 = new System.Windows.Forms.TrackBar();
+            this.label23 = new System.Windows.Forms.Label();
+            this.trackBar6 = new System.Windows.Forms.TrackBar();
+            this.label24 = new System.Windows.Forms.Label();
+            this.trackBar7 = new System.Windows.Forms.TrackBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -88,6 +103,14 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -610,6 +633,21 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label24);
+            this.tabPage4.Controls.Add(this.trackBar7);
+            this.tabPage4.Controls.Add(this.label23);
+            this.tabPage4.Controls.Add(this.trackBar6);
+            this.tabPage4.Controls.Add(this.label22);
+            this.tabPage4.Controls.Add(this.trackBar5);
+            this.tabPage4.Controls.Add(this.label21);
+            this.tabPage4.Controls.Add(this.trackBar4);
+            this.tabPage4.Controls.Add(this.label20);
+            this.tabPage4.Controls.Add(this.trackBar3);
+            this.tabPage4.Controls.Add(this.label19);
+            this.tabPage4.Controls.Add(this.trackBar2);
+            this.tabPage4.Controls.Add(this.label18);
+            this.tabPage4.Controls.Add(this.trackBar1);
+            this.tabPage4.Controls.Add(this.button1);
             this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -617,6 +655,134 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Image Processing";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(13, 17);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(156, 29);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Show Preview Winow";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar1.Location = new System.Drawing.Point(115, 64);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(550, 45);
+            this.trackBar1.TabIndex = 1;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 64);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(68, 17);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Brightness";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(10, 115);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(57, 17);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Contrast";
+            // 
+            // trackBar2
+            // 
+            this.trackBar2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar2.Location = new System.Drawing.Point(115, 115);
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(550, 45);
+            this.trackBar2.TabIndex = 3;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(10, 166);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(67, 17);
+            this.label20.TabIndex = 6;
+            this.label20.Text = "Saturation";
+            // 
+            // trackBar3
+            // 
+            this.trackBar3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar3.Location = new System.Drawing.Point(115, 166);
+            this.trackBar3.Name = "trackBar3";
+            this.trackBar3.Size = new System.Drawing.Size(550, 45);
+            this.trackBar3.TabIndex = 5;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(10, 217);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(68, 17);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Sharpness";
+            // 
+            // trackBar4
+            // 
+            this.trackBar4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar4.Location = new System.Drawing.Point(115, 217);
+            this.trackBar4.Name = "trackBar4";
+            this.trackBar4.Size = new System.Drawing.Size(550, 45);
+            this.trackBar4.TabIndex = 7;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(10, 277);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(31, 17);
+            this.label22.TabIndex = 10;
+            this.label22.Text = "Red";
+            // 
+            // trackBar5
+            // 
+            this.trackBar5.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar5.Location = new System.Drawing.Point(115, 277);
+            this.trackBar5.Name = "trackBar5";
+            this.trackBar5.Size = new System.Drawing.Size(550, 45);
+            this.trackBar5.TabIndex = 9;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(10, 316);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(43, 17);
+            this.label23.TabIndex = 12;
+            this.label23.Text = "Green";
+            // 
+            // trackBar6
+            // 
+            this.trackBar6.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar6.Location = new System.Drawing.Point(115, 316);
+            this.trackBar6.Name = "trackBar6";
+            this.trackBar6.Size = new System.Drawing.Size(550, 45);
+            this.trackBar6.TabIndex = 11;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(10, 357);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(32, 17);
+            this.label24.TabIndex = 14;
+            this.label24.Text = "Blue";
+            // 
+            // trackBar7
+            // 
+            this.trackBar7.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.trackBar7.Location = new System.Drawing.Point(115, 357);
+            this.trackBar7.Name = "trackBar7";
+            this.trackBar7.Size = new System.Drawing.Size(550, 45);
+            this.trackBar7.TabIndex = 13;
             // 
             // SettingsForm
             // 
@@ -652,6 +818,15 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -708,5 +883,20 @@
         private System.Windows.Forms.TextBox shrinkTMCGridSquaresTextBox;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.TrackBar trackBar7;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.TrackBar trackBar6;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.TrackBar trackBar5;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Button button1;
     }
 }

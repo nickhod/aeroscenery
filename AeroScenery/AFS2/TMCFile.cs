@@ -24,8 +24,8 @@ namespace AeroScenery.AFS2
                 var westLon = LonMin;
                 var northLat = LatMin;
 
-                var westLonShrink = GeoCoordinatesHelper.CalculateOffset(westLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.East);
-                var northLatShrink = GeoCoordinatesHelper.CalculateOffset(northLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.South);
+                var westLonShrink = GeoCoordinatesHelper.CalculateOffset(westLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords.Value, Direction.East);
+                var northLatShrink = GeoCoordinatesHelper.CalculateOffset(northLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords.Value, Direction.South);
 
                 return String.Format("{0} {1}", westLonShrink.ToString("0.00######", CultureInfo.InvariantCulture), northLatShrink.ToString("0.00######", CultureInfo.InvariantCulture));
             }
@@ -38,8 +38,8 @@ namespace AeroScenery.AFS2
                 var eastLon = LonMax;
                 var southLat = LatMax;
 
-                var eastLonShrink = GeoCoordinatesHelper.CalculateOffset(eastLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.West);
-                var southLatShrink = GeoCoordinatesHelper.CalculateOffset(southLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords, Direction.North);
+                var eastLonShrink = GeoCoordinatesHelper.CalculateOffset(eastLon, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords.Value, Direction.West);
+                var southLatShrink = GeoCoordinatesHelper.CalculateOffset(southLat, AeroSceneryManager.Instance.Settings.ShrinkTMCGridSquareCoords.Value, Direction.North);
 
                 return String.Format("{0} {1}", eastLonShrink.ToString("0.00######", CultureInfo.InvariantCulture), southLatShrink.ToString("0.00######", CultureInfo.InvariantCulture));
             }
