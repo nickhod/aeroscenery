@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AeroScenery.SceneryEditor.Common
+namespace AeroScenery.CultivationEditor.Common
 {
     public enum SceneryTool
     {

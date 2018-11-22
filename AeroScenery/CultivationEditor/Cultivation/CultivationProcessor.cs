@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AeroScenery.SceneryEditor.Cultivation
+namespace AeroScenery.CultivationEditor.Cultivation
 {
     public class CultivationProcessor
     {

@@ -1,6 +1,7 @@
 /AeroScenery/.vs/AeroScenery/v15/*.suo
 /AeroScenery/bin/Debug
 /AeroScenery/obj/Debug
+/AeroScenery/packages
 /AeroScenery/packages/EntityFramework.6.1.3
 /AeroScenery/packages/GMap.NET.Windows.1.8.5
 /AeroSceneryInstaller/.vs/AeroSceneryInstaller/v15/*.suo
@@ -24,3 +25,7 @@
 /AeroScenery/bin/Release.zip
 /AeroScenery/obj/DebugSceneryEditor
 /AeroScenery/packages/DockPanelSuite.3.0.4
+/AeroSceneryCultivationEditor/obj/Debug
+/AeroScenery/packages/System.Data.SQLite.Core.1.0.109.2/lib/net20
+/AeroSceneryCultivationEditor/bin/Debug
+/AeroSceneryCultivationEditor/AeroSceneryCultivationEditor.csproj.user

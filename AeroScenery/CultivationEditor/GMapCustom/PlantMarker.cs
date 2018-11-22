@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AeroScenery.SceneryEditor.GMapCustom
+namespace AeroScenery.CultivationEditor.GMapCustom
 {
     public class PlantMarker : GMapMarker
     {

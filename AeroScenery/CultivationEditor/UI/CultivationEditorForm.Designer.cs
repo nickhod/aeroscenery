@@ -1,4 +1,4 @@
-﻿namespace AeroScenery.SceneryEditor.UI
+﻿namespace AeroScenery.CultivationEditor.UI
 {
     partial class CultivationEditorForm
     {

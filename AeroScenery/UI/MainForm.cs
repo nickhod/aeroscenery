@@ -7,7 +7,7 @@ using AeroScenery.Data.Models;
 using AeroScenery.FileManagement;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
-using AeroScenery.SceneryEditor.UI;
+using AeroScenery.CultivationEditor.UI;
 using AeroScenery.UI;
 using AeroScenery.USGS;
 using AeroScenery.USGS.Models;

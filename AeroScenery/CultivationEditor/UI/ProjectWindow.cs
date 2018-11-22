@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AeroScenery.SceneryEditor.UI
+namespace AeroScenery.CultivationEditor.UI
 {
     public partial class ProjectWindow : WeifenLuo.WinFormsUI.Docking.DockContent
     {
