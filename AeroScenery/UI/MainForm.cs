@@ -7,7 +7,6 @@ using AeroScenery.Data.Models;
 using AeroScenery.FileManagement;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
-using AeroScenery.CultivationEditor.UI;
 using AeroScenery.UI;
 using AeroScenery.USGS;
 using AeroScenery.USGS.Models;
@@ -1534,13 +1533,6 @@ namespace AeroScenery
 
             }
 
-        }
-
-        private void CultivationEditorToolstripButton_Click(object sender, EventArgs e)
-        {
-            this.mainMap.DisableFocusOnMouseEnter = true;
-            AeroSceneryManager.Instance.ShowCultivationEditor();
-            AeroSceneryManager.Instance.CultivationEditorForm.CultivationEditorFormClosed += CultivationEditorForm_CultivationEditorFormClosed;
         }
     }
 }

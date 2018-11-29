@@ -38,8 +38,6 @@
             this.helpToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.getSDKToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
-            this.cultivationEditorToolstripButton = new System.Windows.Forms.ToolStripButton();
-            this.cultivationToolStripSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.showAirportsToolstripButton = new System.Windows.Forms.ToolStripButton();
             this.mapTypeToolStripDropDown = new System.Windows.Forms.ToolStripDropDownButton();
             this.hybridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -193,8 +191,6 @@
             this.helpToolStripButton,
             this.getSDKToolStripButton,
             this.toolStripSeparator4,
-            this.cultivationEditorToolstripButton,
-            this.cultivationToolStripSeparator,
             this.showAirportsToolstripButton,
             this.mapTypeToolStripDropDown,
             this.toolStripSeparator7,
@@ -243,20 +239,6 @@
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 32);
-            // 
-            // cultivationEditorToolstripButton
-            // 
-            this.cultivationEditorToolstripButton.Image = ((System.Drawing.Image)(resources.GetObject("cultivationEditorToolstripButton.Image")));
-            this.cultivationEditorToolstripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.cultivationEditorToolstripButton.Name = "cultivationEditorToolstripButton";
-            this.cultivationEditorToolstripButton.Size = new System.Drawing.Size(119, 29);
-            this.cultivationEditorToolstripButton.Text = "Cultivation Editor";
-            this.cultivationEditorToolstripButton.Click += new System.EventHandler(this.CultivationEditorToolstripButton_Click);
-            // 
-            // cultivationToolStripSeparator
-            // 
-            this.cultivationToolStripSeparator.Name = "cultivationToolStripSeparator";
-            this.cultivationToolStripSeparator.Size = new System.Drawing.Size(6, 32);
             // 
             // showAirportsToolstripButton
             // 
@@ -446,10 +428,9 @@
             // 
             // toolStripDownloadedLabel
             // 
-            this.toolStripDownloadedLabel.Image = global::AeroScenery.Properties.Resources.arrow_down;
             this.toolStripDownloadedLabel.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
             this.toolStripDownloadedLabel.Name = "toolStripDownloadedLabel";
-            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(124, 22);
+            this.toolStripDownloadedLabel.Size = new System.Drawing.Size(108, 22);
             this.toolStripDownloadedLabel.Text = "Not Downloaded";
             // 
             // toolStripSeparator3
@@ -1234,8 +1215,6 @@
         private System.Windows.Forms.ToolStripMenuItem binStandardMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openStreetMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton installSceneryToolStripButton;
-        private System.Windows.Forms.ToolStripButton cultivationEditorToolstripButton;
-        private System.Windows.Forms.ToolStripSeparator cultivationToolStripSeparator;
     }
 }
 

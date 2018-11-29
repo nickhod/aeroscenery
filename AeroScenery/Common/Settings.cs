@@ -28,7 +28,7 @@ namespace AeroScenery.Common
 
         public string AeroSceneryDBDirectory { get; set; }
 
-        public OrthophotoSource OrthophotoSource { get; set; }
+        public OrthophotoSource? OrthophotoSource { get; set; }
 
         public int? ZoomLevel { get; set; }
 
@@ -44,7 +44,7 @@ namespace AeroScenery.Common
 
         public bool? InstallScenery { get; set; }
 
-        public ActionSet ActionSet { get; set; }
+        public ActionSet? ActionSet { get; set; }
 
         public List<int> AFSLevelsToGenerate { get; set; }
 
@@ -75,6 +75,16 @@ namespace AeroScenery.Common
         public bool? ShowAirports { get; set; }
         public double? ShrinkTMCGridSquareCoords { get; set; }
         public string AFS2UserDirectory { get; set; }
+
+        // Image procesing
+        public bool? EnableImageProcessing { get; set; }
+        public int? BrightnessAdjustment { get; set; }
+        public int? ContrastAdjustment { get; set; }
+        public int? SaturationAdjustment { get; set; }
+        public int? SharpnessAdjustment { get; set; }
+        public int? RedAdjustment { get; set; }
+        public int? GreenAdjustment { get; set; }
+        public int? BlueAdjustment { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
     }

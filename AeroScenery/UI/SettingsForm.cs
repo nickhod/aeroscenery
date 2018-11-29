@@ -280,7 +280,7 @@ namespace AeroScenery.UI
 
         private void maxTilesPerStitchedImageTextBox_TextChanged(object sender, EventArgs e)
         {
-            var numbersOnly = this.GetNumbers(this.maxTilesPerStitchedImageTextBox.Text);
+            var numbersOnly = this.GetInteger(this.maxTilesPerStitchedImageTextBox.Text);
 
             if (this.maxTilesPerStitchedImageTextBox.Text != numbersOnly)
             {
@@ -296,7 +296,7 @@ namespace AeroScenery.UI
 
         }
 
-        private string GetNumbers(string input)
+        private string GetInteger(string input)
         {
             return new string(input.Where(c => char.IsDigit(c)).ToArray());
         }
@@ -306,9 +306,14 @@ namespace AeroScenery.UI
             return new string(input.Where(c => char.IsDigit(c) || c == '.').ToArray());
         }
 
+        private string GetSignedInteger(string input)
+        {
+            return new string(input.Where(c => char.IsDigit(c) || c == '-').ToArray());
+        }
+
         private void downloadWaitTextBox_TextChanged(object sender, EventArgs e)
         {
-            var numbersOnly = this.GetNumbers(this.downloadWaitTextBox.Text);
+            var numbersOnly = this.GetInteger(this.downloadWaitTextBox.Text);
 
             if (this.downloadWaitTextBox.Text != numbersOnly)
             {
@@ -318,7 +323,7 @@ namespace AeroScenery.UI
 
         private void downloadWaitRandomTextBox_TextChanged(object sender, EventArgs e)
         {
-            var numbersOnly = this.GetNumbers(this.downloadWaitRandomTextBox.Text);
+            var numbersOnly = this.GetInteger(this.downloadWaitRandomTextBox.Text);
 
             if (this.downloadWaitRandomTextBox.Text != numbersOnly)
             {
@@ -343,6 +348,77 @@ namespace AeroScenery.UI
 
         private void AddUserFolderToConfigButton_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void imgProcBrightnessTextBox_TextChanged(object sender, EventArgs e)
+        {
+            var validatedText = this.GetSignedInteger(this.imgProcBrightnessTextBox.Text);
+
+            //int intVal;
+
+            //if (int.TryParse(validatedText, out intVal))
+            //{
+            //    if (intVal < -100)
+            //        intVal = 100;
+
+            //    if (intVal > 100)
+            //        intVal = 100;
+
+            //    imgProcBrightnessSlider.Value = intVal;
+            //}
+
+            //if (this.imgProcBrightnessTextBox.Text != intVal.ToString())
+            //{
+            //    this.imgProcBrightnessTextBox.Text = intVal.ToString();
+            //}
+        }
+
+        private void imgProcBrightnessSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
+        }
+
+        private void imgProcContrastSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
+
+        }
+
+        private void imgProcSaturationSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
+
+        }
+
+        private void imgProcSharpnessSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcSharpessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
+
+        }
+
+        private void imgProcRedSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
+
+        }
+
+        private void imgProcGreenSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
+
+        }
+
+        private void imgProcBlueSlider_ValueChanged(object sender, EventArgs e)
+        {
+            imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
 
         }
     }

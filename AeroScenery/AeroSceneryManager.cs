@@ -8,7 +8,6 @@ using AeroScenery.FSCloudPort;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
-using AeroScenery.CultivationEditor.UI;
 using AeroScenery.UI;
 using log4net;
 using System;
@@ -25,7 +24,6 @@ namespace AeroScenery
     public class AeroSceneryManager
     {
         private MainForm mainForm;
-        private CultivationEditorForm cultivationEditorForm;
 
         private BingOrthophotoSource bingOrthophotoSource;
         private GoogleOrthophotoSource googleOrthophotoSource;
@@ -74,8 +72,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "0.7";
-            incrementalVersion = 7;
+            version = "1.0";
+            incrementalVersion = 8;
         }
 
         public Settings Settings
@@ -115,15 +113,7 @@ namespace AeroScenery
             }
         }
 
-        public CultivationEditorForm CultivationEditorForm
-        {
-            get
-            {
-                return this.cultivationEditorForm;
-            }
-        }
-
-        public void Initialize(ApplicationArea applicationArea)
+        public void Initialize()
         {
             // Create settings if required and read them
             this.settings = settingsService.GetSettings();
@@ -154,13 +144,6 @@ namespace AeroScenery
             this.mainForm.Initialize();
             Application.Run(this.mainForm);
 
-        }
-
-        public void ShowCultivationEditor()
-        {
-            this.cultivationEditorForm = new CultivationEditorForm();
-            this.cultivationEditorForm.Initialize();
-            this.cultivationEditorForm.Show();
         }
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)
@@ -291,7 +274,7 @@ namespace AeroScenery
                         downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
 
                         // Send the image tiles to the download manager
-                        await downloadManager.DownloadImageTiles(settings.OrthophotoSource, imageTiles, downloadThreadProgress, tileDownloadDirectory);
+                        await downloadManager.DownloadImageTiles(settings.OrthophotoSource.Value, imageTiles, downloadThreadProgress, tileDownloadDirectory);
 
                         // Only finalise if we weren't cancelled
                         if (this.mainForm.ActionsRunning)

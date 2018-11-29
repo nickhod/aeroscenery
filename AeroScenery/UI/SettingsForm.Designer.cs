@@ -79,21 +79,29 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.button1 = new System.Windows.Forms.Button();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.trackBar2 = new System.Windows.Forms.TrackBar();
-            this.label20 = new System.Windows.Forms.Label();
-            this.trackBar3 = new System.Windows.Forms.TrackBar();
-            this.label21 = new System.Windows.Forms.Label();
-            this.trackBar4 = new System.Windows.Forms.TrackBar();
-            this.label22 = new System.Windows.Forms.Label();
-            this.trackBar5 = new System.Windows.Forms.TrackBar();
-            this.label23 = new System.Windows.Forms.Label();
-            this.trackBar6 = new System.Windows.Forms.TrackBar();
             this.label24 = new System.Windows.Forms.Label();
-            this.trackBar7 = new System.Windows.Forms.TrackBar();
+            this.imgProcBlueSlider = new System.Windows.Forms.TrackBar();
+            this.label23 = new System.Windows.Forms.Label();
+            this.imgProcGreenSlider = new System.Windows.Forms.TrackBar();
+            this.label22 = new System.Windows.Forms.Label();
+            this.imgProcRedSlider = new System.Windows.Forms.TrackBar();
+            this.label21 = new System.Windows.Forms.Label();
+            this.imgProcSharpnessSlider = new System.Windows.Forms.TrackBar();
+            this.label20 = new System.Windows.Forms.Label();
+            this.imgProcSaturationSlider = new System.Windows.Forms.TrackBar();
+            this.label19 = new System.Windows.Forms.Label();
+            this.imgProcContrastSlider = new System.Windows.Forms.TrackBar();
+            this.label18 = new System.Windows.Forms.Label();
+            this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
+            this.showPreviewWindowButton = new System.Windows.Forms.Button();
+            this.imageProcessingEnabledCheckBox = new System.Windows.Forms.CheckBox();
+            this.imgProcBrightnessTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcContrastTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcSaturationTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcSharpessTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcRedTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcGreenTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -104,13 +112,13 @@
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcBlueSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcGreenSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcRedSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcSharpnessSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcSaturationSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcContrastSlider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcBrightnessSlider)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -633,21 +641,29 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.imgProcBlueTextBox);
+            this.tabPage4.Controls.Add(this.imgProcGreenTextBox);
+            this.tabPage4.Controls.Add(this.imgProcRedTextBox);
+            this.tabPage4.Controls.Add(this.imgProcSharpessTextBox);
+            this.tabPage4.Controls.Add(this.imgProcSaturationTextBox);
+            this.tabPage4.Controls.Add(this.imgProcContrastTextBox);
+            this.tabPage4.Controls.Add(this.imgProcBrightnessTextBox);
+            this.tabPage4.Controls.Add(this.imageProcessingEnabledCheckBox);
             this.tabPage4.Controls.Add(this.label24);
-            this.tabPage4.Controls.Add(this.trackBar7);
+            this.tabPage4.Controls.Add(this.imgProcBlueSlider);
             this.tabPage4.Controls.Add(this.label23);
-            this.tabPage4.Controls.Add(this.trackBar6);
+            this.tabPage4.Controls.Add(this.imgProcGreenSlider);
             this.tabPage4.Controls.Add(this.label22);
-            this.tabPage4.Controls.Add(this.trackBar5);
+            this.tabPage4.Controls.Add(this.imgProcRedSlider);
             this.tabPage4.Controls.Add(this.label21);
-            this.tabPage4.Controls.Add(this.trackBar4);
+            this.tabPage4.Controls.Add(this.imgProcSharpnessSlider);
             this.tabPage4.Controls.Add(this.label20);
-            this.tabPage4.Controls.Add(this.trackBar3);
+            this.tabPage4.Controls.Add(this.imgProcSaturationSlider);
             this.tabPage4.Controls.Add(this.label19);
-            this.tabPage4.Controls.Add(this.trackBar2);
+            this.tabPage4.Controls.Add(this.imgProcContrastSlider);
             this.tabPage4.Controls.Add(this.label18);
-            this.tabPage4.Controls.Add(this.trackBar1);
-            this.tabPage4.Controls.Add(this.button1);
+            this.tabPage4.Controls.Add(this.imgProcBrightnessSlider);
+            this.tabPage4.Controls.Add(this.showPreviewWindowButton);
             this.tabPage4.Location = new System.Drawing.Point(4, 26);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -655,117 +671,6 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Image Processing";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(13, 17);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(156, 29);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Show Preview Winow";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar1.Location = new System.Drawing.Point(115, 64);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(550, 45);
-            this.trackBar1.TabIndex = 1;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(10, 64);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(68, 17);
-            this.label18.TabIndex = 2;
-            this.label18.Text = "Brightness";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(10, 115);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(57, 17);
-            this.label19.TabIndex = 4;
-            this.label19.Text = "Contrast";
-            // 
-            // trackBar2
-            // 
-            this.trackBar2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar2.Location = new System.Drawing.Point(115, 115);
-            this.trackBar2.Name = "trackBar2";
-            this.trackBar2.Size = new System.Drawing.Size(550, 45);
-            this.trackBar2.TabIndex = 3;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(10, 166);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(67, 17);
-            this.label20.TabIndex = 6;
-            this.label20.Text = "Saturation";
-            // 
-            // trackBar3
-            // 
-            this.trackBar3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar3.Location = new System.Drawing.Point(115, 166);
-            this.trackBar3.Name = "trackBar3";
-            this.trackBar3.Size = new System.Drawing.Size(550, 45);
-            this.trackBar3.TabIndex = 5;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(10, 217);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(68, 17);
-            this.label21.TabIndex = 8;
-            this.label21.Text = "Sharpness";
-            // 
-            // trackBar4
-            // 
-            this.trackBar4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar4.Location = new System.Drawing.Point(115, 217);
-            this.trackBar4.Name = "trackBar4";
-            this.trackBar4.Size = new System.Drawing.Size(550, 45);
-            this.trackBar4.TabIndex = 7;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(10, 277);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(31, 17);
-            this.label22.TabIndex = 10;
-            this.label22.Text = "Red";
-            // 
-            // trackBar5
-            // 
-            this.trackBar5.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar5.Location = new System.Drawing.Point(115, 277);
-            this.trackBar5.Name = "trackBar5";
-            this.trackBar5.Size = new System.Drawing.Size(550, 45);
-            this.trackBar5.TabIndex = 9;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(10, 316);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(43, 17);
-            this.label23.TabIndex = 12;
-            this.label23.Text = "Green";
-            // 
-            // trackBar6
-            // 
-            this.trackBar6.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar6.Location = new System.Drawing.Point(115, 316);
-            this.trackBar6.Name = "trackBar6";
-            this.trackBar6.Size = new System.Drawing.Size(550, 45);
-            this.trackBar6.TabIndex = 11;
             // 
             // label24
             // 
@@ -776,13 +681,233 @@
             this.label24.TabIndex = 14;
             this.label24.Text = "Blue";
             // 
-            // trackBar7
+            // imgProcBlueSlider
             // 
-            this.trackBar7.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.trackBar7.Location = new System.Drawing.Point(115, 357);
-            this.trackBar7.Name = "trackBar7";
-            this.trackBar7.Size = new System.Drawing.Size(550, 45);
-            this.trackBar7.TabIndex = 13;
+            this.imgProcBlueSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcBlueSlider.Location = new System.Drawing.Point(152, 357);
+            this.imgProcBlueSlider.Maximum = 100;
+            this.imgProcBlueSlider.Minimum = -100;
+            this.imgProcBlueSlider.Name = "imgProcBlueSlider";
+            this.imgProcBlueSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcBlueSlider.TabIndex = 13;
+            this.imgProcBlueSlider.TickFrequency = 5;
+            this.imgProcBlueSlider.ValueChanged += new System.EventHandler(this.imgProcBlueSlider_ValueChanged);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(10, 316);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(43, 17);
+            this.label23.TabIndex = 12;
+            this.label23.Text = "Green";
+            // 
+            // imgProcGreenSlider
+            // 
+            this.imgProcGreenSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcGreenSlider.Location = new System.Drawing.Point(152, 316);
+            this.imgProcGreenSlider.Maximum = 100;
+            this.imgProcGreenSlider.Minimum = -100;
+            this.imgProcGreenSlider.Name = "imgProcGreenSlider";
+            this.imgProcGreenSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcGreenSlider.TabIndex = 11;
+            this.imgProcGreenSlider.TickFrequency = 5;
+            this.imgProcGreenSlider.ValueChanged += new System.EventHandler(this.imgProcGreenSlider_ValueChanged);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(10, 277);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(31, 17);
+            this.label22.TabIndex = 10;
+            this.label22.Text = "Red";
+            // 
+            // imgProcRedSlider
+            // 
+            this.imgProcRedSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcRedSlider.Location = new System.Drawing.Point(152, 277);
+            this.imgProcRedSlider.Maximum = 100;
+            this.imgProcRedSlider.Minimum = -100;
+            this.imgProcRedSlider.Name = "imgProcRedSlider";
+            this.imgProcRedSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcRedSlider.TabIndex = 9;
+            this.imgProcRedSlider.TickFrequency = 5;
+            this.imgProcRedSlider.ValueChanged += new System.EventHandler(this.imgProcRedSlider_ValueChanged);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(10, 217);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(68, 17);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Sharpness";
+            // 
+            // imgProcSharpnessSlider
+            // 
+            this.imgProcSharpnessSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcSharpnessSlider.Location = new System.Drawing.Point(152, 217);
+            this.imgProcSharpnessSlider.Maximum = 100;
+            this.imgProcSharpnessSlider.Name = "imgProcSharpnessSlider";
+            this.imgProcSharpnessSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcSharpnessSlider.TabIndex = 7;
+            this.imgProcSharpnessSlider.TickFrequency = 5;
+            this.imgProcSharpnessSlider.ValueChanged += new System.EventHandler(this.imgProcSharpnessSlider_ValueChanged);
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(10, 166);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(67, 17);
+            this.label20.TabIndex = 6;
+            this.label20.Text = "Saturation";
+            // 
+            // imgProcSaturationSlider
+            // 
+            this.imgProcSaturationSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcSaturationSlider.Location = new System.Drawing.Point(152, 166);
+            this.imgProcSaturationSlider.Maximum = 100;
+            this.imgProcSaturationSlider.Minimum = -100;
+            this.imgProcSaturationSlider.Name = "imgProcSaturationSlider";
+            this.imgProcSaturationSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcSaturationSlider.TabIndex = 5;
+            this.imgProcSaturationSlider.TickFrequency = 5;
+            this.imgProcSaturationSlider.ValueChanged += new System.EventHandler(this.imgProcSaturationSlider_ValueChanged);
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(10, 115);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(57, 17);
+            this.label19.TabIndex = 4;
+            this.label19.Text = "Contrast";
+            // 
+            // imgProcContrastSlider
+            // 
+            this.imgProcContrastSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcContrastSlider.Location = new System.Drawing.Point(152, 115);
+            this.imgProcContrastSlider.Maximum = 100;
+            this.imgProcContrastSlider.Minimum = -100;
+            this.imgProcContrastSlider.Name = "imgProcContrastSlider";
+            this.imgProcContrastSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcContrastSlider.TabIndex = 3;
+            this.imgProcContrastSlider.TickFrequency = 5;
+            this.imgProcContrastSlider.ValueChanged += new System.EventHandler(this.imgProcContrastSlider_ValueChanged);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(10, 64);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(68, 17);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "Brightness";
+            // 
+            // imgProcBrightnessSlider
+            // 
+            this.imgProcBrightnessSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcBrightnessSlider.Location = new System.Drawing.Point(152, 64);
+            this.imgProcBrightnessSlider.Maximum = 100;
+            this.imgProcBrightnessSlider.Minimum = -100;
+            this.imgProcBrightnessSlider.Name = "imgProcBrightnessSlider";
+            this.imgProcBrightnessSlider.Size = new System.Drawing.Size(513, 45);
+            this.imgProcBrightnessSlider.TabIndex = 1;
+            this.imgProcBrightnessSlider.TickFrequency = 5;
+            this.imgProcBrightnessSlider.ValueChanged += new System.EventHandler(this.imgProcBrightnessSlider_ValueChanged);
+            // 
+            // showPreviewWindowButton
+            // 
+            this.showPreviewWindowButton.Location = new System.Drawing.Point(509, 15);
+            this.showPreviewWindowButton.Name = "showPreviewWindowButton";
+            this.showPreviewWindowButton.Size = new System.Drawing.Size(156, 29);
+            this.showPreviewWindowButton.TabIndex = 0;
+            this.showPreviewWindowButton.Text = "Show Preview Winow";
+            this.showPreviewWindowButton.UseVisualStyleBackColor = true;
+            this.showPreviewWindowButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // imageProcessingEnabledCheckBox
+            // 
+            this.imageProcessingEnabledCheckBox.AutoSize = true;
+            this.imageProcessingEnabledCheckBox.Location = new System.Drawing.Point(13, 20);
+            this.imageProcessingEnabledCheckBox.Name = "imageProcessingEnabledCheckBox";
+            this.imageProcessingEnabledCheckBox.Size = new System.Drawing.Size(159, 21);
+            this.imageProcessingEnabledCheckBox.TabIndex = 15;
+            this.imageProcessingEnabledCheckBox.Text = "Adjust Stitched Images\r\n";
+            this.imageProcessingEnabledCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // imgProcBrightnessTextBox
+            // 
+            this.imgProcBrightnessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcBrightnessTextBox.Location = new System.Drawing.Point(104, 64);
+            this.imgProcBrightnessTextBox.Name = "imgProcBrightnessTextBox";
+            this.imgProcBrightnessTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcBrightnessTextBox.TabIndex = 16;
+            this.imgProcBrightnessTextBox.Text = "-100";
+            this.imgProcBrightnessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcBrightnessTextBox.TextChanged += new System.EventHandler(this.imgProcBrightnessTextBox_TextChanged);
+            // 
+            // imgProcContrastTextBox
+            // 
+            this.imgProcContrastTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcContrastTextBox.Location = new System.Drawing.Point(104, 112);
+            this.imgProcContrastTextBox.Name = "imgProcContrastTextBox";
+            this.imgProcContrastTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcContrastTextBox.TabIndex = 17;
+            this.imgProcContrastTextBox.Text = "-100";
+            this.imgProcContrastTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcSaturationTextBox
+            // 
+            this.imgProcSaturationTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcSaturationTextBox.Location = new System.Drawing.Point(104, 163);
+            this.imgProcSaturationTextBox.Name = "imgProcSaturationTextBox";
+            this.imgProcSaturationTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcSaturationTextBox.TabIndex = 18;
+            this.imgProcSaturationTextBox.Text = "-100";
+            this.imgProcSaturationTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcSharpessTextBox
+            // 
+            this.imgProcSharpessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcSharpessTextBox.Location = new System.Drawing.Point(104, 214);
+            this.imgProcSharpessTextBox.Name = "imgProcSharpessTextBox";
+            this.imgProcSharpessTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcSharpessTextBox.TabIndex = 19;
+            this.imgProcSharpessTextBox.Text = "-100";
+            this.imgProcSharpessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcRedTextBox
+            // 
+            this.imgProcRedTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcRedTextBox.Location = new System.Drawing.Point(104, 274);
+            this.imgProcRedTextBox.Name = "imgProcRedTextBox";
+            this.imgProcRedTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcRedTextBox.TabIndex = 20;
+            this.imgProcRedTextBox.Text = "-100";
+            this.imgProcRedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcGreenTextBox
+            // 
+            this.imgProcGreenTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcGreenTextBox.Location = new System.Drawing.Point(104, 313);
+            this.imgProcGreenTextBox.Name = "imgProcGreenTextBox";
+            this.imgProcGreenTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcGreenTextBox.TabIndex = 21;
+            this.imgProcGreenTextBox.Text = "-100";
+            this.imgProcGreenTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcBlueTextBox
+            // 
+            this.imgProcBlueTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcBlueTextBox.Location = new System.Drawing.Point(104, 354);
+            this.imgProcBlueTextBox.Name = "imgProcBlueTextBox";
+            this.imgProcBlueTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcBlueTextBox.TabIndex = 22;
+            this.imgProcBlueTextBox.Text = "-100";
+            this.imgProcBlueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SettingsForm
             // 
@@ -820,13 +945,13 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcBlueSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcGreenSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcRedSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcSharpnessSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcSaturationSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcContrastSlider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgProcBrightnessSlider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -884,19 +1009,27 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TrackBar trackBar7;
+        private System.Windows.Forms.TrackBar imgProcBlueSlider;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TrackBar trackBar6;
+        private System.Windows.Forms.TrackBar imgProcGreenSlider;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TrackBar trackBar5;
+        private System.Windows.Forms.TrackBar imgProcRedSlider;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TrackBar trackBar4;
+        private System.Windows.Forms.TrackBar imgProcSharpnessSlider;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TrackBar trackBar3;
+        private System.Windows.Forms.TrackBar imgProcSaturationSlider;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TrackBar trackBar2;
+        private System.Windows.Forms.TrackBar imgProcContrastSlider;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TrackBar trackBar1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TrackBar imgProcBrightnessSlider;
+        private System.Windows.Forms.Button showPreviewWindowButton;
+        private System.Windows.Forms.CheckBox imageProcessingEnabledCheckBox;
+        private System.Windows.Forms.TextBox imgProcBlueTextBox;
+        private System.Windows.Forms.TextBox imgProcGreenTextBox;
+        private System.Windows.Forms.TextBox imgProcRedTextBox;
+        private System.Windows.Forms.TextBox imgProcSharpessTextBox;
+        private System.Windows.Forms.TextBox imgProcSaturationTextBox;
+        private System.Windows.Forms.TextBox imgProcContrastTextBox;
+        private System.Windows.Forms.TextBox imgProcBrightnessTextBox;
     }
 }

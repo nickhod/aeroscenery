@@ -32,20 +32,7 @@ namespace AeroScenery
 
             string[] args = Environment.GetCommandLineArgs();
 
-            var startForm = ApplicationArea.AeroScenery;
-
-            // The first argument is the exe name
-            if (args != null && args.Length > 1)
-            {
-                if (args[1] == "/sceneryeditor")
-                {
-                    startForm = ApplicationArea.AeroSceneryEditor;
-                }
-            }
-
-            AeroSceneryManager.Instance.Initialize(startForm);
-
-
+            AeroSceneryManager.Instance.Initialize();
         }
 
         static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)

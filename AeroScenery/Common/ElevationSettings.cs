@@ -13,7 +13,7 @@ namespace AeroScenery.Common
 
         public bool? GenerateAIDAndTMCFiles { get; set; }
 
-        public ActionSet ActionSet { get; set; }
+        public ActionSet? ActionSet { get; set; }
 
         public bool? InstallElevationData { get; set; }
 
