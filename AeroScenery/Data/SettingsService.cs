@@ -21,6 +21,11 @@ namespace AeroScenery.Data
 
         private string settingsFilePath;
 
+        public SettingsService()
+        {
+            this.registryService = new RegistryService();
+        }
+
         public Settings GetSettings()
         {
             Settings settings = null;
@@ -65,7 +70,21 @@ namespace AeroScenery.Data
             {
                 // There was no settings.xml. 
                 // Do we need to migrate old registry based settings?
-                settings = new Settings();
+                if (registryService.HasRegistrySettings())
+                {
+                    settings = registryService.GetSettingsLegacy();
+
+                    // Save before we delete the registry key
+                    this.SetDefaultSettingsWhereNull(settings);
+                    this.SaveSettings(settings);
+
+                    registryService.DeleteRegistrySubKeyTree();
+                }
+                else
+                {
+                    settings = new Settings();
+                }
+
 
             }
 

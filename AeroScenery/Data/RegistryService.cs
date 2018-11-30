@@ -61,12 +61,40 @@ namespace AeroScenery.Data
         }
     }
 
+
     public class RegistryService
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         private int settingsVersion = 8;
 
+        /// <summary>
+        /// Gets whether this installation has legacy registry settings
+        /// </summary>
+        /// <returns></returns>
+        public bool HasRegistrySettings()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", false);
+            var aerosceneryKey = key.OpenSubKey("AeroScenery", false);
+
+            if (aerosceneryKey != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void DeleteRegistrySubKeyTree()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", true);
+            var aerosceneryKey = key.OpenSubKey("AeroScenery", true);
+
+            if (aerosceneryKey != null)
+            {
+                key.DeleteSubKeyTree("AeroScenery");
+            }
+        }
 
         public Settings GetSettingsLegacy()
         {
