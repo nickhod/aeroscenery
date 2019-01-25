@@ -356,70 +356,103 @@ namespace AeroScenery.UI
 
         }
 
+        private void imgProcTextBoxTextChanged(TextBox textBox, TrackBar slider, int minValue, int maxValue)
+        {
+            var validatedText = this.GetSignedInteger(textBox.Text);
 
+            if (validatedText != "-")
+            {
+                int intVal;
+
+                if (int.TryParse(validatedText, out intVal))
+                {
+                    if (intVal < minValue)
+                        intVal = minValue;
+
+                    if (intVal > maxValue)
+                        intVal = maxValue;
+
+                    slider.Value = intVal;
+                }
+
+                if (textBox.Text != intVal.ToString())
+                {
+                    textBox.Text = intVal.ToString();
+                }
+            }
+        }
 
         private void imgProcBrightnessTextBox_TextChanged(object sender, EventArgs e)
         {
-            var validatedText = this.GetSignedInteger(this.imgProcBrightnessTextBox.Text);
-
-            //int intVal;
-
-            //if (int.TryParse(validatedText, out intVal))
-            //{
-            //    if (intVal < -100)
-            //        intVal = 100;
-
-            //    if (intVal > 100)
-            //        intVal = 100;
-
-            //    imgProcBrightnessSlider.Value = intVal;
-            //}
-
-            //if (this.imgProcBrightnessTextBox.Text != intVal.ToString())
-            //{
-            //    this.imgProcBrightnessTextBox.Text = intVal.ToString();
-            //}
+            this.imgProcTextBoxTextChanged(this.imgProcBrightnessTextBox, this.imgProcBrightnessSlider, -100, 100);
         }
 
         private void imgProcBrightnessSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
+            if (imgProcBrightnessTextBox.Text != imgProcBrightnessSlider.Value.ToString())
+            {
+                imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
+            }
+        }
+
+        private void imgProcBrightnessTextBox_Leave(object sender, EventArgs e)
+        {
+            if (imgProcBrightnessTextBox.Text == "-")
+            {
+                imgProcBrightnessTextBox.Text = "0";
+            }
         }
 
         private void imgProcContrastSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
+            if (imgProcContrastTextBox.Text != imgProcContrastSlider.Value.ToString())
+            {
+                imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
+            }
 
         }
 
         private void imgProcSaturationSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
-
+            if (imgProcSaturationTextBox.Text != imgProcSaturationSlider.Value.ToString())
+            {
+                imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
+            }
         }
 
         private void imgProcSharpnessSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcSharpessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
-
+            if (imgProcSharpessTextBox.Text != imgProcSharpnessSlider.Value.ToString())
+            {
+                imgProcSharpessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
+            }
         }
 
         private void imgProcRedSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
-
+            if (imgProcRedTextBox.Text != imgProcRedSlider.Value.ToString())
+            {
+                imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
+            }
         }
 
         private void imgProcGreenSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
-
+            if (imgProcGreenTextBox.Text != imgProcGreenSlider.Value.ToString())
+            {
+                imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
+            }
         }
 
         private void imgProcBlueSlider_ValueChanged(object sender, EventArgs e)
         {
-            imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
+            if (imgProcBlueTextBox.Text != imgProcBlueSlider.Value.ToString())
+            {
+                imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
+            }
 
         }
+
+
     }
 }

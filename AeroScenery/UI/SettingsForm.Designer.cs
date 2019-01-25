@@ -79,6 +79,14 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcGreenTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcRedTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcSharpessTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcSaturationTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcContrastTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcBrightnessTextBox = new System.Windows.Forms.TextBox();
+            this.imageProcessingEnabledCheckBox = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
             this.imgProcBlueSlider = new System.Windows.Forms.TrackBar();
             this.label23 = new System.Windows.Forms.Label();
@@ -94,14 +102,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
             this.showPreviewWindowButton = new System.Windows.Forms.Button();
-            this.imageProcessingEnabledCheckBox = new System.Windows.Forms.CheckBox();
-            this.imgProcBrightnessTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcContrastTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcSaturationTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcSharpessTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcRedTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcGreenTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -672,6 +672,88 @@
             this.tabPage4.Text = "Image Processing";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // imgProcBlueTextBox
+            // 
+            this.imgProcBlueTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcBlueTextBox.Location = new System.Drawing.Point(104, 354);
+            this.imgProcBlueTextBox.Name = "imgProcBlueTextBox";
+            this.imgProcBlueTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcBlueTextBox.TabIndex = 22;
+            this.imgProcBlueTextBox.Text = "-100";
+            this.imgProcBlueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcGreenTextBox
+            // 
+            this.imgProcGreenTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcGreenTextBox.Location = new System.Drawing.Point(104, 313);
+            this.imgProcGreenTextBox.Name = "imgProcGreenTextBox";
+            this.imgProcGreenTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcGreenTextBox.TabIndex = 21;
+            this.imgProcGreenTextBox.Text = "-100";
+            this.imgProcGreenTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcRedTextBox
+            // 
+            this.imgProcRedTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcRedTextBox.Location = new System.Drawing.Point(104, 274);
+            this.imgProcRedTextBox.Name = "imgProcRedTextBox";
+            this.imgProcRedTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcRedTextBox.TabIndex = 20;
+            this.imgProcRedTextBox.Text = "-100";
+            this.imgProcRedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcSharpessTextBox
+            // 
+            this.imgProcSharpessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcSharpessTextBox.Location = new System.Drawing.Point(104, 214);
+            this.imgProcSharpessTextBox.Name = "imgProcSharpessTextBox";
+            this.imgProcSharpessTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcSharpessTextBox.TabIndex = 19;
+            this.imgProcSharpessTextBox.Text = "-100";
+            this.imgProcSharpessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcSaturationTextBox
+            // 
+            this.imgProcSaturationTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcSaturationTextBox.Location = new System.Drawing.Point(104, 163);
+            this.imgProcSaturationTextBox.Name = "imgProcSaturationTextBox";
+            this.imgProcSaturationTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcSaturationTextBox.TabIndex = 18;
+            this.imgProcSaturationTextBox.Text = "-100";
+            this.imgProcSaturationTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcContrastTextBox
+            // 
+            this.imgProcContrastTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcContrastTextBox.Location = new System.Drawing.Point(104, 112);
+            this.imgProcContrastTextBox.Name = "imgProcContrastTextBox";
+            this.imgProcContrastTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcContrastTextBox.TabIndex = 17;
+            this.imgProcContrastTextBox.Text = "-100";
+            this.imgProcContrastTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // imgProcBrightnessTextBox
+            // 
+            this.imgProcBrightnessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcBrightnessTextBox.Location = new System.Drawing.Point(104, 64);
+            this.imgProcBrightnessTextBox.Name = "imgProcBrightnessTextBox";
+            this.imgProcBrightnessTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcBrightnessTextBox.TabIndex = 16;
+            this.imgProcBrightnessTextBox.Text = "-100";
+            this.imgProcBrightnessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcBrightnessTextBox.TextChanged += new System.EventHandler(this.imgProcBrightnessTextBox_TextChanged);
+            this.imgProcBrightnessTextBox.Leave += new System.EventHandler(this.imgProcBrightnessTextBox_Leave);
+            // 
+            // imageProcessingEnabledCheckBox
+            // 
+            this.imageProcessingEnabledCheckBox.AutoSize = true;
+            this.imageProcessingEnabledCheckBox.Location = new System.Drawing.Point(13, 20);
+            this.imageProcessingEnabledCheckBox.Name = "imageProcessingEnabledCheckBox";
+            this.imageProcessingEnabledCheckBox.Size = new System.Drawing.Size(159, 21);
+            this.imageProcessingEnabledCheckBox.TabIndex = 15;
+            this.imageProcessingEnabledCheckBox.Text = "Adjust Stitched Images\r\n";
+            this.imageProcessingEnabledCheckBox.UseVisualStyleBackColor = true;
+            // 
             // label24
             // 
             this.label24.AutoSize = true;
@@ -827,87 +909,6 @@
             this.showPreviewWindowButton.Text = "Show Preview Winow";
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
             this.showPreviewWindowButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // imageProcessingEnabledCheckBox
-            // 
-            this.imageProcessingEnabledCheckBox.AutoSize = true;
-            this.imageProcessingEnabledCheckBox.Location = new System.Drawing.Point(13, 20);
-            this.imageProcessingEnabledCheckBox.Name = "imageProcessingEnabledCheckBox";
-            this.imageProcessingEnabledCheckBox.Size = new System.Drawing.Size(159, 21);
-            this.imageProcessingEnabledCheckBox.TabIndex = 15;
-            this.imageProcessingEnabledCheckBox.Text = "Adjust Stitched Images\r\n";
-            this.imageProcessingEnabledCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // imgProcBrightnessTextBox
-            // 
-            this.imgProcBrightnessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcBrightnessTextBox.Location = new System.Drawing.Point(104, 64);
-            this.imgProcBrightnessTextBox.Name = "imgProcBrightnessTextBox";
-            this.imgProcBrightnessTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcBrightnessTextBox.TabIndex = 16;
-            this.imgProcBrightnessTextBox.Text = "-100";
-            this.imgProcBrightnessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.imgProcBrightnessTextBox.TextChanged += new System.EventHandler(this.imgProcBrightnessTextBox_TextChanged);
-            // 
-            // imgProcContrastTextBox
-            // 
-            this.imgProcContrastTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcContrastTextBox.Location = new System.Drawing.Point(104, 112);
-            this.imgProcContrastTextBox.Name = "imgProcContrastTextBox";
-            this.imgProcContrastTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcContrastTextBox.TabIndex = 17;
-            this.imgProcContrastTextBox.Text = "-100";
-            this.imgProcContrastTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // imgProcSaturationTextBox
-            // 
-            this.imgProcSaturationTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcSaturationTextBox.Location = new System.Drawing.Point(104, 163);
-            this.imgProcSaturationTextBox.Name = "imgProcSaturationTextBox";
-            this.imgProcSaturationTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcSaturationTextBox.TabIndex = 18;
-            this.imgProcSaturationTextBox.Text = "-100";
-            this.imgProcSaturationTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // imgProcSharpessTextBox
-            // 
-            this.imgProcSharpessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcSharpessTextBox.Location = new System.Drawing.Point(104, 214);
-            this.imgProcSharpessTextBox.Name = "imgProcSharpessTextBox";
-            this.imgProcSharpessTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcSharpessTextBox.TabIndex = 19;
-            this.imgProcSharpessTextBox.Text = "-100";
-            this.imgProcSharpessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // imgProcRedTextBox
-            // 
-            this.imgProcRedTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcRedTextBox.Location = new System.Drawing.Point(104, 274);
-            this.imgProcRedTextBox.Name = "imgProcRedTextBox";
-            this.imgProcRedTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcRedTextBox.TabIndex = 20;
-            this.imgProcRedTextBox.Text = "-100";
-            this.imgProcRedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // imgProcGreenTextBox
-            // 
-            this.imgProcGreenTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcGreenTextBox.Location = new System.Drawing.Point(104, 313);
-            this.imgProcGreenTextBox.Name = "imgProcGreenTextBox";
-            this.imgProcGreenTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcGreenTextBox.TabIndex = 21;
-            this.imgProcGreenTextBox.Text = "-100";
-            this.imgProcGreenTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // imgProcBlueTextBox
-            // 
-            this.imgProcBlueTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcBlueTextBox.Location = new System.Drawing.Point(104, 354);
-            this.imgProcBlueTextBox.Name = "imgProcBlueTextBox";
-            this.imgProcBlueTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcBlueTextBox.TabIndex = 22;
-            this.imgProcBlueTextBox.Text = "-100";
-            this.imgProcBlueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SettingsForm
             // 
