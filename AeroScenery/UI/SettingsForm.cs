@@ -117,6 +117,16 @@ namespace AeroScenery.UI
 
             settings.ShrinkTMCGridSquareCoords = double.Parse(this.shrinkTMCGridSquaresTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture);
 
+            // Image processing
+            settings.EnableImageProcessing = this.imageProcessingEnabledCheckBox.Checked;
+            settings.BrightnessAdjustment = this.imgProcBrightnessSlider.Value;
+            settings.ContrastAdjustment = this.imgProcContrastSlider.Value;
+            settings.SaturationAdjustment = this.imgProcSaturationSlider.Value;
+            settings.SharpnessAdjustment = this.imgProcSharpnessSlider.Value;
+            settings.RedAdjustment = this.imgProcRedSlider.Value;
+            settings.GreenAdjustment = this.imgProcGreenSlider.Value;
+            settings.BlueAdjustment = this.imgProcBlueSlider.Value;
+
             AeroSceneryManager.Instance.SaveSettings();
             this.Hide();
             log.Info("Settings saved");
@@ -181,6 +191,61 @@ namespace AeroScenery.UI
             this.usgsPasswordTextBox.Text = settings.USGSPassword;
 
             this.shrinkTMCGridSquaresTextBox.Text = settings.ShrinkTMCGridSquareCoords.ToString();
+
+            // Image processing
+            this.imageProcessingEnabledCheckBox.Checked = settings.EnableImageProcessing.Value;
+
+            this.imgProcBrightnessSlider.Value = settings.BrightnessAdjustment.Value;
+            this.imgProcBrightnessTextBox.Text = settings.BrightnessAdjustment.Value.ToString();
+
+            this.imgProcContrastSlider.Value = settings.ContrastAdjustment.Value;
+            this.imgProcContrastTextBox.Text = settings.ContrastAdjustment.Value.ToString();
+
+            this.imgProcSaturationSlider.Value = settings.SaturationAdjustment.Value;
+            this.imgProcSaturationTextBox.Text = settings.SaturationAdjustment.Value.ToString();
+
+            this.imgProcSharpnessSlider.Value = settings.SharpnessAdjustment.Value;
+            this.imgProcSharpnessTextBox.Text = settings.SharpnessAdjustment.Value.ToString();
+
+            this.imgProcRedSlider.Value = settings.RedAdjustment.Value;
+            this.imgProcRedTextBox.Text = settings.RedAdjustment.Value.ToString();
+            this.imgProcGreenSlider.Value = settings.GreenAdjustment.Value;
+            this.imgProcGreenTextBox.Text = settings.GreenAdjustment.Value.ToString();
+            this.imgProcBlueSlider.Value = settings.BlueAdjustment.Value;
+            this.imgProcBlueTextBox.Text = settings.BlueAdjustment.Value.ToString();
+
+            // Enable or disable sliders depending on whether image processing is enabled
+            if (this.imageProcessingEnabledCheckBox.Checked)
+            {
+                this.ToggleImageProcessingControlsEnabled(true);
+            }
+            else
+            {
+                this.ToggleImageProcessingControlsEnabled(false);
+            }
+
+        }
+
+        private void ToggleImageProcessingControlsEnabled(bool enabled)
+        {
+            this.imgProcBrightnessSlider.Enabled = enabled;
+            this.imgProcBrightnessTextBox.Enabled = enabled;
+
+            this.imgProcContrastSlider.Enabled = enabled;
+            this.imgProcContrastTextBox.Enabled = enabled;
+
+            this.imgProcSaturationSlider.Enabled = enabled;
+            this.imgProcSaturationTextBox.Enabled = enabled;
+
+            this.imgProcSharpnessSlider.Enabled = enabled;
+            this.imgProcSharpnessTextBox.Enabled = enabled;
+
+            this.imgProcRedSlider.Enabled = enabled;
+            this.imgProcRedTextBox.Enabled = enabled;
+            this.imgProcGreenSlider.Enabled = enabled;
+            this.imgProcGreenTextBox.Enabled = enabled;
+            this.imgProcBlueSlider.Enabled = enabled;
+            this.imgProcBlueTextBox.Enabled = enabled;
         }
 
         private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
@@ -356,6 +421,110 @@ namespace AeroScenery.UI
 
         }
 
+
+
+        private void imgProcBrightnessSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcBrightnessTextBox.Text != imgProcBrightnessSlider.Value.ToString())
+            {
+                imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
+            }
+        }
+
+
+        private void imgProcContrastSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcContrastTextBox.Text != imgProcContrastSlider.Value.ToString())
+            {
+                imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
+            }
+
+        }
+
+        private void imgProcSaturationSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcSaturationTextBox.Text != imgProcSaturationSlider.Value.ToString())
+            {
+                imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
+            }
+        }
+
+        private void imgProcSharpnessSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcSharpnessTextBox.Text != imgProcSharpnessSlider.Value.ToString())
+            {
+                imgProcSharpnessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
+            }
+        }
+
+        private void imgProcRedSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcRedTextBox.Text != imgProcRedSlider.Value.ToString())
+            {
+                imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
+            }
+        }
+
+        private void imgProcGreenSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcGreenTextBox.Text != imgProcGreenSlider.Value.ToString())
+            {
+                imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
+            }
+        }
+
+        private void imgProcBlueSlider_ValueChanged(object sender, EventArgs e)
+        {
+            if (imgProcBlueTextBox.Text != imgProcBlueSlider.Value.ToString())
+            {
+                imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
+            }
+
+        }
+
+        private void imgProcBrightnessTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcBrightnessTextBox);
+        }
+
+        private void imgProcContrastTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcBlueTextBox);
+        }
+
+        private void imgProcSaturationTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcSaturationTextBox);        
+        }
+
+        private void imgProcSharpessTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcSharpnessTextBox);
+        }
+
+        private void imgProcRedTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcRedTextBox);
+        }
+
+        private void imgProcGreenTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcGreenTextBox);
+        }
+
+        private void imgProcBlueTextBox_Leave(object sender, EventArgs e)
+        {
+            this.fixLoneNegativeSign(imgProcBlueTextBox);
+        }
+
+        private void fixLoneNegativeSign(TextBox textBox)
+        {
+            if (textBox.Text == "-")
+            {
+                textBox.Text = "0";
+            }
+        }
+
         private void imgProcTextBoxTextChanged(TextBox textBox, TrackBar slider, int minValue, int maxValue)
         {
             var validatedText = this.GetSignedInteger(textBox.Text);
@@ -387,72 +556,46 @@ namespace AeroScenery.UI
             this.imgProcTextBoxTextChanged(this.imgProcBrightnessTextBox, this.imgProcBrightnessSlider, -100, 100);
         }
 
-        private void imgProcBrightnessSlider_ValueChanged(object sender, EventArgs e)
+        private void imgProcContrastTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcBrightnessTextBox.Text != imgProcBrightnessSlider.Value.ToString())
-            {
-                imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
-            }
+            this.imgProcTextBoxTextChanged(this.imgProcContrastTextBox, this.imgProcContrastSlider, -100, 100);
         }
 
-        private void imgProcBrightnessTextBox_Leave(object sender, EventArgs e)
+        private void imgProcSaturationTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcBrightnessTextBox.Text == "-")
-            {
-                imgProcBrightnessTextBox.Text = "0";
-            }
+            this.imgProcTextBoxTextChanged(this.imgProcSaturationTextBox, this.imgProcSaturationSlider, -100, 100);
         }
 
-        private void imgProcContrastSlider_ValueChanged(object sender, EventArgs e)
+        private void imgProcSharpessTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcContrastTextBox.Text != imgProcContrastSlider.Value.ToString())
-            {
-                imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
-            }
-
+            this.imgProcTextBoxTextChanged(this.imgProcSharpnessTextBox, this.imgProcSharpnessSlider, 0, 100);
         }
 
-        private void imgProcSaturationSlider_ValueChanged(object sender, EventArgs e)
+        private void imgProcRedTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcSaturationTextBox.Text != imgProcSaturationSlider.Value.ToString())
-            {
-                imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
-            }
+            this.imgProcTextBoxTextChanged(this.imgProcRedTextBox, this.imgProcRedSlider, -100, 100);
         }
 
-        private void imgProcSharpnessSlider_ValueChanged(object sender, EventArgs e)
+        private void imgProcGreenTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcSharpessTextBox.Text != imgProcSharpnessSlider.Value.ToString())
-            {
-                imgProcSharpessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
-            }
+            this.imgProcTextBoxTextChanged(this.imgProcGreenTextBox, this.imgProcGreenSlider, -100, 100);
         }
 
-        private void imgProcRedSlider_ValueChanged(object sender, EventArgs e)
+        private void imgProcBlueTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (imgProcRedTextBox.Text != imgProcRedSlider.Value.ToString())
-            {
-                imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
-            }
+            this.imgProcTextBoxTextChanged(this.imgProcBlueTextBox, this.imgProcBlueSlider, -100, 100);
         }
 
-        private void imgProcGreenSlider_ValueChanged(object sender, EventArgs e)
+        private void imageProcessingEnabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (imgProcGreenTextBox.Text != imgProcGreenSlider.Value.ToString())
+            if (this.imageProcessingEnabledCheckBox.Checked)
             {
-                imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
+                this.ToggleImageProcessingControlsEnabled(true);
+            }
+            else
+            {
+                this.ToggleImageProcessingControlsEnabled(false);
             }
         }
-
-        private void imgProcBlueSlider_ValueChanged(object sender, EventArgs e)
-        {
-            if (imgProcBlueTextBox.Text != imgProcBlueSlider.Value.ToString())
-            {
-                imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
-            }
-
-        }
-
-
     }
 }

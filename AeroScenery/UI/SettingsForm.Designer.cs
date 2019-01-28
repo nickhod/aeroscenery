@@ -82,7 +82,7 @@
             this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
             this.imgProcGreenTextBox = new System.Windows.Forms.TextBox();
             this.imgProcRedTextBox = new System.Windows.Forms.TextBox();
-            this.imgProcSharpessTextBox = new System.Windows.Forms.TextBox();
+            this.imgProcSharpnessTextBox = new System.Windows.Forms.TextBox();
             this.imgProcSaturationTextBox = new System.Windows.Forms.TextBox();
             this.imgProcContrastTextBox = new System.Windows.Forms.TextBox();
             this.imgProcBrightnessTextBox = new System.Windows.Forms.TextBox();
@@ -644,7 +644,7 @@
             this.tabPage4.Controls.Add(this.imgProcBlueTextBox);
             this.tabPage4.Controls.Add(this.imgProcGreenTextBox);
             this.tabPage4.Controls.Add(this.imgProcRedTextBox);
-            this.tabPage4.Controls.Add(this.imgProcSharpessTextBox);
+            this.tabPage4.Controls.Add(this.imgProcSharpnessTextBox);
             this.tabPage4.Controls.Add(this.imgProcSaturationTextBox);
             this.tabPage4.Controls.Add(this.imgProcContrastTextBox);
             this.tabPage4.Controls.Add(this.imgProcBrightnessTextBox);
@@ -681,6 +681,8 @@
             this.imgProcBlueTextBox.TabIndex = 22;
             this.imgProcBlueTextBox.Text = "-100";
             this.imgProcBlueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcBlueTextBox.TextChanged += new System.EventHandler(this.imgProcBlueTextBox_TextChanged);
+            this.imgProcBlueTextBox.Leave += new System.EventHandler(this.imgProcBlueTextBox_Leave);
             // 
             // imgProcGreenTextBox
             // 
@@ -691,6 +693,8 @@
             this.imgProcGreenTextBox.TabIndex = 21;
             this.imgProcGreenTextBox.Text = "-100";
             this.imgProcGreenTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcGreenTextBox.TextChanged += new System.EventHandler(this.imgProcGreenTextBox_TextChanged);
+            this.imgProcGreenTextBox.Leave += new System.EventHandler(this.imgProcGreenTextBox_Leave);
             // 
             // imgProcRedTextBox
             // 
@@ -701,16 +705,20 @@
             this.imgProcRedTextBox.TabIndex = 20;
             this.imgProcRedTextBox.Text = "-100";
             this.imgProcRedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcRedTextBox.TextChanged += new System.EventHandler(this.imgProcRedTextBox_TextChanged);
+            this.imgProcRedTextBox.Leave += new System.EventHandler(this.imgProcRedTextBox_Leave);
             // 
-            // imgProcSharpessTextBox
+            // imgProcSharpnessTextBox
             // 
-            this.imgProcSharpessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.imgProcSharpessTextBox.Location = new System.Drawing.Point(104, 214);
-            this.imgProcSharpessTextBox.Name = "imgProcSharpessTextBox";
-            this.imgProcSharpessTextBox.Size = new System.Drawing.Size(42, 25);
-            this.imgProcSharpessTextBox.TabIndex = 19;
-            this.imgProcSharpessTextBox.Text = "-100";
-            this.imgProcSharpessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcSharpnessTextBox.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.imgProcSharpnessTextBox.Location = new System.Drawing.Point(104, 214);
+            this.imgProcSharpnessTextBox.Name = "imgProcSharpnessTextBox";
+            this.imgProcSharpnessTextBox.Size = new System.Drawing.Size(42, 25);
+            this.imgProcSharpnessTextBox.TabIndex = 19;
+            this.imgProcSharpnessTextBox.Text = "0";
+            this.imgProcSharpnessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcSharpnessTextBox.TextChanged += new System.EventHandler(this.imgProcSharpessTextBox_TextChanged);
+            this.imgProcSharpnessTextBox.Leave += new System.EventHandler(this.imgProcSharpessTextBox_Leave);
             // 
             // imgProcSaturationTextBox
             // 
@@ -721,6 +729,8 @@
             this.imgProcSaturationTextBox.TabIndex = 18;
             this.imgProcSaturationTextBox.Text = "-100";
             this.imgProcSaturationTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcSaturationTextBox.TextChanged += new System.EventHandler(this.imgProcSaturationTextBox_TextChanged);
+            this.imgProcSaturationTextBox.Leave += new System.EventHandler(this.imgProcSaturationTextBox_Leave);
             // 
             // imgProcContrastTextBox
             // 
@@ -731,6 +741,8 @@
             this.imgProcContrastTextBox.TabIndex = 17;
             this.imgProcContrastTextBox.Text = "-100";
             this.imgProcContrastTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.imgProcContrastTextBox.TextChanged += new System.EventHandler(this.imgProcContrastTextBox_TextChanged);
+            this.imgProcContrastTextBox.Leave += new System.EventHandler(this.imgProcContrastTextBox_Leave);
             // 
             // imgProcBrightnessTextBox
             // 
@@ -753,6 +765,7 @@
             this.imageProcessingEnabledCheckBox.TabIndex = 15;
             this.imageProcessingEnabledCheckBox.Text = "Adjust Stitched Images\r\n";
             this.imageProcessingEnabledCheckBox.UseVisualStyleBackColor = true;
+            this.imageProcessingEnabledCheckBox.CheckedChanged += new System.EventHandler(this.imageProcessingEnabledCheckBox_CheckedChanged);
             // 
             // label24
             // 
@@ -1028,7 +1041,7 @@
         private System.Windows.Forms.TextBox imgProcBlueTextBox;
         private System.Windows.Forms.TextBox imgProcGreenTextBox;
         private System.Windows.Forms.TextBox imgProcRedTextBox;
-        private System.Windows.Forms.TextBox imgProcSharpessTextBox;
+        private System.Windows.Forms.TextBox imgProcSharpnessTextBox;
         private System.Windows.Forms.TextBox imgProcSaturationTextBox;
         private System.Windows.Forms.TextBox imgProcContrastTextBox;
         private System.Windows.Forms.TextBox imgProcBrightnessTextBox;
