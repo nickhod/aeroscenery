@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Globalization;
+using AeroScenery.ImageProcessing;
 
 namespace AeroScenery.UI
 {
     public partial class SettingsForm : Form
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
+
+        private ImageProcessingPreviewForm imageProcessingPreviewForm;
 
         public SettingsForm()
         {
@@ -422,6 +425,26 @@ namespace AeroScenery.UI
         }
 
 
+        private void UpdateImagePreview()
+        {
+            if (this.imageProcessingPreviewForm != null)
+            {
+                if (this.imageProcessingPreviewForm.Visible)
+                {
+                    var imageProcessingSettings = new ImageProcessingSettings();
+                    imageProcessingSettings.BrightnessAdjustment = this.imgProcBrightnessSlider.Value;
+                    imageProcessingSettings.ContrastAdjustment = this.imgProcContrastSlider.Value;
+                    imageProcessingSettings.SaturationAdjustment = this.imgProcSaturationSlider.Value;
+                    imageProcessingSettings.SharpnessAdjustment = this.imgProcSharpnessSlider.Value;
+                    imageProcessingSettings.RedAdjustment = this.imgProcRedSlider.Value;
+                    imageProcessingSettings.GreenAdjustment = this.imgProcGreenSlider.Value;
+                    imageProcessingSettings.BlueAdjustment = this.imgProcBlueSlider.Value;
+
+                    this.imageProcessingPreviewForm.UpdateImage(imageProcessingSettings);
+                }
+            }
+        }
+
 
         private void imgProcBrightnessSlider_ValueChanged(object sender, EventArgs e)
         {
@@ -596,6 +619,21 @@ namespace AeroScenery.UI
             {
                 this.ToggleImageProcessingControlsEnabled(false);
             }
+        }
+
+        private void showPreviewWindowButton_Click(object sender, EventArgs e)
+        {
+            if (this.imageProcessingPreviewForm == null)
+            {
+                this.imageProcessingPreviewForm = new ImageProcessingPreviewForm();
+            }
+
+            this.imageProcessingPreviewForm.StartPosition = FormStartPosition.Manual;
+            this.imageProcessingPreviewForm.Height = this.Height;
+            this.imageProcessingPreviewForm.Left = this.Right;
+            this.imageProcessingPreviewForm.Top = this.Top;
+            this.imageProcessingPreviewForm.Show();
+            this.UpdateImagePreview();
         }
     }
 }

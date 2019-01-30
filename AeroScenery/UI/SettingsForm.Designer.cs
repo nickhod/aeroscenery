@@ -921,7 +921,7 @@
             this.showPreviewWindowButton.TabIndex = 0;
             this.showPreviewWindowButton.Text = "Show Preview Winow";
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
-            this.showPreviewWindowButton.Click += new System.EventHandler(this.button1_Click);
+            this.showPreviewWindowButton.Click += new System.EventHandler(this.showPreviewWindowButton_Click);
             // 
             // SettingsForm
             // 
