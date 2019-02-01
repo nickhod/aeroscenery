@@ -52,6 +52,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.previewImageCombo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.previewImageCombo.FormattingEnabled = true;
+            this.previewImageCombo.Items.AddRange(new object[] {
+            "Semi Rural Green",
+            "Semi Rual Arid",
+            "Rural Green",
+            "Rural Arid",
+            "Urban 1",
+            "Urban 2"});
             this.previewImageCombo.Location = new System.Drawing.Point(110, 15);
             this.previewImageCombo.Name = "previewImageCombo";
             this.previewImageCombo.Size = new System.Drawing.Size(389, 25);

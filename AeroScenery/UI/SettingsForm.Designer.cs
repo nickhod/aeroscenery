@@ -102,6 +102,7 @@
             this.label18 = new System.Windows.Forms.Label();
             this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
             this.showPreviewWindowButton = new System.Windows.Forms.Button();
+            this.resetButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -641,6 +642,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.resetButton);
             this.tabPage4.Controls.Add(this.imgProcBlueTextBox);
             this.tabPage4.Controls.Add(this.imgProcGreenTextBox);
             this.tabPage4.Controls.Add(this.imgProcRedTextBox);
@@ -679,7 +681,7 @@
             this.imgProcBlueTextBox.Name = "imgProcBlueTextBox";
             this.imgProcBlueTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcBlueTextBox.TabIndex = 22;
-            this.imgProcBlueTextBox.Text = "-100";
+            this.imgProcBlueTextBox.Text = "0";
             this.imgProcBlueTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcBlueTextBox.TextChanged += new System.EventHandler(this.imgProcBlueTextBox_TextChanged);
             this.imgProcBlueTextBox.Leave += new System.EventHandler(this.imgProcBlueTextBox_Leave);
@@ -691,7 +693,7 @@
             this.imgProcGreenTextBox.Name = "imgProcGreenTextBox";
             this.imgProcGreenTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcGreenTextBox.TabIndex = 21;
-            this.imgProcGreenTextBox.Text = "-100";
+            this.imgProcGreenTextBox.Text = "0";
             this.imgProcGreenTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcGreenTextBox.TextChanged += new System.EventHandler(this.imgProcGreenTextBox_TextChanged);
             this.imgProcGreenTextBox.Leave += new System.EventHandler(this.imgProcGreenTextBox_Leave);
@@ -703,7 +705,7 @@
             this.imgProcRedTextBox.Name = "imgProcRedTextBox";
             this.imgProcRedTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcRedTextBox.TabIndex = 20;
-            this.imgProcRedTextBox.Text = "-100";
+            this.imgProcRedTextBox.Text = "0";
             this.imgProcRedTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcRedTextBox.TextChanged += new System.EventHandler(this.imgProcRedTextBox_TextChanged);
             this.imgProcRedTextBox.Leave += new System.EventHandler(this.imgProcRedTextBox_Leave);
@@ -727,7 +729,7 @@
             this.imgProcSaturationTextBox.Name = "imgProcSaturationTextBox";
             this.imgProcSaturationTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcSaturationTextBox.TabIndex = 18;
-            this.imgProcSaturationTextBox.Text = "-100";
+            this.imgProcSaturationTextBox.Text = "0";
             this.imgProcSaturationTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcSaturationTextBox.TextChanged += new System.EventHandler(this.imgProcSaturationTextBox_TextChanged);
             this.imgProcSaturationTextBox.Leave += new System.EventHandler(this.imgProcSaturationTextBox_Leave);
@@ -739,7 +741,7 @@
             this.imgProcContrastTextBox.Name = "imgProcContrastTextBox";
             this.imgProcContrastTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcContrastTextBox.TabIndex = 17;
-            this.imgProcContrastTextBox.Text = "-100";
+            this.imgProcContrastTextBox.Text = "0";
             this.imgProcContrastTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcContrastTextBox.TextChanged += new System.EventHandler(this.imgProcContrastTextBox_TextChanged);
             this.imgProcContrastTextBox.Leave += new System.EventHandler(this.imgProcContrastTextBox_Leave);
@@ -751,7 +753,7 @@
             this.imgProcBrightnessTextBox.Name = "imgProcBrightnessTextBox";
             this.imgProcBrightnessTextBox.Size = new System.Drawing.Size(42, 25);
             this.imgProcBrightnessTextBox.TabIndex = 16;
-            this.imgProcBrightnessTextBox.Text = "-100";
+            this.imgProcBrightnessTextBox.Text = "0";
             this.imgProcBrightnessTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.imgProcBrightnessTextBox.TextChanged += new System.EventHandler(this.imgProcBrightnessTextBox_TextChanged);
             this.imgProcBrightnessTextBox.Leave += new System.EventHandler(this.imgProcBrightnessTextBox_Leave);
@@ -842,12 +844,11 @@
             // imgProcSharpnessSlider
             // 
             this.imgProcSharpnessSlider.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.imgProcSharpnessSlider.LargeChange = 1;
             this.imgProcSharpnessSlider.Location = new System.Drawing.Point(152, 217);
-            this.imgProcSharpnessSlider.Maximum = 100;
             this.imgProcSharpnessSlider.Name = "imgProcSharpnessSlider";
             this.imgProcSharpnessSlider.Size = new System.Drawing.Size(513, 45);
             this.imgProcSharpnessSlider.TabIndex = 7;
-            this.imgProcSharpnessSlider.TickFrequency = 5;
             this.imgProcSharpnessSlider.ValueChanged += new System.EventHandler(this.imgProcSharpnessSlider_ValueChanged);
             // 
             // label20
@@ -922,6 +923,16 @@
             this.showPreviewWindowButton.Text = "Show Preview Winow";
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
             this.showPreviewWindowButton.Click += new System.EventHandler(this.showPreviewWindowButton_Click);
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(421, 15);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(82, 29);
+            this.resetButton.TabIndex = 23;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // SettingsForm
             // 
@@ -1045,5 +1056,6 @@
         private System.Windows.Forms.TextBox imgProcSaturationTextBox;
         private System.Windows.Forms.TextBox imgProcContrastTextBox;
         private System.Windows.Forms.TextBox imgProcBrightnessTextBox;
+        private System.Windows.Forms.Button resetButton;
     }
 }

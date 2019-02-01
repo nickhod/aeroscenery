@@ -20,9 +20,12 @@ namespace AeroScenery.UI
 
         private ImageProcessingPreviewForm imageProcessingPreviewForm;
 
+        private bool updateImagePreview;
+
         public SettingsForm()
         {
             InitializeComponent();
+            this.updateImagePreview = true;
         }
 
         private void closeButton_Click(object sender, EventArgs e)
@@ -425,24 +428,28 @@ namespace AeroScenery.UI
         }
 
 
-        private void UpdateImagePreview()
+        private async void UpdateImagePreview()
         {
-            if (this.imageProcessingPreviewForm != null)
+            if (this.updateImagePreview)
             {
-                if (this.imageProcessingPreviewForm.Visible)
+                if (this.imageProcessingPreviewForm != null)
                 {
-                    var imageProcessingSettings = new ImageProcessingSettings();
-                    imageProcessingSettings.BrightnessAdjustment = this.imgProcBrightnessSlider.Value;
-                    imageProcessingSettings.ContrastAdjustment = this.imgProcContrastSlider.Value;
-                    imageProcessingSettings.SaturationAdjustment = this.imgProcSaturationSlider.Value;
-                    imageProcessingSettings.SharpnessAdjustment = this.imgProcSharpnessSlider.Value;
-                    imageProcessingSettings.RedAdjustment = this.imgProcRedSlider.Value;
-                    imageProcessingSettings.GreenAdjustment = this.imgProcGreenSlider.Value;
-                    imageProcessingSettings.BlueAdjustment = this.imgProcBlueSlider.Value;
+                    if (this.imageProcessingPreviewForm.Visible)
+                    {
+                        var imageProcessingSettings = new ImageProcessingSettings();
+                        imageProcessingSettings.BrightnessAdjustment = this.imgProcBrightnessSlider.Value;
+                        imageProcessingSettings.ContrastAdjustment = this.imgProcContrastSlider.Value;
+                        imageProcessingSettings.SaturationAdjustment = this.imgProcSaturationSlider.Value;
+                        imageProcessingSettings.SharpnessAdjustment = this.imgProcSharpnessSlider.Value;
+                        imageProcessingSettings.RedAdjustment = this.imgProcRedSlider.Value;
+                        imageProcessingSettings.GreenAdjustment = this.imgProcGreenSlider.Value;
+                        imageProcessingSettings.BlueAdjustment = this.imgProcBlueSlider.Value;
 
-                    this.imageProcessingPreviewForm.UpdateImage(imageProcessingSettings);
+                        await this.imageProcessingPreviewForm.UpdateImage(imageProcessingSettings);
+                    }
                 }
             }
+
         }
 
 
@@ -452,6 +459,8 @@ namespace AeroScenery.UI
             {
                 imgProcBrightnessTextBox.Text = imgProcBrightnessSlider.Value.ToString();
             }
+
+            this.UpdateImagePreview();
         }
 
 
@@ -462,6 +471,7 @@ namespace AeroScenery.UI
                 imgProcContrastTextBox.Text = imgProcContrastSlider.Value.ToString();
             }
 
+            this.UpdateImagePreview();
         }
 
         private void imgProcSaturationSlider_ValueChanged(object sender, EventArgs e)
@@ -470,6 +480,8 @@ namespace AeroScenery.UI
             {
                 imgProcSaturationTextBox.Text = imgProcSaturationSlider.Value.ToString();
             }
+
+            this.UpdateImagePreview();
         }
 
         private void imgProcSharpnessSlider_ValueChanged(object sender, EventArgs e)
@@ -478,6 +490,8 @@ namespace AeroScenery.UI
             {
                 imgProcSharpnessTextBox.Text = imgProcSharpnessSlider.Value.ToString();
             }
+
+            this.UpdateImagePreview();
         }
 
         private void imgProcRedSlider_ValueChanged(object sender, EventArgs e)
@@ -486,6 +500,8 @@ namespace AeroScenery.UI
             {
                 imgProcRedTextBox.Text = imgProcRedSlider.Value.ToString();
             }
+
+            this.UpdateImagePreview();
         }
 
         private void imgProcGreenSlider_ValueChanged(object sender, EventArgs e)
@@ -494,6 +510,8 @@ namespace AeroScenery.UI
             {
                 imgProcGreenTextBox.Text = imgProcGreenSlider.Value.ToString();
             }
+
+            this.UpdateImagePreview();
         }
 
         private void imgProcBlueSlider_ValueChanged(object sender, EventArgs e)
@@ -503,6 +521,7 @@ namespace AeroScenery.UI
                 imgProcBlueTextBox.Text = imgProcBlueSlider.Value.ToString();
             }
 
+            this.UpdateImagePreview();
         }
 
         private void imgProcBrightnessTextBox_Leave(object sender, EventArgs e)
@@ -591,7 +610,7 @@ namespace AeroScenery.UI
 
         private void imgProcSharpessTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.imgProcTextBoxTextChanged(this.imgProcSharpnessTextBox, this.imgProcSharpnessSlider, 0, 100);
+            this.imgProcTextBoxTextChanged(this.imgProcSharpnessTextBox, this.imgProcSharpnessSlider, 0, 10);
         }
 
         private void imgProcRedTextBox_TextChanged(object sender, EventArgs e)
@@ -623,16 +642,45 @@ namespace AeroScenery.UI
 
         private void showPreviewWindowButton_Click(object sender, EventArgs e)
         {
+            if (this.imageProcessingPreviewForm != null)
+            {
+                if (this.imageProcessingPreviewForm.IsDisposed)
+                {
+                    this.imageProcessingPreviewForm = null;
+                }
+                else
+                {
+                    this.imageProcessingPreviewForm.Show();
+                }
+            }
+
             if (this.imageProcessingPreviewForm == null)
             {
                 this.imageProcessingPreviewForm = new ImageProcessingPreviewForm();
             }
 
+
             this.imageProcessingPreviewForm.StartPosition = FormStartPosition.Manual;
             this.imageProcessingPreviewForm.Height = this.Height;
             this.imageProcessingPreviewForm.Left = this.Right;
             this.imageProcessingPreviewForm.Top = this.Top;
+
             this.imageProcessingPreviewForm.Show();
+            this.UpdateImagePreview();
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            this.updateImagePreview = false;
+            this.imgProcBrightnessSlider.Value = 0;
+            this.imgProcContrastSlider.Value = 0;
+            this.imgProcSaturationSlider.Value = 0;
+            this.imgProcSharpnessSlider.Value = 0;
+            this.imgProcRedSlider.Value = 0;
+            this.imgProcGreenSlider.Value = 0;
+            this.imgProcBlueSlider.Value = 0;
+            this.updateImagePreview = true;
+
             this.UpdateImagePreview();
         }
     }

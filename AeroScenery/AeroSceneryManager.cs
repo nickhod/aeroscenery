@@ -537,6 +537,17 @@ namespace AeroScenery
             this.settingsService.SaveSettings(this.settings);
         }
 
+        public string ApplicationPath
+        {
+            get
+            {
+                var applicationUri = System.Reflection.Assembly.GetExecutingAssembly().CodeBase;
+                var applicationLocalPath = new Uri(Path.GetDirectoryName(applicationUri)).LocalPath;
+                return applicationLocalPath;
+
+            }
+        }
+
 
     }
 }
