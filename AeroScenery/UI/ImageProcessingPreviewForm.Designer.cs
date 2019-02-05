@@ -33,6 +33,7 @@
             this.previewImageCombo = new System.Windows.Forms.ComboBox();
             this.openImageButton = new System.Windows.Forms.Button();
             this.previewPictureBox = new System.Windows.Forms.PictureBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.previewPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             // 
             this.previewImageCombo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.previewImageCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.previewImageCombo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.previewImageCombo.FormattingEnabled = true;
             this.previewImageCombo.Items.AddRange(new object[] {
@@ -63,6 +65,7 @@
             this.previewImageCombo.Name = "previewImageCombo";
             this.previewImageCombo.Size = new System.Drawing.Size(389, 25);
             this.previewImageCombo.TabIndex = 2;
+            this.previewImageCombo.SelectedIndexChanged += new System.EventHandler(this.previewImageCombo_SelectedIndexChanged);
             // 
             // openImageButton
             // 
@@ -74,6 +77,7 @@
             this.openImageButton.TabIndex = 3;
             this.openImageButton.Text = "Open Image";
             this.openImageButton.UseVisualStyleBackColor = true;
+            this.openImageButton.Click += new System.EventHandler(this.openImageButton_Click);
             // 
             // previewPictureBox
             // 
@@ -84,8 +88,13 @@
             this.previewPictureBox.Location = new System.Drawing.Point(12, 54);
             this.previewPictureBox.Name = "previewPictureBox";
             this.previewPictureBox.Size = new System.Drawing.Size(604, 428);
+            this.previewPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.previewPictureBox.TabIndex = 0;
             this.previewPictureBox.TabStop = false;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // ImageProcessingPreviewForm
             // 
@@ -115,5 +124,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox previewImageCombo;
         private System.Windows.Forms.Button openImageButton;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
