@@ -19,6 +19,10 @@ Change log
 - Fixed issue with decimal separator parsing of "Shrink TMC grid squares" value
 - "Delete Files" map toolbar button now lets the user select what files to delete
 - Added fast delete files method to help with deleting many small image tiles
+- Added image processing capability for stitched images
+- Grid square sizes 9 - 14 available as selection sizes
+- Added GeoConvert Wrapper to run multiple GeoConvert instances in sequence
+
 
 0.6
 

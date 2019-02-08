@@ -101,6 +101,8 @@ namespace AeroScenery.UI
                 settings.GeoConvertWriteRawFiles = false;
             }
 
+            settings.GeoConvertUseWrapper = useGeoConvertWrapperCheckbox.Checked;
+
             //if (this.gcDoMultipleSmallerRunsComboBox.SelectedIndex == 0)
             //{
             //    settings.GeoConvertDoMultipleSmallerRuns= true;
@@ -192,6 +194,8 @@ namespace AeroScenery.UI
             {
                 this.gcWriteRawFilesComboBox.SelectedIndex = 1;
             }
+
+            useGeoConvertWrapperCheckbox.Checked = settings.GeoConvertUseWrapper.Value;
 
             this.usgsUsernameTextBox.Text = settings.USGSUsername;
             this.usgsPasswordTextBox.Text = settings.USGSPassword;

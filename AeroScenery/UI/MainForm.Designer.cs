@@ -333,9 +333,12 @@
             this.gridSquareSelectionSizeToolstripCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.gridSquareSelectionSizeToolstripCombo.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.gridSquareSelectionSizeToolstripCombo.Items.AddRange(new object[] {
-            "Level 9 - Large",
-            "Level 13 - Small",
-            "Level 14 - Smallest"});
+            "Level 9",
+            "Level 10",
+            "Level 11",
+            "Level 12 ",
+            "Level 13",
+            "Level 14"});
             this.gridSquareSelectionSizeToolstripCombo.Name = "gridSquareSelectionSizeToolstripCombo";
             this.gridSquareSelectionSizeToolstripCombo.Size = new System.Drawing.Size(121, 32);
             this.gridSquareSelectionSizeToolstripCombo.SelectedIndexChanged += new System.EventHandler(this.gridSquareSelectionSizeToolstripCombo_SelectedIndexChanged);

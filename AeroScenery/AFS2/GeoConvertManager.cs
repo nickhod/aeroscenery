@@ -15,7 +15,7 @@ namespace AeroScenery.AFS2
     {
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
-        public void RunGeoConvert(string stitchedTilesDirectory, MainForm mainForm)
+        public void RunGeoConvert(string stitchedTilesDirectory, MainForm mainForm, bool useWrapper)
         {
             if (Directory.Exists(stitchedTilesDirectory))
             {
@@ -43,20 +43,64 @@ namespace AeroScenery.AFS2
                             mainForm.UpdateChildTaskLabel("Running GeoConvert");
                             log.Info("Running GeoConvert");
 
-                            var proc = new Process
-                            {
-                                StartInfo = new ProcessStartInfo
-                                {
-                                    FileName = geoconvertFilename,
-                                    Arguments = tmcFilename,
-                                    UseShellExecute = true,
-                                    RedirectStandardOutput = false,
-                                    CreateNoWindow = false,
-                                    WorkingDirectory = geoconvertPath
-                                }
-                            };
 
-                            proc.Start();
+                            if (useWrapper)
+                            {
+                                var applicationPath = AeroSceneryManager.Instance.ApplicationPath;
+                                var geoconvertWrapperPath = String.Format("{0}\\GeoConvertWrapper.exe", applicationPath);
+
+
+                                if (!File.Exists(geoconvertWrapperPath))
+                                {
+                                    log.Error("Could not find GeoConvert Wrapper");
+
+                                    var messageBox = new CustomMessageBox("Could not find GeoConvert Wrapper",
+                                        "AeroScenery",
+                                        MessageBoxIcon.Error);
+
+                                    messageBox.ShowDialog();
+                                }
+                                else
+                                {
+                                    var arguments = String.Format("\"{0}\" \"{1}\"", geoconvertPath, tmcFilename);
+
+                                    var proc = new Process
+                                    {
+                                        StartInfo = new ProcessStartInfo
+                                        {
+                                            FileName = geoconvertWrapperPath,
+                                            Arguments = arguments,
+                                            UseShellExecute = true,
+                                            RedirectStandardOutput = false,
+                                            CreateNoWindow = false,
+                                            WorkingDirectory = geoconvertPath
+                                        }
+                                    };
+
+                                    proc.Start();
+                                    proc.WaitForExit();
+                                }
+
+                            }
+                            else
+                            {
+                                var proc = new Process
+                                {
+                                    StartInfo = new ProcessStartInfo
+                                    {
+                                        FileName = geoconvertFilename,
+                                        Arguments = tmcFilename,
+                                        UseShellExecute = true,
+                                        RedirectStandardOutput = false,
+                                        CreateNoWindow = false,
+                                        WorkingDirectory = geoconvertPath
+                                    }
+                                };
+
+                                proc.Start();
+                            }
+
+
 
                         }
 

@@ -389,63 +389,26 @@ namespace AeroScenery
                     }
                     else
                     {
-                        log.Info("Starting GeoConvert Process");
 
-                        int i = 0;
-
-                        // Run the Geoconvert process for each selected grid square
-                        foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+                        if (this.mainForm.SelectedAFS2GridSquares.Count > 1 && 
+                            this.settings.GeoConvertUseWrapper.Value == false)
                         {
-                            if (this.mainForm.ActionsRunning)
-                            {
-                                var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
-                                this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
-                                log.Info(currentGrideSquareMessage);
+                            string message = "When running GeoConvert on multiple squares it's advisable to use GeoCovnert Wrapper.\n";
+                            message += "This will make GeoConvert instances run sequentially rather than in parallel.\n";
+                            message += "You can enable GeoConvert Wrapper in the GeoConvert tab of the settings form.\n";
+                            message += "See the AeroScenery wiki for more information on how this works.\n";
 
-                                // Do we have a directory for this afs grid square in our working directory?
-                                var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
 
-                                if (Directory.Exists(afsGridSquareDirectory))
-                                {
-                                    var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
+                            var messageBox = new CustomMessageBox(message,
+                                "AeroScenery",
+                                MessageBoxIcon.Information);
 
-                                    if (Directory.Exists(stitchedTilesDirectory))
-                                    {
-                                        // Create raw and ttc directories if required. They could have been deleted manually.
-                                        var rawDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-raw\";
-                                        var ttcDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-ttc\";
-
-                                        if (!Directory.Exists(rawDirectory))
-                                        {
-                                            Directory.CreateDirectory(rawDirectory);
-                                        }
-
-                                        if (!Directory.Exists(ttcDirectory))
-                                        {
-                                            Directory.CreateDirectory(ttcDirectory);
-                                        }
-
-                                        this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm);
-                                    }
-                                    else
-                                    {
-                                        var messageBox = new CustomMessageBox(String.Format("Could not find any stitched images for the grid square {0}", afs2GridSquare.Name),
-                                            "AeroScenery",
-                                            MessageBoxIcon.Error);
-
-                                        messageBox.ShowDialog();
-                                    }
-
-                                }
-                                else
-                                {
-                                    // Working directory does not exist
-                                }
-
-                                i++;
-                            }
+                            messageBox.ShowDialog();
 
                         }
+
+                        RunGeoConvertProcess();
+
                     }
 
 
@@ -453,6 +416,67 @@ namespace AeroScenery
 
             }
 
+        }
+
+        public void RunGeoConvertProcess()
+        {
+            log.Info("Starting GeoConvert Process");
+
+            int i = 0;
+
+            // Run the Geoconvert process for each selected grid square
+            foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
+            {
+                if (this.mainForm.ActionsRunning)
+                {
+                    var currentGrideSquareMessage = String.Format("Working on AFS Grid Square {0} of {1}", i + 1, this.mainForm.SelectedAFS2GridSquares.Count());
+                    this.mainForm.UpdateParentTaskLabel(currentGrideSquareMessage);
+                    log.Info(currentGrideSquareMessage);
+
+                    // Do we have a directory for this afs grid square in our working directory?
+                    var afsGridSquareDirectory = this.settings.WorkingDirectory + afs2GridSquare.Name;
+
+                    if (Directory.Exists(afsGridSquareDirectory))
+                    {
+                        var stitchedTilesDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-stitched\";
+
+                        if (Directory.Exists(stitchedTilesDirectory))
+                        {
+                            // Create raw and ttc directories if required. They could have been deleted manually.
+                            var rawDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-raw\";
+                            var ttcDirectory = GetTileDownloadDirectory(afsGridSquareDirectory) + this.settings.ZoomLevel + @"-geoconvert-ttc\";
+
+                            if (!Directory.Exists(rawDirectory))
+                            {
+                                Directory.CreateDirectory(rawDirectory);
+                            }
+
+                            if (!Directory.Exists(ttcDirectory))
+                            {
+                                Directory.CreateDirectory(ttcDirectory);
+                            }
+
+                            this.geoConvertManager.RunGeoConvert(stitchedTilesDirectory, this.mainForm, this.settings.GeoConvertUseWrapper.Value);
+                        }
+                        else
+                        {
+                            var messageBox = new CustomMessageBox(String.Format("Could not find any stitched images for the grid square {0}", afs2GridSquare.Name),
+                                "AeroScenery",
+                                MessageBoxIcon.Error);
+
+                            messageBox.ShowDialog();
+                        }
+
+                    }
+                    else
+                    {
+                        // Working directory does not exist
+                    }
+
+                    i++;
+                }
+
+            }
         }
 
         private void ResetGridSquare(string gridSquareName)

@@ -9,6 +9,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AeroSceneryInstaller", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroSceneryCultivationEditor", "..\AeroSceneryCultivationEditor\AeroSceneryCultivationEditor.csproj", "{AC170ADE-CADA-49B6-8E7A-7CB0A759BCC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoConvertWrapper", "..\GeoConvertWrapper\GeoConvertWrapper.csproj", "{4F4F7EB5-A435-4D39-B21F-3D988AC00759}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,14 @@ Global
 		{AC170ADE-CADA-49B6-8E7A-7CB0A759BCC8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AC170ADE-CADA-49B6-8E7A-7CB0A759BCC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{AC170ADE-CADA-49B6-8E7A-7CB0A759BCC8}.Release|x86.Build.0 = Release|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Debug|x86.Build.0 = Debug|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Release|x86.ActiveCfg = Release|Any CPU
+		{4F4F7EB5-A435-4D39-B21F-3D988AC00759}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

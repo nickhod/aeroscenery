@@ -280,12 +280,14 @@ namespace AeroScenery.Data
             if (settings.GeoConvertDoMultipleSmallerRuns == null)
                 settings.GeoConvertDoMultipleSmallerRuns = false;
 
+            if (settings.GeoConvertUseWrapper == null)
+                settings.GeoConvertUseWrapper = false;
+
             if (settings.USGSUsername == null)
                 settings.USGSUsername = "";
 
             if (settings.USGSPassword == null)
                 settings.USGSPassword = "";
-
 
             if (settings.ElevationSettings.DownloadElevationData == null)
                 settings.ElevationSettings.DownloadElevationData = true;

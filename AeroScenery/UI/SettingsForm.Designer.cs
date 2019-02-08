@@ -79,6 +79,7 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.resetButton = new System.Windows.Forms.Button();
             this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
             this.imgProcGreenTextBox = new System.Windows.Forms.TextBox();
             this.imgProcRedTextBox = new System.Windows.Forms.TextBox();
@@ -102,7 +103,8 @@
             this.label18 = new System.Windows.Forms.Label();
             this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
             this.showPreviewWindowButton = new System.Windows.Forms.Button();
-            this.resetButton = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
+            this.useGeoConvertWrapperCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -445,6 +447,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.useGeoConvertWrapperCheckbox);
+            this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.label11);
             this.groupBox4.Controls.Add(this.shrinkTMCGridSquaresTextBox);
             this.groupBox4.Controls.Add(this.label15);
@@ -455,7 +459,7 @@
             this.groupBox4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(14, 9);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(654, 144);
+            this.groupBox4.Size = new System.Drawing.Size(654, 249);
             this.groupBox4.TabIndex = 13;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "GeoConvert";
@@ -673,6 +677,16 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Image Processing";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // resetButton
+            // 
+            this.resetButton.Location = new System.Drawing.Point(421, 15);
+            this.resetButton.Name = "resetButton";
+            this.resetButton.Size = new System.Drawing.Size(82, 29);
+            this.resetButton.TabIndex = 23;
+            this.resetButton.Text = "Reset";
+            this.resetButton.UseVisualStyleBackColor = true;
+            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
             // 
             // imgProcBlueTextBox
             // 
@@ -924,15 +938,25 @@
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
             this.showPreviewWindowButton.Click += new System.EventHandler(this.showPreviewWindowButton_Click);
             // 
-            // resetButton
+            // label25
             // 
-            this.resetButton.Location = new System.Drawing.Point(421, 15);
-            this.resetButton.Name = "resetButton";
-            this.resetButton.Size = new System.Drawing.Size(82, 29);
-            this.resetButton.TabIndex = 23;
-            this.resetButton.Text = "Reset";
-            this.resetButton.UseVisualStyleBackColor = true;
-            this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(20, 143);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(159, 17);
+            this.label25.TabIndex = 11;
+            this.label25.Text = "Use GeoConvert Wrapper";
+            // 
+            // useGeoConvertWrapperCheckbox
+            // 
+            this.useGeoConvertWrapperCheckbox.AutoSize = true;
+            this.useGeoConvertWrapperCheckbox.Location = new System.Drawing.Point(216, 142);
+            this.useGeoConvertWrapperCheckbox.Name = "useGeoConvertWrapperCheckbox";
+            this.useGeoConvertWrapperCheckbox.Size = new System.Drawing.Size(367, 21);
+            this.useGeoConvertWrapperCheckbox.TabIndex = 12;
+            this.useGeoConvertWrapperCheckbox.Text = "(Allows multiple squares to be GeoConverted sequentially)";
+            this.useGeoConvertWrapperCheckbox.UseVisualStyleBackColor = true;
             // 
             // SettingsForm
             // 
@@ -1057,5 +1081,7 @@
         private System.Windows.Forms.TextBox imgProcContrastTextBox;
         private System.Windows.Forms.TextBox imgProcBrightnessTextBox;
         private System.Windows.Forms.Button resetButton;
+        private System.Windows.Forms.CheckBox useGeoConvertWrapperCheckbox;
+        private System.Windows.Forms.Label label25;
     }
 }

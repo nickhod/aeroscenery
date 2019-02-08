@@ -65,6 +65,8 @@ namespace AeroScenery.Common
 
         public bool? GeoConvertDoMultipleSmallerRuns { get; set; }
 
+        public bool? GeoConvertUseWrapper { get; set; }
+
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
 

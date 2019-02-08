@@ -1185,15 +1185,36 @@ namespace AeroScenery
                     this.ClearAllSelectedAFSGridSquares();
                     break;
 
-                // 13
+                // 10
                 case 1:
+                    this.afsGridSquareSelectionSize = 10;
+                    this.ClearAllSelectedAFSGridSquares();
+                    minAFSLevel = 10;
+                    break;
+
+                // 11
+                case 2:
+                    this.afsGridSquareSelectionSize = 11;
+                    this.ClearAllSelectedAFSGridSquares();
+                    minAFSLevel = 11;
+                    break;
+
+                // 12
+                case 3:
+                    this.afsGridSquareSelectionSize = 12;
+                    this.ClearAllSelectedAFSGridSquares();
+                    minAFSLevel = 12;
+                    break;
+
+                // 13
+                case 4:
                     this.afsGridSquareSelectionSize = 13;
                     this.ClearAllSelectedAFSGridSquares();
                     minAFSLevel = 13;
                     break;
 
                 // 14
-                case 2:
+                case 5:
                     this.afsGridSquareSelectionSize = 14;
                     this.ClearAllSelectedAFSGridSquares();
                     minAFSLevel = 14;
@@ -1325,6 +1346,66 @@ namespace AeroScenery
                     {
                         afsLevels.Add(15);
                     }
+
+                    break;
+
+
+                case 10:
+
+                    afsLevels.Add(10);
+                    afsLevels.Add(11);
+                    afsLevels.Add(12);
+
+                    if (zoomLevel > 15)
+                    {
+                        afsLevels.Add(13);
+                    }
+
+                    if (zoomLevel > 16)
+                    {
+                        afsLevels.Add(14);
+                    }
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+
+                    break;
+
+                case 11:
+
+                    afsLevels.Add(11);
+                    afsLevels.Add(12);
+                    afsLevels.Add(13);
+
+                    if (zoomLevel > 16)
+                    {
+                        afsLevels.Add(14);
+                    }
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+
+                    break;
+
+                case 12:
+
+                    afsLevels.Add(12);
+                    afsLevels.Add(13);
+
+                    if (zoomLevel > 16)
+                    {
+                        afsLevels.Add(14);
+                    }
+
+                    if (zoomLevel > 17)
+                    {
+                        afsLevels.Add(15);
+                    }
+
 
                     break;
                 case 13:
