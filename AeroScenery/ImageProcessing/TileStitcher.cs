@@ -24,6 +24,8 @@ namespace AeroScenery.ImageProcessing
 
         private XmlSerializer xmlSerializer;
         private XmlSerializer stitchedImageXmlSerializer;
+        private ImageProcessingFilters imageProcessingFilters;
+
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals, IProgress<TileStitcherProgress> progress)
@@ -32,6 +34,7 @@ namespace AeroScenery.ImageProcessing
             {
                 var tileStitcherProgress = new TileStitcherProgress();
 
+                this.imageProcessingFilters = new ImageProcessingFilters();
                 this.xmlSerializer = new XmlSerializer(typeof(ImageTile));
                 this.stitchedImageXmlSerializer = new XmlSerializer(typeof(StitchedImage));
 
@@ -230,6 +233,22 @@ namespace AeroScenery.ImageProcessing
                             //Debug.WriteLine("Rows Used " + rowsUsed);
                             //Debug.WriteLine("Columns Used " + columnsUsed);
 
+                            var settings = AeroSceneryManager.Instance.Settings;
+
+                            if (settings.EnableImageProcessing.Value)
+                            {
+                                var imageProcessingSettings = new ImageProcessingSettings();
+                                imageProcessingSettings.BrightnessAdjustment = settings.BrightnessAdjustment;
+                                imageProcessingSettings.ContrastAdjustment = settings.ContrastAdjustment;
+                                imageProcessingSettings.SaturationAdjustment = settings.SaturationAdjustment;
+                                imageProcessingSettings.SharpnessAdjustment = settings.SharpnessAdjustment;
+                                imageProcessingSettings.RedAdjustment = settings.RedAdjustment;
+                                imageProcessingSettings.GreenAdjustment = settings.GreenAdjustment;
+                                imageProcessingSettings.BlueAdjustment = settings.BlueAdjustment;
+
+                                this.imageProcessingFilters.ApplyFilters(imageProcessingSettings, bitmap);
+                            }
+
 
                             // Have we drawn an image to the maximum number of rows and columns for this image?
                             if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
@@ -260,6 +279,7 @@ namespace AeroScenery.ImageProcessing
 
             });
         }
+
 
         public void CropBitmap(Bitmap bitmap, Rectangle rectangle, string stitchedTilesDirectory, string stitchFilename)
         {

@@ -2,6 +2,7 @@
 using AForge.Imaging.Filters;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,19 @@ namespace AeroScenery.ImageProcessing
 {
     public class ImageProcessingFilters
     {
+        public void ApplyFilters(ImageProcessingSettings imageProcessingSettings, Bitmap bitmap)
+        {
+            var filters = this.GetFilterList(imageProcessingSettings);
+
+            foreach (IInPlaceFilter filter in filters)
+            {
+                lock (bitmap)
+                {
+                    filter.ApplyInPlace(bitmap);
+                }
+            }
+        }
+
         public IList<IFilter> GetFilterList(ImageProcessingSettings imageProcessingSettings)
         {
             var filterList = new List<IFilter>();
