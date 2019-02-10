@@ -101,7 +101,7 @@ namespace AeroScenery.Download
                                 // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                 if (imageTiles != null && imageTiles.Count > 0)
                                 {
-                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory);
+                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory, orthophotoSource);
                                 }
 
                                 // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
@@ -136,7 +136,7 @@ namespace AeroScenery.Download
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                     if (imageTiles != null && imageTiles.Count > 0)
                                     {
-                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory);
+                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory, orthophotoSource);
                                     }
 
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
@@ -168,7 +168,7 @@ namespace AeroScenery.Download
             }
         }
 
-        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path)
+        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path, OrthophotoSource orthophotoSource)
         {
             string fullFilePath = path + imageTile.FileName + "." + imageTile.ImageExtension;
 
@@ -188,14 +188,45 @@ namespace AeroScenery.Download
             {
                 var responseResult = httpClient.GetAsync(imageTile.URL);
 
-                using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
-                {
-                    using (var fileStream = File.Create(fullFilePath))
-                    {
-                        memStream.CopyTo(fileStream);
-                    }
+                bool saveFile = true;
 
+                // If we are Bing we might be served a valid image but there is really no tile available
+                if (orthophotoSource == OrthophotoSource.Bing)
+                {
+                    // Check the Bing tile info header
+                    if (responseResult.Result.Headers.Contains("X-VE-Tile-Info"))
+                    {
+                        var tileInfoHeaderValue = responseResult.Result.Headers.GetValues("X-VE-Tile-Info").FirstOrDefault();
+
+                        // If there is really no file, the header value will be no-tile
+                        // In this case we shouldn't save the image
+                        if (tileInfoHeaderValue == "no-tile")
+                        {
+                            saveFile = false;
+                        }
+                    }
                 }
+
+                if (saveFile)
+                {
+                    using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
+                    {
+                        using (var fileStream = File.Create(fullFilePath))
+                        {
+                            var fileSize = memStream.Length;
+
+                            if (fileSize == 1033)
+                            {
+                                var afd = "asdf";
+                            }
+
+                            memStream.CopyTo(fileStream);
+                        }
+
+                    }
+                }
+
+
             }
             catch (Exception ex)
             {
