@@ -95,9 +95,10 @@ namespace AeroScenery.AFS2
 
             // Aerofly names grid squares as follows:
             // map_level_ hex((65536 / 2 ^ level) * grid square x) _ hex((65536 / 2 ^ level) * grid square y)
+            // Hex is based on the South West corner
 
             int xInt = (int)((65536 / Math.Pow(2,level)) * nwCornerWorldGridX);
-            int yInt = (int)((65536 / Math.Pow(2, level)) * nwCornerWorldGridY);
+            int yInt = (int)((65536 / Math.Pow(2, level)) * (nwCornerWorldGridY-1));
             var xHex = xInt.ToString("x4");
             var yHex = yInt.ToString("x4");
 

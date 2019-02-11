@@ -360,6 +360,9 @@ namespace AeroScenery.Data
             if (settings.BlueAdjustment == null)
                 settings.BlueAdjustment = 0;
 
+            if (settings.GridSquareNamesFixed == null)
+                settings.GridSquareNamesFixed = false;
+
     }
 
         public void CheckConfiguredDirectories(Settings settings)

@@ -799,6 +799,7 @@
             this.deleteStitchedImagesCheckBox.TabIndex = 4;
             this.deleteStitchedImagesCheckBox.Text = "Delete Stitched Images";
             this.deleteStitchedImagesCheckBox.UseVisualStyleBackColor = true;
+            this.deleteStitchedImagesCheckBox.Visible = false;
             this.deleteStitchedImagesCheckBox.CheckedChanged += new System.EventHandler(this.deleteStitchedImagesCheckBox_CheckedChanged);
             // 
             // runGeoConvertCheckBox

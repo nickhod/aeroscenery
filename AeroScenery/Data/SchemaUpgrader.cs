@@ -36,6 +36,9 @@ namespace AeroScenery.Data
                     this.UpgradeToVersion4();
                     break;
                 case 4:
+                    this.UpgradeToVersion5();
+                    break;
+                case 5:
                     //this.UpgradeToVersion5();
                     break;
             }
@@ -117,7 +120,24 @@ namespace AeroScenery.Data
 
 
             this.SaveNewSchemaVersion(4);
-            //this.UpgradeToVersion5();
+            this.UpgradeToVersion5();
+        }
+
+        private void UpgradeToVersion5()
+        {
+            log.Info("Updating database to version 5");
+
+            using (var con = DbConnection())
+            {
+                // Add a column for airport url
+                con.Open();
+                con.Execute(@"ALTER TABLE GridSquares ADD COLUMN Fixed INTEGER DEFAULT 0;");
+                con.Close();
+            }
+
+
+            this.SaveNewSchemaVersion(5);
+            //this.UpgradeToVersion6();
         }
 
         private SQLiteConnection DbConnection()

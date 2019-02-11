@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿using AeroScenery.Data.Models;
+using GMap.NET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,27 @@ namespace AeroScenery.AFS2
             {
                 return this.Coordinates[2].Lng;
             }
+        }
+
+        public static AFS2GridSquare FromGridSquare(GridSquare gridSquare)
+        {
+            var afs2GridSquare = new AFS2GridSquare();
+
+            var pointLatLon1 = new PointLatLng(gridSquare.NorthLatitude, gridSquare.WestLongitude);
+            var pointLatLon2 = new PointLatLng(gridSquare.NorthLatitude, gridSquare.EastLongitude);
+            var pointLatLon3 = new PointLatLng(gridSquare.SouthLatitude, gridSquare.EastLongitude);
+            var pointLatLon4 = new PointLatLng(gridSquare.SouthLatitude, gridSquare.WestLongitude);
+
+            afs2GridSquare.Coordinates.Add(pointLatLon1);
+            afs2GridSquare.Coordinates.Add(pointLatLon2);
+            afs2GridSquare.Coordinates.Add(pointLatLon3);
+            afs2GridSquare.Coordinates.Add(pointLatLon4);
+
+            afs2GridSquare.Name = gridSquare.Name;
+            afs2GridSquare.Level = gridSquare.Level;
+
+            return afs2GridSquare;
+
         }
     }
 }

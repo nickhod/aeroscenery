@@ -88,6 +88,8 @@ namespace AeroScenery.Common
         public int? GreenAdjustment { get; set; }
         public int? BlueAdjustment { get; set; }
 
+        public bool? GridSquareNamesFixed { get; set; }
+
         public ElevationSettings ElevationSettings { get; set; }
     }
 }
