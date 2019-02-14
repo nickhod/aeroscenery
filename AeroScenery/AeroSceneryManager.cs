@@ -124,7 +124,8 @@ namespace AeroScenery
             this.dataRepository.Settings = settings;
             this.dataRepository.UpgradeDatabase();
 
-            this.FixGridSquareNames();
+            var gridSquareNameFixer = new GridSquareNameFixer(settings, this.dataRepository, this.settingsService);
+            gridSquareNameFixer.FixGridSquareNames();
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>
@@ -149,35 +150,6 @@ namespace AeroScenery
 
         }
 
-        private void FixGridSquareNames()
-        {
-            if (!settings.GridSquareNamesFixed.Value)
-            {
-                var afsGrid = new AFS2Grid();
-
-                var gridSquares = this.dataRepository.GetAllGridSquares();
-
-                foreach (GridSquare gridSquare in gridSquares)
-                {
-                    var afs2GridSquare = AFS2GridSquare.FromGridSquare(gridSquare);
-                    var squareCenter = afs2GridSquare.GetCenter();
-
-                    if (gridSquare.Level == 12)
-                    {
-                        var asdf = "adsf";
-                    }
-
-                    var newGridSquare = afsGrid.GetGridSquareAtLatLon(squareCenter.Lat, squareCenter.Lng, gridSquare.Level);
-
-                    var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + gridSquare.Name;
-
-
-
-                }
-
-                //SaveSettings();
-            }
-        }
 
         private string GetTileDownloadDirectory(string afsGridSquareDirectory)
         {

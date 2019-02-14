@@ -15,5 +15,6 @@ namespace AeroScenery.Data.Models
         public double WestLongitude { get; set; }
         public double SouthLatitude { get; set; }
         public int Level { get; set; }
+        public int Fixed { get; set; }
     }
 }

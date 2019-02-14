@@ -32,10 +32,12 @@ namespace AeroScenery.Data
 
         public void CreateGridSquare(GridSquare gridSquare)
         {
+            gridSquare.Fixed = 1;
+
             using (var con = DbConnection())
             {
-                var query = @"INSERT INTO GridSquares (Name, NorthLatitude, EastLongitude, WestLongitude, SouthLatitude, Level) VALUES 
-                            (@Name, @NorthLatitude, @EastLongitude, @WestLongitude, @SouthLatitude, @Level);
+                var query = @"INSERT INTO GridSquares (Name, NorthLatitude, EastLongitude, WestLongitude, SouthLatitude, Level, Fixed) VALUES 
+                            (@Name, @NorthLatitude, @EastLongitude, @WestLongitude, @SouthLatitude, @Level, @Fixed);
                             SELECT last_insert_rowid();";
 
                 con.Open();
@@ -52,8 +54,9 @@ namespace AeroScenery.Data
                             NorthLatitude=@NorthLatitude,
                             EastLongitude=@EastLongitude,
                             WestLongitude=@WestLongitude,
-                            SouthLatitude=@SouthLatitude 
-                            Level=@Level
+                            SouthLatitude=@SouthLatitude, 
+                            Level=@Level,
+                            Fixed=@Fixed
                             WHERE GridSquareId=@GridSquareId";
 
                 con.Open();
