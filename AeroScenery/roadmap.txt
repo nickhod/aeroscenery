@@ -1,24 +1,4 @@
-﻿v0.7
+﻿v1.1
 
-- Install scenery into AFS directly from AeroScenery
-- Automatic image processing of stitched images (brightness / saturation)
-
-v1.0
-
-- USGS imagery download
-
-v1.1
-
-- Worldwide high-resolution elevation data download (from USGS)
-
-v1.2
-
-- GUI Cultivation
-
-v1.3 (High effort)
-
-- Tree / forest image based detection and cultivation 
-
-v1.4
-
-- Smooth coastline transparency
+Before and after for image processing preview images
+ArcGIS image source

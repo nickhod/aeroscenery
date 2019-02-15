@@ -358,13 +358,35 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="aeroscenery.ico" />
-    <Content Include="changelog.txt" />
+    <Content Include="changelog.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\arrow_down_active.png" />
     <Content Include="Resources\picture_edit.png" />
+    <Content Include="Resources\SampleImages\rural_arid.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SampleImages\rural_green.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SampleImages\semi_rural_arid.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\SampleImages\semi_rural_green.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="roadmap.txt" />
+    <Content Include="Resources\SampleImages\urban1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SampleImages\urban2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\SampleImages\urban3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="roadmap.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\socklight.png" />
     <None Include="Resources\windsock.png" />
   </ItemGroup>

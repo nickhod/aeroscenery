@@ -39,6 +39,7 @@ Urban 2*/
             previewImages.Add(4, "Rural Arid");
             previewImages.Add(5, "Urban 1");
             previewImages.Add(6, "Urban 2");
+            previewImages.Add(7, "Urban 3");
 
             this.previewImageCombo.DataSource = new BindingSource(previewImages, null);
             previewImageCombo.DisplayMember = "Value";
@@ -122,11 +123,15 @@ Urban 2*/
                     break;
                 //Urban 1
                 case 5:
-                    imageName = "urban_1.jpg";
+                    imageName = "urban1.jpg";
                     break;
                 //Urban 2
                 case 6:
-                    imageName = "urban_2.jpg";
+                    imageName = "urban2.jpg";
+                    break;
+                // Urban 3
+                case 7:
+                    imageName = "urban3.jpg";
                     break;
             }
 
@@ -146,7 +151,7 @@ Urban 2*/
 
         private void openImageButton_Click(object sender, EventArgs e)
         {
-            this.openFileDialog1.Title = "Open O,age File";
+            this.openFileDialog1.Title = "Open Image File";
             this.openFileDialog1.Filter = "JPEG Files (*.jpg)|*.jpg|PNG Files (*.png)|*.png|All Files (*.*)|*.*";
             this.openFileDialog1.InitialDirectory = AeroScenery.AeroSceneryManager.Instance.Settings.AFS2Directory;
             this.openFileDialog1.CheckFileExists = true;

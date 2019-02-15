@@ -22,6 +22,7 @@ Change log
 - Added image processing capability for stitched images
 - Grid square sizes 9 - 14 available as selection sizes
 - Added GeoConvert Wrapper to run multiple GeoConvert instances in sequence
+- Fixed incorrect grid square hex names on first run
 
 
 0.6

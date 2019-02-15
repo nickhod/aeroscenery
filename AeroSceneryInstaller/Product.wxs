@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?>
+  <?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?><?define GeoConvertWrapper_TargetDir=$(var.GeoConvertWrapper.TargetDir)?>
 	<Product Id="*" Name="AeroScenery" Language="1033" Version="1.0.0.0" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
@@ -12,12 +12,12 @@
       <ComponentGroupRef Id="ProgramFilesFolderX86_files" />
       <ComponentGroupRef Id="ProgramFilesFolderX64_files" />
       <ComponentRef Id="ApplicationShortcut" />
+      <ComponentGroupRef Id="Resources_SampleImages_files" />
     </Feature>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="ce72215a-172f-486d-8c9b-8c4503407b43">
-        <Shortcut Id="ApplicationStartMenuShortcut" Name="AeroScenery" Description="AeroScnery Scenery Generation App" 
-                  Target="[#AeroScenery.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="AeroScenery" Description="AeroScnery Scenery Generation App" Target="[#AeroScenery.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" />
         <!--<Shortcut Id="SceneryEditorStartMenuShortcut" Name="AeroScenery Scenery Editor" Description="AeroScnery Scenery Editor" 
         Target="[#AeroScenery.exe]" Arguments="/sceneryeditor" WorkingDirectory="APPLICATIONROOTDIRECTORY" />-->
         
@@ -34,6 +34,9 @@
         <Directory Id="INSTALLFOLDER" Name="AeroScenery">
           <Directory Id="X86FOLDER" Name="x86"></Directory>
           <Directory Id="X64FOLDER" Name="x64"></Directory>
+        </Directory>
+        <Directory Id="Resources" Name="Resources">
+          <Directory Id="Resources_SampleImages" Name="SampleImages" />
         </Directory>
 			</Directory>
       <Directory Id="ProgramMenuFolder">
@@ -93,6 +96,27 @@
       <Component Id="WeifenLuo.WinFormsUI.Docking.dll" Guid="16420d1d-bc39-4cdd-ab39-1c94e73ae347">
         <File Id="WeifenLuo.WinFormsUI.Docking.dll" Name="WeifenLuo.WinFormsUI.Docking.dll" Source="$(var.AeroScenery_TargetDir)WeifenLuo.WinFormsUI.Docking.dll" />
       </Component>
+      <Component Id="AForge.Imaging.dll" Guid="02707abe-4764-455c-8642-7aa0c840ba1f">
+        <File Id="AForge.Imaging.dll" Name="AForge.Imaging.dll" Source="$(var.AeroScenery_TargetDir)AForge.Imaging.dll" />
+      </Component>
+      <Component Id="AForge.dll" Guid="c922e3de-a4dd-4ee7-9c0b-3d706194f6f9">
+        <File Id="AForge.dll" Name="AForge.dll" Source="$(var.AeroScenery_TargetDir)AForge.dll" />
+      </Component>
+      <Component Id="AForge.Math.dll" Guid="d47d5b68-c238-4f32-9b27-5bc7b7c12e5b">
+        <File Id="AForge.Math.dll" Name="AForge.Math.dll" Source="$(var.AeroScenery_TargetDir)AForge.Math.dll" />
+      </Component>
+      <Component Id="changelog.txt" Guid="8c2e8d79-d7e8-4406-acc3-44e5c3f14753">
+        <File Id="changelog.txt" Name="changelog.txt" Source="$(var.AeroScenery_TargetDir)changelog.txt" />
+      </Component>
+      <Component Id="roadmap.txt" Guid="db47afad-3dc5-45f9-b2be-7be59dbdc2bd">
+        <File Id="roadmap.txt" Name="roadmap.txt" Source="$(var.AeroScenery_TargetDir)roadmap.txt" />
+      </Component>
+      <Component Id="GeoConvertWrapper.exe" Guid="78bfb1b1-3d94-447a-b4b1-9a57da806800">
+        <File Id="GeoConvertWrapper.exe" Name="GeoConvertWrapper.exe" Source="$(var.GeoConvertWrapper_TargetDir)GeoConvertWrapper.exe" />
+      </Component>
+      <Component Id="GeoConvertWrapper.exe.config" Guid="3bb5e786-88e7-4760-b769-743285335ce1">
+        <File Id="GeoConvertWrapper.exe.config" Name="GeoConvertWrapper.exe.config" Source="$(var.GeoConvertWrapper_TargetDir)GeoConvertWrapper.exe.config" />
+      </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="ProgramFilesFolderX86_files" Directory="X86FOLDER">
@@ -107,5 +131,31 @@
       </Component>
     </ComponentGroup>
 	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Resources_SampleImages_files" Directory="Resources_SampleImages">
+      <Component Id="Resources_SampleImages_rural_arid.jpg" Guid="03a548cb-9c4e-4cf2-af5b-14f928e7959c">
+        <File Id="Resources_SampleImages_rural_arid.jpg" Name="rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\rural_arid.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_rural_green.jpg" Guid="c76d6276-1831-4055-8137-b349b92064aa">
+        <File Id="Resources_SampleImages_rural_green.jpg" Name="rural_green.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\rural_green.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_semi_rural_arid.jpg" Guid="9a150a2d-368b-4c34-83b0-81eaa3fe66ad">
+        <File Id="Resources_SampleImages_semi_rural_arid.jpg" Name="semi_rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\semi_rural_arid.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_semi_rural_green.jpg" Guid="5eb9077a-6e69-45b1-b6f6-b379988e008b">
+        <File Id="Resources_SampleImages_semi_rural_green.jpg" Name="semi_rural_green.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\semi_rural_green.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_urban1.jpg" Guid="01f839b9-9cf2-43c1-baf0-8be98287cd67">
+        <File Id="Resources_SampleImages_urban1.jpg" Name="urban1.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban1.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_urban2.jpg" Guid="b6a0999f-1310-4da1-bf3d-45be069d4a9b">
+        <File Id="Resources_SampleImages_urban2.jpg" Name="urban2.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban2.jpg" />
+      </Component>
+      <Component Id="Resources_SampleImages_urban3.jpg" Guid="bda1947e-512d-43f5-90b8-8a62c07aab7e">
+        <File Id="Resources_SampleImages_urban3.jpg" Name="urban3.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban3.jpg" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 
 </Wix>
