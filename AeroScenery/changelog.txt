@@ -23,6 +23,7 @@ Change log
 - Grid square sizes 9 - 14 available as selection sizes
 - Added GeoConvert Wrapper to run multiple GeoConvert instances in sequence
 - Fixed incorrect grid square hex names on first run
+- Url templates for orthophoto sources are read from settings
 
 
 0.6

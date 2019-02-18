@@ -157,6 +157,7 @@
     <Compile Include="Common\GeoCoordinatesHelper.cs" />
     <Compile Include="Common\GMapProviderHelper.cs" />
     <Compile Include="Common\ImageTile.cs" />
+    <Compile Include="Common\OrthophotoSourceSettings.cs" />
     <Compile Include="Common\Point.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Common\StitchedImage.cs" />

@@ -59,10 +59,6 @@ namespace AeroScenery
 
         public AeroSceneryManager()
         {
-            bingOrthophotoSource = new BingOrthophotoSource();
-            googleOrthophotoSource = new GoogleOrthophotoSource();
-            usgsOrthophotoSource = new USGSOrthophotoSource();
-
             downloadManager = new DownloadManager();
             geoConvertManager = new GeoConvertManager();
             imageTileService = new ImageTileService();
@@ -126,6 +122,11 @@ namespace AeroScenery
 
             var gridSquareNameFixer = new GridSquareNameFixer(settings, this.dataRepository, this.settingsService);
             gridSquareNameFixer.FixGridSquareNames();
+
+            bingOrthophotoSource = new BingOrthophotoSource(settings.OrthophotoSourceSettings.BN_OrthophotoSourceUrlTemplate);
+            googleOrthophotoSource = new GoogleOrthophotoSource(settings.OrthophotoSourceSettings.GM_OrthophotoSourceUrlTemplate);
+            usgsOrthophotoSource = new USGSOrthophotoSource();
+
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>

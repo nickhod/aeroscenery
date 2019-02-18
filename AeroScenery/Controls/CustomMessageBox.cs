@@ -62,6 +62,11 @@ namespace AeroScenery.Controls
                 this.messageLbl.Location = new System.Drawing.Point(FORM_X_MARGIN, FORM_Y_MARGIN);
         }
 
+        public void SetMessage(string message)
+        {
+            this.messageLbl.Text = message;
+        }
+
         /// <summary>
         /// Get system icon for MessageBoxIcon.
         /// </summary>

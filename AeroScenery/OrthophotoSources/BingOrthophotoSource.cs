@@ -15,7 +15,14 @@ namespace AeroScenery.OrthophotoSources
 {
     public class BingOrthophotoSource : IOrthophotoSource
     {
-        private string urlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
+        public static string DefaultUrlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
+
+        private string urlTemplate;
+
+        public BingOrthophotoSource(string urlTemplate)
+        {
+            this.urlTemplate = urlTemplate;
+        }
 
         public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {

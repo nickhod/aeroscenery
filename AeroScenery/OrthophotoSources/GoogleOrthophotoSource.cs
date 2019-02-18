@@ -10,8 +10,14 @@ namespace AeroScenery.OrthophotoSources
 {
     public class GoogleOrthophotoSource : IOrthophotoSource
     {
-        private string urlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
+        public static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
 
+        private string urlTemplate;
+
+        public GoogleOrthophotoSource(string urlTemplate)
+        {
+            this.urlTemplate = urlTemplate;
+        }
 
         public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {

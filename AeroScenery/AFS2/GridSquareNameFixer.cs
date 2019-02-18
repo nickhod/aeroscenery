@@ -32,70 +32,110 @@ namespace AeroScenery.AFS2
         {
             if (!settings.GridSquareNamesFixed.Value)
             {
-                var sb = new StringBuilder();
-                sb.AppendLine("*** PLEASE READ ***");
-                sb.AppendLine("Previous versions of AeroScenery got the hex value of Aerofly tiles wrong.");
-                sb.AppendLine("");
-                sb.AppendLine("Entries in the AeroScenery database will be renamed.");
-                sb.AppendLine(string.Format("Relevant directories will be renamed under the folder {0}", settings.WorkingDirectory));
-                sb.AppendLine("Nothing will be changed in your Aerofly install or Aerofly user folders.");
-                sb.AppendLine("");
-                sb.AppendLine("Please make sure all files and Explorer windows are closed relating to the directory");
-                sb.AppendLine(string.Format("{0}", settings.WorkingDirectory));
+                var gridSquares = dataRepository.GetAllGridSquares();
 
-                var messageBox = new CustomMessageBox(sb.ToString(),
-                    "AeroScenery",
-                    MessageBoxIcon.Warning);
+                bool hasUnfixedGridSqures = false;
 
-                messageBox.SetButtons(
-                    new string[] { "OK", "Cancel" },
-                    new DialogResult[] { DialogResult.OK, DialogResult.Cancel });
-
-
-                var result = messageBox.ShowDialog();
-
-                switch (result)
+                // Do we have any unfixed grid squares?
+                if (gridSquares != null && gridSquares.Count > 0)
                 {
-                    case DialogResult.OK:
-
-                        var gridSquares = dataRepository.GetAllGridSquares();
-
-                        failedCount = 0;
-
-                        this.DoFirstDirectoryRename(gridSquares);
-
-                        var sb2 = new StringBuilder();
-                        sb2.AppendLine(string.Format("All directories with incorrect names under {0} have been prefixed with an underscore.", settings.WorkingDirectory));
-                        sb2.AppendLine("Click OK to continue with the rename process.");
-
-                        var messageBox2 = new CustomMessageBox(sb2.ToString(),
-                            "AeroScenery",
-                            MessageBoxIcon.Information);
-
-                        var result2 = messageBox2.ShowDialog();
-
-                        if (result2 == DialogResult.OK)
+                    foreach (GridSquare gridSquare in gridSquares)
+                    {
+                        if (gridSquare.Fixed == 0)
                         {
-                            Thread.Sleep(1000);
+                            hasUnfixedGridSqures = true;
+                            break;
+                        }
+                    }
+                }
 
-                            this.DoSecondDirectoryRename(gridSquares);
+                // If there are no grid squres to fix, we don't need to do anything
+                if (!hasUnfixedGridSqures)
+                {
+                    settings.GridSquareNamesFixed = true;
+                    settingsService.SaveSettings(settings);
+
+                }
+                else
+                {
+
+                    var pleaseWaitBox = new CustomMessageBox("Please Wait.\nThis may take a while if you have lots of existing AeroScenery downloads.",
+                        "AeroScenery",
+                        MessageBoxIcon.Information);
+
+                    pleaseWaitBox.Show();
+
+
+                    var sb = new StringBuilder();
+                    sb.AppendLine("*** PLEASE READ ***");
+                    sb.AppendLine("Previous versions of AeroScenery got the hex value of Aerofly tiles wrong.");
+                    sb.AppendLine("");
+                    sb.AppendLine("Entries in the AeroScenery database will be renamed.");
+                    sb.AppendLine("");
+                    sb.AppendLine(string.Format("Relevant directories will be renamed under the folder {0}", settings.WorkingDirectory));
+                    sb.AppendLine("Nothing will be changed in your Aerofly install or Aerofly user folders.");
+                    sb.AppendLine("");
+                    sb.AppendLine("Please make sure all files and Explorer windows are closed relating to the directory");
+                    sb.AppendLine(string.Format("{0}", settings.WorkingDirectory));
+
+                    var messageBox = new CustomMessageBox(sb.ToString(),
+                        "AeroScenery",
+                        MessageBoxIcon.Warning);
+
+                    messageBox.SetButtons(
+                        new string[] { "OK", "Cancel" },
+                        new DialogResult[] { DialogResult.OK, DialogResult.Cancel });
+
+
+                    var result = messageBox.ShowDialog();
+
+                    switch (result)
+                    {
+                        case DialogResult.OK:
+
+                            failedCount = 0;
+
+                            this.DoFirstDirectoryRename(gridSquares);
 
                             if (failedCount == 0)
                             {
-                                settings.GridSquareNamesFixed = true;
-                                settingsService.SaveSettings(settings);
+                                var sb2 = new StringBuilder();
+                                sb2.AppendLine(string.Format("All directories with incorrect names under {0} have been prefixed with an underscore.", settings.WorkingDirectory));
+                                sb2.AppendLine("Click OK to continue with the rename process.");
+
+                                var messageBox2 = new CustomMessageBox(sb2.ToString(),
+                                    "AeroScenery",
+                                    MessageBoxIcon.Information);
+
+                                var result2 = messageBox2.ShowDialog();
+
+                                if (result2 == DialogResult.OK)
+                                {
+                                    Thread.Sleep(1000);
+
+                                    this.DoSecondDirectoryRename(gridSquares);
+
+                                    if (failedCount == 0)
+                                    {
+                                        settings.GridSquareNamesFixed = true;
+                                        settingsService.SaveSettings(settings);
+                                    }
+
+                                }
                             }
 
-                        }
 
+                            pleaseWaitBox.Close();
 
-                        break;
-                    case DialogResult.Cancel:
+                            break;
+                        case DialogResult.Cancel:
 
-                        Environment.Exit(0);
+                            Environment.Exit(0);
 
-                        break;
+                            break;
+                    }
                 }
+
 
             }
         }
@@ -128,6 +168,7 @@ namespace AeroScenery.AFS2
             // First we need to move all directories 'out of the way'
             foreach (GridSquare gridSquare in gridSquares)
             {
+
                 if (gridSquare.Fixed == 0)
                 {
                     var gridSquareDirectory = AeroSceneryManager.Instance.Settings.WorkingDirectory + gridSquare.Name;
@@ -154,6 +195,7 @@ namespace AeroScenery.AFS2
                     }
 
                 }
+
             }
 
 

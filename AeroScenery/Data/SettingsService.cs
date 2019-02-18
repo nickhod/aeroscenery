@@ -1,5 +1,6 @@
 ﻿using AeroScenery.Common;
 using AeroScenery.Controls;
+using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
 using log4net;
 using System;
@@ -363,7 +364,12 @@ namespace AeroScenery.Data
             if (settings.GridSquareNamesFixed == null)
                 settings.GridSquareNamesFixed = false;
 
-    }
+            if (settings.OrthophotoSourceSettings.GM_OrthophotoSourceUrlTemplate == null)
+                settings.OrthophotoSourceSettings.GM_OrthophotoSourceUrlTemplate = GoogleOrthophotoSource.DefaultUrlTemplate;
+
+            if (settings.OrthophotoSourceSettings.BN_OrthophotoSourceUrlTemplate == null)
+                settings.OrthophotoSourceSettings.BN_OrthophotoSourceUrlTemplate = BingOrthophotoSource.DefaultUrlTemplate;
+        }
 
         public void CheckConfiguredDirectories(Settings settings)
             {

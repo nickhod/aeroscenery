@@ -18,6 +18,7 @@ namespace AeroScenery.Common
         public Settings()
         {
             this.ElevationSettings = new ElevationSettings();
+            this.OrthophotoSourceSettings = new OrthophotoSourceSettings();
         }
 
         public string AFS2SDKDirectory { get; set; }
@@ -89,6 +90,8 @@ namespace AeroScenery.Common
         public int? BlueAdjustment { get; set; }
 
         public bool? GridSquareNamesFixed { get; set; }
+
+        public OrthophotoSourceSettings OrthophotoSourceSettings { get; set; }
 
         public ElevationSettings ElevationSettings { get; set; }
     }

@@ -54,6 +54,20 @@ namespace AeroScenery.FileManagement
 
                     result = messageBox.ShowDialog();
                 }
+                else
+                {
+                    // Can't find anywhere to install
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendLine("Could not find a location to install to.");
+                    sb.AppendLine("Either Aerofly FS2 is not installed or your 'My Documents\\Aerofly FS 2' folder has been removed.");
+
+                    var messageBox = new CustomMessageBox(sb.ToString(),
+                        "AeroScenery",
+                        MessageBoxIcon.Error);
+
+                    result = messageBox.ShowDialog();
+                }
             }
             else
             {
