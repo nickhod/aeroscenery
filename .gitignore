@@ -32,3 +32,6 @@
 /GeoConvertWrapper/bin/Debug
 /GeoConvertWrapper/obj/Debug
 /GeoConvertWrapper/GeoConvertWrapper.csproj.user
+/GeoConvertWrapper/bin/Release
+/AeroSceneryCultivationEditor/obj/Release
+/GeoConvertWrapper/obj/Release

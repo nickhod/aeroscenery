@@ -172,11 +172,6 @@ namespace AeroScenery
 
             this.processCheckBoxListEvents = true;
 
-#if RELEASE
-            this.cultivationEditorToolstripButton.Visible = false;
-            this.cultivationToolStripSeparator.Visible = false;
-#endif
-
         }
 
         private async void MainForm_Shown(object sender, EventArgs e)
