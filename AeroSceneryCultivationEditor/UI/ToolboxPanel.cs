@@ -34,10 +34,10 @@ namespace AeroScenery.CultivationEditor.UI
                     SceneryToolSelected?.Invoke(SceneryTool.Pointer, this, e);
                     this.pointerToolBoxButton.BackColor = Color.FromKnownColor(KnownColor.ActiveBorder);
                     break;
-                case "SinglePlant":
-                    SceneryToolSelected?.Invoke(SceneryTool.SinglePlant, this, e);
-                    this.singlePlantToolBoxButton.BackColor = Color.FromKnownColor(KnownColor.ActiveBorder);
-                    break;
+                //case "Plant":
+                //    SceneryToolSelected?.Invoke(SceneryTool.Plant, this, e);
+                //    this.singlePlantToolBoxButton.BackColor = Color.FromKnownColor(KnownColor.ActiveBorder);
+                //    break;
             }
         }
 

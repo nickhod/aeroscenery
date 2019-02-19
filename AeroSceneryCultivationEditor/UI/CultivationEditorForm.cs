@@ -78,7 +78,7 @@ namespace AeroScenery.CultivationEditor.UI
 
             switch (currentSceneryTool)
             {
-                case SceneryTool.SinglePlant:
+                case SceneryTool.Plant:
                     this.DrawMapPolygon(lat, lng);
                     break;
             }

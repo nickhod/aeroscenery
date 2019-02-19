@@ -11,13 +11,10 @@ namespace AeroScenery.CultivationEditor.Common
         Pointer,
         CultivationArea,
         CultivationExclusionArea,
-        SmartBuildingArea,
-        SmartBuildingExclusionArea,
         LightLine,
-        SingleBuilding,
-        SingleSmartBuilding,
-        SingleLight,
-        SinglePlant,
+        Building,
+        Light,
+        Plant,
         Model
     }
 }

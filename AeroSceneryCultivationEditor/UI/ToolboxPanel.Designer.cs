@@ -32,13 +32,10 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.button14 = new System.Windows.Forms.Button();
             this.button16 = new System.Windows.Forms.Button();
-            this.button15 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button11 = new System.Windows.Forms.Button();
             this.button12 = new System.Windows.Forms.Button();
             this.singlePlantToolBoxButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -67,11 +64,8 @@
             this.flowLayoutPanel2.Controls.Add(this.pointerToolBoxButton);
             this.flowLayoutPanel2.Controls.Add(this.button14);
             this.flowLayoutPanel2.Controls.Add(this.button16);
-            this.flowLayoutPanel2.Controls.Add(this.button15);
-            this.flowLayoutPanel2.Controls.Add(this.button1);
             this.flowLayoutPanel2.Controls.Add(this.button5);
             this.flowLayoutPanel2.Controls.Add(this.button11);
-            this.flowLayoutPanel2.Controls.Add(this.button2);
             this.flowLayoutPanel2.Controls.Add(this.button12);
             this.flowLayoutPanel2.Controls.Add(this.singlePlantToolBoxButton);
             this.flowLayoutPanel2.Controls.Add(this.button3);
@@ -112,38 +106,6 @@
             this.button16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button16.UseVisualStyleBackColor = true;
             // 
-            // button15
-            // 
-            this.button15.FlatAppearance.BorderSize = 0;
-            this.button15.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.button15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button15.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button15.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button15.Location = new System.Drawing.Point(3, 99);
-            this.button15.Name = "button15";
-            this.button15.Size = new System.Drawing.Size(256, 26);
-            this.button15.TabIndex = 5;
-            this.button15.Text = "Smart Building Area";
-            this.button15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button15.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button1.Location = new System.Drawing.Point(3, 131);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(256, 26);
-            this.button1.TabIndex = 10;
-            this.button1.Tag = "BuildingDetectionArea";
-            this.button1.Text = "Smart Building Exclusion Area";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.UseVisualStyleBackColor = true;
-            // 
             // button5
             // 
             this.button5.FlatAppearance.BorderSize = 0;
@@ -151,7 +113,7 @@
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button5.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button5.Location = new System.Drawing.Point(3, 163);
+            this.button5.Location = new System.Drawing.Point(3, 99);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(256, 26);
             this.button5.TabIndex = 9;
@@ -166,11 +128,11 @@
             this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button11.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button11.Location = new System.Drawing.Point(3, 195);
+            this.button11.Location = new System.Drawing.Point(3, 131);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(256, 26);
             this.button11.TabIndex = 1;
-            this.button11.Text = "Single Building";
+            this.button11.Text = "Building";
             this.button11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button11.UseVisualStyleBackColor = true;
             // 
@@ -181,11 +143,11 @@
             this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button12.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button12.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button12.Location = new System.Drawing.Point(3, 259);
+            this.button12.Location = new System.Drawing.Point(3, 163);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(256, 26);
             this.button12.TabIndex = 2;
-            this.button12.Text = "Single Light";
+            this.button12.Text = "Light";
             this.button12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.button12.UseVisualStyleBackColor = true;
             // 
@@ -198,30 +160,15 @@
             this.singlePlantToolBoxButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.singlePlantToolBoxButton.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.singlePlantToolBoxButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.singlePlantToolBoxButton.Location = new System.Drawing.Point(3, 291);
+            this.singlePlantToolBoxButton.Location = new System.Drawing.Point(3, 195);
             this.singlePlantToolBoxButton.Name = "singlePlantToolBoxButton";
             this.singlePlantToolBoxButton.Size = new System.Drawing.Size(256, 26);
             this.singlePlantToolBoxButton.TabIndex = 3;
-            this.singlePlantToolBoxButton.Tag = "SinglePlant";
-            this.singlePlantToolBoxButton.Text = "Single Plant";
+            this.singlePlantToolBoxButton.Tag = "Plant";
+            this.singlePlantToolBoxButton.Text = "Plant";
             this.singlePlantToolBoxButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.singlePlantToolBoxButton.UseVisualStyleBackColor = true;
             this.singlePlantToolBoxButton.Click += new System.EventHandler(this.ToolBoxButton_Click);
-            // 
-            // button2
-            // 
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button2.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button2.Location = new System.Drawing.Point(3, 227);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(256, 26);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Single Smart Building";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.UseVisualStyleBackColor = true;
             // 
             // button3
             // 
@@ -232,7 +179,7 @@
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button3.Location = new System.Drawing.Point(3, 323);
+            this.button3.Location = new System.Drawing.Point(3, 227);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(256, 26);
             this.button3.TabIndex = 12;
@@ -268,12 +215,9 @@
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button singlePlantToolBoxButton;
         private System.Windows.Forms.Button button14;
-        private System.Windows.Forms.Button button15;
         private System.Windows.Forms.Button button16;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button pointerToolBoxButton;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
     }
 }

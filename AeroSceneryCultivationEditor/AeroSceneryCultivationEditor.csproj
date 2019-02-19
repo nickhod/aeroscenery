@@ -85,7 +85,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AeroSceneryCultivationEditorManager.cs" />
     <Compile Include="Common\SceneryTool.cs" />
+    <Compile Include="Common\Settings.cs" />
+    <Compile Include="Controls\CustomExceptionMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomExceptionMessageBox.Designer.cs">
+      <DependentUpon>CustomExceptionMessageBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CustomMessageBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\CustomMessageBox.designer.cs">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cultivation\CultivationProcessor.cs" />
     <Compile Include="GMapCustom\PlantMarker.cs" />
     <Compile Include="Models\Airport.cs" />
@@ -114,6 +128,7 @@
     <Compile Include="Project\ProjectProcessor.cs" />
     <Compile Include="Project\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="UI\BuildPanel.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +159,12 @@
     <Compile Include="UI\ToolboxPanel.Designer.cs">
       <DependentUpon>ToolboxPanel.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\CustomExceptionMessageBox.resx">
+      <DependentUpon>CustomExceptionMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CustomMessageBox.resx">
+      <DependentUpon>CustomMessageBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
