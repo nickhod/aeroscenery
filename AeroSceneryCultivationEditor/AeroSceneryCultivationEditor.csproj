@@ -100,32 +100,8 @@
     <Compile Include="Controls\CustomMessageBox.designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="Cultivation\CultivationProcessor.cs" />
     <Compile Include="GMapCustom\PlantMarker.cs" />
-    <Compile Include="Models\Airport.cs" />
-    <Compile Include="Models\AirportDecal.cs" />
-    <Compile Include="Models\AirportGround.cs" />
-    <Compile Include="Models\AirportTower.cs" />
-    <Compile Include="Models\AnimatedSceneryObject.cs" />
-    <Compile Include="Models\AutoCultivationArea.cs" />
-    <Compile Include="Models\AutoCultivationExclusionArea.cs" />
-    <Compile Include="Models\Building.cs" />
-    <Compile Include="Models\BuildingArea.cs" />
-    <Compile Include="Models\CultivationEditorProject.cs" />
-    <Compile Include="Models\Helipad.cs" />
-    <Compile Include="Models\Light.cs" />
-    <Compile Include="Models\LightArea.cs" />
-    <Compile Include="Models\LightLine.cs" />
-    <Compile Include="Models\ParkingPosition.cs" />
-    <Compile Include="Models\Plant.cs" />
-    <Compile Include="Models\PlantArea.cs" />
-    <Compile Include="Models\ProjectSettings.cs" />
-    <Compile Include="Models\Runway.cs" />
-    <Compile Include="Models\SceneryObject.cs" />
-    <Compile Include="Models\StartPosition.cs" />
-    <Compile Include="Models\ViewPosition.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Project\ProjectProcessor.cs" />
     <Compile Include="Project\ProjectService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\SettingsService.cs" />
@@ -203,8 +179,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="OSM\" />
+    <ProjectReference Include="..\CultivationCompiler\CultivationCompiler.csproj">
+      <Project>{fab980a5-6cd6-45d7-9da2-500fec754c74}</Project>
+      <Name>CultivationCompiler</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\AeroScenery\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\AeroScenery\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" />
