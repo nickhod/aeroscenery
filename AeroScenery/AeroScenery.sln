@@ -7,13 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroScenery", "AeroScenery.
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AeroSceneryInstaller", "..\AeroSceneryInstaller\AeroSceneryInstaller.wixproj", "{30BA927C-3085-423A-94E3-42D4ED2BA490}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AeroSceneryCultivationEditor", "..\AeroSceneryCultivationEditor\AeroSceneryCultivationEditor.csproj", "{AC170ADE-CADA-49B6-8E7A-7CB0A759BCC8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoConvertWrapper", "..\GeoConvertWrapper\GeoConvertWrapper.csproj", "{4F4F7EB5-A435-4D39-B21F-3D988AC00759}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CultivationCompiler", "..\CultivationCompiler\CultivationCompiler.csproj", "{FAB980A5-6CD6-45D7-9DA2-500FEC754C74}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CultivationCompilerConsole", "CultivationCompilerConsole\CultivationCompilerConsole.csproj", "{A079DA9A-2B2C-471F-8476-602487BA67B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
