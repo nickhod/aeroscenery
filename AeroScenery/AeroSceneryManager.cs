@@ -69,8 +69,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "1.0";
-            incrementalVersion = 8;
+            version = "1.0.1";
+            incrementalVersion = 9;
         }
 
         public Settings Settings

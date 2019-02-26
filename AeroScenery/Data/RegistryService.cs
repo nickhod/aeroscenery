@@ -30,34 +30,55 @@ namespace AeroScenery.Data
 
         public static bool GetValueAsBoolean(this RegistryKey key, string name, bool defaultValue)
         {
-            bool result = defaultValue;
-            bool.TryParse(key.GetValue(name).ToString(), out result);
+            if (key.GetValue(name) != null)
+            {
+                bool result = defaultValue;
+                bool.TryParse(key.GetValue(name).ToString(), out result);
 
-            return result;
+                return result;
+            }
+
+            return defaultValue;
         }
 
         public static int GetValueAsInteger(this RegistryKey key, string name, int defaultValue)
         {
-            int result = defaultValue;
-            int.TryParse(key.GetValue(name).ToString(), out result);
+            if (key.GetValue(name) != null)
+            {
+                int result = defaultValue;
+                int.TryParse(key.GetValue(name).ToString(), out result);
 
-            return result;
+                return result;
+
+            }
+
+            return defaultValue;
         }
 
         public static double GetValueAsDouble(this RegistryKey key, string name, double defaultValue)
         {
-            double result = defaultValue;
-            double.TryParse(key.GetValue(name).ToString(), out result);
+            if (key.GetValue(name) != null)
+            {
+                double result = defaultValue;
+                double.TryParse(key.GetValue(name).ToString(), out result);
 
-            return result;
+                return result;
+            }
+
+            return defaultValue;
         }
 
         public static T GetValueAsEnum<T>(this RegistryKey key, string name, T defaultValue) where T : struct
         {
-            T result = defaultValue;
-            Enum.TryParse<T>(key.GetValue(name).ToString(), out result);
+            if (key.GetValue(name) != null)
+            {
+                T result = defaultValue;
+                Enum.TryParse<T>(key.GetValue(name).ToString(), out result);
 
-            return result;
+                return result;
+            }
+
+            return defaultValue;
         }
     }
 
@@ -105,8 +126,8 @@ namespace AeroScenery.Data
             RegistryKey key = Registry.CurrentUser.OpenSubKey("Software", false);
             key = key.OpenSubKey("AeroScenery", false);
 
-
-            if (key != null)
+            // If we have the key, and if looks like it's populated, proceed
+            if (key != null && key.GetValue("DownloadImageTiles") != null)
             {
                 var cultivationEditorKey = key.OpenSubKey("SceneryEditor", false);
 

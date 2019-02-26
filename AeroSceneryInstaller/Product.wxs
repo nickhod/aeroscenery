@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?define AeroScenery_TargetDir=$(var.AeroScenery.TargetDir)?><?define GeoConvertWrapper_TargetDir=$(var.GeoConvertWrapper.TargetDir)?>
-	<Product Id="*" Name="AeroScenery" Language="1033" Version="1.0.0.1" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
+	<Product Id="*" Name="AeroScenery" Language="1033" Version="1.0.1.1" Manufacturer="AeroScenery" UpgradeCode="ce72215a-172f-486d-8c9b-8c4503407b43">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of AeroScenery is already installed." />
@@ -11,8 +11,8 @@
       <ComponentGroupRef Id="ProgramFilesFolder_files" />
       <ComponentGroupRef Id="ProgramFilesFolderX86_files" />
       <ComponentGroupRef Id="ProgramFilesFolderX64_files" />
-      <ComponentRef Id="ApplicationShortcut" />
       <ComponentGroupRef Id="Resources_SampleImages_files" />
+      <ComponentRef Id="ApplicationShortcut" />
     </Feature>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -35,9 +35,9 @@
         <Directory Id="INSTALLFOLDER" Name="AeroScenery">
           <Directory Id="X86FOLDER" Name="x86"></Directory>
           <Directory Id="X64FOLDER" Name="x64"></Directory>
-        </Directory>
-        <Directory Id="Resources" Name="Resources">
-          <Directory Id="Resources_SampleImages" Name="SampleImages" />
+          <Directory Id="ResourcesFolder" Name="Resources">
+            <Directory Id="Resources_SampleImages" Name="SampleImages" />            
+          </Directory>
         </Directory>
 			</Directory>
       <Directory Id="ProgramMenuFolder">
@@ -131,32 +131,31 @@
         <File Id="x64_SQLite.Interop.dll" Name="SQLite.Interop.dll" Source="$(var.AeroScenery_TargetDir)\x64\SQLite.Interop.dll" />
       </Component>
     </ComponentGroup>
-	</Fragment>
 
-  <Fragment>
     <ComponentGroup Id="Resources_SampleImages_files" Directory="Resources_SampleImages">
       <Component Id="Resources_SampleImages_rural_arid.jpg" Guid="03a548cb-9c4e-4cf2-af5b-14f928e7959c">
-        <File Id="Resources_SampleImages_rural_arid.jpg" Name="rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\rural_arid.jpg" />
+        <File Id="Resources_SampleImages_rural_arid.jpg" Name="rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\rural_arid.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_rural_green.jpg" Guid="c76d6276-1831-4055-8137-b349b92064aa">
-        <File Id="Resources_SampleImages_rural_green.jpg" Name="rural_green.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\rural_green.jpg" />
+        <File Id="Resources_SampleImages_rural_green.jpg" Name="rural_green.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\rural_green.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_semi_rural_arid.jpg" Guid="9a150a2d-368b-4c34-83b0-81eaa3fe66ad">
-        <File Id="Resources_SampleImages_semi_rural_arid.jpg" Name="semi_rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\semi_rural_arid.jpg" />
+        <File Id="Resources_SampleImages_semi_rural_arid.jpg" Name="semi_rural_arid.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\semi_rural_arid.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_semi_rural_green.jpg" Guid="5eb9077a-6e69-45b1-b6f6-b379988e008b">
-        <File Id="Resources_SampleImages_semi_rural_green.jpg" Name="semi_rural_green.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\semi_rural_green.jpg" />
+        <File Id="Resources_SampleImages_semi_rural_green.jpg" Name="semi_rural_green.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\semi_rural_green.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_urban1.jpg" Guid="01f839b9-9cf2-43c1-baf0-8be98287cd67">
-        <File Id="Resources_SampleImages_urban1.jpg" Name="urban1.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban1.jpg" />
+        <File Id="Resources_SampleImages_urban1.jpg" Name="urban1.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\urban1.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_urban2.jpg" Guid="b6a0999f-1310-4da1-bf3d-45be069d4a9b">
-        <File Id="Resources_SampleImages_urban2.jpg" Name="urban2.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban2.jpg" />
+        <File Id="Resources_SampleImages_urban2.jpg" Name="urban2.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\urban2.jpg" />
       </Component>
       <Component Id="Resources_SampleImages_urban3.jpg" Guid="bda1947e-512d-43f5-90b8-8a62c07aab7e">
-        <File Id="Resources_SampleImages_urban3.jpg" Name="urban3.jpg" Source="$(var.AeroScenery_TargetDir)Resources\SampleImages\urban3.jpg" />
+        <File Id="Resources_SampleImages_urban3.jpg" Name="urban3.jpg" Source="$(var.AeroScenery_TargetDir)\Resources\SampleImages\urban3.jpg" />
       </Component>
     </ComponentGroup>
+
   </Fragment>
 
 </Wix>
