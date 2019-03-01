@@ -2,3 +2,4 @@
 
 Before and after for image processing preview images
 ArcGIS image source
+USGS image source

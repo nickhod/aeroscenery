@@ -11,6 +11,16 @@
 
 Change log
 
+1.0.2
+
+- Fixed potential issue when hex folder names are changed
+- Use GeoConvert wrapper is now default for new installations
+
+1.0.1
+
+- Fixed issue with null registry entries causing exception
+- Fixed issue where sample images for image processing settings are not installed causing an exception
+
 1.0
 
 - 

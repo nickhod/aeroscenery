@@ -70,7 +70,7 @@ namespace AeroScenery
 
             imageTiles = null;
             version = "1.0.2";
-            incrementalVersion = 9;
+            incrementalVersion = 10;
         }
 
         public Settings Settings
