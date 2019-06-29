@@ -1,20 +1,25 @@
-﻿using System;
+﻿using AeroScenery.AFS2;
+using AeroScenery.Common;
+using GMap.NET;
+using GMap.NET.MapProviders;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using AeroScenery.AFS2;
-using AeroScenery.Common;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class GoogleOrthophotoSource : IOrthophotoSource
+    public class BingOrthophotoSource : IOrthophotoSource
     {
-        public static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
+        public static string DefaultUrlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
 
         private string urlTemplate;
 
-        public GoogleOrthophotoSource(string urlTemplate)
+        public BingOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
         }
@@ -29,15 +34,21 @@ namespace AeroScenery.OrthophotoSources
             var southEastCorner = afs2GridSquare.Coordinates[2];
             var southWestCorner = afs2GridSquare.Coordinates[3];
 
+            // Get the pixel X & Y of the first tile
+            int pixelX = 0;
+            int pixelY = 0;
+            BingOrthophotoTileHelper.LatLongToPixelXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out pixelX, out pixelY);
+
             // Get the tile X & Y of the frst tile
             int tileX = 0;
             int tileY = 0;
-            GoogleHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
+            BingOrthophotoTileHelper.PixelXYToTileXY(pixelX, pixelY, out tileX, out tileY);
 
             double currentTileNorthLatitude = 0;
             double currentTileSouthLatitude = 0;
             double currentTileWestLongitude = 0;
             double currentTileEastLongitude = 0;
+
 
             int currentTileX = tileX;
             int currentTileY = tileY;
@@ -50,10 +61,19 @@ namespace AeroScenery.OrthophotoSources
             {
                 do
                 {
-                    GoogleHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
+                    int currentPixelX;
+                    int currentPixelY;
+                    BingOrthophotoTileHelper.TileXYToPixelXY(currentTileX, currentTileY, out currentPixelX, out currentPixelY);
+
+                    BingOrthophotoTileHelper.PixelXYToLatLong(currentPixelX, currentPixelY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
 
                     // Get the lat long of the tile "to the left and down", which will give us the south and east edge of the previous tile
-                    GoogleHelper.TileXYToLatLong(currentTileX+1, currentTileY+1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+                    int currentTileXPlusOnePixelX;
+                    int currentTileYPlusOnePixelY;
+                    BingOrthophotoTileHelper.TileXYToPixelXY(currentTileX + 1, currentTileY + 1, out currentTileXPlusOnePixelX, out currentTileYPlusOnePixelY);
+                    BingOrthophotoTileHelper.PixelXYToLatLong(currentTileXPlusOnePixelX, currentTileYPlusOnePixelY, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+
+                    var quadKey1 = BingOrthophotoTileHelper.TileXYToQuadKey(currentTileX, currentTileY, zoomLevel);
 
                     ImageTile tile = new ImageTile();
                     tile.Width = 256;
@@ -67,9 +87,9 @@ namespace AeroScenery.OrthophotoSources
                     tile.TileY = currentTileY;
                     tile.LocalTileX = currentColumn;
                     tile.LocalTileY = currentRow;
-                    tile.Source = "g";
+                    tile.Source = "b";
                     tile.ZoomLevel = zoomLevel;
-                    tile.URL = String.Format(this.urlTemplate, currentTileX, currentTileY, zoomLevel);
+                    tile.URL = String.Format(this.urlTemplate, quadKey1);
 
                     imageTiles.Add(tile);
 

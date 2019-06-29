@@ -10,6 +10,16 @@ namespace AeroScenery.OrthoPhotoSources
     {
         Bing,
         Google,
-        USGS,
+        ArcGIS,
+        US_USGS,
+        NZ_Linz,
+        ES_IDEIB,
+        CH_Geoportal,
+        NO_NorgeBilder,
+        SE_Lantmateriet,
+        ES_IGN,
+        JP_GSI,
+        // For backwards compatibility
+        USGS
     }
 }

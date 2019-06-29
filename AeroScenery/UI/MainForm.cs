@@ -7,6 +7,7 @@ using AeroScenery.Data.Models;
 using AeroScenery.FileManagement;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
+using AeroScenery.OrthoPhotoSources;
 using AeroScenery.UI;
 using AeroScenery.USGS;
 using AeroScenery.USGS.Models;
@@ -74,6 +75,8 @@ namespace AeroScenery
         private List<AFSLevel> elevationAfsLevels;
 
         private bool processCheckBoxListEvents;
+
+        private List<ComboBoxItem> orthophotoSourceItems;
 
         public MainForm()
         {
@@ -161,6 +164,25 @@ namespace AeroScenery
             this.elevationAfsLevelCheckBoxList.ValueMember = "Level";
             this.afsLevelsCheckBoxList.ClearSelected();
 
+            imageSourceComboBox.DisplayMember = "Text";
+            imageSourceComboBox.ValueMember = "Value";
+
+            orthophotoSourceItems = new List<ComboBoxItem>() {
+                new ComboBoxItem() { Text = "Bing", Value = OrthophotoSource.Bing },
+                new ComboBoxItem() { Text = "Google", Value = OrthophotoSource.Google },
+                new ComboBoxItem() { Text = "ArcGIS", Value = OrthophotoSource.ArcGIS },
+                new ComboBoxItem() { Text = "Geoportal (Switzerland)", Value = OrthophotoSource.CH_Geoportal },
+                new ComboBoxItem() { Text = "GSI (Japan)", Value = OrthophotoSource.JP_GSI },
+                new ComboBoxItem() { Text = "IDEIB (Balearics)", Value = OrthophotoSource.ES_IDEIB },
+                new ComboBoxItem() { Text = "IGN (Spain)", Value = OrthophotoSource.ES_IGN },
+                new ComboBoxItem() { Text = "Lantmateriet (Sweden)", Value = OrthophotoSource.SE_Lantmateriet },
+                new ComboBoxItem() { Text = "Linz (New Zealand)", Value = OrthophotoSource.NZ_Linz },
+                new ComboBoxItem() { Text = "Norge Bilder (Norway)", Value = OrthophotoSource.NO_NorgeBilder },
+                new ComboBoxItem() { Text = "USGS (US)", Value = OrthophotoSource.US_USGS }
+            };
+
+            imageSourceComboBox.DataSource = orthophotoSourceItems;
+
             this.UpdateUIFromSettings();
 
             this.dataRepository = new SqlLiteDataRepository();
@@ -201,19 +223,13 @@ namespace AeroScenery
             var settings = AeroSceneryManager.Instance.Settings;
 
             // Orthophoto Source
-            switch (settings.OrthophotoSource)
+            if (settings.OrthophotoSource == OrthophotoSource.USGS)
             {
-                case OrthoPhotoSources.OrthophotoSource.Bing:
-                    this.imageSourceComboBox.SelectedIndex = 0;
-                    break;
-                case OrthoPhotoSources.OrthophotoSource.Google:
-                    this.imageSourceComboBox.SelectedIndex = 1;
-                    break;
-                case OrthoPhotoSources.OrthophotoSource.USGS:
-                    this.imageSourceComboBox.SelectedIndex = 2;
-                    break;
+                settings.OrthophotoSource = OrthophotoSource.US_USGS;
             }
 
+            this.imageSourceComboBox.SelectedValue = settings.OrthophotoSource;
+           
             // Zoom Level
             this.zoomLevelTrackBar.Value = settings.ZoomLevel.Value;
             this.setZoomLevelLabelText();
@@ -815,25 +831,14 @@ namespace AeroScenery
 
         private void imageSourceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var settings = AeroSceneryManager.Instance.Settings;
-
-            switch(this.imageSourceComboBox.SelectedIndex)
+            if (this.uiSetFromSettings)
             {
-                // Bing
-                case 0:
-                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.Bing;
-                    break;
-                // Google
-                case 1:
-                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.Google;                
-                    break;
-                // USGS
-                case 2:
-                    settings.OrthophotoSource = OrthoPhotoSources.OrthophotoSource.USGS;
-                    break;
+                var settings = AeroSceneryManager.Instance.Settings;
+                settings.OrthophotoSource = (OrthophotoSource)this.imageSourceComboBox.SelectedValue;
+
+                AeroSceneryManager.Instance.SaveSettings();
             }
 
-            AeroSceneryManager.Instance.SaveSettings();
         }
 
         private void actionSetComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -1240,53 +1245,53 @@ namespace AeroScenery
 
         }
 
-        private async void usgsTestButton_Click(object sender, EventArgs e)
-        {
-            USGSInventoryService service = new USGSInventoryService();
+        //private async void usgsTestButton_Click(object sender, EventArgs e)
+        //{
+        //    USGSInventoryService service = new USGSInventoryService();
 
-            var loginRequest = new LoginRequest();
-            loginRequest.Username = AeroSceneryManager.Instance.Settings.USGSUsername;
-            loginRequest.Password = AeroSceneryManager.Instance.Settings.USGSPassword;
-            loginRequest.CatalogId = CatalogType.EarthExplorer;
-            loginRequest.AuthType = "EROS";
-            var login = await service.LoginAsync(loginRequest);
+        //    var loginRequest = new LoginRequest();
+        //    loginRequest.Username = AeroSceneryManager.Instance.Settings.USGSUsername;
+        //    loginRequest.Password = AeroSceneryManager.Instance.Settings.USGSPassword;
+        //    loginRequest.CatalogId = CatalogType.EarthExplorer;
+        //    loginRequest.AuthType = "EROS";
+        //    var login = await service.LoginAsync(loginRequest);
 
-            //var datasetSearchRequest = new DatasetSearchRequest();
-            //datasetSearchRequest.DatasetName = "ASTER";
-            //var datasets = await service.DatasetSearchAsync(datasetSearchRequest);
+        //    //var datasetSearchRequest = new DatasetSearchRequest();
+        //    //datasetSearchRequest.DatasetName = "ASTER";
+        //    //var datasets = await service.DatasetSearchAsync(datasetSearchRequest);
 
-            var searchRequest = new SceneSearchRequest();
-            //searchRequest.DatasetName = "ASTER_GLOBAL_DEM";
-            searchRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
-            //searchRequest.DatasetName = "LANDSAT_8";
+        //    var searchRequest = new SceneSearchRequest();
+        //    //searchRequest.DatasetName = "ASTER_GLOBAL_DEM";
+        //    searchRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
+        //    //searchRequest.DatasetName = "LANDSAT_8";
 
-            var spatialFilter = new SpatialFilter();
-            spatialFilter.FilterType = "mbr";
-            spatialFilter.LowerLeft = new Coordinate(51.469400, -3.163811);
-            spatialFilter.UpperRight = new Coordinate(51.469400, -3.163811);
-            //spatialFilter.LowerLeft = new Coordinate(75, -135);
-            //spatialFilter.UpperRight = new Coordinate(90, -120);
-            searchRequest.SpatialFilter = spatialFilter;
+        //    var spatialFilter = new SpatialFilter();
+        //    spatialFilter.FilterType = "mbr";
+        //    spatialFilter.LowerLeft = new Coordinate(51.469400, -3.163811);
+        //    spatialFilter.UpperRight = new Coordinate(51.469400, -3.163811);
+        //    //spatialFilter.LowerLeft = new Coordinate(75, -135);
+        //    //spatialFilter.UpperRight = new Coordinate(90, -120);
+        //    searchRequest.SpatialFilter = spatialFilter;
 
-            var searchResult = await service.SceneSearch(searchRequest);
+        //    var searchResult = await service.SceneSearch(searchRequest);
 
 
-            // This doesn't work without special permission
-            //var downloadOptionsRequest = new DownloadOptionsRequest();
-            //downloadOptionsRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
-            //downloadOptionsRequest.EntityIds = new string[] { "ASTGDEMV2_0N51W004" };
+        //    // This doesn't work without special permission
+        //    //var downloadOptionsRequest = new DownloadOptionsRequest();
+        //    //downloadOptionsRequest.DatasetName = "ASTER_GLOBAL_DEM_DE";
+        //    //downloadOptionsRequest.EntityIds = new string[] { "ASTGDEMV2_0N51W004" };
 
-            //var asdfdsf = await service.DownloadOptions(downloadOptionsRequest);
+        //    //var asdfdsf = await service.DownloadOptions(downloadOptionsRequest);
 
-            //int i = 0;
+        //    //int i = 0;
 
-            USGSScraper scraper = new USGSScraper();
-            await scraper.LoginAsync(AeroSceneryManager.Instance.Settings.USGSUsername, AeroSceneryManager.Instance.Settings.USGSPassword);
+        //    USGSScraper scraper = new USGSScraper();
+        //    await scraper.LoginAsync(AeroSceneryManager.Instance.Settings.USGSUsername, AeroSceneryManager.Instance.Settings.USGSPassword);
 
-            var downloadPageUrl = "https://earthexplorer.usgs.gov/download/external/options/ASTER_GLOBAL_DEM_DE/ASTGDEMV2_0N51W004/INVSVC/";
+        //    var downloadPageUrl = "https://earthexplorer.usgs.gov/download/external/options/ASTER_GLOBAL_DEM_DE/ASTGDEMV2_0N51W004/INVSVC/";
 
-            await scraper.DownloadAsync(downloadPageUrl, @"E:\Temp");
-        }
+        //    await scraper.DownloadAsync(downloadPageUrl, @"E:\Temp");
+        //}
 
         private async void button2_Click(object sender, EventArgs e)
         {

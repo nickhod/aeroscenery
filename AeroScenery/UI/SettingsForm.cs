@@ -200,7 +200,7 @@ namespace AeroScenery.UI
             this.usgsUsernameTextBox.Text = settings.USGSUsername;
             this.usgsPasswordTextBox.Text = settings.USGSPassword;
 
-            this.shrinkTMCGridSquaresTextBox.Text = settings.ShrinkTMCGridSquareCoords.ToString();
+            this.shrinkTMCGridSquaresTextBox.Text = Convert.ToString(settings.ShrinkTMCGridSquareCoords, CultureInfo.InvariantCulture);
 
             // Image processing
             this.imageProcessingEnabledCheckBox.Checked = settings.EnableImageProcessing.Value;

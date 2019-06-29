@@ -149,6 +149,7 @@
     <Compile Include="Common\BetterWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Common\ComboBoxItem.cs" />
     <Compile Include="Common\Direction.cs" />
     <Compile Include="Common\DirectoryHelper.cs" />
     <Compile Include="Common\ElevationSettings.cs" />
@@ -209,11 +210,15 @@
     <Compile Include="ImageProcessing\ImageProcessingSettings.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="ImageProcessing\TileStitcherProgress.cs" />
-    <Compile Include="OrthophotoSources\BingHelper.cs" />
-    <Compile Include="OrthophotoSources\GoogleHelper.cs" />
-    <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\ArcGISOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\ArcGISOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\Global\BingOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\GenericOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\GenericOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\Global\GoogleOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\Global\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
-    <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\UnitedStates\USGSOrthophotoSource.cs" />
     <Compile Include="UI\FileOperationProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,7 +277,7 @@
     <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrthophotoSources\BingOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\BingOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\OrthophotoSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -406,7 +411,14 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="OrthophotoSources\Japan\" />
+    <Folder Include="OrthophotoSources\NewZealand\" />
+    <Folder Include="OrthophotoSources\Norway\" />
+    <Folder Include="OrthophotoSources\Spain\" />
+    <Folder Include="OrthophotoSources\Sweden\" />
+    <Folder Include="OrthophotoSources\Switzerland\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\System.Data.SQLite.Core.1.0.109.2\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.109.2\build\net451\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
