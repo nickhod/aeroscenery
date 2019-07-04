@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.OrthophotoSources
 {
-    class ArcGISOrthophotoSource
+    public class ArcGISOrthophotoSource : GenericOrthophotoSource
     {
+        public new static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
+
+        public ArcGISOrthophotoSource()
+        {
+            this.urlTemplate = DefaultUrlTemplate;
+        }
+
+        public ArcGISOrthophotoSource(string urlTemplate)
+        {
+            this.urlTemplate = urlTemplate;
+        }
+
     }
 }

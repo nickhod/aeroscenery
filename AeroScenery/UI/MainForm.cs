@@ -8,6 +8,7 @@ using AeroScenery.FileManagement;
 using AeroScenery.FSCloudPort;
 using AeroScenery.OrthophotoSources;
 using AeroScenery.OrthoPhotoSources;
+using AeroScenery.Resources;
 using AeroScenery.UI;
 using AeroScenery.USGS;
 using AeroScenery.USGS.Models;
@@ -76,7 +77,8 @@ namespace AeroScenery
 
         private bool processCheckBoxListEvents;
 
-        private List<ComboBoxItem> orthophotoSourceItems;
+        private List<ImageComboItem> orthophotoSourceItems;
+        private ImageList orthophotoSourceImages;
 
         public MainForm()
         {
@@ -167,20 +169,32 @@ namespace AeroScenery
             imageSourceComboBox.DisplayMember = "Text";
             imageSourceComboBox.ValueMember = "Value";
 
-            orthophotoSourceItems = new List<ComboBoxItem>() {
-                new ComboBoxItem() { Text = "Bing", Value = OrthophotoSource.Bing },
-                new ComboBoxItem() { Text = "Google", Value = OrthophotoSource.Google },
-                new ComboBoxItem() { Text = "ArcGIS", Value = OrthophotoSource.ArcGIS },
-                new ComboBoxItem() { Text = "Geoportal (Switzerland)", Value = OrthophotoSource.CH_Geoportal },
-                new ComboBoxItem() { Text = "GSI (Japan)", Value = OrthophotoSource.JP_GSI },
-                new ComboBoxItem() { Text = "IDEIB (Balearics)", Value = OrthophotoSource.ES_IDEIB },
-                new ComboBoxItem() { Text = "IGN (Spain)", Value = OrthophotoSource.ES_IGN },
-                new ComboBoxItem() { Text = "Lantmateriet (Sweden)", Value = OrthophotoSource.SE_Lantmateriet },
-                new ComboBoxItem() { Text = "Linz (New Zealand)", Value = OrthophotoSource.NZ_Linz },
-                new ComboBoxItem() { Text = "Norge Bilder (Norway)", Value = OrthophotoSource.NO_NorgeBilder },
-                new ComboBoxItem() { Text = "USGS (US)", Value = OrthophotoSource.US_USGS }
+            this.orthophotoSourceImages = new ImageList();
+            this.orthophotoSourceImages.TransparentColor = System.Drawing.Color.Transparent;
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.world_icon); //0
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.ch_flag); //1
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.es_flag); //2
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.jp_flag); //3
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.no_flag); //4
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.nz_flag); //5
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.se_flag); //6
+            this.orthophotoSourceImages.Images.Add(AeroSceneryImages.us_flag); //7
+
+            orthophotoSourceItems = new List<ImageComboItem>() {
+                new ImageComboItem() { Text = "Bing", Value = OrthophotoSource.Bing, ImageIndex = 0 },
+                new ImageComboItem() { Text = "Google", Value = OrthophotoSource.Google, ImageIndex = 0  },
+                new ImageComboItem() { Text = "ArcGIS", Value = OrthophotoSource.ArcGIS, ImageIndex = 0  },
+                new ImageComboItem() { Text = "Geoportal (Switzerland)", Value = OrthophotoSource.CH_Geoportal, ImageIndex = 1  },
+                new ImageComboItem() { Text = "GSI (Japan)", Value = OrthophotoSource.JP_GSI, ImageIndex = 3  },
+                new ImageComboItem() { Text = "IDEIB (Balearics)", Value = OrthophotoSource.ES_IDEIB, ImageIndex = 2  },
+                new ImageComboItem() { Text = "IGN (Spain)", Value = OrthophotoSource.ES_IGN, ImageIndex = 2  },
+                new ImageComboItem() { Text = "Lantmateriet (Sweden)", Value = OrthophotoSource.SE_Lantmateriet, ImageIndex = 6  },
+                new ImageComboItem() { Text = "Linz (New Zealand)", Value = OrthophotoSource.NZ_Linz, ImageIndex = 5  },
+                new ImageComboItem() { Text = "Norge Bilder (Norway)", Value = OrthophotoSource.NO_NorgeBilder, ImageIndex = 4  },
+                new ImageComboItem() { Text = "USGS (US)", Value = OrthophotoSource.US_USGS, ImageIndex = 7  }
             };
 
+            imageSourceComboBox.ImageList = this.orthophotoSourceImages;
             imageSourceComboBox.DataSource = orthophotoSourceItems;
 
             this.UpdateUIFromSettings();

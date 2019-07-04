@@ -8,6 +8,13 @@ using AeroScenery.Download;
 using AeroScenery.FSCloudPort;
 using AeroScenery.ImageProcessing;
 using AeroScenery.OrthophotoSources;
+using AeroScenery.OrthophotoSources.Japan;
+using AeroScenery.OrthophotoSources.NewZealand;
+using AeroScenery.OrthophotoSources.Norway;
+using AeroScenery.OrthophotoSources.Spain;
+using AeroScenery.OrthophotoSources.Sweden;
+using AeroScenery.OrthophotoSources.Switzerland;
+using AeroScenery.OrthophotoSources.UnitedStates;
 using AeroScenery.OrthoPhotoSources;
 using AeroScenery.UI;
 using log4net;
@@ -29,6 +36,14 @@ namespace AeroScenery
         private BingOrthophotoSource bingOrthophotoSource;
         private GoogleOrthophotoSource googleOrthophotoSource;
         private USGSOrthophotoSource usgsOrthophotoSource;
+        private GSIOrthophotoSource gsiOrthophotoSource;
+        private LinzOrthophotoSource linzOrthophotoSource;
+        private NorgeBilderOrthophotoSource norgeBilderOrthophotoSource;
+        private IDEIBOrthophotoSource ideibOrthophotoSource;
+        private IGNOrthophotoSource ignOrthophotoSource;
+        private LantmaterietOrthophotoSource lantmaterietOrthophotoSource;
+        private GeoportalOrthophotoSource geoportalOrthophotoSource;
+        private ArcGISOrthophotoSource arcGISOrthophotoSource;
 
         private DownloadManager downloadManager;
 
@@ -126,7 +141,14 @@ namespace AeroScenery
             bingOrthophotoSource = new BingOrthophotoSource(settings.OrthophotoSourceSettings.BN_OrthophotoSourceUrlTemplate);
             googleOrthophotoSource = new GoogleOrthophotoSource(settings.OrthophotoSourceSettings.GM_OrthophotoSourceUrlTemplate);
             usgsOrthophotoSource = new USGSOrthophotoSource();
-
+            gsiOrthophotoSource = new GSIOrthophotoSource();
+            linzOrthophotoSource = new LinzOrthophotoSource();
+            norgeBilderOrthophotoSource = new NorgeBilderOrthophotoSource();
+            ideibOrthophotoSource = new IDEIBOrthophotoSource();
+            ignOrthophotoSource = new IGNOrthophotoSource();
+            lantmaterietOrthophotoSource = new LantmaterietOrthophotoSource();
+            geoportalOrthophotoSource = new GeoportalOrthophotoSource();
+            arcGISOrthophotoSource = new ArcGISOrthophotoSource();
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>
@@ -164,26 +186,36 @@ namespace AeroScenery
                 case OrthophotoSource.Google:
                     tileDownloadDirectory += @"\g\";
                     break;
+                case OrthophotoSource.ArcGIS:
+                    tileDownloadDirectory += @"\ag\";
+                    break;
+                case OrthophotoSource.US_USGS:
+                    tileDownloadDirectory += @"\us_usgs\";
+                    break;
+                case OrthophotoSource.NZ_Linz:
+                    tileDownloadDirectory += @"\nz_linz\";
+                    break;
+                case OrthophotoSource.ES_IDEIB:
+                    tileDownloadDirectory += @"\es_ideib\";
+                    break;
+                case OrthophotoSource.CH_Geoportal:
+                    tileDownloadDirectory += @"\ch_geo\";
+                    break;
+                case OrthophotoSource.NO_NorgeBilder:
+                    tileDownloadDirectory += @"\no_nb\";
+                    break;
+                case OrthophotoSource.SE_Lantmateriet:
+                    tileDownloadDirectory += @"\se_lant\";
+                    break;
+                case OrthophotoSource.ES_IGN:
+                    tileDownloadDirectory += @"\es_ign\";
+                    break;
+                case OrthophotoSource.JP_GSI:
+                    tileDownloadDirectory += @"\jp_gsi\";
+                    break;
             }
 
             return tileDownloadDirectory;
-        }
-
-        private string GetOrthophotoSourcePrefix()
-        {
-            string prefix = "";
-
-            switch (this.settings.OrthophotoSource)
-            {
-                case OrthophotoSource.Bing:
-                    prefix = "b";
-                    break;
-                case OrthophotoSource.Google:
-                    prefix = "g";
-                    break;
-            }
-
-            return prefix;
         }
 
         public void StopSceneryGenerationProcess(object sender, EventArgs e)
@@ -264,9 +296,34 @@ namespace AeroScenery
                                 case OrthophotoSource.Google:
                                     imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
-                                case OrthophotoSource.USGS:
+                                case OrthophotoSource.ArcGIS:
+                                    imageTiles = arcGISOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.US_USGS:
                                     imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
+                                case OrthophotoSource.NZ_Linz:
+                                    imageTiles = linzOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.ES_IDEIB:
+                                    imageTiles = ideibOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.CH_Geoportal:
+                                    imageTiles = geoportalOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.NO_NorgeBilder:
+                                    imageTiles = norgeBilderOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.SE_Lantmateriet:
+                                    imageTiles = lantmaterietOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.ES_IGN:
+                                    imageTiles = ignOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.JP_GSI:
+                                    imageTiles = gsiOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+
                             }
                         });
 

@@ -218,7 +218,19 @@
     <Compile Include="OrthophotoSources\Global\GoogleOrthophotoTileHelper.cs" />
     <Compile Include="OrthophotoSources\Global\GoogleOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Japan\GSIOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\NewZealand\LinzOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Norway\NorgeBilderOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Spain\IDEIBOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Spain\IGNOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Sweden\LantmaterietOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Switzerland\GeoportalOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\UnitedStates\USGSOrthophotoSource.cs" />
+    <Compile Include="Resources\AeroSceneryImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AeroSceneryImages.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\FileOperationProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -265,6 +277,10 @@
     <Compile Include="UI\HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ImageComboItem.cs" />
     <Compile Include="UI\ImageProcessingPreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -314,6 +330,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SuperContextMenu\PoppedContainer.resx">
       <DependentUpon>PoppedContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AeroSceneryImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AeroSceneryImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FileOperationProgressForm.resx">
       <DependentUpon>FileOperationProgressForm.cs</DependentUpon>
@@ -368,6 +388,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\arrow_down_active.png" />
+    <None Include="Resources\ch.png" />
+    <None Include="Resources\es.png" />
+    <None Include="Resources\jp.png" />
+    <None Include="Resources\no.png" />
+    <None Include="Resources\nz.png" />
     <Content Include="Resources\picture_edit.png" />
     <Content Include="Resources\SampleImages\rural_arid.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -390,6 +415,10 @@
     <Content Include="Resources\SampleImages\urban3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\US.bmp" />
+    <None Include="Resources\se.png" />
+    <None Include="Resources\us.png" />
+    <None Include="Resources\world_icon.png" />
     <Content Include="roadmap.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -411,14 +440,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="OrthophotoSources\Japan\" />
-    <Folder Include="OrthophotoSources\NewZealand\" />
-    <Folder Include="OrthophotoSources\Norway\" />
-    <Folder Include="OrthophotoSources\Spain\" />
-    <Folder Include="OrthophotoSources\Sweden\" />
-    <Folder Include="OrthophotoSources\Switzerland\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\System.Data.SQLite.Core.1.0.109.2\build\net451\System.Data.SQLite.Core.targets" Condition="Exists('packages\System.Data.SQLite.Core.1.0.109.2\build\net451\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

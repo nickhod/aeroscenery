@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 using AeroScenery.AFS2;
 using AeroScenery.Common;
 
-namespace AeroScenery.OrthophotoSources
+namespace AeroScenery.OrthophotoSources.UnitedStates
 {
-    public class USGSOrthophotoSource : IOrthophotoSource
+    public class USGSOrthophotoSource : GenericOrthophotoSource
     {
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

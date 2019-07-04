@@ -1,4 +1,6 @@
-﻿namespace AeroScenery
+﻿using AeroScenery.UI;
+
+namespace AeroScenery
 {
     partial class MainForm
     {
@@ -99,7 +101,7 @@
             this.afsLevelsCheckBoxList = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.imageSourceComboBox = new System.Windows.Forms.ComboBox();
+            this.imageSourceComboBox = new ImageComboBox();
             this.elevationTabPage = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.usgsTestButton = new System.Windows.Forms.Button();
@@ -1170,7 +1172,7 @@
         private System.Windows.Forms.CheckedListBox afsLevelsCheckBoxList;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox imageSourceComboBox;
+        private ImageComboBox imageSourceComboBox;
         private System.Windows.Forms.CheckBox installSceneryIntoAFSCheckBox;
         private System.Windows.Forms.CheckBox deleteStitchedImagesCheckBox;
         private System.Windows.Forms.Panel panel1;
