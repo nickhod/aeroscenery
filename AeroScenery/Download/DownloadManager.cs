@@ -217,7 +217,7 @@ namespace AeroScenery.Download
 
                             if (fileSize == 1033)
                             {
-                                var afd = "asdf";
+                                //var afd = "asdf";
                             }
 
                             memStream.CopyTo(fileStream);

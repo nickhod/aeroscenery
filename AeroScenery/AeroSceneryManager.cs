@@ -44,6 +44,7 @@ namespace AeroScenery
         private LantmaterietOrthophotoSource lantmaterietOrthophotoSource;
         private GeoportalOrthophotoSource geoportalOrthophotoSource;
         private ArcGISOrthophotoSource arcGISOrthophotoSource;
+        private HittaOrthophotoSource hittaOrthophotoSource;
 
         private DownloadManager downloadManager;
 
@@ -149,6 +150,7 @@ namespace AeroScenery
             lantmaterietOrthophotoSource = new LantmaterietOrthophotoSource();
             geoportalOrthophotoSource = new GeoportalOrthophotoSource();
             arcGISOrthophotoSource = new ArcGISOrthophotoSource();
+            hittaOrthophotoSource = new HittaOrthophotoSource();
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>
@@ -181,37 +183,40 @@ namespace AeroScenery
             switch (this.settings.OrthophotoSource)
             {
                 case OrthophotoSource.Bing:
-                    tileDownloadDirectory += @"\b\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.Bing);
                     break;
                 case OrthophotoSource.Google:
-                    tileDownloadDirectory += @"\g\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.Google);
                     break;
                 case OrthophotoSource.ArcGIS:
-                    tileDownloadDirectory += @"\ag\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.ArcGIS);
                     break;
                 case OrthophotoSource.US_USGS:
-                    tileDownloadDirectory += @"\us_usgs\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.US_USGS);
                     break;
                 case OrthophotoSource.NZ_Linz:
-                    tileDownloadDirectory += @"\nz_linz\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.NZ_Linz);
                     break;
                 case OrthophotoSource.ES_IDEIB:
-                    tileDownloadDirectory += @"\es_ideib\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.ES_IDEIB);
                     break;
                 case OrthophotoSource.CH_Geoportal:
-                    tileDownloadDirectory += @"\ch_geo\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.CH_Geoportal);
                     break;
                 case OrthophotoSource.NO_NorgeBilder:
-                    tileDownloadDirectory += @"\no_nb\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.NO_NorgeBilder);
                     break;
                 case OrthophotoSource.SE_Lantmateriet:
-                    tileDownloadDirectory += @"\se_lant\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.SE_Lantmateriet);
                     break;
                 case OrthophotoSource.ES_IGN:
-                    tileDownloadDirectory += @"\es_ign\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.ES_IGN);
                     break;
                 case OrthophotoSource.JP_GSI:
-                    tileDownloadDirectory += @"\jp_gsi\";
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.JP_GSI);
+                    break;
+                case OrthophotoSource.SE_Hitta:
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.SE_Hitta);
                     break;
             }
 
@@ -322,6 +327,9 @@ namespace AeroScenery
                                     break;
                                 case OrthophotoSource.JP_GSI:
                                     imageTiles = gsiOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    break;
+                                case OrthophotoSource.SE_Hitta:
+                                    imageTiles = hittaOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     break;
 
                             }

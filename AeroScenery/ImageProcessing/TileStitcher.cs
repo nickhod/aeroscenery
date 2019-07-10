@@ -162,14 +162,29 @@ namespace AeroScenery.ImageProcessing
 
                                             var imageTileFilename = tileDownloadDirectory + imageTileData.FileName + "." + imageTileData.ImageExtension;
 
-                                            Image tile = null;
+                                            Bitmap tile = null;
+                                            Image tileImage = null;
 
                                             try
                                             {
-                                                tile = Image.FromFile(imageTileFilename);
+                                                //tile = Image.FromFile(imageTileFilename); 
+                                                tileImage = Image.FromFile(imageTileFilename);
+                                                tile = new Bitmap(tileImage);
 
                                                 if (tile != null)
                                                 {
+                                                    if (tile.HorizontalResolution != 96f || tile.VerticalResolution != 96f)
+                                                    {
+                                                        ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+                                                        System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+
+                                                        var myEncoderParameters = new EncoderParameters(1);
+                                                        var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
+                                                        myEncoderParameters.Param[0] = myEncoderParameter;
+
+                                                        tile.SetResolution(96.0f, 96.0f);
+                                                    }
+
                                                     var imagePointX = (xIx * imageTileData.Width);
                                                     var imagePointY = (yIx * imageTileData.Width);
 
@@ -200,6 +215,11 @@ namespace AeroScenery.ImageProcessing
                                                 if (tile != null)
                                                 {
                                                     tile.Dispose();
+                                                }
+
+                                                if (tileImage != null)
+                                                {
+                                                    tileImage.Dispose();
                                                 }
                                             }
 
@@ -362,15 +382,27 @@ namespace AeroScenery.ImageProcessing
 
                 var filenameParts = filename.Split('_');
 
-                if (!filenamePrefixSet)
+                var tileX = int.Parse(filenameParts[(filenameParts.Length - 1) - 1]);
+                var tileY = int.Parse(filenameParts[filenameParts.Length - 1]);
+                var zoomLevel = filenameParts[(filenameParts.Length - 1) - 2];
+                var orthoSource = "";
+
+                // More than 4 if we have a country specific ortho source
+                // e.g. us_usgs
+                if (filenameParts.Length > 4)
                 {
-                    this.filenamePrefix = String.Format("{0}_{1}_", filenameParts[0], filenameParts[1]);
-                    filenamePrefixSet = true;
+                    orthoSource = String.Format("{0}_{1}", filenameParts[0], filenameParts[1]);
+                }
+                else
+                {
+                    orthoSource = filenameParts[0];
                 }
 
-                var tileX = int.Parse(filenameParts[2]);
-                var tileY = int.Parse(filenameParts[3]);
-
+                if (!filenamePrefixSet)
+                {
+                    this.filenamePrefix = String.Format("{0}_{1}_", orthoSource, zoomLevel);
+                    filenamePrefixSet = true;
+                }
 
 
                 if (tileX < lowestTileNumberX)
@@ -409,6 +441,19 @@ namespace AeroScenery.ImageProcessing
             {
                 xmlSerializer.Serialize(tw, stitchedImage);
             }
+        }
+
+        private ImageCodecInfo GetEncoder(ImageFormat format)
+        {
+            ImageCodecInfo[] codecs = ImageCodecInfo.GetImageDecoders();
+            foreach (ImageCodecInfo codec in codecs)
+            {
+                if (codec.FormatID == format.Guid)
+                {
+                    return codec;
+                }
+            }
+            return null;
         }
     }
 }

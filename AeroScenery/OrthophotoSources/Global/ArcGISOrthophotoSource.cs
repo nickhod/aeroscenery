@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AeroScenery.OrthoPhotoSources;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,27 @@ namespace AeroScenery.OrthophotoSources
 {
     public class ArcGISOrthophotoSource : GenericOrthophotoSource
     {
-        public new static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
+        public static string DefaultUrlTemplate = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{zoom}/{y}/{x}";
 
         public ArcGISOrthophotoSource()
         {
             this.urlTemplate = DefaultUrlTemplate;
+            Initialize();
         }
 
         public ArcGISOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            this.width = 256;
+            this.height = 256;
+            this.imageExtension = "jpg";
+            this.source = OrthophotoSourceDirectoryName.ArcGIS;
+            this.tiledWebMapType = TiledWebMapType.Google;
         }
 
     }

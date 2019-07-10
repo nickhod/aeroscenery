@@ -5,13 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using AeroScenery.AFS2;
 using AeroScenery.Common;
+using SmartFormat;
 
 namespace AeroScenery.OrthophotoSources
 {
     public class GenericOrthophotoSource : IOrthophotoSource
     {
         protected string urlTemplate;
-
+        protected int width;
+        protected int height;
+        protected string imageExtension;
+        protected string source;
+        protected TiledWebMapType tiledWebMapType;
+        protected string fakeHttpHeaders;
 
         public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
@@ -23,10 +29,10 @@ namespace AeroScenery.OrthophotoSources
             var southEastCorner = afs2GridSquare.Coordinates[2];
             var southWestCorner = afs2GridSquare.Coordinates[3];
 
-            // Get the tile X & Y of the frst tile
+            // Get the tile X & Y of the first tile
             int tileX = 0;
             int tileY = 0;
-            GoogleOrthophotoTileHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
+            GenericOrthophotoTileHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
 
             double currentTileNorthLatitude = 0;
             double currentTileSouthLatitude = 0;
@@ -44,26 +50,31 @@ namespace AeroScenery.OrthophotoSources
             {
                 do
                 {
-                    GoogleOrthophotoTileHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
+                    GenericOrthophotoTileHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
 
                     // Get the lat long of the tile "to the left and down", which will give us the south and east edge of the previous tile
-                    GoogleOrthophotoTileHelper.TileXYToLatLong(currentTileX + 1, currentTileY + 1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+                    GenericOrthophotoTileHelper.TileXYToLatLong(currentTileX + 1, currentTileY + 1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+
+                    var urlParamsLookup = new Dictionary<string, object>();
+                    urlParamsLookup.Add("zoom", zoomLevel);
+                    urlParamsLookup.Add("x", currentTileX);
+                    urlParamsLookup.Add("y", currentTileY);
 
                     ImageTile tile = new ImageTile();
-                    tile.Width = 256;
-                    tile.Height = 256;
+                    tile.Width = width;
+                    tile.Height = height;
                     tile.NorthLatitude = currentTileNorthLatitude;
                     tile.SouthLatitude = currentTileSouthLatitude;
                     tile.WestLongitude = currentTileWestLongitude;
                     tile.EastLongitude = currentTileEastLongitude;
-                    tile.ImageExtension = "jpg";
+                    tile.ImageExtension = imageExtension;
                     tile.TileX = currentTileX;
                     tile.TileY = currentTileY;
                     tile.LocalTileX = currentColumn;
                     tile.LocalTileY = currentRow;
-                    tile.Source = "g";
+                    tile.Source = source;
                     tile.ZoomLevel = zoomLevel;
-                    tile.URL = String.Format(this.urlTemplate, currentTileX, currentTileY, zoomLevel);
+                    tile.URL = Smart.Format(this.urlTemplate, urlParamsLookup);
 
                     imageTiles.Add(tile);
 
