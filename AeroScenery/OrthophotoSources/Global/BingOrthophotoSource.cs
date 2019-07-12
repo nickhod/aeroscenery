@@ -13,18 +13,16 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class BingOrthophotoSource : IOrthophotoSource
+    public class BingOrthophotoSource : GenericOrthophotoSource
     {
         public static string DefaultUrlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
-
-        private string urlTemplate;
 
         public BingOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
         }
 
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
+        public new List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
 

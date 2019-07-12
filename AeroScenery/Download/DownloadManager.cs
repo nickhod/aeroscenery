@@ -1,5 +1,7 @@
 ﻿using AeroScenery.AFS2;
 using AeroScenery.Common;
+using AeroScenery.OrthophotoSources;
+using AeroScenery.OrthophotoSources.Switzerland;
 using AeroScenery.OrthoPhotoSources;
 using log4net;
 using System;
@@ -34,7 +36,8 @@ namespace AeroScenery.Download
             cancellationTokenSource.Cancel();
         }
 
-        public async Task DownloadImageTiles(OrthophotoSource orthophotoSource, List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, string downloadDirectory)
+        public async Task DownloadImageTiles(OrthophotoSource orthophotoSource, List<ImageTile> imageTiles, IProgress<DownloadThreadProgress> threadProgress, 
+            string downloadDirectory, GenericOrthophotoSource orthophotoSourceInstance)
         {
 
             // Reset cancellation token status
@@ -101,7 +104,7 @@ namespace AeroScenery.Download
                                 // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                 if (imageTiles != null && imageTiles.Count > 0)
                                 {
-                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory, orthophotoSource);
+                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory, orthophotoSource, orthophotoSourceInstance);
                                 }
 
                                 // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
@@ -136,7 +139,7 @@ namespace AeroScenery.Download
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                     if (imageTiles != null && imageTiles.Count > 0)
                                     {
-                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory, orthophotoSource);
+                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory, orthophotoSource, orthophotoSourceInstance);
                                     }
 
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
@@ -168,7 +171,7 @@ namespace AeroScenery.Download
             }
         }
 
-        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path, OrthophotoSource orthophotoSource)
+        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path, OrthophotoSource orthophotoSource, GenericOrthophotoSource orthophotoSourceInstance)
         {
             string fullFilePath = path + imageTile.FileName + "." + imageTile.ImageExtension;
 
@@ -177,12 +180,28 @@ namespace AeroScenery.Download
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "119=" + Guid.NewGuid().ToString()));
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "129=" + Guid.NewGuid().ToString()));
 
+
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(AeroSceneryManager.Instance.Settings.UserAgent);
             httpClient.DefaultRequestHeaders.Referrer = new Uri("http://google.com/");
             httpClient.DefaultRequestHeaders.Add("Accept-Language", "en-US,en;q=0.5");
             httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json, text/javascript, */*; q=0.01");
+
+            if (orthophotoSourceInstance.AdditionalHttpHeaders != null)
+            {
+                foreach (var key in orthophotoSourceInstance.AdditionalHttpHeaders.Keys)
+                {
+                    if (key.ToLower() == "referrer" || key.ToLower() == "referer")
+                    {
+                        httpClient.DefaultRequestHeaders.Referrer = new Uri(orthophotoSourceInstance.AdditionalHttpHeaders[key]);
+                    }
+                    else
+                    {
+                        httpClient.DefaultRequestHeaders.Add(key, orthophotoSourceInstance.AdditionalHttpHeaders[key]);
+                    }
+                }
+            }
 
             try
             {
@@ -206,6 +225,19 @@ namespace AeroScenery.Download
                         }
                     }
                 }
+
+
+                if (responseResult.Result.Content.Headers.Contains("Content-Encoding"))
+                {
+                    var contentEncodingValue = responseResult.Result.Content.Headers.GetValues("Content-Encoding").FirstOrDefault();
+
+                    if (contentEncodingValue == "gzip")
+                    {
+                        var afd = "asdf";
+                    }
+
+                }
+
 
                 if (saveFile)
                 {

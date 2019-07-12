@@ -8,18 +8,16 @@ using AeroScenery.Common;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class GoogleOrthophotoSource : IOrthophotoSource
+    public class GoogleOrthophotoSource : GenericOrthophotoSource
     {
         public static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
-
-        private string urlTemplate;
 
         public GoogleOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
         }
 
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
+        public new List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
 

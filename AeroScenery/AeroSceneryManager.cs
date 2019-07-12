@@ -289,6 +289,7 @@ namespace AeroScenery
                         this.mainForm.UpdateChildTaskLabel("Calculating Image Tiles To Download");
                         log.Info("Calculating Image Tiles To Download");
 
+                        GenericOrthophotoSource orthophotoSourceInstance = null;
 
                         var imageTilesTask = Task.Run(() => {
 
@@ -297,39 +298,51 @@ namespace AeroScenery
                             {
                                 case OrthophotoSource.Bing:
                                     imageTiles = bingOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = bingOrthophotoSource;
                                     break;
                                 case OrthophotoSource.Google:
                                     imageTiles = googleOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = googleOrthophotoSource;
                                     break;
                                 case OrthophotoSource.ArcGIS:
                                     imageTiles = arcGISOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = arcGISOrthophotoSource;
                                     break;
                                 case OrthophotoSource.US_USGS:
                                     imageTiles = usgsOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = usgsOrthophotoSource;
                                     break;
                                 case OrthophotoSource.NZ_Linz:
                                     imageTiles = linzOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = linzOrthophotoSource;
                                     break;
                                 case OrthophotoSource.ES_IDEIB:
                                     imageTiles = ideibOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = ideibOrthophotoSource;
                                     break;
                                 case OrthophotoSource.CH_Geoportal:
                                     imageTiles = geoportalOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = geoportalOrthophotoSource;
                                     break;
                                 case OrthophotoSource.NO_NorgeBilder:
                                     imageTiles = norgeBilderOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = norgeBilderOrthophotoSource;
                                     break;
                                 case OrthophotoSource.SE_Lantmateriet:
                                     imageTiles = lantmaterietOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = lantmaterietOrthophotoSource;
                                     break;
                                 case OrthophotoSource.ES_IGN:
                                     imageTiles = ignOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = ignOrthophotoSource;
                                     break;
                                 case OrthophotoSource.JP_GSI:
                                     imageTiles = gsiOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = gsiOrthophotoSource;
                                     break;
                                 case OrthophotoSource.SE_Hitta:
                                     imageTiles = hittaOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = hittaOrthophotoSource;
                                     break;
 
                             }
@@ -345,7 +358,7 @@ namespace AeroScenery
                         downloadThreadProgress.ProgressChanged += DownloadThreadProgress_ProgressChanged;
 
                         // Send the image tiles to the download manager
-                        await downloadManager.DownloadImageTiles(settings.OrthophotoSource.Value, imageTiles, downloadThreadProgress, tileDownloadDirectory);
+                        await downloadManager.DownloadImageTiles(settings.OrthophotoSource.Value, imageTiles, downloadThreadProgress, tileDownloadDirectory, orthophotoSourceInstance);
 
                         // Only finalise if we weren't cancelled
                         if (this.mainForm.ActionsRunning)
