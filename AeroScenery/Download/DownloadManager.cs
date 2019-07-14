@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -226,6 +227,7 @@ namespace AeroScenery.Download
                     }
                 }
 
+                bool gzipped = false;
 
                 if (responseResult.Result.Content.Headers.Contains("Content-Encoding"))
                 {
@@ -233,7 +235,7 @@ namespace AeroScenery.Download
 
                     if (contentEncodingValue == "gzip")
                     {
-                        var afd = "asdf";
+                        gzipped = true;
                     }
 
                 }
@@ -243,17 +245,32 @@ namespace AeroScenery.Download
                 {
                     using (var memStream = responseResult.Result.Content.ReadAsStreamAsync().Result)
                     {
-                        using (var fileStream = File.Create(fullFilePath))
+                        if (gzipped)
                         {
-                            var fileSize = memStream.Length;
-
-                            if (fileSize == 1033)
+                            using (var fileStream = File.Create(fullFilePath))
                             {
-                                //var afd = "asdf";
+                                using (GZipStream compressionStream = new GZipStream(memStream, CompressionMode.Decompress))
+                                {
+                                    compressionStream.CopyTo(fileStream);
+                                }
                             }
 
-                            memStream.CopyTo(fileStream);
                         }
+                        else
+                        {
+                            using (var fileStream = File.Create(fullFilePath))
+                            {
+                                var fileSize = memStream.Length;
+
+                                if (fileSize == 1033)
+                                {
+                                    //var afd = "asdf";
+                                }
+
+                                memStream.CopyTo(fileStream);
+                            }
+                        }
+
 
                     }
                 }
