@@ -32,6 +32,7 @@ namespace AeroScenery.OrthophotoSources.Spain
             this.source = OrthophotoSourceDirectoryName.ES_IDEIB;
             this.tiledWebMapType = TiledWebMapType.WMS;
             this.wmsVersion = "1.3";
+            //EPSG:3857
             this.wmsCoordinateSystem = "CRS:84";
         }
     }

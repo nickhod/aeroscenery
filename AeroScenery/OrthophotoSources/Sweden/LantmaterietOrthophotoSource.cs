@@ -30,6 +30,7 @@ namespace AeroScenery.OrthophotoSources.Sweden
             this.imageExtension = "png";
             this.source = OrthophotoSourceDirectoryName.SE_Lantmateriet;
             this.tiledWebMapType = TiledWebMapType.WMS;
+            this.wmsCoordinateSystem = "EPSG:3006";
 
 
             AdditionalHttpHeaders = new Dictionary<string, string>();

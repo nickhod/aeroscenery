@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AeroScenery.AFS2;
 using AeroScenery.Common;
+using DotSpatial.Projections;
 using SmartFormat;
 
 namespace AeroScenery.OrthophotoSources
@@ -123,24 +124,58 @@ namespace AeroScenery.OrthophotoSources
                     break;
                 case TiledWebMapType.WMS:
 
-                    //BBOX(minx, miny, maxx, maxy): 
-                    //BBOX (westLng, soutLat, eastLng, northLat)
-
-                    // WMS v1.1 always uses minx, miny, maxx, maxy
                     var bboxCsv = string.Format("{0},{1},{2},{3}", currentTileWestLongitude, currentTileSouthLatitude, currentTileEastLongitude, currentTileNorthLatitude);
 
 
-                    if (!string.IsNullOrEmpty(this.wmsVersion) && this.wmsVersion.StartsWith("1.3"))
+                    if (!string.IsNullOrEmpty(this.wmsCoordinateSystem))
                     {
+                        // Our input coordinates are standard WGS84
+                        var sourceProjection = KnownCoordinateSystems.Geographic.World.WGS1984;
+
                         switch (this.wmsCoordinateSystem)
                         {
-                            case "EPSG:":
-                                // miny, minx, maxy, maxx
-                                //bboxCsv = string.Format("{0},{1},{2},{3}", currentTileNorthLatitude, currentTileWestLongitude, currentTileEastLongitude, currentTileSouthLatitude);
+                            case "EPSG:3006":
+
+                                var destinationProjection = ProjectionInfo.FromEpsgCode(3006);
+
+                                double currentTileWestLongitudeReprojected = currentTileWestLongitude;
+                                double currentTileSouthLatitudeReprojected = currentTileSouthLatitude;
+                                double currentTileEastLongitudeReprojected = currentTileEastLongitude;
+                                double currentTileNorthLatitudeReprojected = currentTileNorthLatitude;
+
+                                double[] southWest = new double[2] { currentTileWestLongitudeReprojected, currentTileSouthLatitudeReprojected };
+                                double[] northEast = new double[2] { currentTileEastLongitudeReprojected, currentTileNorthLatitudeReprojected };
+                                double[] z = new double[1] { 0 };
+
+                                Reproject.ReprojectPoints(southWest, z, sourceProjection, destinationProjection, 0, 1);
+                                Reproject.ReprojectPoints(northEast, z, sourceProjection, destinationProjection, 0, 1);
+
+                                bboxCsv = string.Format("{0},{1},{2},{3}", southWest[0], southWest[1], northEast[0], northEast[1]);
 
                                 break;
+
                         }
                     }
+
+
+
+                    // TODO needs additional work to support different versions and coordinates systems
+                    // will probably be done on as as needed basis
+
+                    //BBOX(minx, miny, maxx, maxy): 
+                    //BBOX (westLng, soutLat, eastLng, northLat)
+                    // WMS v1.1 always uses minx, miny, maxx, maxy
+                    //if (!string.IsNullOrEmpty(this.wmsVersion) && this.wmsVersion.StartsWith("1.3"))
+                    //{
+                    //    switch (this.wmsCoordinateSystem)
+                    //    {
+                    //        case "EPSG:":
+                    //            // miny, minx, maxy, maxx
+                    //            //bboxCsv = string.Format("{0},{1},{2},{3}", currentTileNorthLatitude, currentTileWestLongitude, currentTileEastLongitude, currentTileSouthLatitude);
+
+                    //            break;
+                    //    }
+                    //}
 
                     urlParamsLookup.Add("bbox", bboxCsv);
 
