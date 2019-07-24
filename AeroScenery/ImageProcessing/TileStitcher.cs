@@ -30,6 +30,8 @@ namespace AeroScenery.ImageProcessing
 
         public async Task StitchImageTilesAsync(string tileDownloadDirectory, string stitchedTilesDirectory, bool deleteOriginals, IProgress<TileStitcherProgress> progress)
         {
+            // TODO This method really needs refactoring
+
             await Task.Run(() =>
             {
                 var tileStitcherProgress = new TileStitcherProgress();
@@ -42,260 +44,266 @@ namespace AeroScenery.ImageProcessing
                 int startTileY;
                 int endTileX;
                 int endTileY;
+                int tileCount;
 
                 // Get the top left tile X & Y and the bottom right tile X & Y
                 // We can work everything else out from this
-                this.GetStartingAndEndTileXY(tileDownloadDirectory, out startTileX, out startTileY, out endTileX, out endTileY);
+                this.GetStartingAndEndTileXY(tileDownloadDirectory, out startTileX, out startTileY, out endTileX, out endTileY, out tileCount);
 
-                //Debug.WriteLine("startTileX " + startTileX);
-                //Debug.WriteLine("startTileY " + startTileY);
-                //Debug.WriteLine("endTileX " + endTileX);
-                //Debug.WriteLine("endTileY " + endTileY);
-
-                int numberOfTilesX = (endTileX - startTileX) + 1;
-                int numberOfTilesY = (endTileY - startTileY) + 1;
-
-                //Debug.WriteLine("Tiles X " + numberOfTilesX);
-                //Debug.WriteLine("Tiles Y " + numberOfTilesY);
-                //Debug.WriteLine("Filename prefix " + filenamePrefix);
-
-                var firstImageTile = this.LoadImageTile(tileDownloadDirectory, startTileX, startTileY);
-
-                // Get some info from the first tile. We can assume all tiles have these
-                // properties or something is very wrong
-                var imageSource = firstImageTile.Source;
-                var zoomLevel = firstImageTile.ZoomLevel;
-                var tileWidth = firstImageTile.Width;
-                var tileHeight = firstImageTile.Height;
-
-                int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
-                int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
-
-                // Calculate the size of our stitched images in each direction
-                var imageSizeX = maxTilesPerStitchedImageX * tileWidth;
-                var imageSizeY = maxTilesPerStitchedImageY * tileHeight;
-
-                // Calculate how many images we need
-                var requiredStitchedImagesX = (int)Math.Ceiling((float)numberOfTilesX / (float)maxTilesPerStitchedImageX);
-                var requiredStitchedImagesY = (int)Math.Ceiling((float)numberOfTilesY / (float)maxTilesPerStitchedImageY);
-                var requiredStichedImages = requiredStitchedImagesX * requiredStitchedImagesY;
-
-                int imageTileOffsetX = 0;
-                int imagetileOffsetY = 0;
-
-                tileStitcherProgress.TotalStitchedImages = requiredStichedImages;
-
-                // Loop through each stitched image that we will need
-                for (int stitchedImagesYIx = 0; stitchedImagesYIx < requiredStitchedImagesY; stitchedImagesYIx++)
+                if (tileCount > 0)
                 {
+                    //Debug.WriteLine("startTileX " + startTileX);
+                    //Debug.WriteLine("startTileY " + startTileY);
+                    //Debug.WriteLine("endTileX " + endTileX);
+                    //Debug.WriteLine("endTileY " + endTileY);
 
-                    for (int stitchedImagesXIx = 0; stitchedImagesXIx < requiredStitchedImagesX; stitchedImagesXIx++)
+                    int numberOfTilesX = (endTileX - startTileX) + 1;
+                    int numberOfTilesY = (endTileY - startTileY) + 1;
+
+                    //Debug.WriteLine("Tiles X " + numberOfTilesX);
+                    //Debug.WriteLine("Tiles Y " + numberOfTilesY);
+                    //Debug.WriteLine("Filename prefix " + filenamePrefix);
+
+                    var firstImageTile = this.LoadImageTile(tileDownloadDirectory, startTileX, startTileY);
+
+                    // Get some info from the first tile. We can assume all tiles have these
+                    // properties or something is very wrong
+                    var imageSource = firstImageTile.Source;
+                    var zoomLevel = firstImageTile.ZoomLevel;
+                    var tileWidth = firstImageTile.Width;
+                    var tileHeight = firstImageTile.Height;
+
+                    int maxTilesPerStitchedImageX = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
+                    int maxTilesPerStitchedImageY = AeroSceneryManager.Instance.Settings.MaximumStitchedImageSize.Value;
+
+                    // Calculate the size of our stitched images in each direction
+                    var imageSizeX = maxTilesPerStitchedImageX * tileWidth;
+                    var imageSizeY = maxTilesPerStitchedImageY * tileHeight;
+
+                    // Calculate how many images we need
+                    var requiredStitchedImagesX = (int)Math.Ceiling((float)numberOfTilesX / (float)maxTilesPerStitchedImageX);
+                    var requiredStitchedImagesY = (int)Math.Ceiling((float)numberOfTilesY / (float)maxTilesPerStitchedImageY);
+                    var requiredStichedImages = requiredStitchedImagesX * requiredStitchedImagesY;
+
+                    int imageTileOffsetX = 0;
+                    int imagetileOffsetY = 0;
+
+                    tileStitcherProgress.TotalStitchedImages = requiredStichedImages;
+
+                    // Loop through each stitched image that we will need
+                    for (int stitchedImagesYIx = 0; stitchedImagesYIx < requiredStitchedImagesY; stitchedImagesYIx++)
                     {
-                        imageTileOffsetX = stitchedImagesXIx * maxTilesPerStitchedImageX;
-                        imagetileOffsetY = stitchedImagesYIx * maxTilesPerStitchedImageY;
 
-                        // This might not be right, but it's a reasonable estimate. We wont know until we read each file
-                        tileStitcherProgress.TotalImageTilesForCurrentStitchedImage = maxTilesPerStitchedImageX * maxTilesPerStitchedImageY;
-
-                        int columnsUsed = 0;
-                        int rowsUsed = 0;
-
-                        // By giving these incorrect values, we can be sure they will we overwritten without having
-                        // to make them nullable and do null checks
-                        double northLatitude = -500;
-                        double westLongitude = 500;
-                        double southLatitude = 500;
-                        double eastLongitude = -500;
-
-                        using (Bitmap bitmap = new System.Drawing.Bitmap(imageSizeX, imageSizeY))
+                        for (int stitchedImagesXIx = 0; stitchedImagesXIx < requiredStitchedImagesX; stitchedImagesXIx++)
                         {
-                            bitmap.MakeTransparent();
+                            imageTileOffsetX = stitchedImagesXIx * maxTilesPerStitchedImageX;
+                            imagetileOffsetY = stitchedImagesYIx * maxTilesPerStitchedImageY;
 
-                            using (Graphics g = Graphics.FromImage(bitmap))
+                            // This might not be right, but it's a reasonable estimate. We wont know until we read each file
+                            tileStitcherProgress.TotalImageTilesForCurrentStitchedImage = maxTilesPerStitchedImageX * maxTilesPerStitchedImageY;
+
+                            int columnsUsed = 0;
+                            int rowsUsed = 0;
+
+                            // By giving these incorrect values, we can be sure they will we overwritten without having
+                            // to make them nullable and do null checks
+                            double northLatitude = -500;
+                            double westLongitude = 500;
+                            double southLatitude = 500;
+                            double eastLongitude = -500;
+
+                            using (Bitmap bitmap = new System.Drawing.Bitmap(imageSizeX, imageSizeY))
                             {
-                                tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage = 0;
+                                bitmap.MakeTransparent();
 
-                                // Work left to right, top to bottom
-                                // Loop through rows
-                                for (int yIx = 0; yIx < maxTilesPerStitchedImageY; yIx++)
+                                using (Graphics g = Graphics.FromImage(bitmap))
                                 {
-                                    bool rowHasImages = false;
+                                    tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage = 0;
 
-                                    // Loop through columns
-                                    for (int xIx = 0; xIx < maxTilesPerStitchedImageX; xIx++)
+                                    // Work left to right, top to bottom
+                                    // Loop through rows
+                                    for (int yIx = 0; yIx < maxTilesPerStitchedImageY; yIx++)
                                     {
-                                        int currentTileX = xIx + imageTileOffsetX + startTileX;
-                                        int currentTileY = yIx + imagetileOffsetY + startTileY;
+                                        bool rowHasImages = false;
 
-                                        var imageTileData = this.LoadImageTile(tileDownloadDirectory, currentTileX, currentTileY);
-
-                                        if (imageTileData != null)
+                                        // Loop through columns
+                                        for (int xIx = 0; xIx < maxTilesPerStitchedImageX; xIx++)
                                         {
-                                            // Even if all the images in this row are invalid, the aero files are present
-                                            // so an attempt was made to download something
-                                            rowHasImages = true;
+                                            int currentTileX = xIx + imageTileOffsetX + startTileX;
+                                            int currentTileY = yIx + imagetileOffsetY + startTileY;
 
-                                            // Update our overall stitched image lat and long maxima and minima
-                                            // We want the highest NorthLatitude value of any image tile for this stitched image
-                                            if (imageTileData.NorthLatitude > northLatitude)
+                                            var imageTileData = this.LoadImageTile(tileDownloadDirectory, currentTileX, currentTileY);
+
+                                            if (imageTileData != null)
                                             {
-                                                northLatitude = imageTileData.NorthLatitude;
-                                            }
+                                                // Even if all the images in this row are invalid, the aero files are present
+                                                // so an attempt was made to download something
+                                                rowHasImages = true;
 
-                                            // We want the lowest SouthLatitude value of any image tile for this stitched image
-                                            if (imageTileData.SouthLatitude < southLatitude)
-                                            {
-                                                southLatitude = imageTileData.SouthLatitude;
-                                            }
-
-                                            // We want the lowest WestLongitude value of any image tile for this stitched image
-                                            if (imageTileData.WestLongitude < westLongitude)
-                                            {
-                                                westLongitude = imageTileData.WestLongitude;
-                                            }
-
-                                            // We want the highest EastLongitude value of any image tile for this stitched image
-                                            if (imageTileData.EastLongitude > eastLongitude)
-                                            {
-                                                eastLongitude = imageTileData.EastLongitude;
-                                            }
-
-                                            var imageTileFilename = tileDownloadDirectory + imageTileData.FileName + "." + imageTileData.ImageExtension;
-
-                                            Bitmap tile = null;
-                                            Image tileImage = null;
-
-                                            try
-                                            {
-                                                //tile = Image.FromFile(imageTileFilename); 
-                                                tileImage = Image.FromFile(imageTileFilename);
-                                                tile = new Bitmap(tileImage);
-
-                                                if (tile != null)
+                                                // Update our overall stitched image lat and long maxima and minima
+                                                // We want the highest NorthLatitude value of any image tile for this stitched image
+                                                if (imageTileData.NorthLatitude > northLatitude)
                                                 {
-                                                    if (tile.HorizontalResolution != 96f || tile.VerticalResolution != 96f)
+                                                    northLatitude = imageTileData.NorthLatitude;
+                                                }
+
+                                                // We want the lowest SouthLatitude value of any image tile for this stitched image
+                                                if (imageTileData.SouthLatitude < southLatitude)
+                                                {
+                                                    southLatitude = imageTileData.SouthLatitude;
+                                                }
+
+                                                // We want the lowest WestLongitude value of any image tile for this stitched image
+                                                if (imageTileData.WestLongitude < westLongitude)
+                                                {
+                                                    westLongitude = imageTileData.WestLongitude;
+                                                }
+
+                                                // We want the highest EastLongitude value of any image tile for this stitched image
+                                                if (imageTileData.EastLongitude > eastLongitude)
+                                                {
+                                                    eastLongitude = imageTileData.EastLongitude;
+                                                }
+
+                                                var imageTileFilename = tileDownloadDirectory + imageTileData.FileName + "." + imageTileData.ImageExtension;
+
+                                                Bitmap tile = null;
+                                                Image tileImage = null;
+
+                                                try
+                                                {
+                                                    //tile = Image.FromFile(imageTileFilename); 
+                                                    tileImage = Image.FromFile(imageTileFilename);
+                                                    tile = new Bitmap(tileImage);
+
+                                                    if (tile != null)
                                                     {
-                                                        ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
-                                                        System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
+                                                        if (tile.HorizontalResolution != 96f || tile.VerticalResolution != 96f)
+                                                        {
+                                                            ImageCodecInfo jgpEncoder = GetEncoder(ImageFormat.Jpeg);
+                                                            System.Drawing.Imaging.Encoder myEncoder = System.Drawing.Imaging.Encoder.Quality;
 
-                                                        var myEncoderParameters = new EncoderParameters(1);
-                                                        var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
-                                                        myEncoderParameters.Param[0] = myEncoderParameter;
+                                                            var myEncoderParameters = new EncoderParameters(1);
+                                                            var myEncoderParameter = new EncoderParameter(myEncoder, 100L);
+                                                            myEncoderParameters.Param[0] = myEncoderParameter;
 
-                                                        tile.SetResolution(96.0f, 96.0f);
+                                                            tile.SetResolution(96.0f, 96.0f);
+                                                        }
+
+                                                        var imagePointX = (xIx * imageTileData.Width);
+                                                        var imagePointY = (yIx * imageTileData.Width);
+
+                                                        g.DrawImage(tile, new PointF(imagePointX, imagePointY));
+                                                        tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage++;
+                                                        progress.Report(tileStitcherProgress);
+
                                                     }
 
-                                                    var imagePointX = (xIx * imageTileData.Width);
-                                                    var imagePointY = (yIx * imageTileData.Width);
-
-                                                    g.DrawImage(tile, new PointF(imagePointX, imagePointY));
-                                                    tileStitcherProgress.CurrentTilesRenderedForCurrentStitchedImage++;
-                                                    progress.Report(tileStitcherProgress);
-
-                                                }
-
-                                                tile.Dispose();
-                                            }
-                                            catch (Exception)
-                                            {
-                                                // The image file was probably invalid, but there's not a lot we can do
-                                                // Leave it transparent
-                                            }
-                                            finally
-                                            {
-                                                // Even if the image was invalid, we still had an aero file for it
-                                                // so it counts as a used column
-                                                var colsUsedInThisRow = xIx + 1;
-
-                                                if (columnsUsed < colsUsedInThisRow)
-                                                {
-                                                    columnsUsed = colsUsedInThisRow;
-                                                }
-
-                                                if (tile != null)
-                                                {
                                                     tile.Dispose();
                                                 }
-
-                                                if (tileImage != null)
+                                                catch (Exception)
                                                 {
-                                                    tileImage.Dispose();
+                                                    // The image file was probably invalid, but there's not a lot we can do
+                                                    // Leave it transparent
                                                 }
+                                                finally
+                                                {
+                                                    // Even if the image was invalid, we still had an aero file for it
+                                                    // so it counts as a used column
+                                                    var colsUsedInThisRow = xIx + 1;
+
+                                                    if (columnsUsed < colsUsedInThisRow)
+                                                    {
+                                                        columnsUsed = colsUsedInThisRow;
+                                                    }
+
+                                                    if (tile != null)
+                                                    {
+                                                        tile.Dispose();
+                                                    }
+
+                                                    if (tileImage != null)
+                                                    {
+                                                        tileImage.Dispose();
+                                                    }
+                                                }
+
                                             }
 
                                         }
 
+                                        if (rowHasImages)
+                                        {
+                                            rowsUsed++;
+                                        }
                                     }
 
-                                    if (rowHasImages)
-                                    {
-                                        rowsUsed++;
-                                    }
                                 }
 
+                                var stitchFilename = String.Format("{0}_{1}_stitch_{2}_{3}.png", imageSource, zoomLevel, stitchedImagesXIx + 1, stitchedImagesYIx + 1);
+                                var stitchedImage = new StitchedImage();
+
+                                stitchedImage.ImageExtension = "png";
+                                stitchedImage.NorthLatitude = northLatitude;
+                                stitchedImage.WestLongitude = westLongitude;
+                                stitchedImage.SouthLatitude = southLatitude;
+                                stitchedImage.EastLongitude = eastLongitude;
+                                stitchedImage.Width = columnsUsed * tileWidth;
+                                stitchedImage.Height = rowsUsed * tileHeight;
+                                stitchedImage.Source = imageSource;
+                                stitchedImage.ZoomLevel = zoomLevel;
+                                stitchedImage.StichedImageSetX = stitchedImagesXIx + 1;
+                                stitchedImage.StichedImageSetY = stitchedImagesYIx + 1;
+
+                                //Debug.WriteLine("Rows Used " + rowsUsed);
+                                //Debug.WriteLine("Columns Used " + columnsUsed);
+
+                                var settings = AeroSceneryManager.Instance.Settings;
+
+                                if (settings.EnableImageProcessing.Value)
+                                {
+                                    var imageProcessingSettings = new ImageProcessingSettings();
+                                    imageProcessingSettings.BrightnessAdjustment = settings.BrightnessAdjustment;
+                                    imageProcessingSettings.ContrastAdjustment = settings.ContrastAdjustment;
+                                    imageProcessingSettings.SaturationAdjustment = settings.SaturationAdjustment;
+                                    imageProcessingSettings.SharpnessAdjustment = settings.SharpnessAdjustment;
+                                    imageProcessingSettings.RedAdjustment = settings.RedAdjustment;
+                                    imageProcessingSettings.GreenAdjustment = settings.GreenAdjustment;
+                                    imageProcessingSettings.BlueAdjustment = settings.BlueAdjustment;
+
+                                    this.imageProcessingFilters.ApplyFilters(imageProcessingSettings, bitmap);
+                                }
+
+
+                                // Have we drawn an image to the maximum number of rows and columns for this image?
+                                if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
+                                {
+                                    // Save the bitmap as it is
+                                    log.InfoFormat("Saving stitched image {0}", stitchFilename);
+                                    bitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
+                                    tileStitcherProgress.CurrentStitchedImage++;
+                                }
+                                else
+                                {
+                                    // Resize the bitmap down to the used number of rows and columns
+                                    log.InfoFormat("Cropping stitched image {0}", stitchFilename);
+                                    CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight), stitchedTilesDirectory, stitchFilename);
+                                    tileStitcherProgress.CurrentStitchedImage++;
+                                }
+
+                                this.SaveStitchedImageAeroFile(this.stitchedImageXmlSerializer, stitchedImage, stitchedTilesDirectory);
                             }
 
-                            var stitchFilename = String.Format("{0}_{1}_stitch_{2}_{3}.png", imageSource, zoomLevel, stitchedImagesXIx + 1, stitchedImagesYIx + 1);
-                            var stitchedImage = new StitchedImage();
-
-                            stitchedImage.ImageExtension = "png";
-                            stitchedImage.NorthLatitude = northLatitude;
-                            stitchedImage.WestLongitude = westLongitude;
-                            stitchedImage.SouthLatitude = southLatitude;
-                            stitchedImage.EastLongitude = eastLongitude;
-                            stitchedImage.Width = columnsUsed * tileWidth;
-                            stitchedImage.Height = rowsUsed * tileHeight;
-                            stitchedImage.Source = imageSource;
-                            stitchedImage.ZoomLevel = zoomLevel;
-                            stitchedImage.StichedImageSetX = stitchedImagesXIx + 1;
-                            stitchedImage.StichedImageSetY = stitchedImagesYIx + 1;
-
-                            //Debug.WriteLine("Rows Used " + rowsUsed);
-                            //Debug.WriteLine("Columns Used " + columnsUsed);
-
-                            var settings = AeroSceneryManager.Instance.Settings;
-
-                            if (settings.EnableImageProcessing.Value)
-                            {
-                                var imageProcessingSettings = new ImageProcessingSettings();
-                                imageProcessingSettings.BrightnessAdjustment = settings.BrightnessAdjustment;
-                                imageProcessingSettings.ContrastAdjustment = settings.ContrastAdjustment;
-                                imageProcessingSettings.SaturationAdjustment = settings.SaturationAdjustment;
-                                imageProcessingSettings.SharpnessAdjustment = settings.SharpnessAdjustment;
-                                imageProcessingSettings.RedAdjustment = settings.RedAdjustment;
-                                imageProcessingSettings.GreenAdjustment = settings.GreenAdjustment;
-                                imageProcessingSettings.BlueAdjustment = settings.BlueAdjustment;
-
-                                this.imageProcessingFilters.ApplyFilters(imageProcessingSettings, bitmap);
-                            }
-
-
-                            // Have we drawn an image to the maximum number of rows and columns for this image?
-                            if (columnsUsed == maxTilesPerStitchedImageX && rowsUsed == maxTilesPerStitchedImageY)
-                            {
-                                // Save the bitmap as it is
-                                log.InfoFormat("Saving stitched image {0}", stitchFilename);
-                                bitmap.Save(stitchedTilesDirectory + stitchFilename, ImageFormat.Png);
-                                tileStitcherProgress.CurrentStitchedImage++;
-                            }
-                            else
-                            {
-                                // Resize the bitmap down to the used number of rows and columns
-                                log.InfoFormat("Cropping stitched image {0}", stitchFilename);
-                                CropBitmap(bitmap, new Rectangle(0, 0, columnsUsed * tileWidth, rowsUsed * tileHeight), stitchedTilesDirectory, stitchFilename);
-                                tileStitcherProgress.CurrentStitchedImage++;
-                            }
-
-                            this.SaveStitchedImageAeroFile(this.stitchedImageXmlSerializer, stitchedImage, stitchedTilesDirectory);
                         }
 
                     }
 
+                    if (deleteOriginals)
+                    {
+                    }
+
                 }
 
-                if (deleteOriginals)
-                {
-                }
 
             });
         }
@@ -361,9 +369,10 @@ namespace AeroScenery.ImageProcessing
 
         }
 
-        private void GetStartingAndEndTileXY(string tileDownloadDirectory, out int startTileX, out int startTileY, out int endTileX, out int endTileY)
+        private void GetStartingAndEndTileXY(string tileDownloadDirectory, out int startTileX, out int startTileY, out int endTileX, out int endTileY, out int tileCount)
         {
             var aeroFiles = Directory.EnumerateFiles(tileDownloadDirectory, "*.aero").ToList();
+            tileCount = aeroFiles.Count();
 
             int lowestTileNumberX = int.MaxValue;
             int lowestTileNumberY = int.MaxValue;

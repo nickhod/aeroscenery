@@ -290,6 +290,9 @@ namespace AeroScenery.Data
             if (settings.USGSPassword == null)
                 settings.USGSPassword = "";
 
+            if (settings.LinzApiKey == null)
+                settings.LinzApiKey = "";
+
             if (settings.ElevationSettings.DownloadElevationData == null)
                 settings.ElevationSettings.DownloadElevationData = true;
 

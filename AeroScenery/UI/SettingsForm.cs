@@ -112,16 +112,9 @@ namespace AeroScenery.UI
             //    settings.GeoConvertDoMultipleSmallerRuns = false;
             //}
 
-
-            if (!String.IsNullOrEmpty(this.usgsUsernameTextBox.Text))
-            {
-                settings.USGSUsername = this.usgsUsernameTextBox.Text;
-            }
-
-            if (!String.IsNullOrEmpty(this.usgsPasswordTextBox.Text))
-            {
-                settings.USGSPassword = this.usgsPasswordTextBox.Text;
-            }
+            settings.USGSPassword = this.usgsPasswordTextBox.Text.Trim();
+            settings.USGSUsername = this.usgsUsernameTextBox.Text.Trim();
+            settings.LinzApiKey = this.linzKeyTextBox.Text.Trim();
 
             settings.ShrinkTMCGridSquareCoords = double.Parse(this.shrinkTMCGridSquaresTextBox.Text, NumberStyles.Any, CultureInfo.InvariantCulture);
 
@@ -199,6 +192,7 @@ namespace AeroScenery.UI
 
             this.usgsUsernameTextBox.Text = settings.USGSUsername;
             this.usgsPasswordTextBox.Text = settings.USGSPassword;
+            this.linzKeyTextBox.Text = settings.LinzApiKey;
 
             this.shrinkTMCGridSquaresTextBox.Text = Convert.ToString(settings.ShrinkTMCGridSquareCoords, CultureInfo.InvariantCulture);
 
@@ -686,6 +680,11 @@ namespace AeroScenery.UI
             this.updateImagePreview = true;
 
             this.UpdateImagePreview();
+        }
+
+        private void linkLabel1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.linz.govt.nz/data/linz-data-service/guides-and-documentation/creating-an-api-key");
         }
     }
 }

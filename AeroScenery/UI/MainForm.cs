@@ -361,10 +361,14 @@ namespace AeroScenery
             }
             else
             {
-                // Start
-                this.mainTabControl.SelectedIndex = 1;
-                this.ActionsRunning = true;
-                this.LockUI();
+                if (SceneryGenerationProcessCanStart())
+                {
+                    // Start
+                    this.mainTabControl.SelectedIndex = 1;
+                    this.ActionsRunning = true;
+                    this.LockUI();
+                }
+
             }
 
 
@@ -426,6 +430,42 @@ namespace AeroScenery
             }
 
             return null;
+        }
+
+        private bool SceneryGenerationProcessCanStart()
+        {
+            switch (AeroSceneryManager.Instance.Settings.OrthophotoSource)
+            {
+                case OrthophotoSource.US_USGS:
+
+                    if (AeroSceneryManager.Instance.Settings.ZoomLevel.HasValue && AeroSceneryManager.Instance.Settings.ZoomLevel > 16)
+                    {
+                        var messageBox = new CustomMessageBox("USGS only provides image tile services up to zoom level 16.\nHigher resolution images are available by manual download.\n" +
+                            "A way to automate the processing of these manual downloads is being researched for AeroScenery.",
+                            "AeroScenery",
+                            MessageBoxIcon.Information);
+
+                        messageBox.ShowDialog();
+                        return false;
+                    }
+
+                    break;
+                case OrthophotoSource.NZ_Linz:
+
+                    if (String.IsNullOrEmpty(AeroSceneryManager.Instance.Settings.LinzApiKey))
+                    {
+                        var messageBox = new CustomMessageBox("A Linz API key must be set before using the Linz image source.\nThis can be set in Settings > Image Source Accounts",
+                            "AeroScenery",
+                            MessageBoxIcon.Information);
+
+                        messageBox.ShowDialog();
+                        return false;
+                    }
+
+                    break;
+            }
+
+            return true;
         }
 
         private void SelectAFSGridSquare(int x, int y)

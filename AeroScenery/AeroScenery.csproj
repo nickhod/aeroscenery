@@ -217,7 +217,6 @@
     <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="ImageProcessing\TileStitcherProgress.cs" />
     <Compile Include="OrthophotoSources\Global\ArcGISOrthophotoSource.cs" />
-    <Compile Include="OrthophotoSources\Global\ArcGISOrthophotoTileHelper.cs" />
     <Compile Include="OrthophotoSources\Global\BingOrthophotoTileHelper.cs" />
     <Compile Include="OrthophotoSources\GenericOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\GenericOrthophotoTileHelper.cs" />

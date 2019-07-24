@@ -250,10 +250,15 @@ namespace AeroScenery
         }
 
 
+
+
         public async Task StartSceneryGenerationProcessAsync(object sender, EventArgs e)
         {
             try
             {
+                // Set settings on orthophoto sources
+                this.linzOrthophotoSource.ApiKey = settings.LinzApiKey;
+
                 int i = 0;
                 foreach (AFS2GridSquare afs2GridSquare in this.mainForm.SelectedAFS2GridSquares.Values.Select(x => x.AFS2GridSquare))
                 {
@@ -445,7 +450,6 @@ namespace AeroScenery
                     System.GC.Collect();
                 }
             }
-
 
         }
 

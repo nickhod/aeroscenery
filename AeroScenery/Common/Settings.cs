@@ -71,6 +71,8 @@ namespace AeroScenery.Common
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
 
+        public string LinzApiKey { get; set; }
+
         public int? MapControlLastZoomLevel { get; set;}
         public double? MapControlLastX { get; set; }
         public double? MapControlLastY { get; set; }

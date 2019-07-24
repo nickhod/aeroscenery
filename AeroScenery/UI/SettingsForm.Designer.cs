@@ -61,6 +61,8 @@
             this.maxTilesPerStitchedImageTextBox = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.useGeoConvertWrapperCheckbox = new System.Windows.Forms.CheckBox();
+            this.label25 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.shrinkTMCGridSquaresTextBox = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
@@ -78,6 +80,10 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.linzKeyTextBox = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.resetButton = new System.Windows.Forms.Button();
             this.imgProcBlueTextBox = new System.Windows.Forms.TextBox();
@@ -103,8 +109,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
             this.showPreviewWindowButton = new System.Windows.Forms.Button();
-            this.label25 = new System.Windows.Forms.Label();
-            this.useGeoConvertWrapperCheckbox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -114,6 +118,7 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgProcBlueSlider)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgProcGreenSlider)).BeginInit();
@@ -464,6 +469,26 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "GeoConvert";
             // 
+            // useGeoConvertWrapperCheckbox
+            // 
+            this.useGeoConvertWrapperCheckbox.AutoSize = true;
+            this.useGeoConvertWrapperCheckbox.Location = new System.Drawing.Point(216, 142);
+            this.useGeoConvertWrapperCheckbox.Name = "useGeoConvertWrapperCheckbox";
+            this.useGeoConvertWrapperCheckbox.Size = new System.Drawing.Size(367, 21);
+            this.useGeoConvertWrapperCheckbox.TabIndex = 12;
+            this.useGeoConvertWrapperCheckbox.Text = "(Allows multiple squares to be GeoConverted sequentially)";
+            this.useGeoConvertWrapperCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(20, 143);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(159, 17);
+            this.label25.TabIndex = 11;
+            this.label25.Text = "Use GeoConvert Wrapper";
+            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -549,12 +574,12 @@
             this.groupBox5.Size = new System.Drawing.Size(654, 143);
             this.groupBox5.TabIndex = 14;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "USGS Account";
+            this.groupBox5.Text = "USGS";
             // 
             // createUSGSAccountLinkLabel
             // 
             this.createUSGSAccountLinkLabel.AutoSize = true;
-            this.createUSGSAccountLinkLabel.Location = new System.Drawing.Point(490, 104);
+            this.createUSGSAccountLinkLabel.Location = new System.Drawing.Point(490, 102);
             this.createUSGSAccountLinkLabel.Name = "createUSGSAccountLinkLabel";
             this.createUSGSAccountLinkLabel.Size = new System.Drawing.Size(143, 17);
             this.createUSGSAccountLinkLabel.TabIndex = 15;
@@ -635,14 +660,56 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
             this.tabPage3.Location = new System.Drawing.Point(4, 26);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(682, 434);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "USGS";
+            this.tabPage3.Text = "Image Source Accounts";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.linkLabel1);
+            this.groupBox6.Controls.Add(this.linzKeyTextBox);
+            this.groupBox6.Controls.Add(this.label27);
+            this.groupBox6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.Location = new System.Drawing.Point(14, 162);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(654, 106);
+            this.groupBox6.TabIndex = 16;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Linz";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(521, 67);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(112, 17);
+            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Get a Linz API Key";
+            this.linkLabel1.Click += new System.EventHandler(this.linkLabel1_Click);
+            // 
+            // linzKeyTextBox
+            // 
+            this.linzKeyTextBox.Location = new System.Drawing.Point(216, 29);
+            this.linzKeyTextBox.Name = "linzKeyTextBox";
+            this.linzKeyTextBox.Size = new System.Drawing.Size(417, 25);
+            this.linzKeyTextBox.TabIndex = 7;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label27.Location = new System.Drawing.Point(20, 32);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(51, 17);
+            this.label27.TabIndex = 3;
+            this.label27.Text = "API Key";
             // 
             // tabPage4
             // 
@@ -938,26 +1005,6 @@
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
             this.showPreviewWindowButton.Click += new System.EventHandler(this.showPreviewWindowButton_Click);
             // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(20, 143);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(159, 17);
-            this.label25.TabIndex = 11;
-            this.label25.Text = "Use GeoConvert Wrapper";
-            // 
-            // useGeoConvertWrapperCheckbox
-            // 
-            this.useGeoConvertWrapperCheckbox.AutoSize = true;
-            this.useGeoConvertWrapperCheckbox.Location = new System.Drawing.Point(216, 142);
-            this.useGeoConvertWrapperCheckbox.Name = "useGeoConvertWrapperCheckbox";
-            this.useGeoConvertWrapperCheckbox.Size = new System.Drawing.Size(367, 21);
-            this.useGeoConvertWrapperCheckbox.TabIndex = 12;
-            this.useGeoConvertWrapperCheckbox.Text = "(Allows multiple squares to be GeoConverted sequentially)";
-            this.useGeoConvertWrapperCheckbox.UseVisualStyleBackColor = true;
-            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
@@ -992,6 +1039,8 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgProcBlueSlider)).EndInit();
@@ -1083,5 +1132,9 @@
         private System.Windows.Forms.Button resetButton;
         private System.Windows.Forms.CheckBox useGeoConvertWrapperCheckbox;
         private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.TextBox linzKeyTextBox;
+        private System.Windows.Forms.Label label27;
     }
 }
