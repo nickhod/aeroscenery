@@ -7,12 +7,11 @@
                                                                 |___/ 
 
                            By Nick Hoddinott
-						GNU GENERAL PUBLIC LICENSE
 
 Change log
 
 1.1
-- Added ArcGIS orthophoto support
+- Added support for many more orthophoto sources
 - Fixed issue where 'Shrink TMC grid squares" used culture specific decimal separator
 
 
