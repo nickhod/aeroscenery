@@ -23,6 +23,7 @@ namespace AeroScenery.Download
     public class DownloadManager
     {
         private int downloadThreads = 4;
+        private int maxDownloadRetryAttempts = 5;
         private readonly ILog log = LogManager.GetLogger("AeroScenery");
 
         private CancellationTokenSource cancellationTokenSource;
@@ -84,82 +85,85 @@ namespace AeroScenery.Download
                         {
                             CookieContainer = cookieContainer
                         })
-
-
-                        using (HttpClient httpClient = new HttpClient(handler))
                         {
-                            long lastDownloadTimestamp = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
-
-                            // Work through this threads share of downloads
-                            for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
+                            using (HttpClient httpClient = new HttpClient(handler))
                             {
-                                if (this.cancellationTokenSource.Token.IsCancellationRequested)
-                                {
-                                    break;
-                                }
+                                long lastDownloadTimestamp = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
 
-                                int waitTime = random.Next(minWait, maxWait);
-                                var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
-                                await Task.Delay(waitTimeSpan);
-
-                                // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
-                                if (imageTiles != null && imageTiles.Count > 0)
-                                {
-                                    this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory, orthophotoSource, orthophotoSourceInstance);
-                                }
-
-                                // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
-                                if (imageTiles != null && imageTiles.Count > 0)
-                                {
-                                    this.SaveImageTileAeroFile(xmlSerializer, imageTiles[j], downloadDirectory);
-                                }
-
-                                downloadThreadProgress.FilesDownloaded++;
-                                threadProgress.Report(downloadThreadProgress);
-
-                                //Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
-                            }
-
-                            // If this is the 'last' thread, also work through the remainder 
-                            if (threadNumber == this.downloadThreads - 1)
-                            {
-                                for (int k = 0; k < downloadsPerThreadMod; k++)
+                                // Work through this threads share of downloads
+                                for (int j = 0 + (threadNumber * downloadsPerThread); j < (threadNumber + 1) * downloadsPerThread; j++)
                                 {
                                     if (this.cancellationTokenSource.Token.IsCancellationRequested)
                                     {
                                         break;
                                     }
 
-
                                     int waitTime = random.Next(minWait, maxWait);
                                     var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
                                     await Task.Delay(waitTimeSpan);
 
-                                    var index = k + (downloadsPerThread * this.downloadThreads);
-
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                     if (imageTiles != null && imageTiles.Count > 0)
                                     {
-                                        this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory, orthophotoSource, orthophotoSourceInstance);
+                                        await this.DownloadFile(httpClient, cookieContainer, imageTiles[j], downloadDirectory, orthophotoSource, orthophotoSourceInstance, waitTimeSpan);
                                     }
 
                                     // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
                                     if (imageTiles != null && imageTiles.Count > 0)
                                     {
-                                        this.SaveImageTileAeroFile(xmlSerializer, imageTiles[index], downloadDirectory);
+                                        this.SaveImageTileAeroFile(xmlSerializer, imageTiles[j], downloadDirectory);
                                     }
-
 
                                     downloadThreadProgress.FilesDownloaded++;
                                     threadProgress.Report(downloadThreadProgress);
 
-                                    //Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
-
+                                    //Debug.WriteLine("Thread " + threadNumber.ToString() + " Index " + j.ToString());
                                 }
+
+                                // If this is the 'last' thread, also work through the remainder 
+                                if (threadNumber == this.downloadThreads - 1)
+                                {
+                                    for (int k = 0; k < downloadsPerThreadMod; k++)
+                                    {
+                                        if (this.cancellationTokenSource.Token.IsCancellationRequested)
+                                        {
+                                            break;
+                                        }
+
+
+                                        int waitTime = random.Next(minWait, maxWait);
+                                        var waitTimeSpan = new TimeSpan(waitTime * TimeSpan.TicksPerMillisecond);
+                                        await Task.Delay(waitTimeSpan);
+
+                                        var index = k + (downloadsPerThread * this.downloadThreads);
+
+                                        // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                        if (imageTiles != null && imageTiles.Count > 0)
+                                        {
+                                            await this.DownloadFile(httpClient, cookieContainer, imageTiles[index], downloadDirectory, orthophotoSource, orthophotoSourceInstance, waitTimeSpan);
+                                        }
+
+                                        // We nee to re-eval this. If the user has cancelled, image tiles will be cleared
+                                        if (imageTiles != null && imageTiles.Count > 0)
+                                        {
+                                            this.SaveImageTileAeroFile(xmlSerializer, imageTiles[index], downloadDirectory);
+                                        }
+
+
+                                        downloadThreadProgress.FilesDownloaded++;
+                                        threadProgress.Report(downloadThreadProgress);
+
+                                        //Debug.WriteLine("Thread " + threadNumber.ToString() + "Index " + k.ToString());
+
+                                    }
+                                }
+
+
                             }
 
-
                         }
+
+
 
                         xmlSerializer = null;
 
@@ -172,7 +176,8 @@ namespace AeroScenery.Download
             }
         }
 
-        private void DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path, OrthophotoSource orthophotoSource, GenericOrthophotoSource orthophotoSourceInstance)
+        private async Task DownloadFile(HttpClient httpClient, CookieContainer cookieContainer, ImageTile imageTile, string path, 
+            OrthophotoSource orthophotoSource, GenericOrthophotoSource orthophotoSourceInstance, TimeSpan retryWaitTimeSpan)
         {
             string fullFilePath = path + imageTile.FileName + "." + imageTile.ImageExtension;
 
@@ -180,6 +185,7 @@ namespace AeroScenery.Download
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("APISID", Guid.NewGuid().ToString()));
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "119=" + Guid.NewGuid().ToString()));
             cookieContainer.Add(new Uri(imageTile.URL), new Cookie("NID", "129=" + Guid.NewGuid().ToString()));
+            cookieContainer.Add(new Uri(imageTile.URL), new Cookie("_ga", "GA1.3.456545.34536772112" + Guid.NewGuid().ToString()));
 
 
             httpClient.DefaultRequestHeaders.Clear();
@@ -210,22 +216,52 @@ namespace AeroScenery.Download
 
                 bool saveFile = true;
 
-                // If we are Bing we might be served a valid image but there is really no tile available
-                if (orthophotoSource == OrthophotoSource.Bing)
-                {
-                    // Check the Bing tile info header
-                    if (responseResult.Result.Headers.Contains("X-VE-Tile-Info"))
-                    {
-                        var tileInfoHeaderValue = responseResult.Result.Headers.GetValues("X-VE-Tile-Info").FirstOrDefault();
 
-                        // If there is really no file, the header value will be no-tile
-                        // In this case we shouldn't save the image
-                        if (tileInfoHeaderValue == "no-tile")
+                switch (orthophotoSource)
+                {
+                    case OrthophotoSource.Bing:
+                        // If we are Bing we might be served a valid image but there is really no tile available
+                        // Check the Bing tile info header
+                        if (responseResult.Result.Headers.Contains("X-VE-Tile-Info"))
                         {
-                            saveFile = false;
+                            var tileInfoHeaderValue = responseResult.Result.Headers.GetValues("X-VE-Tile-Info").FirstOrDefault();
+
+                            // If there is really no file, the header value will be no-tile
+                            // In this case we shouldn't save the image
+                            if (tileInfoHeaderValue == "no-tile")
+                            {
+                                saveFile = false;
+                            }
                         }
-                    }
+
+                        break;
+                    case OrthophotoSource.US_USGS:
+
+                        // If we don't get a success status code or not modified, try again
+                        if (!(responseResult.Result.IsSuccessStatusCode || responseResult.Result.StatusCode == HttpStatusCode.NotModified))
+                        {
+                            log.DebugFormat("Invalid USGS tile {0}. Status is {1}", imageTile.FileName, responseResult.Result.StatusCode);
+
+                            for (int i = 0; i < maxDownloadRetryAttempts; i++)
+                            {
+                                await Task.Delay(retryWaitTimeSpan);
+
+                                responseResult = httpClient.GetAsync(imageTile.URL);
+
+                                if (responseResult.Result.IsSuccessStatusCode || responseResult.Result.StatusCode == HttpStatusCode.NotModified)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    log.DebugFormat("Invalid USGS tile {0}. Retry {1} Status is {0}", imageTile.FileName, i, responseResult.Result.StatusCode);
+                                }
+                            }
+                        }
+
+                        break;
                 }
+
 
                 bool gzipped = false;
 

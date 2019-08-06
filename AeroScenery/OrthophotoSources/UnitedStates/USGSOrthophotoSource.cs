@@ -12,7 +12,7 @@ namespace AeroScenery.OrthophotoSources.UnitedStates
     public class USGSOrthophotoSource : GenericOrthophotoSource
     {
 
-        public static string DefaultUrlTemplate = "http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{zoom}/{y}/{x}";
+        public static string DefaultUrlTemplate = "http://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{zoom}/{y}/{x}?blankTile=false";
 
         public USGSOrthophotoSource()
         {
@@ -33,6 +33,9 @@ namespace AeroScenery.OrthophotoSources.UnitedStates
             this.imageExtension = "jpg";
             this.source = OrthophotoSourceDirectoryName.US_USGS;
             this.tiledWebMapType = TiledWebMapType.Google;
+
+            AdditionalHttpHeaders = new Dictionary<string, string>();
+            AdditionalHttpHeaders.Add("Referer", "https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer?f=jsapi");
         }
 
     }

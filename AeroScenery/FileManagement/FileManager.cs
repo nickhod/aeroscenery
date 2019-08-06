@@ -71,12 +71,18 @@ namespace AeroScenery.FileManagement
                             // Lastly, delete the empty directory
                             try
                             {
-                                Directory.Delete(dir.FullName);
+                                if (Directory.Exists(dir.FullName))
+                                {
+                                    Directory.Delete(dir.FullName);
+                                }
                             }
                             catch (IOException)
                             {
                                 Thread.Sleep(100);
-                                Directory.Delete(dir.FullName);
+                                if (Directory.Exists(dir.FullName))
+                                {
+                                    Directory.Delete(dir.FullName);
+                                }
                             }
 
                         }

@@ -10,7 +10,11 @@
 
 Change log
 
-1.1
+1.1.1
+
+- Added retry for USGS tiles in the event of a non-success HTTP response
+
+1.1.0
 - Added support for many more orthophoto sources
 - Fixed issue where 'Shrink TMC grid squares" used culture specific decimal separator
 
