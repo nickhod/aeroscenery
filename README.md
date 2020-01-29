@@ -11,3 +11,9 @@ To give AeroScenery a try:
 7. Under "Generate AFS2 Levels" click "Choose For Me"
 8. Under "Actions" select "Run Default Actions"
 9. Click Start
+
+## User Manual
+
+A complete user guide, contirbuted by community user 'crispy136' can be found here
+
+https://flight-sim.org/filebase/index.php?entry/528-aeroscenery-guide-for-version-1-1-0-and-above/
