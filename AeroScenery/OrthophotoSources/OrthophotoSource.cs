@@ -21,7 +21,8 @@ namespace AeroScenery.OrthoPhotoSources
         JP_GSI,
         // For backwards compatibility
         USGS,
-        SE_Hitta
+        SE_Hitta,
+        HereWeGo
     }
 
     public abstract class OrthophotoSourceDirectoryName
@@ -38,6 +39,6 @@ namespace AeroScenery.OrthoPhotoSources
         public static readonly string ES_IGN = "es_ign";
         public static readonly string JP_GSI = "jp_gsi";
         public static readonly string SE_Hitta = "se_hitta";
-
+        public static readonly string HereWeGo = "hwg";
     }
 }

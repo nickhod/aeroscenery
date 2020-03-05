@@ -222,6 +222,7 @@
     <Compile Include="OrthophotoSources\GenericOrthophotoTileHelper.cs" />
     <Compile Include="OrthophotoSources\Global\GoogleOrthophotoTileHelper.cs" />
     <Compile Include="OrthophotoSources\Global\GoogleOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\HereWeGoOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\Japan\GSIOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\NewZealand\LinzOrthophotoSource.cs" />

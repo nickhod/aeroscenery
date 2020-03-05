@@ -45,6 +45,7 @@ namespace AeroScenery
         private GeoportalOrthophotoSource geoportalOrthophotoSource;
         private ArcGISOrthophotoSource arcGISOrthophotoSource;
         private HittaOrthophotoSource hittaOrthophotoSource;
+        private HereWeGoOrthophotoSource hereWeGoOrthophotoSource;
 
         private DownloadManager downloadManager;
 
@@ -85,8 +86,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "1.1.1";
-            incrementalVersion = 11;
+            version = "1.1.2";
+            incrementalVersion = 12;
         }
 
         public Settings Settings
@@ -151,6 +152,7 @@ namespace AeroScenery
             geoportalOrthophotoSource = new GeoportalOrthophotoSource();
             arcGISOrthophotoSource = new ArcGISOrthophotoSource();
             hittaOrthophotoSource = new HittaOrthophotoSource();
+            hereWeGoOrthophotoSource = new HereWeGoOrthophotoSource();
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>
@@ -217,6 +219,9 @@ namespace AeroScenery
                     break;
                 case OrthophotoSource.SE_Hitta:
                     tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.SE_Hitta);
+                    break;
+                case OrthophotoSource.HereWeGo:
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.HereWeGo);
                     break;
             }
 
@@ -349,7 +354,10 @@ namespace AeroScenery
                                     imageTiles = hittaOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     orthophotoSourceInstance = hittaOrthophotoSource;
                                     break;
-
+                                case OrthophotoSource.HereWeGo:
+                                    imageTiles = hereWeGoOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = hereWeGoOrthophotoSource;
+                                    break;
                             }
                         });
 
