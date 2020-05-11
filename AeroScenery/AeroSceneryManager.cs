@@ -46,6 +46,7 @@ namespace AeroScenery
         private ArcGISOrthophotoSource arcGISOrthophotoSource;
         private HittaOrthophotoSource hittaOrthophotoSource;
         private HereWeGoOrthophotoSource hereWeGoOrthophotoSource;
+        private GuleSiderOrthophotoSource guleSiderOrthophotoSource;
 
         private DownloadManager downloadManager;
 
@@ -86,8 +87,8 @@ namespace AeroScenery
             dataRepository = new SqlLiteDataRepository();
 
             imageTiles = null;
-            version = "1.1.2";
-            incrementalVersion = 12;
+            version = "1.1.3";
+            incrementalVersion = 13;
         }
 
         public Settings Settings
@@ -153,6 +154,7 @@ namespace AeroScenery
             arcGISOrthophotoSource = new ArcGISOrthophotoSource();
             hittaOrthophotoSource = new HittaOrthophotoSource();
             hereWeGoOrthophotoSource = new HereWeGoOrthophotoSource();
+            guleSiderOrthophotoSource = new GuleSiderOrthophotoSource();
 
             this.mainForm = new MainForm();
             this.mainForm.StartStopClicked += async (sender, eventArgs) =>
@@ -222,6 +224,9 @@ namespace AeroScenery
                     break;
                 case OrthophotoSource.HereWeGo:
                     tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.HereWeGo);
+                    break;
+                case OrthophotoSource.NO_GuleSider:
+                    tileDownloadDirectory += String.Format("\\{0}\\", OrthophotoSourceDirectoryName.NO_GuleSider);
                     break;
             }
 
@@ -358,6 +363,10 @@ namespace AeroScenery
                                     imageTiles = hereWeGoOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
                                     orthophotoSourceInstance = hereWeGoOrthophotoSource;
                                     break;
+                                case OrthophotoSource.NO_GuleSider:
+                                    imageTiles = guleSiderOrthophotoSource.ImageTilesForGridSquares(afs2GridSquare, settings.ZoomLevel.Value);
+                                    orthophotoSourceInstance = guleSiderOrthophotoSource;
+                                    break;
                             }
                         });
 
@@ -489,18 +498,20 @@ namespace AeroScenery
                         if (this.mainForm.SelectedAFS2GridSquares.Count > 1 && 
                             this.settings.GeoConvertUseWrapper.Value == false)
                         {
-                            string message = "When running GeoConvert on multiple squares it's advisable to use GeoCovnert Wrapper.\n";
-                            message += "This will make GeoConvert instances run sequentially rather than in parallel.\n";
-                            message += "You can enable GeoConvert Wrapper in the GeoConvert tab of the settings form.\n";
-                            message += "See the AeroScenery wiki for more information on how this works.\n";
+                            if (this.settings.ShowMultipleConcurrentSquaresWarning.HasValue && this.settings.ShowMultipleConcurrentSquaresWarning.Value)
+                            {
+                                string message = "When running GeoConvert on multiple squares it's advisable to use GeoCovnert Wrapper.\n";
+                                message += "This will make GeoConvert instances run sequentially rather than in parallel.\n";
+                                message += "You can enable GeoConvert Wrapper in the GeoConvert tab of the settings form.\n";
+                                message += "See the AeroScenery wiki for more information on how this works.\n";
 
 
-                            var messageBox = new CustomMessageBox(message,
-                                "AeroScenery",
-                                MessageBoxIcon.Information);
+                                var messageBox = new CustomMessageBox(message,
+                                    "AeroScenery",
+                                    MessageBoxIcon.Information);
 
-                            messageBox.ShowDialog();
-
+                                messageBox.ShowDialog();
+                            }
                         }
 
                         RunGeoConvertProcess();

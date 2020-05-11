@@ -102,6 +102,7 @@ namespace AeroScenery.UI
             }
 
             settings.GeoConvertUseWrapper = useGeoConvertWrapperCheckbox.Checked;
+            settings.ShowMultipleConcurrentSquaresWarning = multipleConcurrentSquaresWarningCheckBox.Checked;
 
             //if (this.gcDoMultipleSmallerRunsComboBox.SelectedIndex == 0)
             //{
@@ -189,6 +190,7 @@ namespace AeroScenery.UI
             }
 
             useGeoConvertWrapperCheckbox.Checked = settings.GeoConvertUseWrapper.Value;
+            multipleConcurrentSquaresWarningCheckBox.Checked = settings.ShowMultipleConcurrentSquaresWarning.Value;
 
             this.usgsUsernameTextBox.Text = settings.USGSUsername;
             this.usgsPasswordTextBox.Text = settings.USGSPassword;

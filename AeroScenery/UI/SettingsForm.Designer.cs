@@ -109,6 +109,8 @@
             this.label18 = new System.Windows.Forms.Label();
             this.imgProcBrightnessSlider = new System.Windows.Forms.TrackBar();
             this.showPreviewWindowButton = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.multipleConcurrentSquaresWarningCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -452,6 +454,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.multipleConcurrentSquaresWarningCheckBox);
+            this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.useGeoConvertWrapperCheckbox);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.label11);
@@ -1005,6 +1009,26 @@
             this.showPreviewWindowButton.UseVisualStyleBackColor = true;
             this.showPreviewWindowButton.Click += new System.EventHandler(this.showPreviewWindowButton_Click);
             // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(20, 176);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(106, 17);
+            this.label26.TabIndex = 13;
+            this.label26.Text = "Multiple Squares";
+            // 
+            // multipleConcurrentSquaresWarningCheckBox
+            // 
+            this.multipleConcurrentSquaresWarningCheckBox.AutoSize = true;
+            this.multipleConcurrentSquaresWarningCheckBox.Location = new System.Drawing.Point(216, 176);
+            this.multipleConcurrentSquaresWarningCheckBox.Name = "multipleConcurrentSquaresWarningCheckBox";
+            this.multipleConcurrentSquaresWarningCheckBox.Size = new System.Drawing.Size(303, 21);
+            this.multipleConcurrentSquaresWarningCheckBox.TabIndex = 14;
+            this.multipleConcurrentSquaresWarningCheckBox.Text = "Show warning if not using GeoConvert wrapper\r\n";
+            this.multipleConcurrentSquaresWarningCheckBox.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.okButton;
@@ -1136,5 +1160,7 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.TextBox linzKeyTextBox;
         private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.CheckBox multipleConcurrentSquaresWarningCheckBox;
+        private System.Windows.Forms.Label label26;
     }
 }

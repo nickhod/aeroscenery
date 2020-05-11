@@ -226,6 +226,7 @@
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\Japan\GSIOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\NewZealand\LinzOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Norway\GuleSiderOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\Norway\NorgeBilderOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\Spain\IDEIBOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\Spain\IGNOrthophotoSource.cs" />

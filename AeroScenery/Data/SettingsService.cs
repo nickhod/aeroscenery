@@ -158,6 +158,7 @@ namespace AeroScenery.Data
             log.Info(String.Format("GeoConvertWriteImagesWithMask: {0}", settings.GeoConvertWriteImagesWithMask));
             log.Info(String.Format("GeoConvertWriteRawFiles: {0}", settings.GeoConvertWriteRawFiles));
             log.Info(String.Format("GeoConvertDoMultipleSmallerRuns: {0}", settings.GeoConvertDoMultipleSmallerRuns));
+            log.Info(String.Format("ShowMultipleConcurrentSquaresWarning: {0}", settings.ShowMultipleConcurrentSquaresWarning));
             log.Info(String.Format("USGSUsername: {0}", settings.USGSUsername));
             //log.Info(String.Format("USGSPassword: {0}", settings.USGSPassword);
             log.Info(String.Format("MapControlLastMapType: {0}", settings.MapControlLastMapType));
@@ -283,6 +284,9 @@ namespace AeroScenery.Data
 
             if (settings.GeoConvertUseWrapper == null)
                 settings.GeoConvertUseWrapper = false;
+
+            if (settings.ShowMultipleConcurrentSquaresWarning == null)
+                settings.ShowMultipleConcurrentSquaresWarning = true;
 
             if (settings.USGSUsername == null)
                 settings.USGSUsername = "";

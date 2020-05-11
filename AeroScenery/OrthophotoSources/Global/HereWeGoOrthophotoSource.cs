@@ -11,7 +11,7 @@ namespace AeroScenery.OrthophotoSources
     {
         //public static string DefaultUrlTemplate = "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{zoom}/{y}/{x}";
 
-        public static string DefaultUrlTemplate = "http://1.aerial.maps.api.here.com/maptile/2.1/maptile/a34cb485a0/satellite.day/{zoom}/{x}/{y}/256/jpg?app_id=VgTVFr1a0ft1qGcLCVJ6&app_code=LJXqQ8ErW71UsRUK3R33Ow";
+        public static string DefaultUrlTemplate = "http://1.aerial.maps.api.here.com/maptile/2.1/maptile/4c6170d81c/satellite.day/{zoom}/{x}/{y}/256/jpg?app_id=VgTVFr1a0ft1qGcLCVJ6&app_code=LJXqQ8ErW71UsRUK3R33Ow";
 
         public HereWeGoOrthophotoSource()
         {

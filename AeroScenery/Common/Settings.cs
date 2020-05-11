@@ -68,6 +68,8 @@ namespace AeroScenery.Common
 
         public bool? GeoConvertUseWrapper { get; set; }
 
+        public bool? ShowMultipleConcurrentSquaresWarning { get; set; }
+
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
 

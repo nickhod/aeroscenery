@@ -19,10 +19,10 @@ namespace AeroScenery.OrthoPhotoSources
         SE_Lantmateriet,
         ES_IGN,
         JP_GSI,
-        // For backwards compatibility
-        USGS,
+        USGS, // For backwards compatibility
         SE_Hitta,
-        HereWeGo
+        HereWeGo,
+        NO_GuleSider
     }
 
     public abstract class OrthophotoSourceDirectoryName
@@ -40,5 +40,6 @@ namespace AeroScenery.OrthoPhotoSources
         public static readonly string JP_GSI = "jp_gsi";
         public static readonly string SE_Hitta = "se_hitta";
         public static readonly string HereWeGo = "hwg";
+        public static readonly string NO_GuleSider = "no_gus";
     }
 }

@@ -237,6 +237,10 @@ namespace AeroScenery.Download
                         break;
                     case OrthophotoSource.US_USGS:
 
+                        // Added to fix this error
+                        // https://stackoverflow.com/questions/2859790/the-request-was-aborted-could-not-create-ssl-tls-secure-channel
+                        ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
                         // If we don't get a success status code or not modified, try again
                         if (!(responseResult.Result.IsSuccessStatusCode || responseResult.Result.StatusCode == HttpStatusCode.NotModified))
                         {
