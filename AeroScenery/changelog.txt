@@ -10,6 +10,16 @@
 
 Change log
 
+1.1.3
+- Temporary fix for HereWeGo maps version change
+- USGS source working again
+- Added GuleSider Orthophoto Source
+- Add option to disable confirmation message when running multiple GeoConvert concurrently
+
+
+1.1.2
+- Added support for Here WeGo maps orthophoto source
+
 1.1.1
 
 - Added retry for USGS tiles in the event of a non-success HTTP response
