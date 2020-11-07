@@ -55,6 +55,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)bin\Debug\</PostBuildEvent>
+    <PostBuildEvent>copy $(TargetPath) $(SolutionDir)bin\Debug\
+copy $(TargetPath) $(SolutionDir)bin\Release\</PostBuildEvent>
   </PropertyGroup>
 </Project>

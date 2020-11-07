@@ -1,4 +1,6 @@
-﻿namespace AeroScenery
+﻿using AeroScenery.UI;
+
+namespace AeroScenery
 {
     partial class MainForm
     {
@@ -72,6 +74,10 @@
             this.childTaskLabel = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
+            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.label6 = new System.Windows.Forms.Label();
             this.currentActionProgressBar = new System.Windows.Forms.ProgressBar();
             this.parentTaskLabel = new System.Windows.Forms.Label();
@@ -95,7 +101,7 @@
             this.afsLevelsCheckBoxList = new System.Windows.Forms.CheckedListBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.imageSourceComboBox = new System.Windows.Forms.ComboBox();
+            this.imageSourceComboBox = new ImageComboBox();
             this.elevationTabPage = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.usgsTestButton = new System.Windows.Forms.Button();
@@ -112,10 +118,6 @@
             this.startStopButton = new System.Windows.Forms.Button();
             this.shutdownCheckbox = new System.Windows.Forms.CheckBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.downloadThreadProgress4 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress3 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress2 = new AeroScenery.UI.DownloadThreadProgressControl();
-            this.downloadThreadProgress1 = new AeroScenery.UI.DownloadThreadProgressControl();
             this.statusStrip.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -567,6 +569,54 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Downloaders";
             // 
+            // downloadThreadProgress4
+            // 
+            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
+            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
+            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
+            this.downloadThreadProgress4.TabIndex = 3;
+            // 
+            // downloadThreadProgress3
+            // 
+            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
+            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
+            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
+            this.downloadThreadProgress3.TabIndex = 2;
+            // 
+            // downloadThreadProgress2
+            // 
+            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
+            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
+            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
+            this.downloadThreadProgress2.TabIndex = 1;
+            // 
+            // downloadThreadProgress1
+            // 
+            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
+            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
+            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
+            this.downloadThreadProgress1.TabIndex = 0;
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -845,10 +895,6 @@
             // 
             this.imageSourceComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.imageSourceComboBox.FormattingEnabled = true;
-            this.imageSourceComboBox.Items.AddRange(new object[] {
-            "Bing",
-            "Google",
-            "USGS (Coming Soon)"});
             this.imageSourceComboBox.Location = new System.Drawing.Point(112, 19);
             this.imageSourceComboBox.Name = "imageSourceComboBox";
             this.imageSourceComboBox.Size = new System.Drawing.Size(243, 25);
@@ -893,7 +939,7 @@
             this.usgsTestButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.usgsTestButton.UseVisualStyleBackColor = true;
             this.usgsTestButton.Visible = false;
-            this.usgsTestButton.Click += new System.EventHandler(this.usgsTestButton_Click);
+            //this.usgsTestButton.Click += new System.EventHandler(this.usgsTestButton_Click);
             // 
             // groupBox3
             // 
@@ -1044,54 +1090,6 @@
             this.imageList1.Images.SetKeyName(0, "arrow_down.png");
             this.imageList1.Images.SetKeyName(1, "arrow_down_active.png");
             // 
-            // downloadThreadProgress4
-            // 
-            this.downloadThreadProgress4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress4.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress4.Location = new System.Drawing.Point(7, 222);
-            this.downloadThreadProgress4.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress4.Name = "downloadThreadProgress4";
-            this.downloadThreadProgress4.Size = new System.Drawing.Size(1012, 57);
-            this.downloadThreadProgress4.TabIndex = 3;
-            // 
-            // downloadThreadProgress3
-            // 
-            this.downloadThreadProgress3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress3.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress3.Location = new System.Drawing.Point(7, 155);
-            this.downloadThreadProgress3.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.downloadThreadProgress3.Name = "downloadThreadProgress3";
-            this.downloadThreadProgress3.Size = new System.Drawing.Size(1012, 59);
-            this.downloadThreadProgress3.TabIndex = 2;
-            // 
-            // downloadThreadProgress2
-            // 
-            this.downloadThreadProgress2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress2.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress2.Location = new System.Drawing.Point(7, 93);
-            this.downloadThreadProgress2.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.downloadThreadProgress2.Name = "downloadThreadProgress2";
-            this.downloadThreadProgress2.Size = new System.Drawing.Size(1012, 53);
-            this.downloadThreadProgress2.TabIndex = 1;
-            // 
-            // downloadThreadProgress1
-            // 
-            this.downloadThreadProgress1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.downloadThreadProgress1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.downloadThreadProgress1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.downloadThreadProgress1.Location = new System.Drawing.Point(7, 31);
-            this.downloadThreadProgress1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.downloadThreadProgress1.Name = "downloadThreadProgress1";
-            this.downloadThreadProgress1.Size = new System.Drawing.Size(1012, 48);
-            this.downloadThreadProgress1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1174,7 +1172,7 @@
         private System.Windows.Forms.CheckedListBox afsLevelsCheckBoxList;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox imageSourceComboBox;
+        private ImageComboBox imageSourceComboBox;
         private System.Windows.Forms.CheckBox installSceneryIntoAFSCheckBox;
         private System.Windows.Forms.CheckBox deleteStitchedImagesCheckBox;
         private System.Windows.Forms.Panel panel1;

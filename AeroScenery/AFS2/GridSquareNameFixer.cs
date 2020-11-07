@@ -230,6 +230,16 @@ namespace AeroScenery.AFS2
                             }
                         }
 
+                        // If there is already a grid square with the new name, we need to move it out of the way
+                        // by prevising it with an underscore
+                        var existingGridSquareWithNewName = dataRepository.FindGridSquare(newGridSquare.Name);
+
+                        if (existingGridSquareWithNewName != null)
+                        {
+                            existingGridSquareWithNewName.Name = "_" + existingGridSquareWithNewName.Name;
+                            dataRepository.UpdateGridSquare(existingGridSquareWithNewName);
+                        }
+
                         // Only update the database once we've renamed the dir
                         gridSquare.Name = newGridSquare.Name;
                         gridSquare.Fixed = 1;

@@ -68,8 +68,12 @@ namespace AeroScenery.Common
 
         public bool? GeoConvertUseWrapper { get; set; }
 
+        public bool? ShowMultipleConcurrentSquaresWarning { get; set; }
+
         public string USGSUsername { get; set; }
         public string USGSPassword { get; set; }
+
+        public string LinzApiKey { get; set; }
 
         public int? MapControlLastZoomLevel { get; set;}
         public double? MapControlLastX { get; set; }

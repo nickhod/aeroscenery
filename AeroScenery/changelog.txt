@@ -7,9 +7,37 @@
                                                                 |___/ 
 
                            By Nick Hoddinott
-						GNU GENERAL PUBLIC LICENSE
 
 Change log
+
+1.1.3
+- Temporary fix for HereWeGo maps version change
+- USGS source working again
+- Added GuleSider Orthophoto Source
+- Add option to disable confirmation message when running multiple GeoConvert concurrently
+
+
+1.1.2
+- Added support for Here WeGo maps orthophoto source
+
+1.1.1
+
+- Added retry for USGS tiles in the event of a non-success HTTP response
+
+1.1.0
+- Added support for many more orthophoto sources
+- Fixed issue where 'Shrink TMC grid squares" used culture specific decimal separator
+
+
+1.0.2
+
+- Fixed potential issue when hex folder names are changed
+- Use GeoConvert wrapper is now default for new installations
+
+1.0.1
+
+- Fixed issue with null registry entries causing exception
+- Fixed issue where sample images for image processing settings are not installed causing an exception
 
 1.0
 

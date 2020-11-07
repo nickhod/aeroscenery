@@ -13,18 +13,16 @@ using System.Threading.Tasks;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class BingOrthophotoSource : IOrthophotoSource
+    public class BingOrthophotoSource : GenericOrthophotoSource
     {
         public static string DefaultUrlTemplate = "http://ecn.t1.tiles.virtualearth.net/tiles/a{0}.jpeg?g=42";
-
-        private string urlTemplate;
 
         public BingOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
         }
 
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
+        public new List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
 
@@ -37,12 +35,12 @@ namespace AeroScenery.OrthophotoSources
             // Get the pixel X & Y of the first tile
             int pixelX = 0;
             int pixelY = 0;
-            BingHelper.LatLongToPixelXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out pixelX, out pixelY);
+            BingOrthophotoTileHelper.LatLongToPixelXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out pixelX, out pixelY);
 
             // Get the tile X & Y of the frst tile
             int tileX = 0;
             int tileY = 0;
-            BingHelper.PixelXYToTileXY(pixelX, pixelY, out tileX, out tileY);
+            BingOrthophotoTileHelper.PixelXYToTileXY(pixelX, pixelY, out tileX, out tileY);
 
             double currentTileNorthLatitude = 0;
             double currentTileSouthLatitude = 0;
@@ -63,17 +61,17 @@ namespace AeroScenery.OrthophotoSources
                 {
                     int currentPixelX;
                     int currentPixelY;
-                    BingHelper.TileXYToPixelXY(currentTileX, currentTileY, out currentPixelX, out currentPixelY);
+                    BingOrthophotoTileHelper.TileXYToPixelXY(currentTileX, currentTileY, out currentPixelX, out currentPixelY);
 
-                    BingHelper.PixelXYToLatLong(currentPixelX, currentPixelY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
+                    BingOrthophotoTileHelper.PixelXYToLatLong(currentPixelX, currentPixelY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
 
                     // Get the lat long of the tile "to the left and down", which will give us the south and east edge of the previous tile
                     int currentTileXPlusOnePixelX;
                     int currentTileYPlusOnePixelY;
-                    BingHelper.TileXYToPixelXY(currentTileX + 1, currentTileY + 1, out currentTileXPlusOnePixelX, out currentTileYPlusOnePixelY);
-                    BingHelper.PixelXYToLatLong(currentTileXPlusOnePixelX, currentTileYPlusOnePixelY, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+                    BingOrthophotoTileHelper.TileXYToPixelXY(currentTileX + 1, currentTileY + 1, out currentTileXPlusOnePixelX, out currentTileYPlusOnePixelY);
+                    BingOrthophotoTileHelper.PixelXYToLatLong(currentTileXPlusOnePixelX, currentTileYPlusOnePixelY, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
 
-                    var quadKey1 = BingHelper.TileXYToQuadKey(currentTileX, currentTileY, zoomLevel);
+                    var quadKey1 = BingOrthophotoTileHelper.TileXYToQuadKey(currentTileX, currentTileY, zoomLevel);
 
                     ImageTile tile = new ImageTile();
                     tile.Width = 256;

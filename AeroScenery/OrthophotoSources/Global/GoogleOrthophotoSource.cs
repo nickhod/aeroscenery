@@ -8,18 +8,16 @@ using AeroScenery.Common;
 
 namespace AeroScenery.OrthophotoSources
 {
-    public class GoogleOrthophotoSource : IOrthophotoSource
+    public class GoogleOrthophotoSource : GenericOrthophotoSource
     {
         public static string DefaultUrlTemplate = "http://mt1.google.com/vt/lyrs=s&x={0}&y={1}&z={2}";
-
-        private string urlTemplate;
 
         public GoogleOrthophotoSource(string urlTemplate)
         {
             this.urlTemplate = urlTemplate;
         }
 
-        public List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
+        public new List<ImageTile> ImageTilesForGridSquares(AFS2GridSquare afs2GridSquare, int zoomLevel)
         {
             List<ImageTile> imageTiles = new List<ImageTile>();
 
@@ -32,7 +30,7 @@ namespace AeroScenery.OrthophotoSources
             // Get the tile X & Y of the frst tile
             int tileX = 0;
             int tileY = 0;
-            GoogleHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
+            GoogleOrthophotoTileHelper.LatLongToTileXY(northWestCorner.Lat, northWestCorner.Lng, zoomLevel, out tileX, out tileY);
 
             double currentTileNorthLatitude = 0;
             double currentTileSouthLatitude = 0;
@@ -50,10 +48,10 @@ namespace AeroScenery.OrthophotoSources
             {
                 do
                 {
-                    GoogleHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
+                    GoogleOrthophotoTileHelper.TileXYToLatLong(currentTileX, currentTileY, zoomLevel, out currentTileNorthLatitude, out currentTileWestLongitude);
 
                     // Get the lat long of the tile "to the left and down", which will give us the south and east edge of the previous tile
-                    GoogleHelper.TileXYToLatLong(currentTileX+1, currentTileY+1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
+                    GoogleOrthophotoTileHelper.TileXYToLatLong(currentTileX+1, currentTileY+1, zoomLevel, out currentTileSouthLatitude, out currentTileEastLongitude);
 
                     ImageTile tile = new ImageTile();
                     tile.Width = 256;

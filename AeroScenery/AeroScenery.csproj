@@ -79,20 +79,23 @@
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="DotSpatial.Projections, Version=1.9.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Projections.1.9\lib\net40-Client\DotSpatial.Projections.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.Core, Version=1.9.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.1.2\lib\net40\GMap.NET.Core.dll</HintPath>
+    <Reference Include="GMap.NET.Core, Version=1.9.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>packages\GMap.NET.Windows.1.9.2\lib\net40\GMap.NET.Core.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.WindowsForms, Version=1.9.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.1.2\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
+    <Reference Include="GMap.NET.WindowsForms, Version=1.9.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>packages\GMap.NET.Windows.1.9.2\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.WindowsPresentation, Version=1.9.1.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <HintPath>packages\GMap.NET.Windows.1.9.1.2\lib\net40\GMap.NET.WindowsPresentation.dll</HintPath>
+    <Reference Include="GMap.NET.WindowsPresentation, Version=1.9.2.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>packages\GMap.NET.Windows.1.9.2\lib\net40\GMap.NET.WindowsPresentation.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -101,8 +104,11 @@
       <HintPath>..\ThirdParty\ExpandCollapsePanel\MakarovDev.ExpandCollapsePanel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SmartFormat, Version=2.4.2.0, Culture=neutral, PublicKeyToken=568866805651201f, processorArchitecture=MSIL">
+      <HintPath>packages\SmartFormat.NET.2.4.2\lib\net45\SmartFormat.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.2\System.dll</HintPath>
@@ -149,6 +155,7 @@
     <Compile Include="Common\BetterWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Common\ComboBoxItem.cs" />
     <Compile Include="Common\Direction.cs" />
     <Compile Include="Common\DirectoryHelper.cs" />
     <Compile Include="Common\ElevationSettings.cs" />
@@ -209,11 +216,30 @@
     <Compile Include="ImageProcessing\ImageProcessingSettings.cs" />
     <Compile Include="ImageProcessing\TileStitcher.cs" />
     <Compile Include="ImageProcessing\TileStitcherProgress.cs" />
-    <Compile Include="OrthophotoSources\BingHelper.cs" />
-    <Compile Include="OrthophotoSources\GoogleHelper.cs" />
-    <Compile Include="OrthophotoSources\GoogleOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\ArcGISOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\BingOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\GenericOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\GenericOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\Global\GoogleOrthophotoTileHelper.cs" />
+    <Compile Include="OrthophotoSources\Global\GoogleOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\HereWeGoOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\IOrthophotoSource.cs" />
-    <Compile Include="OrthophotoSources\USGSOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Japan\GSIOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\NewZealand\LinzOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Norway\GuleSiderOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Norway\NorgeBilderOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Spain\IDEIBOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Spain\IGNOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Sweden\HittaOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Sweden\LantmaterietOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Switzerland\GeoportalOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\TiledWebMapType.cs" />
+    <Compile Include="OrthophotoSources\UnitedStates\USGSOrthophotoSource.cs" />
+    <Compile Include="Resources\AeroSceneryImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AeroSceneryImages.resx</DependentUpon>
+    </Compile>
     <Compile Include="UI\FileOperationProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -260,6 +286,10 @@
     <Compile Include="UI\HelpForm.Designer.cs">
       <DependentUpon>HelpForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ImageComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\ImageComboItem.cs" />
     <Compile Include="UI\ImageProcessingPreviewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -272,7 +302,7 @@
     <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrthophotoSources\BingOrthophotoSource.cs" />
+    <Compile Include="OrthophotoSources\Global\BingOrthophotoSource.cs" />
     <Compile Include="OrthophotoSources\OrthophotoSource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -309,6 +339,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SuperContextMenu\PoppedContainer.resx">
       <DependentUpon>PoppedContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\AeroSceneryImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AeroSceneryImages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\FileOperationProgressForm.resx">
       <DependentUpon>FileOperationProgressForm.cs</DependentUpon>
@@ -363,6 +397,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\arrow_down_active.png" />
+    <None Include="Resources\ch.png" />
+    <None Include="Resources\es.png" />
+    <None Include="Resources\jp.png" />
+    <None Include="Resources\no.png" />
+    <None Include="Resources\nz.png" />
     <Content Include="Resources\picture_edit.png" />
     <Content Include="Resources\SampleImages\rural_arid.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -385,6 +424,10 @@
     <Content Include="Resources\SampleImages\urban3.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\US.bmp" />
+    <None Include="Resources\se.png" />
+    <None Include="Resources\us.png" />
+    <None Include="Resources\world_icon.png" />
     <Content Include="roadmap.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

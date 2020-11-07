@@ -10,6 +10,36 @@ namespace AeroScenery.OrthoPhotoSources
     {
         Bing,
         Google,
-        USGS,
+        ArcGIS,
+        US_USGS,
+        NZ_Linz,
+        ES_IDEIB,
+        CH_Geoportal,
+        NO_NorgeBilder,
+        SE_Lantmateriet,
+        ES_IGN,
+        JP_GSI,
+        USGS, // For backwards compatibility
+        SE_Hitta,
+        HereWeGo,
+        NO_GuleSider
+    }
+
+    public abstract class OrthophotoSourceDirectoryName
+    {
+        public static readonly string Bing = "b";
+        public static readonly string Google = "g";
+        public static readonly string ArcGIS = "arcg";
+        public static readonly string US_USGS = "us_usgs";
+        public static readonly string NZ_Linz = "nz_linz";
+        public static readonly string ES_IDEIB = "es_ideib";
+        public static readonly string CH_Geoportal = "ch_geo";
+        public static readonly string NO_NorgeBilder = "no_nb";
+        public static readonly string SE_Lantmateriet = "se_lant";
+        public static readonly string ES_IGN = "es_ign";
+        public static readonly string JP_GSI = "jp_gsi";
+        public static readonly string SE_Hitta = "se_hitta";
+        public static readonly string HereWeGo = "hwg";
+        public static readonly string NO_GuleSider = "no_gus";
     }
 }
